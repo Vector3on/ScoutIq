@@ -3,7 +3,6 @@ import sys
 import time
 
 # Get the directory where this script is located. This makes the path relative and portable.
-# This is the professional way to handle paths.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(SCRIPT_DIR)
 
@@ -12,7 +11,7 @@ from processors import entity_resolver, score_engine, ai_analyzer
 from outputs import slack_notifier
 
 def run_full_cycle():
-    print("="*50+"\nBLOODHOUND VC: AI-POWERED CYCLE - INITIATED\n"+"="*50)
+    print("="*50+"\nBLOODHOUND VC: AI-POWERED CYCLE (v3 ENGINE) - INITIATED\n"+"="*50)
     
     print("\n[PHASE 1] COLLECT: Running collectors...")
     github_scraper.scrape_github_trending()
@@ -33,5 +32,4 @@ def run_full_cycle():
     print("\n"+"="*50+"\nBLOODHOUND VC: AI-POWERED CYCLE COMPLETED\n"+"="*50)
 
 if __name__ == '__main__':
-    # No need to change directory anymore, the scripts will find their paths.
     run_full_cycle()
