@@ -1,3 +1,4 @@
+import os
 # --- CONFIGURATION ---
 # Credentials will be read from GitHub Actions secrets
 SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")

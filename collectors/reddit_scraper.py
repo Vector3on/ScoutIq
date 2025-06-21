@@ -1,3 +1,4 @@
+import os
 # --- CONFIGURATION ---
 # Credentials will be read from GitHub Actions secrets (environment variables)
 REDDIT_CLIENT_ID = os.environ.get("REDDIT_CLIENT_ID")
