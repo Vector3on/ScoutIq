@@ -1,0 +1,12 @@
+{
+  "github_rules": [
+    { "description": "Explosive Popularity", "condition": "lead['stars'] > 10000", "points": 10 },
+    { "description": "High Interest", "condition": "lead['stars'] > 1000", "points": 5 },
+    { "description": "Core Backend Language", "condition": "lead['language'] in ['Python', 'Go', 'Rust']", "points": 3 },
+    { "description": "Modern Frontend", "condition": "lead['language'] == 'TypeScript'", "points": 2 }
+  ],
+  "reddit_rules": [
+    { "description": "Significant Reddit Buzz", "condition": "reddit['total_upvotes'] > 50", "points": 8 },
+    { "description": "Some Reddit Buzz", "condition": "reddit['total_upvotes'] > 10", "points": 4 }
+  ]
+}
