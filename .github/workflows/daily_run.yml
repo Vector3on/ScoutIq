@@ -1,10 +1,10 @@
-name: Bloodhound Daily Full Scrape
+name: Bloodhound Matching Diagnostic
 
 on:
   workflow_dispatch:
 
 jobs:
-  run-full-scrape:
+  run-diagnostic:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,18 +21,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run GitHub Scraper
+    - name: Run Matching Diagnostic
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-      run: python collectors/github_scraper.py
-
-    - name: Run Reddit Scraper
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        # We need the Reddit secrets because the main script might still be called implicitly
         REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
         REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-      run: python collectors/reddit_scraper.py
+      run: python run_matching_diagnostic.py
