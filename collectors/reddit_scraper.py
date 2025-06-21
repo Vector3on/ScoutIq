@@ -20,36 +20,41 @@ def setup_reddit_client():
         return None
     return praw.Reddit(client_id=REDDIT_CLIENT_ID, client_secret=REDDIT_CLIENT_SECRET, user_agent=REDDIT_USER_AGENT)
 
-def create_reddit_signal(tx, signal_data):
+def create_and_link_reddit_signal(tx, signal_data):
     """
-    Finds the best matching Project node and creates a new Signal node
-    linked to it with a [HAS_SIGNAL] relationship.
+    First, creates a new Signal node.
+    Then, it searches for a matching Project and creates a relationship if found.
     """
-    query = """
-    // Find all project nodes to match against
+    # Step 1: Unconditionally create the Signal node.
+    # MERGE ensures we don't create duplicate signals based on URL.
+    create_signal_query = """
+    MERGE (s:Signal:Reddit {url: $url})
+    ON CREATE SET
+        s.title = $title,
+        s.subreddit = $subreddit,
+        s.upvotes = $upvotes,
+        s.created_at = timestamp()
+    RETURN s
+    """
+    tx.run(create_signal_query, **signal_data)
+
+    # Step 2: Find the best matching project and attempt to create a link.
+    link_query = """
+    MATCH (s:Signal:Reddit {url: $url})
     MATCH (p:Project)
-    WITH p, apoc.text.sorensenDiceSimilarity($title, p.display_name) AS score
+    WITH s, p, apoc.text.sorensenDiceSimilarity($title, p.display_name) AS score
     WHERE score >= $threshold
-    WITH p, score
+    WITH s, p, score
     ORDER BY score DESC
     LIMIT 1
-
-    // If a matching project was found, create the signal and the relationship
-    FOREACH (project IN COLLECT(p) |
-        MERGE (s:Signal:Reddit {url: $url})
-        ON CREATE SET
-            s.title = $title,
-            s.subreddit = $subreddit,
-            s.upvotes = $upvotes,
-            s.created_at = timestamp()
-        MERGE (project)-[r:HAS_SIGNAL]->(s)
-    )
+    MERGE (p)-[r:HAS_SIGNAL]->(s)
     """
-    tx.run(query, **signal_data, threshold=SIMILARITY_THRESHOLD / 100.0) # APOC similarity is 0-1
+    # The neo4j driver uses a library that needs the threshold as 0.0 to 1.0
+    tx.run(link_query, **signal_data, threshold=SIMILARITY_THRESHOLD / 100.0)
 
 def scrape_reddit_submissions():
     """Scrapes Reddit and creates/updates Signal nodes in the Neo4j database."""
-    print("  - Scraping Reddit (for Neo4j)...")
+    print("  - Scraping Reddit (v2 Logic)...")
     if not URI:
         print("    - FATAL: Neo4j credentials not found.")
         return
@@ -75,16 +80,16 @@ def scrape_reddit_submissions():
                             "subreddit": subreddit_name,
                             "upvotes": submission.score
                         }
-                        session.execute_write(create_reddit_signal, signal_data)
+                        # This transaction now correctly creates the node first, then tries to link it.
+                        session.execute_write(create_and_link_reddit_signal, signal_data)
                         processed_count += 1
-            except Exception:
+            except Exception as e:
+                # Add more detailed error logging
+                print(f"    - Error processing subreddit {subreddit_name}: {e}")
                 continue
     
     driver.close()
     print(f"    - Reddit: Processed {processed_count} potential signals into the graph.")
 
 if __name__ == '__main__':
-    # APOC is a library of procedures for Neo4j. PRAW needs to be installed.
-    # The neo4j driver uses a slightly different similarity function that needs a 0-1 score.
-    # We will assume APOC is available on AuraDB.
     scrape_reddit_submissions()
