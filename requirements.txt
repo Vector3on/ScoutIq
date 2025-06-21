@@ -6,3 +6,4 @@ python-dotenv
 praw
 fuzzywuzzy
 python-levenshtein
+neo4j
