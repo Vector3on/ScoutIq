@@ -2,8 +2,9 @@ import sqlite3
 import json
 import os
 
-DB_PATH = '/content/drive/MyDrive/bloodhound-vc/data/leads.db'
-CONFIG_PATH = '/content/drive/MyDrive/bloodhound-vc/scoring_config.json'
+SCRIPT_DIR = os.path.dirname(__file__)
+DB_PATH = os.path.join(SCRIPT_DIR, '..', 'data', 'leads.db')
+CONFIG_PATH = os.path.join(SCRIPT_DIR, '..', 'scoring_config.json')
 
 def calculate_project_scores():
     """

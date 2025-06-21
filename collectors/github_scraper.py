@@ -1,11 +1,11 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
-import os
 import time
 
 # Define the path to the database
-DB_PATH = '/content/drive/MyDrive/bloodhound-vc/data/leads.db'
+DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'leads.db')
 
 def save_to_db(con, cur, repo_data):
     """

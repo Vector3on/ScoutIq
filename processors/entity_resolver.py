@@ -4,7 +4,7 @@ import re
 from urllib.parse import urlparse
 from fuzzywuzzy import fuzz
 
-DB_PATH = '/content/drive/MyDrive/bloodhound-vc/data/leads.db'
+DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'leads.db')
 # We can be more confident now, but we'll still keep debug on.
 SIMILARITY_THRESHOLD = 80
 DEBUG_MODE = True

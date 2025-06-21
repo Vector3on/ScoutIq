@@ -2,8 +2,10 @@ import os
 import sys
 import time
 
-PROJECT_PATH = "/content/drive/MyDrive/bloodhound-vc"
-sys.path.append(PROJECT_PATH)
+# Get the directory where this script is located. This makes the path relative and portable.
+# This is the professional way to handle paths.
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(SCRIPT_DIR)
 
 from collectors import github_scraper, reddit_scraper
 from processors import entity_resolver, score_engine, ai_analyzer
@@ -31,6 +33,5 @@ def run_full_cycle():
     print("\n"+"="*50+"\nBLOODHOUND VC: AI-POWERED CYCLE COMPLETED\n"+"="*50)
 
 if __name__ == '__main__':
-    os.chdir(PROJECT_PATH)
+    # No need to change directory anymore, the scripts will find their paths.
     run_full_cycle()
-
