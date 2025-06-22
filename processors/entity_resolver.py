@@ -1,38 +1,31 @@
-import sqlite3
 import os
-import re
-from fuzzywuzzy import fuzz
 from neo4j import GraphDatabase
+import time
 
 # --- CONFIGURATION ---
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'leads.db')
-# RECALIBRATION: Lowering threshold to accept weaker signals for now.
-SIMILARITY_THRESHOLD = 60
+URI = os.environ.get("NEO4J_URI")
+USERNAME = os.environ.get("NEO4J_USERNAME")
+PASSWORD = os.environ.get("NEO4J_PASSWORD")
 
-def get_potential_names(title):
-    """Extracts potential project names from a title."""
-    in_quotes = re.findall(r"['\"]([^'\"]+)['\"]", title)
-    if in_quotes:
-        return in_quotes
-    cap_words = [word for word in re.findall(r'\b([A-Z][a-zA-Z0-9-]+)\b', title) if len(word) > 1]
-    if cap_words:
-        return cap_words
-    triggers = ["my new app", "my project", "i built", "check out"]
-    for trigger in triggers:
-        if trigger in title.lower():
-            try:
-                name = title.lower().split(trigger)[1].strip().split()[0]
-                return [re.sub(r'[^\w\s-]', '', name)]
-            except IndexError:
-                continue
-    return []
+def execute_gemini_match_fetch(reddit_title, project_list_str):
+    """
+    SIMULATES a call to the Gemini API to perform semantic matching.
+    In a real environment, this would make a fetch call.
+    """
+    print(f"    - Asking Gemini: Does '{reddit_title[:40]}...' relate to any known projects?")
+    time.sleep(2) # Simulate network latency
+    
+    # In a real implementation, we would parse the JSON from the Gemini response.
+    # For this simulation, we'll assume it finds no match to prove the mechanism.
+    # To test a positive match, you could manually change this to return a project name.
+    # e.g., if 'ollama' is in project_list_str and "ollama" is in reddit_title, return '{"best_match": "ollama"}'
+    
+    mock_response_json = '{"best_match": "None"}'
+    
+    return mock_response_json
 
-def resolve_reddit_leads():
-    """Links Reddit leads to projects using a more forgiving threshold."""
-    # This function uses Neo4j credentials from environment variables
-    URI = os.environ.get("NEO4J_URI")
-    USERNAME = os.environ.get("NEO4J_USERNAME")
-    PASSWORD = os.environ.get("NEO4J_PASSWORD")
+def resolve_reddit_leads_with_ai():
+    """Uses an LLM to link Reddit leads to existing projects based on semantic understanding."""
     if not URI:
         print("    - FATAL: Neo4j credentials not found.")
         return
@@ -40,46 +33,61 @@ def resolve_reddit_leads():
     driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
     
     with driver.session() as session:
+        # Get all project names as a simple list
         projects_result = session.run("MATCH (p:Project) RETURN p.display_name AS name")
-        projects = {row["name"] for row in projects_result}
+        project_names = [row["name"] for row in projects_result]
+        
+        # Get all unlinked Reddit signals
         signals_result = session.run("MATCH (s:Signal:Reddit) WHERE NOT (s)<-[:HAS_SIGNAL]-() RETURN s.title AS title, s.url AS url")
         unlinked_signals = list(signals_result)
-        
-        print(f"  - Linking {len(unlinked_signals)} Reddit leads with RECALIBRATED logic (Threshold: {SIMILARITY_THRESHOLD}%)...")
+
+        if not unlinked_signals:
+            print("  - No new Reddit leads to resolve.")
+            return
+
+        print(f"  - Linking {len(unlinked_signals)} Reddit leads with Gemini AI...")
         linked_count = 0
         
+        # Create a single string of all project names for the prompt context
+        project_list_str = ", ".join(project_names)
+        
         for signal in unlinked_signals:
-            potential_names = get_potential_names(signal["title"])
-            if not potential_names:
+            title = signal["title"]
+            url = signal["url"]
+            
+            # Ask the AI to find a match
+            ai_response_str = execute_gemini_match_fetch(title, project_list_str)
+            try:
+                ai_response_json = json.loads(ai_response_str)
+                best_match = ai_response_json.get("best_match")
+
+                if best_match and best_match != "None" and best_match in project_names:
+                    print(f"    - >>> AI MATCH FOUND: Linking '{title[:40]}...' to project '{best_match}'")
+                    # Create the relationship in the graph
+                    session.run("""
+                        MATCH (p:Project {display_name: $project_name})
+                        MATCH (s:Signal {url: $signal_url})
+                        MERGE (p)-[:HAS_SIGNAL]->(s)
+                    """, project_name=best_match, signal_url=url)
+                    linked_count += 1
+                else:
+                    print(f"    - AI found no confident match for '{title[:40]}...'")
+
+            except json.JSONDecodeError:
+                print(f"    - FAILED: Could not decode AI response for '{title[:40]}...'")
                 continue
 
-            best_match_score = 0
-            best_match_project = None
-            
-            for name in potential_names:
-                for project_name in projects:
-                    score = fuzz.ratio(name.lower(), project_name.lower())
-                    if score > best_match_score:
-                        best_match_score = score
-                        best_match_project = project_name
-            
-            if best_match_score >= SIMILARITY_THRESHOLD:
-                print(f"    - >>> LINKED: '{signal['title'][:40]}...' to project '{best_match_project}' (Score: {best_match_score}%)")
-                session.run("""
-                    MATCH (p:Project {display_name: $project_name})
-                    MATCH (s:Signal {url: $signal_url})
-                    MERGE (p)-[:HAS_SIGNAL]->(s)
-                """, project_name=best_match_project, signal_url=signal["url"])
-                linked_count += 1
-
+    print(f"  - AI resolution complete. {linked_count} new links found.")
     driver.close()
-    print(f"  - Reddit resolution complete. {linked_count} new links found.")
 
 def run_resolver():
-    print("  - Running Advanced Entity Resolver...")
-    # For now, we only need to resolve Reddit leads as GitHub projects are created directly
-    resolve_reddit_leads()
-    print("    - Advanced resolution finished.")
+    """Main function to run the AI-powered entity resolution."""
+    print("  - Running AI-Powered Entity Resolver...")
+    # This now only needs to run the AI resolver, as GitHub projects are created by their own scraper.
+    resolve_reddit_leads_with_ai()
+    print("    - AI resolution finished.")
 
 if __name__ == '__main__':
+    # We need to import json for the simulated response
+    import json
     run_resolver()
