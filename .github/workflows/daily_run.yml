@@ -1,10 +1,10 @@
-name: Bloodhound Full Data Pipeline
+name: Bloodhound Logic Autopsy
 
 on:
   workflow_dispatch:
 
 jobs:
-  run-full-pipeline:
+  run-autopsy:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,7 +21,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: PHASE 1 - Run Data Collectors
+    - name: Run Data Collectors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
@@ -32,10 +32,9 @@ jobs:
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
 
-    - name: PHASE 1.5 - Run Entity Resolver
+    - name: Run Logic Autopsy
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-      run: python processors/entity_resolver.py
-
+      run: python run_autopsy.py
