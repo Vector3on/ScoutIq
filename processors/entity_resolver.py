@@ -1,93 +1,108 @@
 import os
 from neo4j import GraphDatabase
 import time
+import json
 
 # --- CONFIGURATION ---
 URI = os.environ.get("NEO4J_URI")
 USERNAME = os.environ.get("NEO4J_USERNAME")
 PASSWORD = os.environ.get("NEO4J_PASSWORD")
+# The API key is now the most important credential
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-def execute_gemini_match_fetch(reddit_title, project_list_str):
+def execute_live_gemini_fetch(reddit_title, project_list_str):
     """
-    SIMULATES a call to the Gemini API to perform semantic matching.
-    In a real environment, this would make a fetch call.
+    Executes a REAL fetch call to the Gemini API to perform semantic matching.
     """
-    print(f"    - Asking Gemini: Does '{reddit_title[:40]}...' relate to any known projects?")
-    time.sleep(2) # Simulate network latency
+    if not GEMINI_API_KEY:
+        print("    - FATAL: GEMINI_API_KEY not found in environment.")
+        return None
+
+    print(f"    - Querying Gemini API for: '{reddit_title[:40]}...'")
     
-    # In a real implementation, we would parse the JSON from the Gemini response.
-    # For this simulation, we'll assume it finds no match to prove the mechanism.
-    # To test a positive match, you could manually change this to return a project name.
-    # e.g., if 'ollama' is in project_list_str and "ollama" is in reddit_title, return '{"best_match": "ollama"}'
+    # This is the prompt we send to the AI.
+    prompt = f"""
+Analyze the following Reddit post title and determine if it is about any of the projects in the provided list.
+The project name might be slightly different or misspelled. Use semantic understanding.
+Respond with a JSON object containing one key: "best_match".
+If you find a confident match, the value should be the project name from the list.
+If you find no confident match, the value should be the string "None".
+
+---
+Reddit Title: "{reddit_title}"
+---
+Project List: "{project_list_str}"
+---
+
+JSON Response:
+"""
+
+    api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"
     
-    mock_response_json = '{"best_match": "None"}'
+    payload = {
+        "contents": [{
+            "parts": [{"text": prompt}]
+        }]
+    }
     
-    return mock_response_json
+    headers = {'Content-Type': 'application/json'}
+
+    try:
+        # We must now use the 'requests' library to make the API call
+        import requests
+        response = requests.post(api_url, headers=headers, json=payload, timeout=30)
+        response.raise_for_status() # Raise an exception for bad status codes
+        
+        result = response.json()
+        
+        # Safely navigate the response structure
+        if result.get("candidates") and result["candidates"][0].get("content", {}).get("parts"):
+            # The response text is often a string containing JSON, so we clean and parse it
+            raw_text = result["candidates"][0]["content"]["parts"][0]["text"]
+            # Clean up potential markdown formatting from the LLM
+            clean_text = raw_text.strip().replace("```json", "").replace("```", "").strip()
+            return json.loads(clean_text)
+        else:
+            return {"best_match": "None"}
+            
+    except requests.exceptions.RequestException as e:
+        print(f"    - ERROR: API request failed: {e}")
+        return None
+    except (json.JSONDecodeError, KeyError) as e:
+        print(f"    - ERROR: Failed to parse AI response: {e}")
+        return None
 
 def resolve_reddit_leads_with_ai():
-    """Uses an LLM to link Reddit leads to existing projects based on semantic understanding."""
-    if not URI:
-        print("    - FATAL: Neo4j credentials not found.")
-        return
-
+    """Uses a live LLM to link Reddit leads to existing projects."""
     driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
-    
     with driver.session() as session:
-        # Get all project names as a simple list
         projects_result = session.run("MATCH (p:Project) RETURN p.display_name AS name")
         project_names = [row["name"] for row in projects_result]
-        
-        # Get all unlinked Reddit signals
         signals_result = session.run("MATCH (s:Signal:Reddit) WHERE NOT (s)<-[:HAS_SIGNAL]-() RETURN s.title AS title, s.url AS url")
         unlinked_signals = list(signals_result)
 
-        if not unlinked_signals:
-            print("  - No new Reddit leads to resolve.")
-            return
-
-        print(f"  - Linking {len(unlinked_signals)} Reddit leads with Gemini AI...")
+        print(f"  - Linking {len(unlinked_signals)} Reddit leads with LIVE Gemini AI...")
         linked_count = 0
-        
-        # Create a single string of all project names for the prompt context
         project_list_str = ", ".join(project_names)
         
         for signal in unlinked_signals:
-            title = signal["title"]
-            url = signal["url"]
-            
-            # Ask the AI to find a match
-            ai_response_str = execute_gemini_match_fetch(title, project_list_str)
-            try:
-                ai_response_json = json.loads(ai_response_str)
-                best_match = ai_response_json.get("best_match")
-
+            ai_result = execute_live_gemini_fetch(signal["title"], project_list_str)
+            if ai_result:
+                best_match = ai_result.get("best_match")
                 if best_match and best_match != "None" and best_match in project_names:
-                    print(f"    - >>> AI MATCH FOUND: Linking '{title[:40]}...' to project '{best_match}'")
-                    # Create the relationship in the graph
-                    session.run("""
-                        MATCH (p:Project {display_name: $project_name})
-                        MATCH (s:Signal {url: $signal_url})
-                        MERGE (p)-[:HAS_SIGNAL]->(s)
-                    """, project_name=best_match, signal_url=url)
+                    print(f"    - >>> AI MATCH FOUND: Linking '{signal['title'][:40]}...' to project '{best_match}'")
+                    session.run("MATCH (p:Project {display_name: $p_name}), (s:Signal {url: $s_url}) MERGE (p)-[:HAS_SIGNAL]->(s)", 
+                                p_name=best_match, s_url=signal["url"])
                     linked_count += 1
-                else:
-                    print(f"    - AI found no confident match for '{title[:40]}...'")
-
-            except json.JSONDecodeError:
-                print(f"    - FAILED: Could not decode AI response for '{title[:40]}...'")
-                continue
+            time.sleep(3) # Be respectful to the API limits
 
     print(f"  - AI resolution complete. {linked_count} new links found.")
     driver.close()
 
 def run_resolver():
-    """Main function to run the AI-powered entity resolution."""
-    print("  - Running AI-Powered Entity Resolver...")
-    # This now only needs to run the AI resolver, as GitHub projects are created by their own scraper.
+    print("  - Running LIVE AI-Powered Entity Resolver...")
     resolve_reddit_leads_with_ai()
-    print("    - AI resolution finished.")
+    print("    - LIVE AI resolution finished.")
 
 if __name__ == '__main__':
-    # We need to import json for the simulated response
-    import json
     run_resolver()
