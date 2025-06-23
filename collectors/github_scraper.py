@@ -72,7 +72,7 @@ def scrape_github_trending():
                 
                 session.execute_write(update_project_node_with_velocity, project_data)
                 processed_count += 1
-            except:
+            except Exception:
                 continue
     
     driver.close()
