@@ -37,7 +37,7 @@ Project List: "{project_list_str}"
 JSON Response:
 """
 
-    api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"
+    api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     
     payload = {
         "contents": [{
