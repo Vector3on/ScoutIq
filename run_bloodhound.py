@@ -1,23 +1,9 @@
 """
 The main orchestrator for the Bloodhound VC Intelligence Pipeline.
-
-This script is the entry point for the entire automated system. It sequences the
-data collection, entity resolution, and reporting phases. Its structure is
-designed to pass all professional quality control checks, including black,
-ruff, and mypy.
+This script is the entry point for the entire automated system.
 """
 
-import os
-import sys
-
-# --- Path Setup ---
-# This is the professional way to ensure our custom modules can be found.
-# It must be done BEFORE any local modules are imported.
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(SCRIPT_DIR)
-
-# --- Module Imports ---
-# Imports are now correctly ordered: standard library, then our application.
+# All imports are now at the top, satisfying all linters.
 from collectors import github_scraper, reddit_scraper
 from processors import entity_resolver
 from outputs import slack_notifier
@@ -38,9 +24,6 @@ def run_full_cycle():
     print("\n[PHASE 1.5] RESOLVE: Running AI-powered entity resolver...")
     entity_resolver.run_resolver()
     print("[PHASE 1.5] COMPLETE")
-
-    # Note: The old scoring and AI analysis phases are now integrated
-    # directly into the resolver and future modules. We only need to notify.
 
     print("\n[PHASE 3] REPORT: Running Slack notifier...")
     slack_notifier.send_daily_digest()
