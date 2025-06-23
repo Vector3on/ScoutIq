@@ -2,7 +2,6 @@ import sqlite3
 import os
 import requests
 import time
-import json
 
 # --- CONFIGURATION ---
 DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'leads.db')
