@@ -1,16 +1,15 @@
 import os
 import sys
+# NOW we can safely import our modules. This fixes the E402 error.
+from collectors import github_scraper, reddit_scraper
+from processors import entity_resolver
+from outputs import slack_notifier
 
 # Get the directory where this script is located.
 # This must be done BEFORE we try to import our custom modules.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Add the project's root directory to the system path.
 sys.path.append(SCRIPT_DIR)
-
-# NOW we can safely import our modules. This fixes the E402 error.
-from collectors import github_scraper, reddit_scraper
-from processors import entity_resolver
-from outputs import slack_notifier
 
 def run_full_cycle():
     """
