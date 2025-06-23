@@ -1,10 +1,10 @@
-name: Bloodhound Full Data Pipeline (Live AI)
+name: Bloodhound Velocity Test
 
 on:
   workflow_dispatch:
 
 jobs:
-  run-full-pipeline:
+  run-velocity-scraper:
     runs-on: ubuntu-latest
     
     steps:
@@ -16,25 +16,12 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install all dependencies
+    - name: Install dependencies
       run: python -m pip install -r requirements.txt
 
-    - name: PHASE 1 - Run Data Collectors
+    - name: Run Velocity-Aware GitHub Scraper
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-      run: |
-        python collectors/github_scraper.py
-        python collectors/reddit_scraper.py
-
-    - name: PHASE 1.5 - Run Live AI Entity Resolver
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        # Pass the new AI key to the environment
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      run: python processors/entity_resolver.py
+      run: python collectors/github_scraper.py
