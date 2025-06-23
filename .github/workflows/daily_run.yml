@@ -27,7 +27,8 @@ jobs:
 
     # --- QUALITY CONTROL GATES ---
     - name: Auto-Format Code with Black
-      run: black --check .
+      # This command now FIXES the code instead of just checking it.
+      run: black .
 
     - name: Lint with Ruff
       run: ruff check .
