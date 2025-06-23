@@ -1,4 +1,4 @@
-name: Bloodhound Full Data Pipeline
+name: Bloodhound Full Data Pipeline (Live AI)
 
 on:
   workflow_dispatch:
@@ -17,9 +17,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install all dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      run: python -m pip install -r requirements.txt
 
     - name: PHASE 1 - Run Data Collectors
       env:
@@ -32,32 +30,11 @@ jobs:
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
 
-    - name: PHASE 1.5 - Run Entity Resolver
+    - name: PHASE 1.5 - Run Live AI Entity Resolver
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        # Pass the new AI key to the environment
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: python processors/entity_resolver.py
-
-    - name: PHASE 2 - Run Scoring Engine
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-      run: python processors/score_engine.py
-
-    - name: PHASE 2.5 - Run AI Analyzer
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-      run: python processors/ai_analyzer.py
-
-    - name: PHASE 3 - Run Slack Notifier
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      run: python outputs/slack_notifier.py
-
