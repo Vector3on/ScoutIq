@@ -19,26 +19,27 @@ def setup_reddit_client():
 
 def create_or_update_reddit_signal(tx, signal_data):
     """
-    Creates or updates a Signal node and calculates its upvote velocity.
+    This robust query correctly creates or updates a Signal node
+    and calculates its upvote velocity on every run.
     """
     query = """
     MERGE (s:Signal:Reddit {url: $url})
-    ON CREATE SET
-        s.title = $title,
+    // WITH s, we can hold onto its state before we change it
+    WITH s, s.upvotes AS old_upvotes
+    // Now, SET all properties, using the old value for our calculation
+    SET s.title = $title,
         s.subreddit = $subreddit,
         s.upvotes = $upvotes,
-        s.upvote_delta_1d = 0,
-        s.first_seen_at = timestamp()
-    ON MATCH SET
-        s.upvote_delta_1d = $upvotes - s.upvotes,
-        s.upvotes = $upvotes,
-        s.last_seen_at = timestamp()
+        s.first_seen_at = COALESCE(s.first_seen_at, timestamp()), // Only set first_seen_at if it's new
+        s.last_seen_at = timestamp(),
+        // Calculate the delta correctly
+        s.upvote_delta_1d = CASE WHEN old_upvotes IS NOT NULL THEN $upvotes - old_upvotes ELSE 0 END
     """
     tx.run(query, **signal_data)
 
 def scrape_reddit_submissions():
     """Scrapes Reddit and creates/updates Signal nodes with upvote velocity."""
-    print("  - Scraping Reddit (Velocity-Aware)...")
+    print("  - Scraping Reddit (Corrected Velocity Logic)...")
     if not URI: print("    - FATAL: Neo4j credentials not found."); return
     reddit = setup_reddit_client()
     if not reddit: print("    - FATAL: Reddit credentials not found."); return
@@ -50,7 +51,8 @@ def scrape_reddit_submissions():
         for subreddit_name in TARGET_SUBREDDITS:
             subreddit = reddit.subreddit(subreddit_name)
             try:
-                for submission in subreddit.new(limit=50): # Increased limit to find more signals
+                # Increased limit to get more potential signals
+                for submission in subreddit.new(limit=50):
                     title_lower = submission.title.lower()
                     if any(keyword in title_lower for keyword in KEYWORD_TRIGGERS):
                         signal_data = {
@@ -61,7 +63,8 @@ def scrape_reddit_submissions():
                         }
                         session.execute_write(create_or_update_reddit_signal, signal_data)
                         processed_count += 1
-            except Exception:
+            except Exception as e:
+                print(f"    - Error processing r/{subreddit_name}: {e}")
                 continue
     
     driver.close()
