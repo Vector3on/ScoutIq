@@ -1,9 +1,9 @@
-name: Bloodhound Full Integrated Pipeline
+name: Bloodhound Full Data Pipeline (Self-Correcting)
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *' # Run automatically at 3 AM UTC daily
+    - cron: '0 4 * * *' # Run automatically at 4 AM UTC daily
 
 jobs:
   run-full-pipeline:
@@ -19,9 +19,19 @@ jobs:
         python-version: '3.11'
 
     - name: Install all dependencies
-      run: python -m pip install -r requirements.txt
+      run: |
+        python -m pip install --upgrade pip
+        # Add 'black' for code formatting
+        pip install black
+        pip install -r requirements.txt
 
-    - name: PHASE 1 - Run Velocity-Aware Collectors
+    - name: Format Code with Black (Auto-Correction)
+      run: |
+        # This step automatically finds and fixes any formatting/indentation errors
+        # in any .py file before the main script runs.
+        black .
+
+    - name: PHASE 1 - Run Data Collectors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
@@ -39,3 +49,4 @@ jobs:
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: python processors/entity_resolver.py
+
