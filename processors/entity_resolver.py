@@ -8,93 +8,84 @@ from neo4j import GraphDatabase
 URI = os.environ.get("NEO4J_URI")
 USERNAME = os.environ.get("NEO4J_USERNAME")
 PASSWORD = os.environ.get("NEO4J_PASSWORD")
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
+HF_TOKEN = os.environ.get("HUGGINGFACE_TOKEN")
 
-def make_api_request(url, headers, payload):
-    """A hardened function to handle API requests and parsing, expecting JSON."""
-    try:
-        response = requests.post(url, headers=headers, json=payload, timeout=60)
-        
-        if response.status_code == 429:
-            print("      - WARN: Rate limit hit (429).")
-            return "RATE_LIMIT"
-            
-        response.raise_for_status()
-        response_json = response.json()
+# We are using Google's Gemma model via the Hugging Face free Inference API
+MODEL_URL = "https://api-inference.huggingface.co/models/google/gemma-7b-it"
 
-        # Extract the text content which should contain the JSON string
-        if response_json.get("candidates"):
-            raw_text = response_json["candidates"][0]["content"]["parts"][0]["text"]
-        elif response_json.get('choices'):
-            raw_text = response_json['choices'][0]['message']['content']
-        else:
-            print("    - WARN: AI response format was unexpected.")
-            return None
+def execute_hf_fetch(prompt):
+    """
+    Executes a fetch call to the Hugging Face Inference API.
+    """
+    if not HF_TOKEN:
+        print("    - FATAL: HUGGINGFACE_TOKEN not found in environment.")
+        return None
 
-        # Robustly parse the extracted text, which should be a JSON string
+    headers = {"Authorization": f"Bearer {HF_TOKEN}", "Content-Type": "application/json"}
+    payload = {"inputs": prompt, "parameters": {"max_new_tokens": 50}}
+    
+    for attempt in range(3): # Retry logic
         try:
-            # Clean up potential markdown formatting from the LLM
-            clean_text = raw_text.strip().replace("```json", "").replace("```", "").strip()
-            return json.loads(clean_text)
-        except json.JSONDecodeError:
-            print(f"    - ERROR: AI returned text that was not valid JSON: '{raw_text[:100]}...'")
-            return None
+            print(f"    - Querying Hugging Face (gemma-7b-it)... Attempt {attempt + 1}")
+            response = requests.post(MODEL_URL, headers=headers, json=payload, timeout=60)
 
-    except requests.exceptions.RequestException as e:
-        print(f"    - ERROR: API request failed: {e}")
-        return None
-    except Exception as e:
-        print(f"    - ERROR: An unexpected error occurred in make_api_request: {e}")
-        return None
+            # The API might be loading the model, which takes time.
+            if response.status_code == 503:
+                wait_time = 20
+                print(f"    - WARN: Model is loading (503). Waiting {wait_time} seconds...")
+                time.sleep(wait_time)
+                continue # Retry the request
 
-def execute_gemini_fetch(prompt):
-    """Executes a fetch call to the Gemini API."""
-    if not GEMINI_API_KEY: return None
-    print(f"    - Calling Provider: Gemini (1.5-flash)...")
-    api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
-    payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"responseMimeType": "application/json"}}
-    headers = {'Content-Type': 'application/json'}
-    return make_api_request(api_url, headers, payload)
+            response.raise_for_status()
+            result = response.json()
+            
+            # The response is a list containing a dict with the generated text
+            generated_text = result[0]['generated_text']
+            
+            # The model's response includes our original prompt, so we must strip it
+            json_response_str = generated_text.replace(prompt, "").strip()
+            
+            # Clean up potential markdown and find the JSON object
+            clean_json_str = json_response_str[json_response_str.find('{'):json_response_str.rfind('}')+1]
 
-def execute_openrouter_fetch(prompt):
-    """Executes a fetch call to OpenRouter."""
-    if not OPENROUTER_API_KEY: return None
-    print("      - Calling Provider: OpenRouter (Mistral)...")
-    api_url = "https://openrouter.ai/api/v1/chat/completions"
-    payload = {
-        "model": "mistralai/mistral-7b-instruct:free",
-        "messages": [{"role": "user", "content": prompt}],
-        "response_format": {"type": "json_object"}
-    }
-    headers = {"Authorization": f"Bearer {OPENROUTER_API_KEY}"}
-    return make_api_request(api_url, headers, payload)
+            return json.loads(clean_json_str)
+
+        except Exception as e:
+            print(f"    - ERROR: Hugging Face API request failed: {e}")
+            time.sleep(5) # Wait before retrying on other errors
+
+    print("    - FATAL: All attempts to query Hugging Face failed.")
+    return None
 
 def resolve_reddit_leads_with_ai():
-    """Uses a load-balanced AI router to link Reddit leads to projects."""
+    """Uses Hugging Face Gemma to link Reddit leads to projects."""
+    if not URI: print("    - FATAL: Neo4j credentials not found."); return
     driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
+
     with driver.session() as session:
         projects_result = session.run("MATCH (p:Project) RETURN p.display_name AS name")
         project_names = [row["name"] for row in projects_result]
         signals_result = session.run("MATCH (s:Signal:Reddit) WHERE NOT (s)<-[:HAS_SIGNAL]-() RETURN s.title AS title, s.url AS url")
         unlinked_signals = list(signals_result)
-        print(f"  - Linking {len(unlinked_signals)} Reddit leads with Hardened AI Load Balancer...")
+
+        print(f"  - Linking {len(unlinked_signals)} Reddit leads with Hugging Face AI...")
         linked_count = 0
+        project_list_str = ", ".join(project_names)
         
-        for i, signal in enumerate(unlinked_signals):
-            prompt = f'''You are an expert entity resolver. Respond ONLY with a valid JSON object with one key: "best_match". If you find a high-confidence match between the Reddit Title and a name from the Project List, the value for "best_match" must be the exact project name. Otherwise, the value MUST be the string "None".
-**Reddit Title:** "{signal["title"]}"
-**Project List:** {json.dumps(project_names)}
-**JSON Response:**'''
+        for signal in unlinked_signals:
+            prompt = f'''
+You are an expert entity resolver. Your task is to determine if a Reddit post is about a specific software project from the provided list. Respond ONLY with a valid JSON object with one key: "best_match". If you find a high-confidence match, the value for "best_match" must be the exact project name from the list. If you are not confident, the value MUST be the string "None".
 
-            ai_result = execute_gemini_fetch(prompt) if i % 2 == 0 else execute_openrouter_fetch(prompt)
+**Reddit Title:**
+"{signal["title"]}"
 
-            if ai_result == "RATE_LIMIT":
-                print("      - Pausing for 30 seconds due to rate limit...")
-                time.sleep(30)
-                continue
+**List of known Project Names:**
+{json.dumps(project_names)}
 
-            # This is the new, hardened check. We only proceed if we have a dictionary.
+**JSON Response:**
+'''
+            ai_result = execute_hf_fetch(prompt)
+            
             if isinstance(ai_result, dict):
                 best_match = ai_result.get("best_match")
                 if best_match and best_match != "None" and best_match in project_names:
@@ -102,18 +93,16 @@ def resolve_reddit_leads_with_ai():
                     session.run("MATCH (p:Project {display_name: $p_name}), (s:Signal {url: $s_url}) MERGE (p)-[:HAS_SIGNAL]->(s)",
                                 p_name=best_match, s_url=signal["url"])
                     linked_count += 1
-            else:
-                print(f"    - WARN: Received a non-dictionary response from AI. Skipping. Response: {ai_result}")
-            
-            time.sleep(5)
+            time.sleep(2) # A short delay between calls
 
     print(f"  - AI resolution complete. {linked_count} new links found.")
     driver.close()
 
 def run_resolver():
-    print("  - Running Hardened AI-Powered Entity Resolver...")
+    """Main function to run the AI-powered entity resolution."""
+    print("  - Running Hugging Face AI-Powered Entity Resolver...")
     resolve_reddit_leads_with_ai()
-    print("    - Hardened AI resolution finished.")
+    print("    - Hugging Face AI resolution finished.")
 
 if __name__ == '__main__':
     run_resolver()
