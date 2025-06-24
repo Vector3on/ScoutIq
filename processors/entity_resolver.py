@@ -25,7 +25,7 @@ def execute_openrouter_fetch(prompt):
         response = requests.post(
             url="https://openrouter.ai/api/v1/chat/completions",
             headers={
-                "Authorization": f"Bearer {OPENROUTER_API_KEY}"
+                "Authorization": "Bearer {OPENROUTER_API_KEY}"
             },
             data=json.dumps({
                 "model": "mistralai/mistral-7b-instruct:free",  # Using a fast, free model
@@ -39,7 +39,7 @@ def execute_openrouter_fetch(prompt):
         clean_text = raw_text.strip().replace("```json", "").replace("```", "").strip()
         return json.loads(clean_text)
     except Exception as e:
-        print(f"      - ERROR: OpenRouter request failed: {e}")
+        print("      - ERROR: OpenRouter request failed: {e}")
         return None
 
 
@@ -51,7 +51,7 @@ def execute_live_gemini_fetch(prompt):
         print("    - FATAL: GEMINI_API_KEY not found. Attempting fallback...")
         return execute_openrouter_fetch(prompt)
 
-    print(f"    - Querying Primary AI (Gemini)...")
+    print("    - Querying Primary AI (Gemini)...")
 
     api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
     payload = {"contents": [{"parts": [{"text": prompt}]}]}
