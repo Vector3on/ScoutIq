@@ -1,9 +1,9 @@
-name: Bloodhound Definitive Pipeline
+name: Bloodhound Definitive Pipeline (Hugging Face)
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 11 * * *'
 
 jobs:
   run-definitive-pipeline:
@@ -21,27 +21,7 @@ jobs:
     - name: Install Dependencies
       run: python -m pip install -r requirements.txt
 
-    - name: PHASE 1 - Set up Graph Constraints
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-      run: |
-        python -c "
-        import os
-        from neo4j import GraphDatabase
-        uri = os.environ.get('NEO4J_URI')
-        user = os.environ.get('NEO4J_USERNAME')
-        password = os.environ.get('NEO4J_PASSWORD')
-        driver = GraphDatabase.driver(uri, auth=(user, password))
-        with driver.session() as session:
-            session.run('CREATE CONSTRAINT founder_name_unique IF NOT EXISTS FOR (f:Founder) REQUIRE f.name IS UNIQUE')
-            session.run('CREATE CONSTRAINT project_display_name_unique IF NOT EXISTS FOR (p:Project) REQUIRE p.display_name IS UNIQUE')
-        driver.close()
-        print('Graph constraints verified.')
-        "
-
-    - name: PHASE 2 - Run All Data Collectors
+    - name: PHASE 1 - Run Data Collectors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
@@ -51,20 +31,11 @@ jobs:
       run: |
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
-
-    - name: PHASE 3 - Run AI Entity Resolver
+    
+    - name: PHASE 2 - Run Hugging Face AI Resolver
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
       run: python processors/entity_resolver.py
-
-    - name: PHASE 4 - Send Final Report
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      run: python outputs/slack_notifier.py
