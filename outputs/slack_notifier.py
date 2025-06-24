@@ -1,48 +1,61 @@
-import sqlite3
 import os
+from neo4j import GraphDatabase
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import pandas as pd
 
 # --- CONFIGURATION ---
+URI = os.environ.get("NEO4J_URI")
+USERNAME = os.environ.get("NEO4J_USERNAME")
+PASSWORD = os.environ.get("NEO4J_PASSWORD")
 SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
 SLACK_CHANNEL_ID = "YOUR_CHANNEL_ID_HERE" # Make sure this is correct
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'leads.db')
 NUM_PROJECTS = 5
 
-def format_ai_message(df):
-    header = {"type": "header", "text": {"type": "plain_text", "text": f"🧠 Bloodhound AI Briefing: Top {len(df)} Projects"}}
+def format_founder_message(df):
+    """Formats the top projects and their founders into a Slack message."""
+    header = {"type": "header", "text": {"type": "plain_text", "text": f"🔥 Bloodhound Founder Report: Top {len(df)} Projects"}}
     blocks = [header, {"type": "divider"}]
+    
     for _, row in df.iterrows():
-        ai_summary = row.get('ai_summary') or "AI analysis pending."
-        ai_hype = row.get('ai_hype_score') or "N/A"
-        section_text = (f"*<{row['primary_url']}|{row['display_name']}>*\n"
-                        f"🤖 *AI Summary:* {ai_summary}\n"
-                        f"🔥 *AI Hype Score:* {ai_hype}/10")
+        section_text = (
+            f"*<{row['project_url']}|{row['project_name']}>*\n"
+            f"👤 *Founder:* `{row['founder_name']}`\n"
+            f"⭐ *Stars:* {row['project_stars']:,}"
+        )
         blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": section_text}})
         blocks.append({"type": "divider"})
     return blocks
 
 def send_daily_digest():
-    print("  - Running Slack Notifier...")
-    if not SLACK_BOT_TOKEN: print("    - FATAL: Slack Token not set."); return
-    if not SLACK_CHANNEL_ID or SLACK_CHANNEL_ID == "YOUR_CHANNEL_ID_HERE": print("    - FATAL: Slack Channel ID not set."); return
+    """Fetches top projects and their founders from the graph and sends to Slack."""
+    print("  - Preparing Founder-Aware Slack digest...")
+    if not URI or not SLACK_BOT_TOKEN or SLACK_CHANNEL_ID == "YOUR_CHANNEL_ID_HERE":
+        print("    - FATAL: Database or Slack credentials are not configured.")
+        return
 
-    try:
-        con = sqlite3.connect(DB_PATH)
-        query = f"SELECT display_name, primary_url, ai_summary, ai_hype_score FROM projects ORDER BY ai_hype_score DESC, id DESC LIMIT {NUM_PROJECTS}"
-        df = pd.read_sql_query(query, con)
-        con.close()
-    except Exception as e:
-        print(f"    - FATAL: Could not fetch projects. Error: {e}"); return
+    driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
+    
+    with driver.session() as session:
+        # This query now traverses the graph to get founders and their projects
+        query = f"""
+        MATCH (f:Founder)-[:FOUNDED]->(p:Project)
+        RETURN f.name AS founder_name, p.display_name AS project_name, p.stars AS project_stars, p.url AS project_url
+        ORDER BY p.stars DESC
+        LIMIT {NUM_PROJECTS}
+        """
+        result = session.run(query)
+        df = pd.DataFrame([r.data() for r in result])
+
+    driver.close()
 
     if df.empty:
-        print("    - No AI-analyzed projects found to report."); return
+        print("    - No founder-linked projects found to report."); return
 
     client = WebClient(token=SLACK_BOT_TOKEN)
     try:
-        client.chat_postMessage(channel=SLACK_CHANNEL_ID, text="Bloodhound AI Briefing", blocks=format_ai_message(df))
-        print("    - SUCCESS: AI-powered Slack digest sent!")
+        client.chat_postMessage(channel=SLACK_CHANNEL_ID, text="Bloodhound Founder Report", blocks=format_founder_message(df))
+        print("    - SUCCESS: Founder-Aware Slack digest sent!")
     except SlackApiError as e:
         print(f"    - FATAL: Failed to send Slack message. Error: {e.response['error']}")
 
