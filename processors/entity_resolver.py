@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer, util
 # Load the path from an environment variable, falling back to a default.
 LEADS_PATH = os.environ.get("REDDIT_LEADS_PATH", "reddit_leads.json")
 # The similarity threshold for considering a match.
-THRESHOLD = float(os.environ.get("SIMILARITY_THRESHOLD", "0.5")) # Adjusted for sentence embeddings
+THRESHOLD = float(os.environ.get("SIMILARITY_THRESHOLD", "0.25")) # Adjusted for sentence embeddings
 
 URI = os.environ.get("NEO4J_URI")
 USERNAME = os.environ.get("NEO4J_USERNAME")
