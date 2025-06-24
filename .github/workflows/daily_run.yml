@@ -1,12 +1,12 @@
-name: Bloodhound Resilient AI Pipeline
+name: Bloodhound Founder Pipeline
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 7 * * *'
+    - cron: '0 8 * * *'
 
 jobs:
-  run-full-pipeline:
+  run-founder-pipeline:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,22 +21,22 @@ jobs:
     - name: Install Dependencies
       run: python -m pip install -r requirements.txt
 
-    - name: Run Data Collectors
+    - name: Set up Graph Constraints for Founders
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
       run: |
-        python collectors/github_scraper.py
-        python collectors/reddit_scraper.py
-    
-    - name: Run Resilient AI Entity Resolver
-      env:
-        NEO4J_URI: ${{ secrets.NEO4J_URI }}
-        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      run: python processors/entity_resolver.py
+        python -c "
+        import os
+        from neo4j import GraphDatabase
+        uri = os.environ.get('NEO4J_URI')
+        user = os.environ.get('NEO4J_USERNAME')
+        password = os.environ.get('NEO4J_PASSWORD')
+        driver = GraphDatabase.driver(uri, auth=(user, password))
+        with driver.session() as session:
+            print('Creating constraint for Founder nodes...')
+            session.run('CREATE CONSTRAINT founder_name_unique IF NOT EXISTS FOR (f:Founder) REQUIRE f.name IS UNIQUE')
+            print('Constraint created successfully.')
+        driver.close()
+        "
