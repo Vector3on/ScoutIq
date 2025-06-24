@@ -1,4 +1,4 @@
-name: Bloodhound Founder Pipeline
+name: Bloodhound Founder Pipeline (Unified)
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
     - name: Install Dependencies
       run: python -m pip install -r requirements.txt
 
-    - name: Set up Graph Constraints for Founders
+    - name: PHASE 1 - Set up Graph Constraints
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
@@ -40,3 +40,10 @@ jobs:
             print('Constraint created successfully.')
         driver.close()
         "
+
+    - name: PHASE 2 - Run Founder-Aware Scraper
+      env:
+        NEO4J_URI: ${{ secrets.NEO4J_URI }}
+        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+      run: python collectors/github_scraper.py
