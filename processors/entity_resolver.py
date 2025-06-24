@@ -21,18 +21,17 @@ def execute_hf_fetch(prompt, model_id):
     payload = {"inputs": prompt, "parameters": {"max_new_tokens": 50, "return_full_text": False}}
     
     print(f"    - Calling Provider: Hugging Face ({model_id})...")
-    for attempt in range(2): # Retry logic for model loading
+    for attempt in range(2):
         try:
             response = requests.post(api_url, headers=headers, json=payload, timeout=90)
-            if response.status_code == 503: # Model is loading
+            if response.status_code == 503:
                 wait_time = response.json().get('estimated_time', 20)
                 print(f"    - WARN: Model '{model_id}' is loading (503). Waiting {wait_time:.0f} seconds...")
                 time.sleep(wait_time)
-                continue # Retry the request
+                continue
             response.raise_for_status()
             result = response.json()
             generated_text = result[0]['generated_text']
-            # Find the first curly brace to start parsing the JSON object
             json_start_index = generated_text.find('{')
             if json_start_index != -1:
                 json_response_str = generated_text[json_start_index:]
@@ -42,7 +41,7 @@ def execute_hf_fetch(prompt, model_id):
                  return None
         except Exception as e:
             print(f"    - ERROR: Hugging Face API request failed for {model_id}: {e}")
-            return None # Fail this attempt, let the balancer try the next model
+            return None
 
     print(f"    - FATAL: All attempts to query {model_id} failed.")
     return None
@@ -54,9 +53,9 @@ def resolve_reddit_leads_with_ai():
     
     # --- AI PROVIDER POOL (Based on your research) ---
     ai_providers = [
-        {"name": "HF (Gemma 7B)", "fetch": lambda p: execute_hf_fetch(p, "google/gemma-7b-it")},
-        {"name": "HF (Mistral 7B)", "fetch": lambda p: execute_hf_fetch(p, "mistralai/Mistral-7B-Instruct-v0.2")},
-        {"name": "HF (Llama 3 8B)", "fetch": lambda p: execute_hf_fetch(p, "meta-llama/Meta-Llama-3-8B-Instruct")},
+        {"name": "HF (Gemma 7B)", "fetch": lambda p: execute_hf_fetch(p, "https://api-inference.huggingface.co/models/google/gemma-7b")},
+        {"name": "HF (Mistral 7B)", "fetch": lambda p: execute_hf_fetch(p, "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3")},
+        {"name": "HF (Llama 3 8B)", "fetch": lambda p: execute_hf_fetch(p, "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct")},
     ]
     
     with driver.session() as session:
