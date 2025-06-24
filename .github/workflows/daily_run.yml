@@ -1,9 +1,9 @@
-name: Bloodhound Definitive Pipeline (Hugging Face)
+name: Bloodhound Definitive Pipeline (Local AI)
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 11 * * *'
+    - cron: '0 12 * * *'
 
 jobs:
   run-definitive-pipeline:
@@ -19,23 +19,29 @@ jobs:
         python-version: '3.11'
 
     - name: Install Dependencies
-      run: python -m pip install -r requirements.txt
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-    - name: PHASE 1 - Run Data Collectors
+    - name: PHASE 1 - Run GitHub Data Collector
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+      run: python collectors/github_scraper.py
+    
+    - name: PHASE 1.5 - Run Reddit Data Collector
+      env:
         REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
         REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-      run: |
-        python collectors/github_scraper.py
-        python collectors/reddit_scraper.py
+      run: python collectors/reddit_scraper.py # This now saves to reddit_leads.json
     
-    - name: PHASE 2 - Run Hugging Face AI Resolver
+    - name: PHASE 2 - Run Local AI Entity Resolver
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+        # We tell the resolver where to find the file created in the previous step
+        REDDIT_LEADS_PATH: reddit_leads.json
       run: python processors/entity_resolver.py
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
