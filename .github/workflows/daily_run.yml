@@ -1,12 +1,12 @@
-name: Bloodhound Founder Intelligence Pipeline
+name: Bloodhound Definitive Pipeline
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * *' # Run automatically at 9 AM UTC daily
+    - cron: '0 10 * * *'
 
 jobs:
-  run-founder-intelligence:
+  run-definitive-pipeline:
     runs-on: ubuntu-latest
     
     steps:
@@ -28,8 +28,12 @@ jobs:
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
       run: |
         python -c "
-        import os; from neo4j import GraphDatabase
-        driver = GraphDatabase.driver(os.environ.get('NEO4J_URI'), auth=(os.environ.get('NEO4J_USERNAME'), os.environ.get('NEO4J_PASSWORD')))
+        import os
+        from neo4j import GraphDatabase
+        uri = os.environ.get('NEO4J_URI')
+        user = os.environ.get('NEO4J_USERNAME')
+        password = os.environ.get('NEO4J_PASSWORD')
+        driver = GraphDatabase.driver(uri, auth=(user, password))
         with driver.session() as session:
             session.run('CREATE CONSTRAINT founder_name_unique IF NOT EXISTS FOR (f:Founder) REQUIRE f.name IS UNIQUE')
             session.run('CREATE CONSTRAINT project_display_name_unique IF NOT EXISTS FOR (p:Project) REQUIRE p.display_name IS UNIQUE')
@@ -37,17 +41,27 @@ jobs:
         print('Graph constraints verified.')
         "
 
-    - name: PHASE 2 - Run Founder-Aware Scrapers
+    - name: PHASE 2 - Run All Data Collectors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
         REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
         REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-      run: python collectors/github_scraper.py
-      # We will re-add the reddit scraper later. Focus on one success.
+      run: |
+        python collectors/github_scraper.py
+        python collectors/reddit_scraper.py
 
-    - name: PHASE 3 - Send Founder Report
+    - name: PHASE 3 - Run AI Entity Resolver
+      env:
+        NEO4J_URI: ${{ secrets.NEO4J_URI }}
+        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      run: python processors/entity_resolver.py
+
+    - name: PHASE 4 - Send Final Report
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
