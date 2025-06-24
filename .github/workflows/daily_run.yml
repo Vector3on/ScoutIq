@@ -44,4 +44,3 @@ jobs:
         # We tell the resolver where to find the file created in the previous step
         REDDIT_LEADS_PATH: reddit_leads.json
       run: python processors/entity_resolver.py
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
