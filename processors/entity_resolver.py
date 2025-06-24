@@ -9,102 +9,87 @@ URI = os.environ.get("NEO4J_URI")
 USERNAME = os.environ.get("NEO4J_USERNAME")
 PASSWORD = os.environ.get("NEO4J_PASSWORD")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
-
-def execute_openrouter_fetch(prompt):
-    """Executes a fetch call to OpenRouter as a backup."""
-    if not OPENROUTER_API_KEY:
-        print("      - WARN: OPENROUTER_API_KEY not found. Cannot use backup AI.")
-        return None
-    print("      - Attempting fallback with OpenRouter AI...")
-    try:
-        response = requests.post(
-            url="https://openrouter.ai/api/v1/chat/completions",
-            headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}"},
-            data=json.dumps({
-                "model": "mistralai/mistral-7b-instruct:free",
-                "messages": [{"role": "user", "content": prompt}]
-            })
-        )
-        response.raise_for_status()
-        result = response.json()
-        raw_text = result['choices'][0]['message']['content']
-        clean_text = raw_text.strip().replace("```json", "").replace("```", "").strip()
-        return json.loads(clean_text)
-    except Exception as e:
-        print(f"      - ERROR: OpenRouter request failed: {e}")
-        return None
 
 def execute_live_gemini_fetch(prompt):
-    """Executes the primary fetch call to Gemini, with OpenRouter as a fallback."""
+    """Executes a REAL fetch call to the Gemini API."""
     if not GEMINI_API_KEY:
-        print("    - FATAL: GEMINI_API_KEY not found. Attempting fallback...")
-        return execute_openrouter_fetch(prompt)
-    print("    - Querying Primary AI (Gemini)...")
+        print("    - FATAL: GEMINI_API_KEY not found in environment.")
+        return None
+
     api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
-    payload = {"contents": [{"parts": [{"text": prompt}]}]}
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"responseMimeType": "application/json"}
+    }
     headers = {'Content-Type': 'application/json'}
+
     try:
-        response = requests.post(api_url, headers=headers, json=payload, timeout=45)
-        if response.status_code == 429:
-            print(f"      - WARN: Gemini rate limit hit. Switching to fallback.")
-            return execute_openrouter_fetch(prompt)
+        response = requests.post(api_url, headers=headers, json=payload, timeout=60)
         response.raise_for_status()
         result = response.json()
         if result.get("candidates") and result["candidates"][0].get("content", {}).get("parts"):
-            raw_text = result["candidates"][0]["content"]["parts"][0]["text"]
-            clean_text = raw_text.strip().replace("```json", "").replace("```", "").strip()
-            return json.loads(clean_text)
+            response_text = result["candidates"][0]["content"]["parts"][0]["text"]
+            return json.loads(response_text)
         else:
-            return execute_openrouter_fetch(prompt)
-    except Exception as e:
-        print(f"    - ERROR: Primary AI (Gemini) failed: {e}. Attempting fallback...")
-        return execute_openrouter_fetch(prompt)
+            print("    - WARN: AI response was valid but empty.")
+            return {"best_match": "None"}
+    except requests.exceptions.RequestException as e:
+        print(f"    - ERROR: API request failed: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"    - ERROR: Failed to parse AI JSON response: {e}")
+        return None
 
 def resolve_reddit_leads_with_ai():
-    """Uses a multi-model AI router to link Reddit leads to projects."""
-    if not URI: print("    - FATAL: Neo4j credentials not found."); return
+    """Uses a live LLM to link Reddit leads to existing projects with a better prompt."""
     driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
     with driver.session() as session:
         projects_result = session.run("MATCH (p:Project) RETURN p.display_name AS name")
         project_names = [row["name"] for row in projects_result]
         signals_result = session.run("MATCH (s:Signal:Reddit) WHERE NOT (s)<-[:HAS_SIGNAL]-() RETURN s.title AS title, s.url AS url")
         unlinked_signals = list(signals_result)
-        print(f"  - Linking {len(unlinked_signals)} Reddit leads with Multi-Model AI Router...")
+
+        print(f"  - Linking {len(unlinked_signals)} Reddit leads with DEFINITIVE Gemini AI...")
         linked_count = 0
-        project_list_str = ", ".join(project_names)
+        
         for signal in unlinked_signals:
+            # This is the new, more effective prompt structure.
             prompt = f"""
-Analyze the following Reddit post title and determine if it is about any of the projects in the provided list.
-The project name might be slightly different or misspelled. Use semantic understanding.
-Respond with a JSON object containing one key: "best_match".
-If you find a confident match, the value should be the project name from the list.
-If you find no confident match, the value should be the string "None".
+You are an expert entity resolver. Your task is to determine if a Reddit post is about a specific software project.
+Read the Reddit Title carefully. Compare it semantically to the list of known Project Names.
+Your response MUST be a single JSON object with one key: "best_match".
+If you find a high-confidence match, the value for "best_match" must be the exact project name from the list.
+If you are not highly confident, the value for "best_match" MUST be the string "None".
 
----
-Reddit Title: "{signal["title"]}"
----
-Project List: "{project_list_str}"
----
+**Reddit Title:**
+"{signal["title"]}"
 
-JSON Response:
+**List of known Project Names:**
+{json.dumps(project_names)}
+
+**JSON Response:**
 """
+            print(f"    - Querying Gemini for: '{signal['title'][:50]}...'")
             ai_result = execute_live_gemini_fetch(prompt)
+            
             if ai_result:
                 best_match = ai_result.get("best_match")
                 if best_match and best_match != "None" and best_match in project_names:
-                    print(f"    - >>> AI MATCH FOUND: Linking '{signal['title'][:40]}...' to project '{best_match}'")
+                    print(f"    - >>> AI MATCH FOUND: Linking to project '{best_match}'")
                     session.run("MATCH (p:Project {display_name: $p_name}), (s:Signal {url: $s_url}) MERGE (p)-[:HAS_SIGNAL]->(s)",
                                 p_name=best_match, s_url=signal["url"])
                     linked_count += 1
-            time.sleep(10)
+            # We are rate limiting to be respectful of the API
+            time.sleep(5)
+
     print(f"  - AI resolution complete. {linked_count} new links found.")
     driver.close()
 
 def run_resolver():
-    print("  - Running Resilient, AI-Powered Entity Resolver...")
+    """Main function to run the AI-powered entity resolution."""
+    print("  - Running DEFINITIVE AI-Powered Entity Resolver...")
     resolve_reddit_leads_with_ai()
-    print("    - Resilient AI resolution finished.")
+    print("    - DEFINITIVE AI resolution finished.")
 
 if __name__ == '__main__':
     run_resolver()
