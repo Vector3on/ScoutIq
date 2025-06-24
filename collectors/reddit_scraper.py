@@ -14,8 +14,15 @@ TARGET_SUBREDDITS = ["SideProject", "alphaandbetausers", "indiehackers", "smallb
 KEYWORD_TRIGGERS = ["new project", "my new app", "looking for feedback", "beta test", "just launched"]
 
 def setup_reddit_client():
-    if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET: return None
-    return praw.Reddit(client_id=REDDIT_CLIENT_ID, client_secret=REDDIT_CLIENT_SECRET, user_agent=REDDIT_USER_AGENT)
+    """Initializes and returns a PRAW Reddit instance."""
+    if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET:
+        print("    - WARN: Reddit credentials not found. Skipping Reddit scrape.")
+        return None
+    return praw.Reddit(
+        client_id=REDDIT_CLIENT_ID,
+        client_secret=REDDIT_CLIENT_SECRET,
+        user_agent=REDDIT_USER_AGENT
+    )
 
 def create_or_update_reddit_signal(tx, signal_data):
     """
@@ -24,25 +31,29 @@ def create_or_update_reddit_signal(tx, signal_data):
     """
     query = """
     MERGE (s:Signal:Reddit {url: $url})
-    // WITH s allows us to hold onto its state before we change it
+    // Use WITH to hold the old value before overwriting it
     WITH s, s.upvotes AS old_upvotes
-    // Now, SET all properties, using the old value for our calculation
+    // SET all properties, using the old value for the delta calculation
     SET s.title = $title,
         s.subreddit = $subreddit,
         s.upvotes = $upvotes,
-        s.first_seen_at = COALESCE(s.first_seen_at, timestamp()), // Only set first_seen_at if it's new
+        s.first_seen_at = COALESCE(s.first_seen_at, timestamp()),
         s.last_seen_at = timestamp(),
-        // Calculate the delta correctly: new_votes - old_votes
+        // Correctly calculate the delta: new_votes - old_votes
         s.upvote_delta_1d = CASE WHEN old_upvotes IS NOT NULL THEN $upvotes - old_upvotes ELSE 0 END
     """
     tx.run(query, **signal_data)
 
 def scrape_reddit_submissions():
     """Scrapes Reddit and creates/updates Signal nodes with upvote velocity."""
-    print("  - Scraping Reddit (Velocity-Aware)...")
-    if not URI: print("    - FATAL: Neo4j credentials not found."); return
+    print("  - Scraping Reddit (Corrected Velocity Logic)...")
+    if not URI:
+        print("    - FATAL: Neo4j credentials not found.")
+        return
+
     reddit = setup_reddit_client()
-    if not reddit: print("    - FATAL: Reddit credentials not found."); return
+    if not reddit:
+        return
 
     driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
     processed_count = 0
