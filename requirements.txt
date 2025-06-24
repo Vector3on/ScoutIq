@@ -7,3 +7,6 @@ praw
 fuzzywuzzy
 python-levenshtein
 neo4j
+sentence-transformers
+scikit-learn
+numpy
