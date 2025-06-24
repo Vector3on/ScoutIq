@@ -1,38 +1,44 @@
+from sentence_transformers import SentenceTransformer, util
 import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
-from sentence_transformers import SentenceTransformer
+import os
 
-# Threshold adjusted to be more forgiving
-THRESHOLD = 0.25
+# === START ===
+# Placeholder: Replace this with your actual leads fetch method
+leads = [...]  # Should be a list of dicts with 'title' keys
 
-# Dummy placeholders for actual data loading:
-# Replace these with your actual database fetch methods.
-leads = [...]            # List of dicts: [{'title': 'string'}, ...]
-project_names = [...]    # List of project names
+# Filter out invalid leads
+leads = [lead for lead in leads if isinstance(lead, dict) and 'title' in lead]
+if not leads:
+    print("No valid leads found, exiting.")
+    exit(1)
 
 # Load embeddings model
 model = SentenceTransformer("all-mpnet-base-v2")
 
-# Compute embeddings
-lead_embeddings = model.encode([lead['title'] for lead in leads], convert_to_numpy=True)
+# Placeholder: Replace this with actual project names fetch method
+project_names = ["typst", "ai-engineering-hub", "NotepadNext", "data-engineer-handbook", "LLMs-from-scratch"]
 project_embeddings = model.encode(project_names, convert_to_numpy=True)
 
-# Perform match
-matches = []
-for i, lead in enumerate(leads):
-    lead_emb = lead_embeddings[i].reshape(1, -1)
-    scores = cosine_similarity(lead_emb, project_embeddings).flatten()
-    best_match_index = np.argmax(scores)
-    best_score = scores[best_match_index]
-    best_project = project_names[best_match_index]
-    
-    if best_score >= THRESHOLD:
-        matches.append((lead['title'], best_project, best_score))
-        print(f"MATCHED [{lead['title']}] -> [{best_project}], Score: {best_score:.2f}")
-    else:
-        print(f"NO MATCH [{lead['title']}], Score: {best_score:.2f}")
+# Encode lead titles
+lead_embeddings = model.encode([lead['title'] for lead in leads], convert_to_numpy=True)
 
-# Output results or save as needed
-print("Summary of Matches:")
-for match in matches:
-    print(f"Lead: {match[0]}, Project: {match[1]}, Score: {match[2]:.2f}")
+# Compare embeddings and filter by a lower threshold
+THRESHOLD = 0.25
+results = []
+for lead, lead_embedding in zip(leads, lead_embeddings):
+    cos_sim = util.cos_sim(lead_embedding, project_embeddings).flatten()
+    best_match_score = cos_sim.max()
+    best_match_name = project_names[cos_sim.argmax()]
+    if best_match_score >= THRESHOLD:
+        results.append({
+            "lead_title": lead["title"],
+            "matched_project": best_match_name,
+            "similarity_score": float(best_match_score),
+        })
+
+# Output Results
+for result in results:
+    print(f"MATCHED: [{result['lead_title']}] -> [{result['matched_project']}], Score: {result['similarity_score']:.2f}")
+
+if not results:
+    print("No matches found.")
