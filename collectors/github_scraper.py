@@ -8,39 +8,41 @@ URI = os.environ.get("NEO4J_URI")
 USERNAME = os.environ.get("NEO4J_USERNAME")
 PASSWORD = os.environ.get("NEO4J_PASSWORD")
 
-def update_project_node_with_velocity(tx, project_data):
+def create_project_and_founder(tx, project_data):
     """
     This query is now much smarter.
-    1. It MERGES the project node as before.
-    2. It captures the existing star count BEFORE updating it.
-    3. It calculates the delta (new stars - old stars).
-    4. It updates the stars and sets the new delta.
+    1. It creates or merges the Project node.
+    2. It creates or merges the Founder node based on the project owner.
+    3. It creates a [:FOUNDED] relationship between them.
     """
     query = """
+    // Find or create the Project
     MERGE (p:Project {display_name: $repo_name})
     ON CREATE SET
         p.url = $url,
         p.owner = $owner,
         p.language = $language,
         p.stars = $stars,
-        p.stars_delta_1d = 0, // Set delta to 0 on first sight
         p.first_seen_at = timestamp()
     ON MATCH SET
-        p.stars_delta_1d = $stars - p.stars, // Calculate delta
-        p.stars = $stars, // THEN update the stars
-        p.language = $language,
+        p.stars_delta_1d = $stars - p.stars,
+        p.stars = $stars,
         p.last_seen_at = timestamp()
+    
+    // Find or create the Founder
+    MERGE (f:Founder {name: $owner})
+
+    // Create the relationship between them
+    MERGE (f)-[r:FOUNDED]->(p)
     """
     tx.run(query, **project_data)
 
 def scrape_github_trending():
-    """Scrapes GitHub and updates Project nodes with star velocity."""
-    print("  - Scraping GitHub (Velocity-Aware)...")
-    if not URI:
-        print("    - FATAL: Neo4j credentials not found.")
-        return
-
+    """Scrapes GitHub and creates Project and Founder nodes in the graph."""
+    print("  - Scraping GitHub (Founder-Aware)...")
+    if not URI: print("    - FATAL: Neo4j credentials not found."); return
     driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
+    
     url = "https://github.com/trending"
     try:
         response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -61,22 +63,19 @@ def scrape_github_trending():
                 star_tag = repo.find('a', href=f'/{full_name}/stargazers')
                 stars_text = star_tag.text.strip().replace(',', '')
                 stars = int(stars_text) if stars_text.isdigit() else 0
-                lang_tag = repo.find('span', itemprop='programmingLanguage')
-                language = lang_tag.text.strip() if lang_tag else 'N/A'
                 
                 project_data = {
                     'repo_name': repo_name, 'owner': owner, 
                     'url': f"https://github.com{repo_link['href']}", 
-                    'stars': stars, 'language': language
+                    'stars': stars, 'language': repo.find('span', itemprop='programmingLanguage').text.strip() if repo.find('span', itemprop='programmingLanguage') else 'N/A'
                 }
-                
-                session.execute_write(update_project_node_with_velocity, project_data)
+                session.execute_write(create_project_and_founder, project_data)
                 processed_count += 1
-            except Exception:
+            except:
                 continue
     
     driver.close()
-    print(f"    - GitHub: Processed {processed_count} projects, updating velocity.")
+    print(f"    - GitHub: Processed {processed_count} projects and founders into the graph.")
 
 if __name__ == '__main__':
     scrape_github_trending()
