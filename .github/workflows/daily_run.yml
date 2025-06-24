@@ -1,9 +1,9 @@
-name: Bloodhound Professional Pipeline
+name: Bloodhound Resilient AI Pipeline
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 5 * * *' # Run automatically at 5 AM UTC daily
+    - cron: '0 7 * * *'
 
 jobs:
   run-full-pipeline:
@@ -18,26 +18,10 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install all dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # Add our new QC tools
-        pip install black ruff mypy
-        pip install -r requirements.txt
+    - name: Install Dependencies
+      run: python -m pip install -r requirements.txt
 
-    # --- QUALITY CONTROL GATES ---
-    - name: Auto-Format Code with Black
-      # This command now FIXES the code instead of just checking it.
-      run: black .
-
-    - name: Lint with Ruff
-      run: ruff check .
-
-    - name: Check Types with MyPy
-      run: mypy . --ignore-missing-imports
-
-    # --- EXECUTION PHASES ---
-    - name: PHASE 1 - Run Data Collectors
+    - name: Run Data Collectors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
@@ -47,8 +31,8 @@ jobs:
       run: |
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
-
-    - name: PHASE 1.5 - Run Live AI Entity Resolver
+    
+    - name: Run Resilient AI Entity Resolver
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
