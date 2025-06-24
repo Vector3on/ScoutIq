@@ -1,12 +1,12 @@
-name: Bloodhound Founder Pipeline (Unified)
+name: Bloodhound Founder Intelligence Pipeline
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 9 * * *' # Run automatically at 9 AM UTC daily
 
 jobs:
-  run-founder-pipeline:
+  run-founder-intelligence:
     runs-on: ubuntu-latest
     
     steps:
@@ -28,22 +28,29 @@ jobs:
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
       run: |
         python -c "
-        import os
-        from neo4j import GraphDatabase
-        uri = os.environ.get('NEO4J_URI')
-        user = os.environ.get('NEO4J_USERNAME')
-        password = os.environ.get('NEO4J_PASSWORD')
-        driver = GraphDatabase.driver(uri, auth=(user, password))
+        import os; from neo4j import GraphDatabase
+        driver = GraphDatabase.driver(os.environ.get('NEO4J_URI'), auth=(os.environ.get('NEO4J_USERNAME'), os.environ.get('NEO4J_PASSWORD')))
         with driver.session() as session:
-            print('Creating constraint for Founder nodes...')
             session.run('CREATE CONSTRAINT founder_name_unique IF NOT EXISTS FOR (f:Founder) REQUIRE f.name IS UNIQUE')
-            print('Constraint created successfully.')
+            session.run('CREATE CONSTRAINT project_display_name_unique IF NOT EXISTS FOR (p:Project) REQUIRE p.display_name IS UNIQUE')
         driver.close()
+        print('Graph constraints verified.')
         "
 
-    - name: PHASE 2 - Run Founder-Aware Scraper
+    - name: PHASE 2 - Run Founder-Aware Scrapers
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
       run: python collectors/github_scraper.py
+      # We will re-add the reddit scraper later. Focus on one success.
+
+    - name: PHASE 3 - Send Founder Report
+      env:
+        NEO4J_URI: ${{ secrets.NEO4J_URI }}
+        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      run: python outputs/slack_notifier.py
