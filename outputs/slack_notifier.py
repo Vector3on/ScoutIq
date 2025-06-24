@@ -9,7 +9,8 @@ URI = os.environ.get("NEO4J_URI")
 USERNAME = os.environ.get("NEO4J_USERNAME")
 PASSWORD = os.environ.get("NEO4J_PASSWORD")
 SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
-SLACK_CHANNEL_ID = "YOUR_CHANNEL_ID_HERE" # Make sure this is correct
+# This has been updated with the ID you provided.
+SLACK_CHANNEL_ID = "C0928V1HUSE"
 NUM_PROJECTS = 5
 
 def format_founder_message(df):
@@ -37,7 +38,7 @@ def send_daily_digest():
     driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
     
     with driver.session() as session:
-        # This query now traverses the graph to get founders and their projects
+        # This query traverses the graph to get founders and their projects
         query = f"""
         MATCH (f:Founder)-[:FOUNDED]->(p:Project)
         RETURN f.name AS founder_name, p.display_name AS project_name, p.stars AS project_stars, p.url AS project_url
