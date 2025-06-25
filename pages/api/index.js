@@ -4,9 +4,15 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 // This special Next.js function runs on the server during the build process.
 // It fetches the data from Neo4j and passes it to our dashboard component as props.
 export async function getStaticProps() {
-  // By requiring the driver only inside this server-side function,
-  // we prevent it from being bundled with the client-side code.
-  const neo4j = require('neo4j-driver');
+  let neo4j;
+  try {
+    // This server-side dependency is required only within this function.
+    // Wrapping it in a try-catch can help with some build tool issues.
+    neo4j = require('neo4j-driver');
+  } catch (e) {
+    console.error('Failed to load neo4j-driver. Ensure it is installed.', e);
+    return { props: { projects: [], error: 'Server dependency (neo4j-driver) failed to load.' } };
+  }
   
   const uri = process.env.NEO4J_URI;
   const user = process.env.NEO4J_USERNAME;
