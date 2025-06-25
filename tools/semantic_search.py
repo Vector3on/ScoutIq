@@ -72,9 +72,11 @@ class SemanticSearchTool:
             A list of dictionaries, where each dictionary contains the project's
             name, description, and its pre-computed embedding vector.
         """
+        # Updated query to use exists() for better performance and to be more idiomatic.
+        # This checks for the existence of the property before trying to access it.
         query = """
         MATCH (p:Project)
-        WHERE p.embedding IS NOT NULL AND p.name IS NOT NULL
+        WHERE exists(p.embedding) AND exists(p.name)
         RETURN p.name AS name, p.description AS description, p.embedding AS embedding
         """
         print("Fetching project embeddings from the database...")
@@ -83,8 +85,9 @@ class SemanticSearchTool:
             projects = [record.data() for record in results]
         
         if not projects:
-            print("Warning: No projects with embeddings found in the database.")
-            print("Please ensure your data processing pipeline is correctly populating the 'embedding' property for Project nodes.")
+            print("\nWARNING: No projects with embeddings found in the database.")
+            print("This tool requires project embeddings to function.")
+            print("Please ensure your data processing pipeline (e.g., entity_resolver.py) has run successfully and populated the 'embedding' property for Project nodes.\n")
             
         print(f"Found {len(projects)} projects with embeddings.")
         return projects
@@ -126,7 +129,7 @@ class SemanticSearchTool:
 
         # 5. Format and return the results
         search_results = []
-        for score, idx in zip(top_results.values.tolist()[0], top_results.indices.tolist()[0]):
+        for score, idx in zip(top_results.values.tolist()[0], top_results.indices.tolist[0]):
             project = projects[idx]
             search_results.append({
                 "name": project["name"],
@@ -155,6 +158,7 @@ def main():
     )
     args = parser.parse_args()
 
+    search_tool = None
     try:
         search_tool = SemanticSearchTool(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
         
@@ -174,7 +178,7 @@ def main():
         print(f"\nAn unexpected error occurred: {e}")
     finally:
         # Ensure the connection is closed even if errors occur
-        if 'search_tool' in locals() and search_tool:
+        if search_tool:
             search_tool.close()
 
 
