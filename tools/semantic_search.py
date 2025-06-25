@@ -1,75 +1,191 @@
+# tools/semantic_search.py
+#
+# Project Bloodhound: Ordnance 3.2 - Semantic Search
+#
+# Objective:
+# Build a tool that allows an analyst to search the graph based on
+# meaning, not just keywords.
+#
+# Mechanism:
+# This script takes a project name or description as input. It generates a
+# sentence embedding for this input text and uses cosine similarity to
+# find the top N most thematically similar Project nodes in the Neo4j database.
+
 import os
-import sys
 import argparse
+from typing import List, Dict, Any
+
 from neo4j import GraphDatabase
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer
+from sentence_transformers.util import cos_sim
+import torch
 
-# --- CONFIGURATION ---
-URI = os.environ.get("NEO4J_URI")
-USERNAME = os.environ.get("NEO4J_USERNAME")
-PASSWORD = os.environ.get("NEO4J_PASSWORD")
-MODEL_NAME = "all-mpnet-base-v2"
+# --- Configuration ---
 
-def find_similar_projects(target_project_name: str, top_k: int):
+# Load Neo4j credentials from environment variables for security
+NEO4J_URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
+NEO4J_USER = os.environ.get("NEO4J_USER", "neo4j")
+NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
+
+# This model should be consistent with the one used in `processors/entity_resolver.py`
+# Using a smaller, efficient model suitable for this task.
+MODEL_NAME = 'all-MiniLM-L6-v2'
+
+class SemanticSearchTool:
     """
-    Finds and ranks projects semantically similar to a target project.
+    A tool to perform semantic search on Project nodes in a Neo4j graph.
     """
-    if not URI:
-        print("FATAL: Neo4j credentials not found in environment.")
-        return
 
-    print(f"Initiating semantic search for projects similar to: '{target_project_name}'")
-    print(f"Loading model: '{MODEL_NAME}'...")
-    model = SentenceTransformer(MODEL_NAME)
+    def __init__(self, uri: str, user: str, password: str):
+        """
+        Initializes the connection to Neo4j and loads the sentence transformer model.
+        """
+        try:
+            self.driver = GraphDatabase.driver(uri, auth=(user, password))
+            self.driver.verify_connectivity()
+            print("Successfully connected to Neo4j database.")
+        except Exception as e:
+            print(f"Error: Could not connect to Neo4j. Please check credentials and URI.")
+            print(f"Details: {e}")
+            raise
 
-    driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
-    with driver.session() as session:
-        # Get all projects from the graph to create a searchable corpus
-        result = session.run("MATCH (p:Project) RETURN p.display_name AS name, p.url AS url")
-        all_projects = [{"name": record["name"], "url": record["url"]} for record in result]
-        
-        if not all_projects:
-            print("No projects found in the database.")
-            return
+        try:
+            print(f"Loading sentence transformer model: '{MODEL_NAME}'...")
+            self.model = SentenceTransformer(MODEL_NAME)
+            print("Model loaded successfully.")
+        except Exception as e:
+            print(f"Error: Could not load the sentence transformer model.")
+            print(f"Details: {e}")
+            raise
 
-        project_names = [p["name"] for p in all_projects]
-        
-        # Check if the target project exists
-        if target_project_name not in project_names:
-            print(f"ERROR: Project '{target_project_name}' not found in the database.")
-            return
+    def close(self):
+        """Closes the Neo4j database connection."""
+        if self.driver:
+            self.driver.close()
+            print("Neo4j connection closed.")
 
-        print("Encoding all project names...")
-        # Encode all project names into vector embeddings
-        corpus_embeddings = model.encode(project_names, convert_to_tensor=True)
-        # Encode the target project name
-        query_embedding = model.encode(target_project_name, convert_to_tensor=True)
+    def get_all_project_embeddings(self) -> List[Dict[str, Any]]:
+        """
+        Retrieves all 'Project' nodes that have an embedding property.
 
-        print("Calculating similarity scores...")
-        # Use cosine similarity to find the most similar projects
-        cos_scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
+        Returns:
+            A list of dictionaries, where each dictionary contains the project's
+            name, description, and its pre-computed embedding vector.
+        """
+        query = """
+        MATCH (p:Project)
+        WHERE p.embedding IS NOT NULL AND p.name IS NOT NULL
+        RETURN p.name AS name, p.description AS description, p.embedding AS embedding
+        """
+        print("Fetching project embeddings from the database...")
+        with self.driver.session() as session:
+            results = session.run(query)
+            projects = [record.data() for record in results]
         
-        # Get the top_k+1 results (since the top result will be the project itself)
-        top_results = cos_scores.topk(top_k + 1)
-        
-        print("\n" + "="*50)
-        print(f"Top {top_k} most similar projects to '{target_project_name}':")
-        print("="*50)
-        
-        # Iterate through the results, skipping the first one (which is the query itself)
-        for score, idx in zip(top_results[0][1:], top_results[1][1:]):
-            similar_project = all_projects[idx]
-            print(f"- {similar_project['name']} (Score: {score:.4f})")
-            print(f"  URL: {similar_project['url']}")
+        if not projects:
+            print("Warning: No projects with embeddings found in the database.")
+            print("Please ensure your data processing pipeline is correctly populating the 'embedding' property for Project nodes.")
             
-    driver.close()
+        print(f"Found {len(projects)} projects with embeddings.")
+        return projects
 
-if __name__ == '__main__':
-    # Set up argparse to accept command-line arguments
-    parser = argparse.ArgumentParser(description="Find projects semantically similar to a target project.")
-    parser.add_argument("project_name", type=str, help="The name of the target project to find similarities for.")
-    parser.add_argument("--top_k", type=int, default=5, help="Number of similar projects to return.")
-    
+    def find_similar_projects(self, query_text: str, top_n: int = 5) -> List[Dict[str, Any]]:
+        """
+        Finds the top N most similar projects to a given query text.
+
+        Args:
+            query_text: The natural language query (e.g., "a tool for data visualization").
+            top_n: The number of similar projects to return.
+
+        Returns:
+            A list of the top N projects, sorted by similarity score, each as a dictionary.
+        """
+        if not query_text:
+            print("Error: Query text cannot be empty.")
+            return []
+
+        # 1. Generate embedding for the input query
+        print(f"Generating embedding for query: '{query_text}'")
+        query_embedding = self.model.encode(query_text, convert_to_tensor=True)
+
+        # 2. Fetch all project embeddings from the database
+        projects = self.get_all_project_embeddings()
+        if not projects:
+            return []
+
+        # 3. Calculate cosine similarity
+        print("Calculating cosine similarity scores...")
+        project_embeddings = torch.tensor([p['embedding'] for p in projects], dtype=torch.float32)
+        
+        # The `cos_sim` function calculates the similarity between the query and all project embeddings
+        cosine_scores = cos_sim(query_embedding, project_embeddings)
+
+        # 4. Rank projects by similarity
+        # We use `topk` to efficiently find the highest scores and their indices
+        top_results = torch.topk(cosine_scores, k=min(top_n, len(projects)))
+
+        # 5. Format and return the results
+        search_results = []
+        for score, idx in zip(top_results.values.tolist()[0], top_results.indices.tolist()[0]):
+            project = projects[idx]
+            search_results.append({
+                "name": project["name"],
+                "description": project.get("description", "N/A"),
+                "similarity_score": round(score, 4)
+            })
+        
+        print(f"Found {len(search_results)} similar projects.")
+        return search_results
+
+def main():
+    """
+    Main function to run the semantic search tool from the command line.
+    """
+    parser = argparse.ArgumentParser(description="Project Bloodhound: Semantic Search Tool")
+    parser.add_argument(
+        "query",
+        type=str,
+        help="The search query in natural language (e.g., 'a database for time-series data')."
+    )
+    parser.add_argument(
+        "-n", "--top-n",
+        type=int,
+        default=5,
+        help="The number of top results to display."
+    )
     args = parser.parse_args()
-    
-    find_similar_projects(target_project_name=args.project_name, top_k=args.top_k)
+
+    try:
+        search_tool = SemanticSearchTool(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
+        
+        results = search_tool.find_similar_projects(args.query, args.top_n)
+
+        if results:
+            print("\n--- Semantic Search Results ---")
+            print(f"Top {len(results)} projects similar to '{args.query}':\n")
+            for i, result in enumerate(results):
+                print(f"{i+1}. {result['name']} (Score: {result['similarity_score']})")
+                print(f"   Description: {result['description']}")
+            print("\n-----------------------------")
+        else:
+            print("\n--- No results found. ---")
+
+    except Exception as e:
+        print(f"\nAn unexpected error occurred: {e}")
+    finally:
+        # Ensure the connection is closed even if errors occur
+        if 'search_tool' in locals() and search_tool:
+            search_tool.close()
+
+
+if __name__ == "__main__":
+    # To run this script:
+    # 1. Make sure you have the required packages:
+    #    pip install neo4j sentence-transformers torch
+    # 2. Set your Neo4j environment variables:
+    #    export NEO4J_URI="bolt://your_neo4j_host:7687"
+    #    export NEO4J_USER="your_username"
+    #    export NEO4J_PASSWORD="your_password"
+    # 3. Run from your terminal:
+    #    python tools/semantic_search.py "your search query here" -n 10
+    main()
