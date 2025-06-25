@@ -60,7 +60,7 @@ class UnifiedScorer:
         """
         normalized = {}
         for factor, values in scores_dict.items():
-            # Filter out None values before finding the max
+            # Filter out None values before finding the max, treat them as 0 for calculation
             valid_values = [v for v in values if v is not None]
             max_value = max(valid_values) if valid_values else 0
             
@@ -70,9 +70,11 @@ class UnifiedScorer:
             normalized_values = []
             for v in values:
                 if v is None:
-                    normalized_values.append(0) # Assign 0 for missing data
+                    normalized_values.append(0) # Assign 0 for missing data points
                 else:
-                    norm_val = math.log1p(v) / (math.log1p(max_value) + 1e-9) if max_value > 0 else 0
+                    # Ensure value is not negative before applying log
+                    safe_v = max(0, v)
+                    norm_val = math.log1p(safe_v) / (math.log1p(max_value) + 1e-9) if max_value > 0 else 0
                     normalized_values.append(norm_val)
             normalized[factor] = normalized_values
         return normalized
@@ -85,8 +87,8 @@ class UnifiedScorer:
         """
         print("Starting unified scoring process...")
         with self.driver.session(database="neo4j") as session:
-            # 1. Fetch all projects and their related data in one query
-            # This is more efficient than multiple queries per project.
+            # 1. Fetch all projects and their related data in one query.
+            # This query is designed to be resilient to missing data.
             query = """
             MATCH (p:Project)
             // Use OPTIONAL MATCH to ensure projects are returned even if signals/founders are missing
@@ -94,11 +96,11 @@ class UnifiedScorer:
             OPTIONAL MATCH (p)-[:FOUNDED_BY]->(f:Founder)
             RETURN
                 p.project_id AS project_id,
-                p.stars AS stars,
-                p.stars_delta_1d AS stars_delta,
+                // Use coalesce to provide a default value of 0 if a property is NULL
+                coalesce(p.stars, 0) AS stars,
+                coalesce(p.stars_delta_1d, 0) AS stars_delta,
                 count(s) AS signals_count,
-                sum(s.upvote_delta_1d) AS upvotes_delta,
-                // Use coalesce to return 0 if founder reputation is null
+                coalesce(sum(s.upvote_delta_1d), 0) AS upvotes_delta,
                 coalesce(f.reputation_score, 0) AS founder_reputation
             """
             print("Fetching project data from graph...")
@@ -111,7 +113,7 @@ class UnifiedScorer:
 
             print(f"Found {len(projects_data)} projects to score.")
 
-            # Prepare for normalization, handling potential None values from the DB
+            # Prepare for normalization using the retrieved data
             raw_scores = {
                 "stars": [p.get('stars') for p in projects_data],
                 "stars_delta": [p.get('stars_delta') for p in projects_data],
@@ -128,8 +130,9 @@ class UnifiedScorer:
             updates = []
             print("Calculating final Bloodhound scores...")
             for i, project in enumerate(projects_data):
+                # Ensure the project has an ID before trying to score it
                 if project.get('project_id') is None:
-                    print(f"Warning: Skipping a project because it has no project_id.")
+                    print(f"Warning: Skipping a project because it has no project_id. Data: {project}")
                     continue
 
                 final_score = (
@@ -146,11 +149,10 @@ class UnifiedScorer:
             
             # 4. Write scores back to the database in a batch
             if not updates:
-                print("No projects with project_id found to update. Aborting write to DB.")
+                print("No projects with a project_id were found to update. Aborting write to DB.")
                 return
 
             print(f"Writing {len(updates)} scores back to the database...")
-            # Using UNWIND is the most efficient way to perform batch updates in Neo4j
             update_query = """
             UNWIND $updates AS update
             MATCH (p:Project {project_id: update.project_id})
