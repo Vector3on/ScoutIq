@@ -60,11 +60,21 @@ class UnifiedScorer:
         """
         normalized = {}
         for factor, values in scores_dict.items():
-            max_value = max(values) if values else 0
+            # Filter out None values before finding the max
+            valid_values = [v for v in values if v is not None]
+            max_value = max(valid_values) if valid_values else 0
+            
             # Use log1p for normalization to handle zeros and reduce skew
             # The +1 avoids log(0) and ensures the result is non-negative.
             # We add a small epsilon to the denominator to avoid division by zero.
-            normalized[factor] = [math.log1p(v) / (math.log1p(max_value) + 1e-9) if max_value > 0 else 0 for v in values]
+            normalized_values = []
+            for v in values:
+                if v is None:
+                    normalized_values.append(0) # Assign 0 for missing data
+                else:
+                    norm_val = math.log1p(v) / (math.log1p(max_value) + 1e-9) if max_value > 0 else 0
+                    normalized_values.append(norm_val)
+            normalized[factor] = normalized_values
         return normalized
 
 
@@ -79,6 +89,7 @@ class UnifiedScorer:
             # This is more efficient than multiple queries per project.
             query = """
             MATCH (p:Project)
+            // Use OPTIONAL MATCH to ensure projects are returned even if signals/founders are missing
             OPTIONAL MATCH (p)-[:HAS_SIGNAL]->(s:Signal)
             OPTIONAL MATCH (p)-[:FOUNDED_BY]->(f:Founder)
             RETURN
@@ -87,7 +98,8 @@ class UnifiedScorer:
                 p.stars_delta_1d AS stars_delta,
                 count(s) AS signals_count,
                 sum(s.upvote_delta_1d) AS upvotes_delta,
-                f.reputation_score AS founder_reputation
+                // Use coalesce to return 0 if founder reputation is null
+                coalesce(f.reputation_score, 0) AS founder_reputation
             """
             print("Fetching project data from graph...")
             results = session.run(query)
@@ -99,13 +111,13 @@ class UnifiedScorer:
 
             print(f"Found {len(projects_data)} projects to score.")
 
-            # Prepare for normalization
+            # Prepare for normalization, handling potential None values from the DB
             raw_scores = {
-                "stars": [p.get('stars', 0) or 0 for p in projects_data],
-                "stars_delta": [p.get('stars_delta', 0) or 0 for p in projects_data],
-                "signals_count": [p.get('signals_count', 0) or 0 for p in projects_data],
-                "upvotes_delta": [p.get('upvotes_delta', 0) or 0 for p in projects_data],
-                "founder_reputation": [p.get('founder_reputation', 0) or 0 for p in projects_data]
+                "stars": [p.get('stars') for p in projects_data],
+                "stars_delta": [p.get('stars_delta') for p in projects_data],
+                "signals_count": [p.get('signals_count') for p in projects_data],
+                "upvotes_delta": [p.get('upvotes_delta') for p in projects_data],
+                "founder_reputation": [p.get('founder_reputation') for p in projects_data]
             }
 
             # 2. Normalize all scores
@@ -116,6 +128,10 @@ class UnifiedScorer:
             updates = []
             print("Calculating final Bloodhound scores...")
             for i, project in enumerate(projects_data):
+                if project.get('project_id') is None:
+                    print(f"Warning: Skipping a project because it has no project_id.")
+                    continue
+
                 final_score = (
                     norm_scores['stars'][i] * WEIGHTS['stars'] +
                     norm_scores['stars_delta'][i] * WEIGHTS['stars_delta'] +
@@ -129,6 +145,10 @@ class UnifiedScorer:
                 })
             
             # 4. Write scores back to the database in a batch
+            if not updates:
+                print("No projects with project_id found to update. Aborting write to DB.")
+                return
+
             print(f"Writing {len(updates)} scores back to the database...")
             # Using UNWIND is the most efficient way to perform batch updates in Neo4j
             update_query = """
