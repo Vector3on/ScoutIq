@@ -1,4 +1,4 @@
-name: Bloodhound Semantic Search Test
+name: Bloodhound Semantic Search Pipeline
 
 on:
   workflow_dispatch:
@@ -21,10 +21,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Semantic Search Tool
+    - name: PHASE 1 - Run GitHub Data Collector
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-      # We run the script with a command-line argument for the project name
+      run: python collectors/github_scraper.py
+
+    - name: PHASE 2 - Run Semantic Search Tool
+      env:
+        NEO4J_URI: ${{ secrets.NEO4J_URI }}
+        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+      # We continue to use "ollama" as the test case.
       run: python tools/semantic_search.py "ollama"
