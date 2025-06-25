@@ -1,6 +1,7 @@
 # collectors/reddit_scraper.py
 #
-# This version includes a more accurate login message for read-only mode.
+# This version is upgraded to search post comments in addition to titles,
+# dramatically increasing its effectiveness at finding signals.
 
 import os
 import sys
@@ -20,21 +21,45 @@ class RedditScraper:
     def __init__(self, uri, user, password, reddit_client):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
         self.reddit = reddit_client
+        # Keep track of processed posts to avoid duplicate work
+        self.processed_signals = set()
 
     def close(self):
         self.driver.close()
 
     def scan_and_update(self):
-        print("  - Scraping Reddit (Velocity-Aware)...")
+        print("  - Scraping Reddit (Velocity-Aware, Comments Enabled)...")
         with self.driver.session(database="neo4j") as session:
             for subreddit_name in SUBREDDITS_TO_SCAN:
                 print(f"    - Scanning r/{subreddit_name}...")
                 subreddit = self.reddit.subreddit(subreddit_name)
                 for submission in subreddit.hot(limit=25):
-                    for project_id, keywords in PROJECT_KEYWORDS.items():
-                        if any(keyword.lower() in submission.title.lower() for keyword in keywords):
-                            print(f"      - Found mention of '{project_id}' in post: {submission.id}")
-                            self.create_or_update_signal(session, project_id, submission)
+                    # --- Search Post Title ---
+                    self.search_text_for_signals(session, submission.title, submission)
+
+                    # --- NEW: Search Post Comments ---
+                    # Replace "MoreComments" objects with the actual comments
+                    submission.comments.replace_more(limit=0)
+                    for comment in submission.comments.list():
+                        self.search_text_for_signals(session, comment.body, submission)
+
+    def search_text_for_signals(self, session, text_to_search, submission):
+        """
+        A helper function to check a piece of text (title or comment)
+        for project keywords and create a signal if found.
+        """
+        for project_id, keywords in PROJECT_KEYWORDS.items():
+            # Check if any keyword is present and we haven't already created a signal
+            # for this project from this specific submission.
+            if any(keyword.lower() in text_to_search.lower() for keyword in keywords):
+                signal_key = f"{project_id}_{submission.id}"
+                if signal_key not in self.processed_signals:
+                    print(f"      - Found mention of '{project_id}' in submission: {submission.id}")
+                    self.create_or_update_signal(session, project_id, submission)
+                    self.processed_signals.add(signal_key)
+                    # Once we've matched a project, we don't need to check other keywords
+                    # for this same piece of text.
+                    break 
 
     def create_or_update_signal(self, session, project_id, submission):
         query = """
@@ -80,7 +105,6 @@ def main():
             client_secret=CLIENT_SECRET,
             user_agent=USER_AGENT,
         )
-        # More accurate message for read-only authentication
         if reddit.read_only:
             print("  - Successfully authenticated with Reddit in read-only mode.")
         else:
