@@ -1,8 +1,7 @@
 # tools/clear_database.py
 #
-# A simple utility to wipe the Neo4j database clean.
-# This is useful for ensuring that CI/CD pipeline runs are idempotent and
-# start from a known, clean state.
+# This version is CI-aware. It will not prompt for confirmation if it
+# detects it's running in a GitHub Actions environment.
 
 import os
 import sys
@@ -25,7 +24,6 @@ def clear_database():
         driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
         with driver.session(database="neo4j") as session:
             print("Connecting to Neo4j to clear the database...")
-            # The 'DETACH DELETE' clause deletes nodes and any relationships connected to them.
             query = "MATCH (n) DETACH DELETE n"
             result = session.run(query)
             summary = result.consume()
@@ -39,9 +37,15 @@ def clear_database():
             driver.close()
 
 if __name__ == "__main__":
-    # Add a confirmation step for safety if run manually
-    response = input("Are you sure you want to permanently delete all data from the database? (yes/no): ")
-    if response.lower() == 'yes':
+    # The 'CI' environment variable is set to 'true' by default in GitHub Actions.
+    # This check makes the script safe for both manual and automated execution.
+    if os.environ.get("CI") == "true":
+        print("CI environment detected. Clearing database without confirmation.")
         clear_database()
     else:
-        print("Database clearing cancelled.")
+        # Keep the confirmation step for safety when run manually
+        response = input("Are you sure you want to permanently delete all data from the database? (yes/no): ")
+        if response.lower() == 'yes':
+            clear_database()
+        else:
+            print("Database clearing cancelled.")
