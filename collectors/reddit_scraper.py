@@ -1,7 +1,6 @@
 # collectors/reddit_scraper.py
 #
-# This version is upgraded to search post comments in addition to titles,
-# dramatically increasing its effectiveness at finding signals.
+# This version fixes the Neo4j toDateTime function syntax error.
 
 import os
 import sys
@@ -21,7 +20,6 @@ class RedditScraper:
     def __init__(self, uri, user, password, reddit_client):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
         self.reddit = reddit_client
-        # Keep track of processed posts to avoid duplicate work
         self.processed_signals = set()
 
     def close(self):
@@ -34,34 +32,24 @@ class RedditScraper:
                 print(f"    - Scanning r/{subreddit_name}...")
                 subreddit = self.reddit.subreddit(subreddit_name)
                 for submission in subreddit.hot(limit=25):
-                    # --- Search Post Title ---
                     self.search_text_for_signals(session, submission.title, submission)
-
-                    # --- NEW: Search Post Comments ---
-                    # Replace "MoreComments" objects with the actual comments
                     submission.comments.replace_more(limit=0)
                     for comment in submission.comments.list():
                         self.search_text_for_signals(session, comment.body, submission)
 
     def search_text_for_signals(self, session, text_to_search, submission):
-        """
-        A helper function to check a piece of text (title or comment)
-        for project keywords and create a signal if found.
-        """
         for project_id, keywords in PROJECT_KEYWORDS.items():
-            # Check if any keyword is present and we haven't already created a signal
-            # for this project from this specific submission.
             if any(keyword.lower() in text_to_search.lower() for keyword in keywords):
                 signal_key = f"{project_id}_{submission.id}"
                 if signal_key not in self.processed_signals:
                     print(f"      - Found mention of '{project_id}' in submission: {submission.id}")
                     self.create_or_update_signal(session, project_id, submission)
                     self.processed_signals.add(signal_key)
-                    # Once we've matched a project, we don't need to check other keywords
-                    # for this same piece of text.
                     break 
 
     def create_or_update_signal(self, session, project_id, submission):
+        # THE CRITICAL FIX IS HERE:
+        # Changed toDateTime() to datetime() for compatibility with your Neo4j version.
         query = """
         MATCH (p:Project {project_id: $project_id})
         MERGE (s:Signal {url: $url})
@@ -70,7 +58,7 @@ class RedditScraper:
             s.source = 'Reddit',
             s.upvotes = $upvotes,
             s.upvote_delta_1d = 0,
-            s.created_at = toDateTime($created_utc),
+            s.created_at = datetime({epochSeconds: $created_utc}),
             s.last_scraped_at = timestamp()
         ON MATCH SET
             s.upvote_delta_1d = $upvotes - s.upvotes,
