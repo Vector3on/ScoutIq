@@ -1,109 +1,130 @@
+# processors/entity_resolver.py
+#
+# Project Bloodhound: Part of Phase II - The Unforkable Moat
+#
+# Objective:
+# Enrich the knowledge graph by creating semantic vector embeddings
+# for Project nodes. This is the core of the proprietary IP and enables
+# semantic search capabilities.
+#
+# Mechanism:
+# This script reads Project nodes from the database that do not yet have an
+# embedding. It generates an embedding based on the project's name and
+# description, then writes this new `embedding` property back to the node.
+
 import os
-import json
-import sys
 from neo4j import GraphDatabase
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer
 
-# --- CONFIGURATION (from your specifications) ---
-# Load the path from an environment variable, falling back to a default.
-LEADS_PATH = os.environ.get("REDDIT_LEADS_PATH", "reddit_leads.json")
-# The similarity threshold for considering a match.
-THRESHOLD = float(os.environ.get("SIMILARITY_THRESHOLD", "0.25")) # Adjusted for sentence embeddings
+# --- Configuration ---
+NEO4J_URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
+NEO4J_USER = os.environ.get("NEO4J_USER", "neo4j")
+NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
 
-URI = os.environ.get("NEO4J_URI")
-USERNAME = os.environ.get("NEO4J_USERNAME")
-PASSWORD = os.environ.get("NEO4J_PASSWORD")
+# This model should be consistent with the one used in `tools/semantic_search.py`
+MODEL_NAME = 'all-MiniLM-L6-v2'
 
-def load_and_validate_leads():
+class EntityResolver:
     """
-    Loads Reddit leads from a JSON file and validates them.
-    Exits if the file is not found or contains no valid leads.
+    Creates and stores vector embeddings for Project nodes.
     """
-    print(f"  - Loading Reddit leads from: {LEADS_PATH}")
+
+    def __init__(self, uri: str, user: str, password: str):
+        """
+        Initializes the Neo4j connection and loads the sentence transformer model.
+        """
+        try:
+            self.driver = GraphDatabase.driver(uri, auth=(user, password))
+            self.driver.verify_connectivity()
+            print("Successfully connected to Neo4j database.")
+        except Exception as e:
+            print(f"Error: Could not connect to Neo4j. Details: {e}")
+            raise
+
+        try:
+            print(f"Loading sentence transformer model: '{MODEL_NAME}'...")
+            self.model = SentenceTransformer(MODEL_NAME)
+            print("Model loaded successfully.")
+        except Exception as e:
+            print(f"Error: Could not load the sentence transformer model. Details: {e}")
+            raise
+
+    def close(self):
+        """Closes the Neo4j database connection."""
+        if self.driver:
+            self.driver.close()
+            print("Neo4j connection closed.")
+
+    def process_projects(self):
+        """
+        Finds projects without embeddings, generates them, and updates the database.
+        """
+        print("Starting entity resolution process...")
+        with self.driver.session(database="neo4j") as session:
+            # 1. Find all projects that are missing the 'embedding' property.
+            query = """
+            MATCH (p:Project)
+            WHERE p.embedding IS NULL
+            RETURN p.project_id AS project_id, p.name AS name, p.description AS description
+            """
+            print("Finding projects that need embeddings...")
+            results = session.run(query)
+            projects_to_process = [record.data() for record in results]
+
+            if not projects_to_process:
+                print("No projects found requiring new embeddings. All are up-to-date.")
+                return
+
+            print(f"Found {len(projects_to_process)} projects to process.")
+
+            updates = []
+            print("Generating embeddings...")
+            for project in projects_to_process:
+                # Combine name and description for a richer embedding
+                text_to_embed = f"{project.get('name', '')}. {project.get('description', '')}"
+                
+                # Check if there is meaningful text to embed
+                if not text_to_embed.strip() or text_to_embed.strip() == ".":
+                    print(f"Skipping project_id {project.get('project_id')} due to empty name/description.")
+                    continue
+
+                embedding = self.model.encode(text_to_embed).tolist()
+                updates.append({
+                    'project_id': project['project_id'],
+                    'embedding': embedding
+                })
+
+            # 2. Write the new embeddings back to the database in a batch
+            if not updates:
+                print("No valid projects to update after filtering. Exiting.")
+                return
+
+            print(f"Writing {len(updates)} new embeddings back to the database...")
+            update_query = """
+            UNWIND $updates AS update
+            MATCH (p:Project {project_id: update.project_id})
+            SET p.embedding = update.embedding
+            """
+            session.run(update_query, updates=updates)
+            print("Entity resolution process completed successfully.")
+
+def main():
+    """
+    Main function to run the entity resolver processor.
+    """
+    resolver = None
     try:
-        with open(LEADS_PATH, "r") as f:
-            leads = json.load(f)
-    except FileNotFoundError:
-        print(f"    - ERROR: Leads file not found at '{LEADS_PATH}'. Exiting.")
-        sys.exit(1) # Use sys.exit for a cleaner exit
-    except json.JSONDecodeError:
-        print(f"    - ERROR: Could not decode JSON from '{LEADS_PATH}'. Exiting.")
-        sys.exit(1)
+        resolver = EntityResolver(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
+        resolver.process_projects()
+    except Exception as e:
+        print(f"\nAn unexpected error occurred: {e}")
+    finally:
+        if resolver:
+            resolver.close()
 
-    # Filter out invalid entries as you specified.
-    validated_leads = [
-        lead for lead in leads 
-        if isinstance(lead, dict) and "title" in lead and "url" in lead
-    ]
-
-    if not validated_leads:
-        print("    - No valid leads found after filtering. Exiting.")
-        sys.exit(1)
-        
-    print(f"    - Found {len(validated_leads)} valid leads to process.")
-    return validated_leads
-
-def run_resolver():
-    """
-    Uses a local sentence-transformer model to perform entity resolution
-    between projects in the graph and leads from a local JSON file.
-    """
-    print("  - Running Local AI-Powered Entity Resolver...")
-    if not URI:
-        print("    - FATAL: Neo4j credentials not found.")
-        return
-
-    # 1. Load and validate the leads from the JSON file.
-    leads = load_and_validate_leads()
-
-    # 2. Get the list of project names from our graph database.
-    driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
-    with driver.session() as session:
-        projects_result = session.run("MATCH (p:Project) RETURN p.display_name AS name")
-        project_names = [row["name"] for row in projects_result]
-
-    if not project_names:
-        print("    - No projects found in the database to match against.")
-        driver.close()
-        return
-
-    # 3. Use the sentence-transformer model to find matches.
-    print("  - Loading sentence-transformer model (all-mpnet-base-v2)...")
-    model = SentenceTransformer("all-mpnet-base-v2")
-
-    print("  - Encoding projects and leads...")
-    project_embeddings = model.encode(project_names, convert_to_numpy=True)
-    lead_titles = [lead["title"] for lead in leads]
-    lead_embeddings = model.encode(lead_titles, convert_to_numpy=True)
-
-    print("  - Calculating similarity scores...")
-    linked_count = 0
-    with driver.session() as session:
-        for i, lead_embedding in enumerate(lead_embeddings):
-            # Calculate cosine similarity between the current lead and all projects
-            cos_sim = util.cos_sim(lead_embedding, project_embeddings).flatten()
-            
-            # Find the best match
-            best_match_idx = cos_sim.argmax()
-            best_match_score = cos_sim[best_match_idx]
-            
-            if best_match_score >= THRESHOLD:
-                best_match_name = project_names[best_match_idx]
-                lead_title = leads[i]["title"]
-                lead_url = leads[i]["url"]
-                
-                print(f"    - >>> MATCH FOUND: Linking '{lead_title[:40]}...' to '{best_match_name}' (Score: {best_match_score:.2f})")
-                
-                # Create the relationship in the graph
-                session.run("""
-                    MATCH (p:Project {display_name: $project_name})
-                    MATCH (s:Signal {url: $signal_url})
-                    MERGE (p)-[:HAS_SIGNAL]->(s)
-                """, project_name=best_match_name, signal_url=lead_url)
-                linked_count += 1
-
-    print(f"  - Local AI resolution complete. {linked_count} new links found.")
-    driver.close()
-
-if __name__ == '__main__':
-    run_resolver()
+if __name__ == "__main__":
+    # To run this script:
+    # 1. Ensure packages are installed: pip install neo4j sentence-transformers
+    # 2. Set Neo4j environment variables.
+    # 3. Run from terminal: python processors/entity_resolver.py
+    main()
