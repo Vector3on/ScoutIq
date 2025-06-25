@@ -1,6 +1,7 @@
 # collectors/reddit_scraper.py
 #
-# This version fixes the Neo4j toDateTime function syntax error.
+# This version fixes the data type error by converting the Reddit
+# timestamp from a float to an integer before sending it to Neo4j.
 
 import os
 import sys
@@ -48,8 +49,6 @@ class RedditScraper:
                     break 
 
     def create_or_update_signal(self, session, project_id, submission):
-        # THE CRITICAL FIX IS HERE:
-        # Changed toDateTime() to datetime() for compatibility with your Neo4j version.
         query = """
         MATCH (p:Project {project_id: $project_id})
         MERGE (s:Signal {url: $url})
@@ -66,12 +65,14 @@ class RedditScraper:
             s.last_scraped_at = timestamp()
         MERGE (p)-[r:HAS_SIGNAL]->(s)
         """
+        # THE CRITICAL FIX IS HERE:
+        # Convert the float timestamp from Reddit to an integer.
         session.run(query,
             project_id=project_id,
             url=submission.permalink,
             title=submission.title,
             upvotes=submission.score,
-            created_utc=submission.created_utc
+            created_utc=int(submission.created_utc)
         )
 
 def main():
