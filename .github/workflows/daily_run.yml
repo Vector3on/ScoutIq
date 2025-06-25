@@ -1,16 +1,12 @@
 # .github/workflows/daily_run.yml
-#
-# This workflow runs the entire Project Bloodhound pipeline in the correct order.
-# 1. Collectors gather raw data.
-# 2. Processors enrich the data (creating embeddings and scores).
-# 3. Tools can then query the enriched data.
+# This version explicitly grants the collector step access to the Reddit secrets.
 
 name: Project Bloodhound - Full Pipeline
 
 on:
-  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *' # Runs at 12:00 PM UTC every day
+    - cron: '0 12 * * *'
 
 jobs:
   run-pipeline:
@@ -30,18 +26,31 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # --- STEP 1: RUN COLLECTORS ---
-    - name: PHASE 1 - Run Collectors
+    - name: PHASE 0 - Clear Database
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+      run: yes | python tools/clear_database.py
+
+    # --- THE CRITICAL FIX IS HERE ---
+    # This `env` block must contain ALL secrets needed by the scripts in this step.
+    # We are ensuring the Reddit credentials are included.
+    - name: PHASE 1 - Run Collectors
+      env:
+        # Neo4j Credentials
+        NEO4J_URI: ${{ secrets.NEO4J_URI }}
+        NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+        NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        # Reddit Credentials
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
       run: |
         echo "--- Running Data Collectors ---"
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
 
-    # --- STEP 2: RUN PROCESSORS (This is the critical fix) ---
     - name: PHASE 2 - Run Data Processors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
@@ -49,12 +58,9 @@ jobs:
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
       run: |
         echo "--- Running Data Processors ---"
-        # This script creates the embeddings required for semantic search
         python processors/entity_resolver.py
-        # This script calculates the bloodhound_score
         python processors/unified_scorer.py
       
-    # --- STEP 3: RUN SEMANTIC SEARCH TOOL ---
     - name: PHASE 3 - Run Semantic Search Tool (Test)
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
@@ -62,6 +68,4 @@ jobs:
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
       run: |
         echo "--- Running Semantic Search Test ---"
-        # This will now succeed because the processor has created the embeddings
-        python tools/semantic_search.py "ollama"
-
+        python tools/semantic_search.py "local llm"
