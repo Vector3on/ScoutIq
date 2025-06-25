@@ -73,9 +73,10 @@ class SemanticSearchTool:
             A list of dictionaries, where each dictionary contains the project's
             name, description, and its pre-computed embedding vector.
         """
+        # Corrected Cypher query to use `IS NOT NULL` as required by modern Neo4j versions.
         query = """
         MATCH (p:Project)
-        WHERE exists(p.embedding) AND exists(p.name)
+        WHERE p.embedding IS NOT NULL AND p.name IS NOT NULL
         RETURN p.name AS name, p.description AS description, p.embedding AS embedding
         """
         print("Fetching all project vectors from the database...")
