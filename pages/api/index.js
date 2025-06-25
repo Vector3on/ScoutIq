@@ -1,7 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-// --- SVG Icons ---
+// This special Next.js function runs on the server during the build process.
+// It fetches the data from Neo4j and passes it to our dashboard component as props.
+export async function getStaticProps() {
+  // By requiring the driver only inside this server-side function,
+  // we prevent it from being bundled with the client-side code.
+  const neo4j = require('neo4j-driver');
+  
+  const uri = process.env.NEO4J_URI;
+  const user = process.env.NEO4J_USERNAME;
+  const password = process.env.NEO4J_PASSWORD;
+
+  if (!uri || !user || !password) {
+    console.error('Neo4j credentials are not set in environment variables.');
+    // Return empty props if config is missing
+    return { props: { projects: [], error: 'Server configuration error.' } };
+  }
+
+  let driver, session;
+  try {
+    driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+    session = driver.session({ database: 'neo4j' });
+
+    const query = `
+      MATCH (p:Project)
+      WHERE p.bloodhound_score IS NOT NULL
+      RETURN p.project_id AS id, p.name AS name, p.description AS description,
+             p.bloodhound_score AS score, p.stars_delta_1d AS velocity
+      ORDER BY p.bloodhound_score DESC
+      LIMIT 10
+    `;
+    const result = await session.run(query);
+    const projects = result.records.map(record => ({
+      id: record.get('id'),
+      name: record.get('name'),
+      description: record.get('description'),
+      score: record.get('score'),
+      velocity: record.get('velocity'),
+    }));
+    
+    return {
+      props: {
+        projects, // This will be passed to the page component as props
+      },
+      // Re-generate the page at most once every hour to get fresh data
+      revalidate: 3600, 
+    };
+  } catch (error) {
+    console.error('Error in getStaticProps:', error);
+    return { props: { projects: [], error: error.message } };
+  } finally {
+    if (session) await session.close();
+    if (driver) await driver.close();
+  }
+}
+
+
+// --- Components (No changes to these) ---
 const MenuIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
@@ -16,8 +72,6 @@ const GraphIcon = () => (
 const SearchIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
 );
-
-// --- Components ---
 const Header = ({ onMenuClick }) => (
   <header className="bg-gray-900 text-white p-4 flex justify-between items-center shadow-md z-20 sticky top-0">
     <div className="flex items-center space-x-3">
@@ -42,48 +96,17 @@ const Sidebar = ({ isOpen }) => (
     </nav>
   </aside>
 );
-const StatCard = ({ title, value, change, loading }) => {
-    if (loading) {
-        return (
-            <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700 animate-pulse">
-                <div className="h-4 bg-gray-700 rounded w-3/4 mb-2"></div>
-                <div className="h-8 bg-gray-700 rounded w-1/2"></div>
-            </div>
-        )
-    }
+const StatCard = ({ title, value, change }) => {
     return (
         <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
             <h3 className="text-sm font-medium text-gray-400">{title}</h3>
             <p className="text-3xl font-bold text-white mt-1">{value}</p>
-            {change && ( <p className={`text-sm mt-2 flex items-center ${change > 0 ? 'text-green-400' : 'text-red-400'}`}> <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"> {change > 0 ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />} </svg> {Math.abs(change)} in last 24h </p> )}
+            {change != null && ( <p className={`text-sm mt-2 flex items-center ${change >= 0 ? 'text-green-400' : 'text-red-400'}`}> <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"> {change >= 0 ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />} </svg> {Math.abs(change)} in last 24h </p> )}
         </div>
     );
 };
-
-
-const DashboardContent = () => {
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const response = await fetch('/api/projects');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data from the server.');
-                }
-                const data = await response.json();
-                setProjects(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchProjects();
-    }, []);
-
+const DashboardContent = ({ projects, error }) => {
+    // No longer need loading or client-side fetching state
     if (error) {
         return <div className="flex-1 p-8 text-center text-red-400">Error: {error}</div>
     }
@@ -101,17 +124,14 @@ const DashboardContent = () => {
     return (
         <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-900 text-white overflow-y-auto">
             <h2 className="text-3xl font-bold mb-6">Market Overview</h2>
-            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <StatCard title="Top Tracked Projects" value={totalProjects} loading={loading} />
-                <StatCard title="Total Star Velocity" value={totalVelocity} change={totalVelocity} loading={loading}/>
-                <StatCard title="New Signals (24h)" value="-" loading={loading} />
-                <StatCard title="Highest Score" value={highestScore.toFixed(2)} loading={loading}/>
+                <StatCard title="Top Tracked Projects" value={totalProjects} />
+                <StatCard title="Total Star Velocity" value={totalVelocity} change={totalVelocity} />
+                <StatCard title="New Signals (24h)" value="-" />
+                <StatCard title="Highest Score" value={highestScore.toFixed(2)} />
             </div>
-
             <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700 mb-8">
                  <h3 className="text-xl font-bold mb-4">Project Score & Velocity</h3>
-                 {loading ? (<div className="w-full h-96 flex items-center justify-center text-gray-400">Loading Chart...</div>) : (
                  <div style={{ width: '100%', height: 400 }}>
                     <ResponsiveContainer>
                         <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
@@ -126,13 +146,10 @@ const DashboardContent = () => {
                         </BarChart>
                     </ResponsiveContainer>
                  </div>
-                 )}
             </div>
-
             <div>
                 <h3 className="text-xl font-bold mb-4">Top Ranked Projects</h3>
                 <div className="overflow-x-auto bg-gray-800 rounded-xl shadow-lg border border-gray-700">
-                    {loading ? (<div className="w-full h-64 flex items-center justify-center text-gray-400">Loading Projects...</div>) : (
                     <table className="w-full text-left">
                         <thead className="border-b border-gray-700">
                             <tr>
@@ -155,15 +172,14 @@ const DashboardContent = () => {
                             ))}
                         </tbody>
                     </table>
-                    )}
                 </div>
             </div>
         </main>
     );
 };
 
-
-export default function App() {
+// The main App component now receives the projects and error data as props from getStaticProps
+export default function App({ projects, error }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -171,7 +187,7 @@ export default function App() {
       <Sidebar isOpen={isSidebarOpen} />
       <div className="flex flex-col flex-1 w-full">
         <Header onMenuClick={() => setSidebarOpen(!isSidebarOpen)} />
-        <DashboardContent />
+        <DashboardContent projects={projects} error={error} />
       </div>
     </div>
   );
