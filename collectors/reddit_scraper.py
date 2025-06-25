@@ -1,84 +1,137 @@
+# collectors/reddit_scraper.py
+#
+# Production-ready Reddit scraper.
+# This script connects to the Reddit API using credentials, searches for project
+# mentions in specified subreddits, and creates/updates Signal nodes in Neo4j.
+
 import os
+import sys
+import praw # The Python Reddit API Wrapper
 from neo4j import GraphDatabase
-import praw
 
-# --- CONFIGURATION ---
-URI = os.environ.get("NEO4J_URI")
-USERNAME = os.environ.get("NEO4J_USERNAME")
-PASSWORD = os.environ.get("NEO4J_PASSWORD")
-REDDIT_CLIENT_ID = os.environ.get("REDDIT_CLIENT_ID")
-REDDIT_CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET")
-REDDIT_USER_AGENT = "Bloodhound Scraper v1.0 by Vector3on"
+# --- Configuration ---
 
-TARGET_SUBREDDITS = ["SideProject", "alphaandbetausers", "indiehackers", "smallbusiness"]
-KEYWORD_TRIGGERS = ["new project", "my new app", "looking for feedback", "beta test", "just launched"]
+# This mapping tells the scraper which keywords to look for in which subreddits.
+# This is highly configurable.
+# Format: "project_id_from_github": ["list", "of", "keywords"]
+PROJECT_KEYWORDS = {
+    "ollama/ollama": ["ollama"],
+    "ggerganov/llama.cpp": ["llama.cpp", "llama cpp"],
+    "langchain-ai/langchain": ["langchain"],
+    "vllm-project/vllm": ["vllm"],
+    "huggingface/transformers": ["huggingface", "transformers"],
+}
 
-def setup_reddit_client():
-    """Initializes and returns a PRAW Reddit instance."""
-    if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET:
-        print("    - WARN: Reddit credentials not found. Skipping Reddit scrape.")
-        return None
-    return praw.Reddit(
-        client_id=REDDIT_CLIENT_ID,
-        client_secret=REDDIT_CLIENT_SECRET,
-        user_agent=REDDIT_USER_AGENT
-    )
+# Subreddits to scan for mentions.
+SUBREDDITS_TO_SCAN = [
+    "MachineLearning",
+    "LocalLLaMA",
+    "programming",
+    "Python",
+    "datascience"
+]
 
-def create_or_update_reddit_signal(tx, signal_data):
+class RedditScraper:
     """
-    This robust query correctly creates or updates a Signal node
-    and calculates its upvote velocity on every run.
+    Scrapes Reddit for project mentions and updates the Neo4j graph.
     """
-    query = """
-    MERGE (s:Signal:Reddit {url: $url})
-    // Use WITH to hold the old value before overwriting it
-    WITH s, s.upvotes AS old_upvotes
-    // SET all properties, using the old value for the delta calculation
-    SET s.title = $title,
-        s.subreddit = $subreddit,
-        s.upvotes = $upvotes,
-        s.first_seen_at = COALESCE(s.first_seen_at, timestamp()),
-        s.last_seen_at = timestamp(),
-        // Correctly calculate the delta: new_votes - old_votes
-        s.upvote_delta_1d = CASE WHEN old_upvotes IS NOT NULL THEN $upvotes - old_upvotes ELSE 0 END
+
+    def __init__(self, uri, user, password, reddit_client):
+        self.driver = GraphDatabase.driver(uri, auth=(user, password))
+        self.reddit = reddit_client
+
+    def close(self):
+        self.driver.close()
+
+    def scan_and_update(self):
+        """
+        Scans subreddits for keywords and updates the graph.
+        """
+        print("  - Scraping Reddit (Velocity-Aware)...")
+        with self.driver.session(database="neo4j") as session:
+            for subreddit_name in SUBREDDITS_TO_SCAN:
+                print(f"    - Scanning r/{subreddit_name}...")
+                subreddit = self.reddit.subreddit(subreddit_name)
+                
+                # We check the "hot" posts, as this is a good source of current signals.
+                for submission in subreddit.hot(limit=25):
+                    for project_id, keywords in PROJECT_KEYWORDS.items():
+                        # Check if any of the project's keywords are in the post title
+                        if any(keyword.lower() in submission.title.lower() for keyword in keywords):
+                            print(f"      - Found mention of '{project_id}' in post: {submission.id}")
+                            self.create_or_update_signal(session, project_id, submission)
+
+    def create_or_update_signal(self, session, project_id, submission):
+        """
+        Creates or updates a Signal node and connects it to a Project node.
+        """
+        query = """
+        // First, find the Project node this signal belongs to.
+        MATCH (p:Project {project_id: $project_id})
+        
+        // MERGE the Signal node based on its unique URL.
+        MERGE (s:Signal {url: $url})
+
+        // On creation, set initial properties.
+        ON CREATE SET
+            s.title = $title,
+            s.source = 'Reddit',
+            s.upvotes = $upvotes,
+            s.upvote_delta_1d = 0, // Initialize delta to 0
+            s.created_at = toDateTime($created_utc),
+            s.last_scraped_at = timestamp()
+
+        // On match (if we've seen this signal before), update the velocity.
+        ON MATCH SET
+            s.upvote_delta_1d = $upvotes - s.upvotes,
+            s.upvotes = $upvotes,
+            s.last_scraped_at = timestamp()
+            
+        // Finally, ensure the relationship between Project and Signal exists.
+        MERGE (p)-[r:HAS_SIGNAL]->(s)
+        """
+        session.run(query,
+            project_id=project_id,
+            url=submission.permalink,
+            title=submission.title,
+            upvotes=submission.score,
+            created_utc=submission.created_utc
+        )
+
+
+def main():
     """
-    tx.run(query, **signal_data)
+    Main execution block.
+    """
+    # --- Credentials Check ---
+    CLIENT_ID = os.environ.get("REDDIT_CLIENT_ID")
+    CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET")
+    USER_AGENT = os.environ.get("REDDIT_USER_AGENT")
 
-def scrape_reddit_submissions():
-    """Scrapes Reddit and creates/updates Signal nodes with upvote velocity."""
-    print("  - Scraping Reddit (Corrected Velocity Logic)...")
-    if not URI:
-        print("    - FATAL: Neo4j credentials not found.")
-        return
+    if not all([CLIENT_ID, CLIENT_SECRET, USER_AGENT]):
+        print("    - WARN: Reddit credentials (REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USER_AGENT) not found. Skipping Reddit scrape.")
+        sys.exit(0) # Exit gracefully, not with an error
 
-    reddit = setup_reddit_client()
-    if not reddit:
-        return
+    NEO4J_URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
+    NEO4J_USER = os.environ.get("NEO4J_USERNAME", "neo4j")
+    NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
 
-    driver = GraphDatabase.driver(URI, auth=(USERNAME, PASSWORD))
-    processed_count = 0
-    
-    with driver.session() as session:
-        for subreddit_name in TARGET_SUBREDDITS:
-            try:
-                # Increased limit to get more potential signals
-                for submission in reddit.subreddit(subreddit_name).new(limit=50):
-                    title_lower = submission.title.lower()
-                    if any(keyword in title_lower for keyword in KEYWORD_TRIGGERS):
-                        signal_data = {
-                            "title": submission.title,
-                            "url": submission.url,
-                            "subreddit": subreddit_name,
-                            "upvotes": submission.score
-                        }
-                        session.execute_write(create_or_update_reddit_signal, signal_data)
-                        processed_count += 1
-            except Exception as e:
-                print(f"    - WARN: Could not process r/{subreddit_name}. Error: {e}")
-                continue
-    
-    driver.close()
-    print(f"    - Reddit: Processed {processed_count} potential signals, updating velocity.")
+    try:
+        reddit = praw.Reddit(
+            client_id=CLIENT_ID,
+            client_secret=CLIENT_SECRET,
+            user_agent=USER_AGENT,
+        )
+        print(f"  - Successfully authenticated with Reddit as: {reddit.user.me()}")
+        
+        scraper = RedditScraper(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD, reddit)
+        scraper.scan_and_update()
+        scraper.close()
 
-if __name__ == '__main__':
-    scrape_reddit_submissions()
+    except Exception as e:
+        print(f"    - ERROR: An error occurred during Reddit scraping: {e}")
+        # We exit with 0 so a failure in a single scraper doesn't fail the whole workflow
+        sys.exit(0)
+
+if __name__ == "__main__":
+    main()
