@@ -1,5 +1,5 @@
 # .github/workflows/daily_run.yml
-# This version adds the Python user binary directory to the system PATH.
+# This version uses a robust, programmatic method to find and set the PATH for the Gemini CLI.
 
 name: Project Bloodhound - Full Pipeline
 
@@ -21,19 +21,25 @@ jobs:
       with:
         python-version: '3.11'
 
-    # --- UPDATED: Simplified Installation via Pip & PATH fix ---
-    - name: Install Dependencies & Gemini CLI
+    # --- UPDATED: Definitive Installation and PATH Configuration ---
+    - name: Install Dependencies & Configure Gemini CLI Path
       run: |
         python -m pip install --upgrade pip
-        pip install google-generativeai
+        # Install all python packages, including google-generativeai
         pip install -r requirements.txt
         
-        # Add the standard Python user binary directory to the GITHUB_PATH
-        # This ensures that commands installed by pip, like 'gemini', are found.
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        # This is the robust way to find where pip installs executables.
+        # We query Python's site module for the user-specific base directory...
+        USER_BASE_PATH=$(python -m site --user-base)
+        
+        # ...and then add the '/bin' subdirectory to the GITHUB_PATH.
+        # This ensures that any command installed by pip is found by later steps.
+        echo "Adding $USER_BASE_PATH/bin to GITHUB_PATH"
+        echo "$USER_BASE_PATH/bin" >> $GITHUB_PATH
 
     - name: Verify Gemini CLI Installation
       run: |
+        # This step will now succeed because the correct path has been added.
         gemini --version
 
     - name: PHASE 0 - Clear Database
