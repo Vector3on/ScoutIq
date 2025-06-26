@@ -1,15 +1,11 @@
-# processors/gemini_cli_enricher.py
+# processors/gemini_enricher.py
 #
-# Project Bloodhound: Gemini CLI Intelligence Layer
-#
-# Objective:
-# To use the official Gemini CLI tool to generate summaries for each project,
-# integrating it as a robust command-line step in our pipeline.
+# FINAL VERSION: This script uses the official Google Generative AI Python SDK.
+# This is the robust, correct implementation for an automated environment.
 
 import os
 import sys
-import subprocess
-import json
+import google.generativeai as genai
 from neo4j import GraphDatabase
 
 # --- Configuration ---
@@ -18,21 +14,24 @@ NEO4J_USER = os.environ.get("NEO4J_USERNAME", "neo4j")
 NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-class GeminiCliEnricher:
+class GeminiEnricher:
     """
-    Uses the Gemini CLI via subprocess to enrich Project nodes.
+    Uses the Gemini API via the Python SDK to enrich Project nodes.
     """
 
     def __init__(self, uri, user, password):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
-        print("  - Successfully connected to Neo4j.")
+        # Configure the Gemini client using the API key
+        genai.configure(api_key=GEMINI_API_KEY)
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        print("  - Successfully configured Gemini Pro SDK.")
 
     def close(self):
         self.driver.close()
 
     def generate_summary(self, description: str) -> str:
         """
-        Calls the Gemini CLI with a description and returns the summary.
+        Sends a description to the Gemini API and returns the summary.
         """
         if not description or not description.strip():
             return "No description available to summarize."
@@ -45,53 +44,25 @@ class GeminiCliEnricher:
         
         Summary:
         """
-        
         try:
-            # Construct the command to call the Gemini CLI.
-            # We pass the prompt as an argument. This is more secure than using shell=True.
-            command = ["gemini", prompt]
-            
-            # Execute the command. `capture_output=True` and `text=True` are key.
-            # `check=True` will automatically raise an exception if the command fails.
-            result = subprocess.run(
-                command,
-                capture_output=True,
-                text=True,
-                check=True,
-                encoding='utf-8'
-            )
-            
-            # The summary is in the stdout of the result.
-            # We strip any extra whitespace or quotes.
-            summary = result.stdout.strip().replace('"', '')
+            response = self.model.generate_content(prompt)
+            summary = response.text.strip().replace('"', '')
             return summary
-
-        except FileNotFoundError:
-            print("    - FATAL: The 'gemini' command was not found.")
-            print("      Please ensure the Gemini CLI is installed and in the system's PATH.")
-            # Exit the script if the CLI tool isn't installed.
-            sys.exit(1)
-        except subprocess.CalledProcessError as e:
-            # This catches errors from the CLI tool itself (e.g., API errors)
-            print(f"    - WARN: Gemini CLI returned an error.")
-            print(f"      - Stderr: {e.stderr}")
-            return "Summary generation failed due to CLI error."
         except Exception as e:
-            print(f"    - WARN: An unexpected error occurred calling Gemini CLI: {e}")
+            print(f"    - WARN: Could not generate summary via SDK. Error: {e}")
             return "Summary generation failed."
-
 
     def enrich_projects(self):
         """
         Finds projects without a summary, generates one, and updates the database.
         """
-        print("  - Starting Gemini CLI enrichment process...")
+        print("  - Starting Gemini enrichment process via Python SDK...")
         with self.driver.session(database="neo4j") as session:
             query = """
             MATCH (p:Project)
             WHERE p.description IS NOT NULL AND p.gemini_summary IS NULL
             RETURN p.project_id AS project_id, p.description AS description
-            LIMIT 25 // Limit to 25 per run to manage API usage
+            LIMIT 25
             """
             print("    - Finding projects that need enrichment...")
             results = session.run(query)
@@ -125,12 +96,12 @@ class GeminiCliEnricher:
 def main():
     """ Main execution block """
     if not GEMINI_API_KEY:
-        print("    - WARN: GEMINI_API_KEY not found. Skipping Gemini CLI enrichment.")
+        print("    - WARN: GEMINI_API_KEY not found. Skipping enrichment.")
         sys.exit(0)
 
     enricher = None
     try:
-        enricher = GeminiCliEnricher(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
+        enricher = GeminiEnricher(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
         enricher.enrich_projects()
     except Exception as e:
         print(f"    - ERROR: An unexpected error occurred: {e}")
