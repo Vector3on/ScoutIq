@@ -1,5 +1,5 @@
 # .github/workflows/daily_run.yml
-# This version uses a direct download for the Gemini CLI to fix the 404 error.
+# This version uses pip to install the Gemini CLI, which is more reliable.
 
 name: Project Bloodhound - Full Pipeline
 
@@ -21,24 +21,16 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install Python Dependencies
+    # --- UPDATED: Simplified Installation via Pip ---
+    - name: Install Dependencies & Gemini CLI
       run: |
         python -m pip install --upgrade pip
+        # The Gemini CLI is now included in the main google-generativeai package.
+        # Ensure this package is listed in your requirements.txt file.
+        # We will also explicitly install it here for clarity.
+        pip install google-generativeai
         pip install -r requirements.txt
-    
-    # --- UPDATED: Direct Download Installation for Gemini CLI ---
-    - name: Install Gemini CLI
-      run: |
-        echo "Installing Gemini CLI via direct download..."
-        # Use curl to download the specific binary for Linux
-        curl -o gemini.zip "https://storage.googleapis.com/generative-ai-downloads/gemini-cli/linux/v0.4.0.zip"
-        # Unzip the downloaded file
-        unzip gemini.zip
-        # Make the 'gemini' file executable
-        chmod +x gemini
-        # Move the executable to a directory that's in the system's PATH
-        sudo mv gemini /usr/local/bin/
-        # Verify the installation was successful
+        # Verify the installation
         gemini --version
 
     - name: PHASE 0 - Clear Database
