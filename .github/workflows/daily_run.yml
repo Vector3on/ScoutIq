@@ -1,5 +1,5 @@
 # .github/workflows/daily_run.yml
-# This version explicitly grants the collector step access to the Reddit secrets.
+# This version integrates the Gemini CLI.
 
 name: Project Bloodhound - Full Pipeline
 
@@ -21,28 +21,35 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install Dependencies
+    - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    
+    # --- NEW STEP: Install Gemini CLI ---
+    - name: Install Gemini CLI
+      run: |
+        echo "Installing Gemini CLI..."
+        # This command downloads and runs the official installer script.
+        curl -s -L https://ai.google.dev/gemini-cli/install.sh | bash
+        # Add the install location to the GitHub Actions path so it can be found.
+        echo "$HOME/.google/bin" >> $GITHUB_PATH
+        # Verify the installation.
+        gemini --version
 
     - name: PHASE 0 - Clear Database
       env:
+        CI: true
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-      run: yes | python tools/clear_database.py
+      run: python tools/clear_database.py
 
-    # --- THE CRITICAL FIX IS HERE ---
-    # This `env` block must contain ALL secrets needed by the scripts in this step.
-    # We are ensuring the Reddit credentials are included.
     - name: PHASE 1 - Run Collectors
       env:
-        # Neo4j Credentials
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-        # Reddit Credentials
         REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
         REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
         REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
@@ -51,15 +58,19 @@ jobs:
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
 
+    # --- UPDATED PROCESSOR STEP ---
     - name: PHASE 2 - Run Data Processors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: |
         echo "--- Running Data Processors ---"
         python processors/entity_resolver.py
         python processors/unified_scorer.py
+        # Run the new CLI-based enrichment processor
+        python processors/gemini_cli_enricher.py
       
     - name: PHASE 3 - Run Semantic Search Tool (Test)
       env:
