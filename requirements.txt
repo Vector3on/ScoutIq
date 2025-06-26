@@ -10,3 +10,4 @@ neo4j
 sentence-transformers
 scikit-learn
 numpy
+google-generativeai
