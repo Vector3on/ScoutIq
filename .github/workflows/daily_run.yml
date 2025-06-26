@@ -1,5 +1,5 @@
 # .github/workflows/daily_run.yml
-# This version integrates the Gemini CLI.
+# This version includes a more robust Gemini CLI installation step.
 
 name: Project Bloodhound - Full Pipeline
 
@@ -26,15 +26,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    # --- NEW STEP: Install Gemini CLI ---
+    # --- UPDATED: More Robust Gemini CLI Installation ---
     - name: Install Gemini CLI
       run: |
         echo "Installing Gemini CLI..."
-        # This command downloads and runs the official installer script.
-        curl -s -L https://ai.google.dev/gemini-cli/install.sh | bash
-        # Add the install location to the GitHub Actions path so it can be found.
+        # This more robust method downloads the script first, then executes it.
+        # The -f flag will cause curl to fail if the server returns an error.
+        curl -f -L -o gemini_install.sh https://ai.google.dev/gemini-cli/install.sh
+        bash gemini_install.sh
         echo "$HOME/.google/bin" >> $GITHUB_PATH
-        # Verify the installation.
         gemini --version
 
     - name: PHASE 0 - Clear Database
@@ -58,7 +58,6 @@ jobs:
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
 
-    # --- UPDATED PROCESSOR STEP ---
     - name: PHASE 2 - Run Data Processors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
@@ -69,7 +68,6 @@ jobs:
         echo "--- Running Data Processors ---"
         python processors/entity_resolver.py
         python processors/unified_scorer.py
-        # Run the new CLI-based enrichment processor
         python processors/gemini_cli_enricher.py
       
     - name: PHASE 3 - Run Semantic Search Tool (Test)
