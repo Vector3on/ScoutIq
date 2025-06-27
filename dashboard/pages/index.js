@@ -34,12 +34,14 @@ export async function getStaticProps() {
     `);
 
     const toNumber = (value) => {
-        if (value == null) return 0;
-        if (typeof value === 'object' && value.hasOwnProperty('low') && value.hasOwnProperty('high')) {
-            return neo4j.integer.fromValue(value).toNumber();
-        }
-        if (typeof value === 'number') return value;
+      if (value == null) return 0;
+      if (typeof value.toNumber === 'function') return value.toNumber();
+      if (typeof value === 'number') return value;
+      try {
+        return neo4j.int(value).toNumber();
+      } catch {
         return 0;
+      }
     };
 
     const projects = result.records.map(record => ({
@@ -70,57 +72,57 @@ const Header = () => (
 );
 
 const StatCard = ({ title, value }) => (
-    <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
-        <h3 className="text-sm font-medium text-gray-400">{title}</h3>
-        <p className="text-3xl font-bold text-white mt-1">{value}</p>
-    </div>
+  <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
+    <h3 className="text-sm font-medium text-gray-400">{title}</h3>
+    <p className="text-3xl font-bold text-white mt-1">{value}</p>
+  </div>
 );
 
 const ErrorDisplay = ({ error }) => (
-    <div className="flex-1 p-8 text-center">
-        <h2 className="text-2xl font-bold text-red-400 mb-4">Live Data Error</h2>
-        <div className="bg-red-900/20 border border-red-500 text-red-300 p-4 rounded-lg text-left">
-            <p className="font-bold mb-2">Could not fetch data from the database during deployment.</p>
-            <p className="text-sm mt-4">**Action Required:** Please double-check the `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` environment variables in your Vercel project settings and redeploy.</p>
-            <code className="block bg-gray-900 p-2 rounded text-xs text-gray-400 overflow-x-auto mt-2">
-                Error Details: {error}
-            </code>
-        </div>
+  <div className="flex-1 p-8 text-center">
+    <h2 className="text-2xl font-bold text-red-400 mb-4">Live Data Error</h2>
+    <div className="bg-red-900/20 border border-red-500 text-red-300 p-4 rounded-lg text-left">
+      <p className="font-bold mb-2">Could not fetch data from the database during deployment.</p>
+      <p className="text-sm mt-4">**Action Required:** Please double-check the `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` environment variables in your Vercel project settings and redeploy.</p>
+      <code className="block bg-gray-900 p-2 rounded text-xs text-gray-400 overflow-x-auto mt-2">
+        Error Details: {error}
+      </code>
     </div>
+  </div>
 );
 
 const DashboardContent = ({ projects, error }) => {
-    if (error) return <ErrorDisplay error={error} />;
-    if (!projects) return <div className="p-8 text-center">Loading data...</div>;
+  if (error) return <ErrorDisplay error={error} />;
+  if (!projects) return <div className="p-8 text-center">Loading data...</div>;
 
-    const chartData = projects.map(p => ({ name: p.name.split('/')[1] || p.name, score: p.score })).sort((a,b) => b.score - a.score);
-    const totalProjects = projects.length;
-    const highestScore = totalProjects > 0 ? Math.max(...projects.map(p => p.score)) : 0;
+  const chartData = projects.map(p => ({ name: p.name.split('/')[1] || p.name, score: p.score })).sort((a, b) => b.score - a.score);
+  const totalProjects = projects.length;
+  const highestScore = totalProjects > 0 ? Math.max(...projects.map(p => p.score)) : 0;
 
-    return (
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-900 text-white overflow-y-auto">
-            <h2 className="text-3xl font-bold mb-6">Market Overview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
-                <StatCard title="Top Tracked Projects" value={totalProjects} />
-                <StatCard title="Highest Score" value={highestScore.toFixed(2)} />
-            </div>
-            <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
-                 <h3 className="text-xl font-bold mb-4">Project Scores</h3>
-                 <div style={{ width: '100%', height: 400 }}>
-                    <ResponsiveContainer>
-                        <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                            <XAxis dataKey="name" stroke="#9CA3AF" />
-                            <YAxis yAxisId="left" orientation="left" stroke="#9CA3AF" />
-                            <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4B5563' }} />
-                            <Legend />
-                            <Bar yAxisId="left" dataKey="score" fill="#4F46E5" name="Bloodhound Score" />
-                        </BarChart>
-                    </ResponsiveContainer>
-                 </div>
-            </div>
-        </main>
-    );
+  return (
+    <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-900 text-white overflow-y-auto">
+      <h2 className="text-3xl font-bold mb-6">Market Overview</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+        <StatCard title="Top Tracked Projects" value={totalProjects} />
+        <StatCard title="Highest Score" value={highestScore.toFixed(2)} />
+      </div>
+      <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
+        <h3 className="text-xl font-bold mb-4">Project Scores</h3>
+        <div style={{ width: '100%', height: 400 }}>
+          <ResponsiveContainer>
+            <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="name" stroke="#9CA3AF" />
+              <YAxis yAxisId="left" orientation="left" stroke="#9CA3AF" />
+              <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4B5563' }} />
+              <Legend />
+              <Bar yAxisId="left" dataKey="score" fill="#4F46E5" name="Bloodhound Score" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default function App({ projects, error }) {
