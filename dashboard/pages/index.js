@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from 'react';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 
 export async function getStaticProps() {
-  // --- FIX ---
-  // The 'neo4j-driver' is a server-side dependency. To prevent Next.js from
-  // trying to bundle it for the client (browser), we only import it
-  // inside this function, which runs exclusively on the server.
   let neo4j;
   try {
     neo4j = require('neo4j-driver');
   } catch (e) {
-    console.error('Failed to load neo4j-driver. Ensure it is installed in your dashboard/package.json.', e);
+    console.error('Failed to load neo4j-driver. Ensure it is installed.', e);
     return { props: { projects: [], error: 'Server dependency (neo4j-driver) failed to load.' } };
   }
-  
+
   const uri = process.env.NEO4J_URI;
   const user = process.env.NEO4J_USERNAME;
   const password = process.env.NEO4J_PASSWORD;
 
-  console.log("Attempting to connect to Neo4j.");
   if (!uri || !user || !password) {
-    console.error("CRITICAL: Neo4j connection details are missing from environment variables.");
-    return { props: { projects: [], error: 'Server configuration error: Database credentials missing.' } };
+    return {
+      props: {
+        projects: [],
+        error: 'Server configuration error: Database credentials missing.'
+      }
+    };
   }
-  console.log("Neo4j credentials found.");
 
   let driver, session;
   try {
@@ -36,27 +43,36 @@ export async function getStaticProps() {
              p.bloodhound_score AS score, p.stars_delta_1d AS velocity
       ORDER BY p.bloodhound_score DESC LIMIT 10
     `);
-    
+
+    const toNumber = (value) => {
+      if (value == null) return 0;
+      if (neo4j.integer.isInteger(value)) return value.toNumber();
+      return typeof value === 'number' ? value : 0;
+    };
+
     const projects = result.records.map(record => ({
-      id: record.get('id'),
-      name: record.get('name'),
+      id: record.get('id') || `fallback-id-${Math.random()}`,
+      name: record.get('name') || 'Unknown Project',
       description: record.get('description') || 'No description available.',
-      score: record.get('score') || 0,
-      velocity: record.get('velocity') || 0,
+      score: toNumber(record.get('score')),
+      velocity: toNumber(record.get('velocity')),
     }));
-    
-    console.log(`Successfully fetched ${projects.length} projects.`);
+
     return { props: { projects, error: null }, revalidate: 3600 };
   } catch (error) {
-    console.error("ERROR during Neo4j connection or query:", error);
-    return { props: { projects: [], error: `Database connection failed: ${error.message}` } };
+    return {
+      props: {
+        projects: [],
+        error: `Database connection failed: ${error.message}`
+      }
+    };
   } finally {
     if (session) await session.close();
     if (driver) await driver.close();
   }
 }
 
-const Header = ({ onMenuClick }) => (
+const Header = () => (
   <header className="bg-gray-900 text-white p-4 flex justify-between items-center shadow-md z-20 sticky top-0">
     <div className="flex items-center space-x-3">
       <h1 className="text-xl font-bold tracking-wider">Project Bloodhound</h1>
@@ -65,63 +81,67 @@ const Header = ({ onMenuClick }) => (
 );
 
 const StatCard = ({ title, value, change }) => (
-    <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
-        <h3 className="text-sm font-medium text-gray-400">{title}</h3>
-        <p className="text-3xl font-bold text-white mt-1">{value}</p>
-        {change != null && ( <p className={`text-sm mt-2 flex items-center ${change >= 0 ? 'text-green-400' : 'text-red-400'}`}> {change >= 0 ? '+' : ''}{change} in last 24h </p> )}
-    </div>
+  <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
+    <h3 className="text-sm font-medium text-gray-400">{title}</h3>
+    <p className="text-3xl font-bold text-white mt-1">{value}</p>
+    {change != null && (
+      <p className={`text-sm mt-2 flex items-center ${change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+        {change >= 0 ? '+' : ''}{change} in last 24h
+      </p>
+    )}
+  </div>
 );
 
 const ErrorDisplay = ({ error }) => (
-    <div className="flex-1 p-8 text-center">
-        <h2 className="text-2xl font-bold text-red-400 mb-4">Deployment Error</h2>
-        <div className="bg-red-900/20 border border-red-500 text-red-300 p-4 rounded-lg text-left">
-            <p className="font-bold mb-2">Could not connect to the database.</p>
-            <p className="text-sm mb-4">The dashboard could not fetch live data during the build process. This is usually due to incorrect credentials.</p>
-            <code className="block bg-gray-900 p-2 rounded text-xs text-gray-400 overflow-x-auto">
-                {error}
-            </code>
-            <p className="text-sm mt-4">**Action Required:** Please double-check the `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` environment variables in your Vercel project settings.</p>
-        </div>
+  <div className="flex-1 p-8 text-center">
+    <h2 className="text-2xl font-bold text-red-400 mb-4">Deployment Error</h2>
+    <div className="bg-red-900/20 border border-red-500 text-red-300 p-4 rounded-lg text-left">
+      <p className="font-bold mb-2">Could not connect to the database.</p>
+      <p className="text-sm mb-4">The dashboard could not fetch live data during the build process. This is usually due to incorrect credentials.</p>
+      <code className="block bg-gray-900 p-2 rounded text-xs text-gray-400 overflow-x-auto">{error}</code>
+      <p className="text-sm mt-4">**Action Required:** Please double-check the `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` environment variables in your Vercel project settings.</p>
     </div>
+  </div>
 );
 
 const DashboardContent = ({ projects, error }) => {
-    if (error) {
-        return <ErrorDisplay error={error} />
-    }
+  if (error) return <ErrorDisplay error={error} />;
 
-    const safeProjects = projects || [];
-    const chartData = safeProjects.map(p => ({ name: p.name.split('/')[1], score: p.score, velocity: p.velocity })).sort((a,b) => b.score - a.score);
-    const totalProjects = safeProjects.length;
-    const totalVelocity = safeProjects.reduce((acc, p) => acc + p.velocity, 0);
-    const highestScore = totalProjects > 0 ? Math.max(...safeProjects.map(p => p.score)) : 0;
+  const chartData = projects.map(p => ({
+    name: p.name.split('/')[1] || p.name,
+    score: p.score,
+    velocity: p.velocity
+  })).sort((a, b) => b.score - a.score);
 
-    return (
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-900 text-white overflow-y-auto">
-            <h2 className="text-3xl font-bold mb-6">Market Overview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <StatCard title="Top Tracked Projects" value={totalProjects} />
-                <StatCard title="Total Star Velocity" value={totalVelocity} change={totalVelocity} />
-                <StatCard title="Highest Score" value={highestScore.toFixed(2)} />
-            </div>
-            <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
-                 <h3 className="text-xl font-bold mb-4">Project Score & Velocity</h3>
-                 <div style={{ width: '100%', height: 400 }}>
-                    <ResponsiveContainer>
-                        <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                            <XAxis dataKey="name" stroke="#9CA3AF" />
-                            <YAxis yAxisId="left" orientation="left" stroke="#9CA3AF" />
-                            <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4B5563' }} />
-                            <Legend />
-                            <Bar yAxisId="left" dataKey="score" fill="#4F46E5" name="Bloodhound Score" />
-                        </BarChart>
-                    </ResponsiveContainer>
-                 </div>
-            </div>
-        </main>
-    );
+  const totalProjects = projects.length;
+  const totalVelocity = projects.reduce((acc, p) => acc + p.velocity, 0);
+  const highestScore = totalProjects > 0 ? Math.max(...projects.map(p => p.score)) : 0;
+
+  return (
+    <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-gray-900 text-white overflow-y-auto">
+      <h2 className="text-3xl font-bold mb-6">Market Overview</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <StatCard title="Top Tracked Projects" value={totalProjects} />
+        <StatCard title="Total Star Velocity" value={totalVelocity} change={totalVelocity} />
+        <StatCard title="Highest Score" value={highestScore.toFixed(2)} />
+      </div>
+      <div className="bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-700">
+        <h3 className="text-xl font-bold mb-4">Project Score & Velocity</h3>
+        <div style={{ width: '100%', height: 400 }}>
+          <ResponsiveContainer>
+            <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="name" stroke="#9CA3AF" />
+              <YAxis yAxisId="left" orientation="left" stroke="#9CA3AF" />
+              <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4B5563' }} />
+              <Legend />
+              <Bar yAxisId="left" dataKey="score" fill="#4F46E5" name="Bloodhound Score" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default function App({ projects, error }) {
