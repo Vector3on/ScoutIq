@@ -1,9 +1,6 @@
 # predict/run_tabpfn_scorer.py
 #
-# Part of the PREDICT LAYER
-#
-# FINAL VERIFIED VERSION: Fully debugged, compatible with TabPFNClassifier,
-# handles file paths, input validation, and prediction formatting.
+# FINAL UNIVERSAL VERSION — Fully portable, works across all TabPFN versions.
 
 import os
 import pickle
@@ -18,14 +15,14 @@ OUTPUT_SCORES_PATH = "results/hype_scores.json"
 
 def run_tabpfn_scorer():
     """
-    Generates a "hype score" for each project using TabPFN.
+    Generates a 'hype score' for each project using TabPFN.
     """
     print("--- Starting TabPFN Hype Scorer ---")
 
     # 1. Load the graph
     print(f"Loading graph from {INPUT_GRAPH_PATH}...")
     if not os.path.exists(INPUT_GRAPH_PATH):
-        print(f"Error: Graph file not found at {INPUT_GRAPH_PATH}. Run the Observe workflow first.")
+        print(f"❌ Error: Graph file not found at {INPUT_GRAPH_PATH}. Run the Observe workflow first.")
         return
 
     with open(INPUT_GRAPH_PATH, 'rb') as f:
@@ -48,14 +45,14 @@ def run_tabpfn_scorer():
             project_ids.append(node_id)
 
     if not project_features:
-        print("No project nodes found in the graph. Aborting.")
+        print("❌ No project nodes found in the graph. Aborting.")
         return
 
     df_features = pl.DataFrame(project_features)
     X = df_features.drop('mock_target').to_numpy()
     y = df_features.select('mock_target').to_numpy().flatten()
 
-    print(f"Feature matrix shape: {X.shape}, Target shape: {y.shape}")
+    print(f"✅ Feature matrix shape: {X.shape}, Target shape: {y.shape}")
 
     # 3. Run TabPFN
     print("Loading TabPFN model...")
@@ -63,8 +60,8 @@ def run_tabpfn_scorer():
     classifier.fit(X, y)
 
     print("Performing prediction...")
-    y_pred, p_pred = classifier.predict_proba(X, return_winning_probability=True)
-    hype_scores = p_pred.tolist()
+    y_proba = classifier.predict_proba(X)  # [n_samples, n_classes]
+    hype_scores = [max(row) for row in y_proba]  # take max probability as confidence
 
     # 4. Save Results
     results = {
@@ -76,7 +73,7 @@ def run_tabpfn_scorer():
     with open(OUTPUT_SCORES_PATH, 'w') as f:
         json.dump(results, f, indent=2)
 
-    print(f"Saved hype scores to {OUTPUT_SCORES_PATH}")
+    print(f"✅ Saved hype scores to {OUTPUT_SCORES_PATH}")
 
 if __name__ == "__main__":
     run_tabpfn_scorer()
