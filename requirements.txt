@@ -10,3 +10,4 @@ praw
 neo4j
 tabpfn
 slack_sdk
+tabpfn==0.1.10
