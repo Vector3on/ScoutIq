@@ -1,49 +1,42 @@
 import React from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+// This special Next.js function runs ONCE on the server during the build process.
 export async function getStaticProps() {
+  console.log("[getStaticProps] Starting build-time data fetch...");
+
   let neo4j;
   try {
     neo4j = require('neo4j-driver');
   } catch (e) {
-    console.error('Failed to load neo4j-driver. Ensure it is installed.', e);
-    return { props: { projects: [], error: 'Server dependency (neo4j-driver) failed to load.' } };
+    console.error('[getStaticProps] FATAL: Failed to load neo4j-driver. Ensure it is in dashboard/package.json.', e);
+    return { props: { projects: [], error: 'Server dependency error: neo4j-driver not found.' } };
   }
-
+  
   const uri = process.env.NEO4J_URI;
   const user = process.env.NEO4J_USERNAME;
   const password = process.env.NEO4J_PASSWORD;
 
   if (!uri || !user || !password) {
-    return {
-      props: {
-        projects: [],
-        error: 'Server configuration error: Database credentials missing.'
-      }
-    };
+    console.error("[getStaticProps] CRITICAL: Neo4j connection details are missing from environment variables.");
+    return { props: { projects: [], error: 'Server configuration error: Database credentials missing.' } };
   }
+  console.log("[getStaticProps] Neo4j credentials found.");
 
-  let driver, session;
+  let driver;
   try {
     driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
-    session = driver.session({ database: 'neo4j' });
-
+    const serverInfo = await driver.getServerInfo();
+    console.log("[getStaticProps] Neo4j driver created. Server version:", serverInfo.version);
+    
+    const session = driver.session({ database: 'neo4j' });
     const result = await session.run(`
       MATCH (p:Project) WHERE p.bloodhound_score IS NOT NULL
       RETURN p.project_id AS id, p.name AS name, p.description AS description,
              p.bloodhound_score AS score, p.stars_delta_1d AS velocity
       ORDER BY p.bloodhound_score DESC LIMIT 10
     `);
-
+    
     const toNumber = (value) => {
       if (value == null) return 0;
       if (neo4j.integer.isInteger(value)) return value.toNumber();
@@ -57,20 +50,21 @@ export async function getStaticProps() {
       score: toNumber(record.get('score')),
       velocity: toNumber(record.get('velocity')),
     }));
-
+    
+    await session.close();
+    console.log(`[getStaticProps] Successfully fetched ${projects.length} projects.`);
     return { props: { projects, error: null }, revalidate: 3600 };
+
   } catch (error) {
-    return {
-      props: {
-        projects: [],
-        error: `Database connection failed: ${error.message}`
-      }
-    };
+    console.error("[getStaticProps] ERROR during Neo4j connection or query:", error);
+    return { props: { projects: [], error: `Database connection failed: ${error.message}` } };
   } finally {
-    if (session) await session.close();
     if (driver) await driver.close();
+    console.log("[getStaticProps] Neo4j driver closed.");
   }
 }
+
+// --- Components ---
 
 const Header = () => (
   <header className="bg-gray-900 text-white p-4 flex justify-between items-center shadow-md z-20 sticky top-0">
@@ -94,27 +88,29 @@ const StatCard = ({ title, value, change }) => (
 
 const ErrorDisplay = ({ error }) => (
   <div className="flex-1 p-8 text-center">
-    <h2 className="text-2xl font-bold text-red-400 mb-4">Deployment Error</h2>
+    <h2 className="text-2xl font-bold text-red-400 mb-4">Live Data Error</h2>
     <div className="bg-red-900/20 border border-red-500 text-red-300 p-4 rounded-lg text-left">
-      <p className="font-bold mb-2">Could not connect to the database.</p>
-      <p className="text-sm mb-4">The dashboard could not fetch live data during the build process. This is usually due to incorrect credentials.</p>
-      <code className="block bg-gray-900 p-2 rounded text-xs text-gray-400 overflow-x-auto">{error}</code>
-      <p className="text-sm mt-4">**Action Required:** Please double-check the `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` environment variables in your Vercel project settings.</p>
+      <p className="font-bold mb-2">Could not fetch data from the database during deployment.</p>
+      <p className="text-sm mb-4">The dashboard is live, but is not displaying real-time data. This is usually due to incorrect credentials or a database connection issue.</p>
+      <code className="block bg-gray-900 p-2 rounded text-xs text-gray-400 overflow-x-auto">
+        Error Details: {error}
+      </code>
+      <p className="text-sm mt-4">**Action Required:** Please double-check the `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` environment variables in your Vercel project settings and redeploy.</p>
     </div>
   </div>
 );
 
 const DashboardContent = ({ projects, error }) => {
   if (error) return <ErrorDisplay error={error} />;
-
-  const chartData = projects.map(p => ({
+  
+  const chartData = (projects || []).map(p => ({
     name: p.name.split('/')[1] || p.name,
     score: p.score,
     velocity: p.velocity
   })).sort((a, b) => b.score - a.score);
 
-  const totalProjects = projects.length;
-  const totalVelocity = projects.reduce((acc, p) => acc + p.velocity, 0);
+  const totalProjects = (projects || []).length;
+  const totalVelocity = (projects || []).reduce((acc, p) => acc + p.velocity, 0);
   const highestScore = totalProjects > 0 ? Math.max(...projects.map(p => p.score)) : 0;
 
   return (
