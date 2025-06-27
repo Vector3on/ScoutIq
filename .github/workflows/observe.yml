@@ -2,7 +2,8 @@
 #
 # OPAL Framework - OBSERVE Layer Workflow
 #
-# This version includes a concurrency group to prevent cache race conditions.
+# FINAL VERSION: This workflow now uploads the graph as a build artifact
+# to avoid all cache-related race conditions.
 
 name: OPAL - Observe Layer
 
@@ -11,10 +12,6 @@ on:
   schedule:
     - cron: '0 4 * * *' # Run daily at 4 AM UTC
 
-# --- THE FIX ---
-# This concurrency group ensures that only one instance of this workflow
-# runs at a time for a specific branch (e.g., your main branch).
-# If a new workflow is triggered, it will cancel any in-progress runs.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -30,15 +27,13 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip' # Cache pip dependencies
+          cache: 'pip'
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      # In a real workflow, this step would run the collectors
-      # For now, we'll assume data/ exists with mock CSVs
       - name: Create Mock Data
         run: |
           mkdir -p data
@@ -52,9 +47,12 @@ jobs:
       - name: Build Graph and Embeddings
         run: python observe/build_graph.py
 
-      - name: Cache Graph Artifact
-        uses: actions/cache/save@v4
+      # --- THE FIX: Use Artifacts instead of Cache ---
+      # This step uploads the generated graph file as an artifact named 'graph-artifact'.
+      # The subsequent workflow will download this specific artifact.
+      - name: Upload Graph Artifact
+        uses: actions/upload-artifact@v4
         with:
+          name: graph-artifact
           path: artifacts/hetero_graph_with_embeddings.gpickle
-          key: graph-artifact-${{ hashFiles('observe/build_graph.py') }}
 
