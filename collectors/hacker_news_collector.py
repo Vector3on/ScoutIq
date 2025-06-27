@@ -14,7 +14,6 @@ NEO4J_URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.environ.get("NEO4J_USERNAME", "neo4j")
 NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
 
-# This mapping is the same as the Reddit scraper's, for consistency.
 PROJECT_KEYWORDS = {
     "ollama/ollama": ["ollama"],
     "ggerganov/llama.cpp": ["llama.cpp", "llama cpp"],
@@ -43,12 +42,9 @@ class HackerNewsCollector:
         print("  - Scraping Hacker News...")
         with self.driver.session(database="neo4j") as session:
             for project_id, keywords in PROJECT_KEYWORDS.items():
-                # We search for any of the keywords
                 query = " | ".join(keywords)
                 print(f"    - Searching for '{query}'...")
                 
-                # Search for posts in the last 7 days
-                # Algolia uses numeric filters for time-based searches
                 yesterday_timestamp = int((datetime.now() - timedelta(days=7)).timestamp())
                 params = {
                     "query": query,
@@ -58,7 +54,7 @@ class HackerNewsCollector:
                 
                 try:
                     response = requests.get(self.API_ENDPOINT, params=params)
-                    response.raise_for_status() # Raise an exception for bad status codes
+                    response.raise_for_status()
                     results = response.json()
                     
                     if not results.get("hits"):
@@ -66,7 +62,6 @@ class HackerNewsCollector:
                         continue
 
                     for hit in results["hits"]:
-                        # Algolia API provides a clean data structure
                         self.create_or_update_signal(session, project_id, hit)
 
                 except requests.exceptions.RequestException as e:
@@ -77,7 +72,6 @@ class HackerNewsCollector:
         """
         Creates or updates a Signal node for a Hacker News mention.
         """
-        # We use the objectID from Algolia as the unique key
         signal_url = f"https://news.ycombinator.com/item?id={hit['objectID']}"
         
         query = """
@@ -86,7 +80,7 @@ class HackerNewsCollector:
         ON CREATE SET
             s.title = $title,
             s.source = 'Hacker News',
-            s.upvotes = $upvotes, // Points in HN are equivalent to upvotes
+            s.upvotes = $upvotes,
             s.created_at = datetime({epochSeconds: $created_utc}),
             s.last_scraped_at = timestamp()
         MERGE (p)-[r:HAS_SIGNAL]->(s)
@@ -102,7 +96,6 @@ class HackerNewsCollector:
 
 
 def main():
-    """ Main execution block """
     collector = None
     try:
         collector = HackerNewsCollector(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
