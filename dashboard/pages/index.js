@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export async function getStaticProps() {
@@ -68,6 +69,14 @@ const Header = () => (
     <div className="flex items-center space-x-3">
       <h1 className="text-xl font-bold tracking-wider">Project Bloodhound</h1>
     </div>
+    <nav className="space-x-4">
+      <Link href="/">
+        <span className="text-gray-300 hover:text-white transition">Dashboard</span>
+      </Link>
+      <Link href="/search">
+        <span className="text-indigo-400 hover:text-white font-semibold transition">Semantic Search</span>
+      </Link>
+    </nav>
   </header>
 );
 
