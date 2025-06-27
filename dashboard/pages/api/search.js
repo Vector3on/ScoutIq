@@ -20,18 +20,18 @@ const initializeModel = async () => {
 };
 
 const getDriver = () => {
-    if (!driver) {
-        const uri = process.env.NEO4J_URI;
-        const user = process.env.NEO4J_USERNAME;
-        const password = process.env.NEO4J_PASSWORD;
-        if (!uri || !user || !password) {
-            throw new Error("Neo4j credentials are not set in environment variables.");
-        }
-        driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
-        console.log("Neo4j driver initialized.");
+  if (!driver) {
+    const uri = process.env.NEO4J_URI;
+    const user = process.env.NEO4J_USERNAME;
+    const password = process.env.NEO4J_PASSWORD;
+    if (!uri || !user || !password) {
+      throw new Error("Neo4j credentials are not set in environment variables.");
     }
-    return driver;
-}
+    driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+    console.log("Neo4j driver initialized.");
+  }
+  return driver;
+};
 
 // Function to calculate cosine similarity between two vectors
 const cosineSimilarity = (vecA, vecB) => {
