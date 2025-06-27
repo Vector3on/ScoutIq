@@ -63,7 +63,7 @@ def run_tabpfn_scorer():
     classifier.fit(X, y)
 
     print("Performing prediction...")
-    y_pred, p_pred = classifier.predict_probabilty(X, return_winning_probability=True)
+    y_pred, p_pred = classifier.predict_proba(X, return_winning_probability=True)
     hype_scores = p_pred.tolist()
 
     # 4. Save Results
