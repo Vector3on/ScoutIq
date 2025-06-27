@@ -1,0 +1,62 @@
+# .github/workflows/observe.yml
+#
+# OPAL Framework - OBSERVE Layer Workflow
+#
+# This workflow is responsible for ingesting data and building the
+# master graph object with embeddings. It caches the output artifact
+# for use by the Predict workflow.
+
+name: OPAL - Observe Layer
+
+on:
+  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: '0 4 * * *' # Run daily at 4 AM UTC
+
+jobs:
+  build-graph:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip' # Cache pip dependencies
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # In a real workflow, this step would run the collectors
+      # - name: Run Data Collectors
+      #   run: |
+      #     python collectors/github_collector.py
+      #     python collectors/reddit_collector.py
+
+      # For now, we'll assume data/ exists with mock CSVs
+      - name: Create Mock Data
+        run: |
+          mkdir -p data
+          echo "project_id,description" > data/projects.csv
+          echo "\"ollama/ollama\",\"Get up and running with large language models, locally.\"" >> data/projects.csv
+          echo "\"langchain-ai/langchain\",\"Building applications with LLMs through composability\"" >> data/projects.csv
+          echo "signal_id,project_id,source,content" > data/signals.csv
+          echo "\"hn_123\",\"ollama/ollama\",\"Hacker News\",\"Ollama is now available on Windows.\"" >> data/signals.csv
+          echo "\"rd_456\",\"langchain-ai/langchain\",\"Reddit\",\"Has anyone tried LangChain for complex agentic workflows?\"" >> data.signals.csv
+
+      - name: Build Graph and Embeddings
+        run: python observe/build_graph.py
+
+      # --- Caching the Graph Artifact ---
+      # This step saves the generated graph file. The 'key' is based on a hash
+      # of the script itself, so the cache is only recreated if the script changes.
+      - name: Cache Graph Artifact
+        uses: actions/cache/save@v4
+        with:
+          path: artifacts/hetero_graph_with_embeddings.gpickle
+          key: graph-artifact-${{ hashFiles('observe/build_graph.py') }}
+
