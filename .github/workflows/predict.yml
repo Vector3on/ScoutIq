@@ -1,0 +1,70 @@
+# .github/workflows/predict.yml
+#
+# OPAL Framework - PREDICT Layer Workflow
+#
+# This workflow runs after the Observe layer completes.
+# It downloads the cached graph artifact, builds the FAISS index,
+# and runs the GraphRAG inference pipeline.
+
+name: OPAL - Predict Layer
+
+on:
+  workflow_run:
+    workflows: ["OPAL - Observe Layer"] # This workflow is triggered by the completion of the Observe workflow
+    types:
+      - completed
+
+jobs:
+  run-prediction:
+    runs-on: ubuntu-latest
+    # Only run this job if the triggering workflow was successful
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # --- Load the Cached Graph Artifact ---
+      # This step retrieves the graph object saved by the 'observe.yml' workflow.
+      # The key must match the key used in the 'save' step.
+      - name: Restore Graph Artifact from Cache
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: artifacts/hetero_graph_with_embeddings.gpickle
+          key: graph-artifact-${{ hashFiles('observe/build_graph.py') }}
+      
+      - name: Check if cache was restored
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        run: |
+          echo "Error: Cache not found. The 'Observe' workflow must run first to generate the artifact."
+          exit 1
+
+      - name: Build FAISS Index
+        run: python predict/build_index.py
+
+      - name: Run GraphRAG Inference (Example Query)
+        run: |
+          # In a production scenario, you might run this with several high-value queries
+          # or have it generate a report.
+          python predict/run_graph_rag.py "local large language models" > artifacts/graphrag_results.json
+      
+      # --- Uploading the Hype Score Artifact ---
+      # As per the protocol, we upload the results as an artifact.
+      - name: Upload Hype Score Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hype-scores
+          path: artifacts/graphrag_results.json
+
