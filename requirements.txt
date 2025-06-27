@@ -8,3 +8,5 @@ python-dotenv
 requests
 praw
 neo4j
+tabpfn
+slack_sdk
