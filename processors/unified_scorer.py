@@ -1,7 +1,7 @@
 # processors/unified_scorer.py
 #
 # Upgraded to a "Signal Fusion Engine" as per the strategic analysis.
-# This version applies different weights to signals based on their source.
+# This version is hardened to be more resilient to inconsistent data.
 
 import os
 import math
@@ -12,22 +12,15 @@ NEO4J_URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.environ.get("NEO4J_USERNAME", "neo4j")
 NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
 
-# --- SIGNAL FUSION WEIGHTS ---
-# This is the core of our new algorithmic moat. We can now value
-# signals from different sources differently.
-# A mention on Hacker News is weighted more heavily than a Reddit signal.
 SIGNAL_SOURCE_WEIGHTS = {
     "Reddit": 1.0,
-    "Hacker News": 2.5, # High-value signal
-    # Add other sources as we integrate them
+    "Hacker News": 2.5,
 }
 
-# --- SCORING WEIGHTS ---
-# Overall weights for different components of the score
 COMPONENT_WEIGHTS = {
     "stars": 0.30,
     "stars_delta": 0.25,
-    "fused_signal_score": 0.45, # The fused score is now the most important part
+    "fused_signal_score": 0.45,
 }
 
 class UnifiedScorer:
@@ -59,9 +52,10 @@ class UnifiedScorer:
         """
         print("  - Beginning Signal Fusion process...")
         with self.driver.session(database="neo4j") as session:
-            # 1. Fetch all projects and their associated signals
+            # This query is hardened to only select projects with a project_id
             query = """
             MATCH (p:Project)
+            WHERE p.project_id IS NOT NULL
             OPTIONAL MATCH (p)-[:HAS_SIGNAL]->(s)
             RETURN
                 p.project_id AS project_id,
@@ -74,27 +68,28 @@ class UnifiedScorer:
             projects_data = [record.data() for record in results]
 
             if not projects_data:
-                print("    - No projects found. Aborting scoring.")
+                print("    - No projects with a project_id found. Aborting scoring.")
                 return
 
             print(f"    - Found {len(projects_data)} projects to score.")
 
-            # 2. Calculate the Fused Signal Score for each project
+            # Calculate the Fused Signal Score for each project
             for project in projects_data:
                 fused_score = 0
-                for signal in project['signals']:
-                    if signal and signal.get('source'):
-                        weight = SIGNAL_SOURCE_WEIGHTS.get(signal['source'], 0.5) # Default weight for unknown sources
-                        upvotes = signal.get('upvotes', 0) or 0
-                        fused_score += (upvotes * weight)
+                if project.get('signals'):
+                    for signal in project['signals']:
+                        if signal and signal.get('source'):
+                            weight = SIGNAL_SOURCE_WEIGHTS.get(signal['source'], 0.5) # Default weight
+                            upvotes = signal.get('upvotes', 0) or 0
+                            fused_score += (upvotes * weight)
                 project['fused_signal_score'] = fused_score
             
-            # 3. Normalize all component scores
+            # Normalize all component scores
             norm_stars = self._normalize_scores(projects_data, 'stars')
             norm_stars_delta = self._normalize_scores(projects_data, 'stars_delta')
             norm_fused_signals = self._normalize_scores(projects_data, 'fused_signal_score')
 
-            # 4. Calculate final weighted scores and prepare for update
+            # Calculate final weighted scores and prepare for update
             updates = []
             print("    - Calculating final Bloodhound scores...")
             for i, project in enumerate(projects_data):
@@ -108,7 +103,7 @@ class UnifiedScorer:
                     'bloodhound_score': round(final_score * 100, 2)
                 })
             
-            # 5. Write scores back to the database
+            # Write scores back to the database
             print(f"    - Writing {len(updates)} scores back to the database...")
             update_query = """
             UNWIND $updates AS update
@@ -120,7 +115,6 @@ class UnifiedScorer:
 
 
 def main():
-    """ Main execution block """
     scorer = None
     try:
         scorer = UnifiedScorer(NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD)
