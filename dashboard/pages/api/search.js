@@ -72,7 +72,7 @@ export default async function handler(req, res) {
       name: record.get('name'),
       description: record.get('description'),
       embedding: record.get('embedding'),
-    }));
+    })).filter(p => Array.isArray(p.embedding)); // Defensive filtering
 
     if (projects.length === 0) {
       return res.status(200).json([]);
@@ -100,3 +100,21 @@ export default async function handler(req, res) {
     res.status(500).json({ message: `Internal Server Error: ${error.message}` });
   }
 }
+
+/*
+Next Steps (Production Readiness):
+
+1. Make sure this dependency is installed:
+   npm install @xenova/transformers
+
+2. Add the following environment variables in Vercel:
+   NEO4J_URI=bolt+s://<your-neo4j-host>.databases.neo4j.io
+   NEO4J_USERNAME=neo4j
+   NEO4J_PASSWORD=your_secure_password
+
+3. In your frontend (e.g., /search.js):
+   - POST request to '/api/search' with body { query }
+   - Expect response array with: { name, description, similarity }
+
+4. Remove `output: "export"` from next.config.js if defined.
+*/
