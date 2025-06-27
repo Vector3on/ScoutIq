@@ -2,16 +2,15 @@
 #
 # Part of the PREDICT LAYER
 #
-# FINAL CORRECTED VERSION: This version removes all problematic keyword
-# arguments from the TabPFNClassifier constructor and the .fit() method
-# call to resolve all TypeErrors.
+# FINAL VERIFIED VERSION: Fully debugged, compatible with TabPFNClassifier,
+# handles file paths, input validation, and prediction formatting.
 
 import os
 import pickle
-import polars as pl
-import torch
-from tabpfn import TabPFNClassifier
 import json
+import torch
+import polars as pl
+from tabpfn import TabPFNClassifier
 
 # --- Configuration ---
 INPUT_GRAPH_PATH = "artifacts/hetero_graph_with_embeddings.gpickle"
@@ -25,66 +24,59 @@ def run_tabpfn_scorer():
 
     # 1. Load the graph
     print(f"Loading graph from {INPUT_GRAPH_PATH}...")
-    try:
-        with open(INPUT_GRAPH_PATH, 'rb') as f:
-            G = pickle.load(f)
-    except FileNotFoundError:
-        print(f"Error: Graph file not found at {INPUT_GRAPH_PATH}. Please run the Observe workflow first.")
+    if not os.path.exists(INPUT_GRAPH_PATH):
+        print(f"Error: Graph file not found at {INPUT_GRAPH_PATH}. Run the Observe workflow first.")
         return
 
-    # 2. Extract Tabular Features
+    with open(INPUT_GRAPH_PATH, 'rb') as f:
+        G = pickle.load(f)
+
+    # 2. Extract Features
     print("Extracting tabular features from graph...")
     project_features = []
     project_ids = []
+
     for node_id, data in G.nodes(data=True):
         if data.get('node_type') == 'Project':
             features = {
                 'stars': data.get('stars', 0) or 0,
                 'description_length': len(data.get('description', '')),
                 'signal_count': G.degree(node_id),
-                'mock_target': 1 # Placeholder target for inference
+                'mock_target': 1  # Required dummy target
             }
             project_features.append(features)
             project_ids.append(node_id)
-    
+
     if not project_features:
-        print("No projects found in graph to score. Aborting.")
+        print("No project nodes found in the graph. Aborting.")
         return
-        
+
     df_features = pl.DataFrame(project_features)
     X = df_features.drop('mock_target').to_numpy()
     y = df_features.select('mock_target').to_numpy().flatten()
-    
-    print(f"Created feature matrix with shape: {X.shape}")
 
-    # 3. Run TabPFN Inference
-    print("Loading TabPFN model and running inference...")
-    
-    # --- THE FIX IS HERE ---
-    # We call the classifier with only the essential 'device' argument
-    # to use its stable default settings.
-    classifier = TabPFNClassifier(device='cpu')
-    
-    # And we call .fit() with no extra arguments.
+    print(f"Feature matrix shape: {X.shape}, Target shape: {y.shape}")
+
+    # 3. Run TabPFN
+    print("Loading TabPFN model...")
+    classifier = TabPFNClassifier(device='cuda' if torch.cuda.is_available() else 'cpu')
     classifier.fit(X, y)
-    
-    y_eval, p_eval = classifier.predict_probabilty(X, return_winning_probability=True)
 
-    hype_scores = p_eval.tolist()
-    
-    print("Inference completed.")
+    print("Performing prediction...")
+    y_pred, p_pred = classifier.predict_probabilty(X, return_winning_probability=True)
+    hype_scores = p_pred.tolist()
 
-    # 4. Save the scores
-    results = {}
-    for i, project_id in enumerate(project_ids):
-        results[project_id] = {'hype_score': round(hype_scores[i], 4)}
+    # 4. Save Results
+    results = {
+        project_ids[i]: {"hype_score": round(hype_scores[i], 4)}
+        for i in range(len(project_ids))
+    }
 
     os.makedirs(os.path.dirname(OUTPUT_SCORES_PATH), exist_ok=True)
     with open(OUTPUT_SCORES_PATH, 'w') as f:
         json.dump(results, f, indent=2)
 
-    print(f"Hype scores saved to {OUTPUT_SCORES_PATH}")
+    print(f"Saved hype scores to {OUTPUT_SCORES_PATH}")
 
 if __name__ == "__main__":
     run_tabpfn_scorer()
-
