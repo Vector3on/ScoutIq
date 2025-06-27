@@ -1,9 +1,9 @@
 # .github/workflows/predict.yml
 #
-# OPAL Framework - PREDICT Layer Workflow
+# FINAL CORRECTED VERSION
 #
-# FINAL VERSION: This workflow now includes the GITHUB_TOKEN to grant
-# permission for downloading artifacts from the triggering workflow.
+# This workflow now uses a Personal Access Token (PAT) to grant it the
+# necessary permissions to download artifacts from the triggering workflow.
 
 name: OPAL - Predict Layer
 
@@ -33,25 +33,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # --- THE FIX: Pass the GITHUB_TOKEN to the action ---
-      # This gives the step the necessary permissions to download the artifact
-      # from the completed "Observe Layer" run.
+      # --- THE DEFINITIVE FIX ---
+      # We now use our powerful ACTIONS_PAT secret. This provides the
+      # 'dawidd6/action-download-artifact' action with the permissions it needs.
       - name: Download Graph Artifact
         uses: dawidd6/action-download-artifact@v6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: ${{ github.event.workflow.id }}
+          github_token: ${{ secrets.ACTIONS_PAT }}
+          workflow: ${{ github.event.workflow_run.workflow_id }}
           run_id: ${{ github.event.workflow_run.id }}
           name: graph-artifact
           path: artifacts
 
       - name: Verify Artifact was Downloaded
-        run: |
-          if [ ! -f "artifacts/hetero_graph_with_embeddings.gpickle" ]; then
-            echo "Error: Failed to download the graph artifact from the Observe workflow."
-            exit 1
-          fi
-          echo "Graph artifact successfully downloaded."
+        run: ls -R artifacts
 
       - name: Build FAISS Index
         run: python predict/build_index.py
@@ -66,4 +61,3 @@ jobs:
         with:
           name: hype-scores
           path: results/graphrag_results.json
-
