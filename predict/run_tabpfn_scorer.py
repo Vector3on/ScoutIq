@@ -2,14 +2,13 @@
 #
 # Part of the PREDICT LAYER
 #
-# FINAL CORRECTED VERSION: This version removes the unnecessary and failing
-# import statement, resolving the ModuleNotFoundError.
+# FINAL CORRECTED VERSION: This version fixes the unexpected keyword argument
+# error by using the correct parameter name for the TabPFNClassifier.
 
 import os
 import pickle
 import polars as pl
 import torch
-# The `tabpfn.scripts` import is not needed and has been removed.
 from tabpfn import TabPFNClassifier
 import json
 
@@ -39,7 +38,7 @@ def run_tabpfn_scorer():
     for node_id, data in G.nodes(data=True):
         if data.get('node_type') == 'Project':
             features = {
-                'stars': data.get('stars', 0),
+                'stars': data.get('stars', 0) or 0,
                 'description_length': len(data.get('description', '')),
                 'signal_count': G.degree(node_id),
                 'mock_target': 1 # Placeholder target for inference
@@ -59,13 +58,13 @@ def run_tabpfn_scorer():
 
     # 3. Run TabPFN Inference
     print("Loading TabPFN model and running inference...")
-    # Using a low number of ensemble configurations for speed in the CI environment
-    classifier = TabPFNClassifier(device='cpu', N_ensemble_configurations=4)
     
-    # "Fit" the model to prime it for the dataset's characteristics.
+    # --- THE FIX IS HERE ---
+    # The correct parameter name is `n_ensemble_configurations` (lowercase n).
+    classifier = TabPFNClassifier(device='cpu', n_ensemble_configurations=4)
+    
     classifier.fit(X, y, overwrite_warning=True)
     
-    # Predict the probability of the "hype" class (1) for all projects
     y_eval, p_eval = classifier.predict_proba(X, return_winning_probability=True)
 
     hype_scores = p_eval.tolist()
