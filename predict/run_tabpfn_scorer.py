@@ -10,7 +10,7 @@ from tabpfn import TabPFNClassifier
 import json
 import tabpfn
 
-print("TabPFN version:", tabpfn.__version__)
+print("TabPFN version:", tabpfn)
 
 # --- Configuration ---
 INPUT_GRAPH_PATH = "artifacts/hetero_graph_with_embeddings.gpickle"
