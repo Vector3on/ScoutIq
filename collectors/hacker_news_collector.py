@@ -54,7 +54,7 @@ class HackerNewsCollector:
                 
                 try:
                     response = requests.get(self.API_ENDPOINT, params=params)
-                    response.raise_for_status()
+                    response.raise_for_status() # Raise an exception for bad status codes
                     results = response.json()
                     
                     if not results.get("hits"):
@@ -80,7 +80,7 @@ class HackerNewsCollector:
         ON CREATE SET
             s.title = $title,
             s.source = 'Hacker News',
-            s.upvotes = $upvotes,
+            s.upvotes = $upvotes, // Points in HN are equivalent to upvotes
             s.created_at = datetime({epochSeconds: $created_utc}),
             s.last_scraped_at = timestamp()
         MERGE (p)-[r:HAS_SIGNAL]->(s)
