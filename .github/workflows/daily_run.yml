@@ -1,6 +1,6 @@
 # .github/workflows/daily_run.yml
-# This is the stable, production-ready workflow from the end of Phase III.
-# It does not include any Gemini-related steps.
+# This is the master workflow, updated to run the new Hacker News collector
+# and the advanced Signal Fusion scorer.
 
 name: Project Bloodhound - Full Pipeline
 
@@ -25,6 +25,7 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
+        # Ensure 'requests' is in your requirements.txt for the Hacker News collector
         pip install -r requirements.txt
 
     - name: PHASE 0 - Clear Database
@@ -35,6 +36,7 @@ jobs:
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
       run: python tools/clear_database.py
 
+    # --- UPDATED COLLECTOR STEP ---
     - name: PHASE 1 - Run Collectors
       env:
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
@@ -47,6 +49,8 @@ jobs:
         echo "--- Running Data Collectors ---"
         python collectors/github_scraper.py
         python collectors/reddit_scraper.py
+        # Run the new Hacker News collector
+        python collectors/hacker_news_collector.py
 
     - name: PHASE 2 - Run Data Processors
       env:
@@ -56,6 +60,7 @@ jobs:
       run: |
         echo "--- Running Data Processors ---"
         python processors/entity_resolver.py
+        # This now runs the new Signal Fusion Engine
         python processors/unified_scorer.py
       
     - name: PHASE 3 - Run Semantic Search Tool (Test)
