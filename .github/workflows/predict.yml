@@ -2,8 +2,8 @@
 #
 # OPAL Framework - PREDICT Layer Workflow
 #
-# FINAL VERSION: This workflow now downloads the build artifact from the
-# triggering 'Observe' run, completely avoiding cache conflicts.
+# FINAL VERSION: This workflow now includes the GITHUB_TOKEN to grant
+# permission for downloading artifacts from the triggering workflow.
 
 name: OPAL - Predict Layer
 
@@ -33,12 +33,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # --- THE FIX: Use Artifacts instead of Cache ---
-      # This step finds the specific run that triggered this workflow and
-      # downloads the 'graph-artifact' that it uploaded.
+      # --- THE FIX: Pass the GITHUB_TOKEN to the action ---
+      # This gives the step the necessary permissions to download the artifact
+      # from the completed "Observe Layer" run.
       - name: Download Graph Artifact
         uses: dawidd6/action-download-artifact@v6
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
           name: graph-artifact
