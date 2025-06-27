@@ -71,7 +71,7 @@ const Header = () => (
     </div>
     <nav className="space-x-4">
       <Link href="/">
-        <span className="text-gray-300 hover:text-white transition">Dashboard</span>
+        <span className="text-indigo-400 hover:text-white font-semibold transition">Dashboard</span>
       </Link>
       <Link href="/search">
         <span className="text-indigo-400 hover:text-white font-semibold transition">Semantic Search</span>
