@@ -1,0 +1,76 @@
+# .github/workflows/act.yml
+#
+# OPAL Framework - ACT Layer Workflow
+#
+# This workflow runs after the Predict layer completes.
+# It downloads the generated hype scores and sends a notification.
+
+name: OPAL - Act Layer
+
+on:
+  workflow_run:
+    workflows: ["OPAL - Predict Layer"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      # We don't need to check out the code if we're just notifying
+      - name: Download Hype Score Artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          github_token: ${{ secrets.ACTIONS_PAT }} # Use our PAT for permissions
+          workflow: ${{ github.event.workflow_run.workflow_id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: hype-scores
+          path: . # Download to the current directory
+          
+      - name: Verify Artifact was Downloaded
+        run: |
+          if [ ! -f "hype_scores.json" ]; then
+            echo "Error: Failed to download the hype score artifact."
+            exit 1
+          fi
+          echo "Hype scores successfully downloaded."
+          cat hype_scores.json
+
+      # --- Slack Notification ---
+      # This step uses a pre-built Action to send a summary to Slack.
+      # You will need to add a `SLACK_WEBHOOK_URL` to your GitHub secrets.
+      - name: Send Slack Notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          # You can customize this message extensively.
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🚀 Bloodhound OPAL Run Complete"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "The daily OPAL pipeline has successfully executed. Hype scores have been generated."
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "You can view the full results artifact here: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}|View Run>"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
