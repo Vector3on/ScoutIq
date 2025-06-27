@@ -15,11 +15,14 @@ export async function getStaticProps() {
   try {
     neo4j = require('neo4j-driver');
   } catch (e) {
-    console.error('Failed to load neo4j-driver. Ensure it is installed.', e);
-    return { props: { projects: [], error: 'Server dependency (neo4j-driver) failed to load.' } };
+    return { props: { projects: [], error: 'Neo4j driver failed to load.' } };
   }
 
-  const { isInt } = require('neo4j-driver').types;
+  const toNumber = (val) => {
+    if (val == null) return 0;
+    if (typeof val.toNumber === 'function') return val.toNumber();
+    return typeof val === 'number' ? val : 0;
+  };
 
   const uri = process.env.NEO4J_URI;
   const user = process.env.NEO4J_USERNAME;
@@ -45,12 +48,6 @@ export async function getStaticProps() {
              p.bloodhound_score AS score, p.stars_delta_1d AS velocity
       ORDER BY p.bloodhound_score DESC LIMIT 10
     `);
-
-    const toNumber = (value) => {
-      if (value == null) return 0;
-      if (isInt(value)) return value.toNumber();
-      return typeof value === 'number' ? value : 0;
-    };
 
     const projects = result.records.map(record => ({
       id: record.get('id') || `fallback-id-${Math.random()}`,
