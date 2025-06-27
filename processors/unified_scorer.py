@@ -42,7 +42,6 @@ class UnifiedScorer:
         max_value = max(values) if values else 0
         if max_value == 0:
             return [0] * len(values)
-        # Logarithmic normalization to handle outliers
         return [math.log1p(v) / math.log1p(max_value) for v in values]
 
     def calculate_and_update_scores(self):
@@ -52,7 +51,6 @@ class UnifiedScorer:
         """
         print("  - Beginning Signal Fusion process...")
         with self.driver.session(database="neo4j") as session:
-            # This query is hardened to only select projects with a project_id
             query = """
             MATCH (p:Project)
             WHERE p.project_id IS NOT NULL
@@ -73,23 +71,20 @@ class UnifiedScorer:
 
             print(f"    - Found {len(projects_data)} projects to score.")
 
-            # Calculate the Fused Signal Score for each project
             for project in projects_data:
                 fused_score = 0
-                if project.get('signals'):
+                if project['signals']:
                     for signal in project['signals']:
                         if signal and signal.get('source'):
-                            weight = SIGNAL_SOURCE_WEIGHTS.get(signal['source'], 0.5) # Default weight
+                            weight = SIGNAL_SOURCE_WEIGHTS.get(signal['source'], 0.5)
                             upvotes = signal.get('upvotes', 0) or 0
                             fused_score += (upvotes * weight)
                 project['fused_signal_score'] = fused_score
             
-            # Normalize all component scores
             norm_stars = self._normalize_scores(projects_data, 'stars')
             norm_stars_delta = self._normalize_scores(projects_data, 'stars_delta')
             norm_fused_signals = self._normalize_scores(projects_data, 'fused_signal_score')
 
-            # Calculate final weighted scores and prepare for update
             updates = []
             print("    - Calculating final Bloodhound scores...")
             for i, project in enumerate(projects_data):
@@ -103,7 +98,6 @@ class UnifiedScorer:
                     'bloodhound_score': round(final_score * 100, 2)
                 })
             
-            # Write scores back to the database
             print(f"    - Writing {len(updates)} scores back to the database...")
             update_query = """
             UNWIND $updates AS update
@@ -112,7 +106,6 @@ class UnifiedScorer:
             """
             session.run(update_query, updates=updates)
             print("  - Signal Fusion process completed successfully.")
-
 
 def main():
     scorer = None
