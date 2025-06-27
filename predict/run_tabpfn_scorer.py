@@ -10,7 +10,7 @@ import os
 import pickle
 import polars as pl
 import torch
-from tabpfen import TabPFNClassifier
+from tabpfn import TabPFNClassifier
 import json
 
 # --- Configuration ---
