@@ -68,7 +68,7 @@ def run_tabpfn_scorer():
     # And we call .fit() with no extra arguments.
     classifier.fit(X, y)
     
-    y_eval, p_eval = classifier.predict_proba(X, return_winning_probability=True)
+    y_eval, p_eval = classifier.predict_probabilty(X, return_winning_probability=True)
 
     hype_scores = p_eval.tolist()
     
