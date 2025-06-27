@@ -80,7 +80,7 @@ export default async function handler(req, res) {
 
     // 2. Generate embedding for the search query
     const queryEmbedding = (await pipe(searchQuery, { pooling: 'mean', normalize: true })).data;
-    
+
     // 3. Calculate cosine similarity and rank
     const rankedProjects = projects.map(project => ({
       ...project,
@@ -91,7 +91,7 @@ export default async function handler(req, res) {
     const topResults = rankedProjects
       .sort((a, b) => b.similarity - a.similarity)
       .slice(0, 5);
-    
+
     await session.close();
     res.status(200).json(topResults);
 
