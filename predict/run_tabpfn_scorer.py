@@ -2,20 +2,14 @@
 #
 # Part of the PREDICT LAYER
 #
-# Objective:
-# 1. Load the processed graph artifact.
-# 2. Extract tabular features for each project (e.g., stars, velocity, signal count).
-# 3. Use TabPFN in a zero-shot setting to predict a "hype" or "success" score.
-# 4. Save the scores as a JSON artifact.
-#
-# Optimization: This uses a pre-trained TabPFN model and requires no GPU.
-# It infers on the entire batch of projects at once.
+# FINAL CORRECTED VERSION: This version removes the unnecessary and failing
+# import statement, resolving the ModuleNotFoundError.
 
 import os
 import pickle
 import polars as pl
 import torch
-from tabpfn.scripts.load_data_for_inference import load_data
+# The `tabpfn.scripts` import is not needed and has been removed.
 from tabpfn import TabPFNClassifier
 import json
 
@@ -44,14 +38,11 @@ def run_tabpfn_scorer():
     project_ids = []
     for node_id, data in G.nodes(data=True):
         if data.get('node_type') == 'Project':
-            # Create a feature vector for each project
-            # In a real scenario, we'd have more features like issue counts, fork counts, etc.
-            # We also need a mock "target" for TabPFN's inference process.
             features = {
                 'stars': data.get('stars', 0),
                 'description_length': len(data.get('description', '')),
-                'signal_count': G.degree(node_id), # Number of connected signals
-                'mock_target': 1 # A placeholder target variable (1 for "hype")
+                'signal_count': G.degree(node_id),
+                'mock_target': 1 # Placeholder target for inference
             }
             project_features.append(features)
             project_ids.append(node_id)
@@ -60,7 +51,6 @@ def run_tabpfn_scorer():
         print("No projects found in graph to score. Aborting.")
         return
         
-    # Convert to Polars DataFrame, then to NumPy for TabPFN
     df_features = pl.DataFrame(project_features)
     X = df_features.drop('mock_target').to_numpy()
     y = df_features.select('mock_target').to_numpy().flatten()
@@ -68,19 +58,16 @@ def run_tabpfn_scorer():
     print(f"Created feature matrix with shape: {X.shape}")
 
     # 3. Run TabPFN Inference
-    # N_ensemble_configurations controls the speed/accuracy trade-off. 4 is fast.
     print("Loading TabPFN model and running inference...")
+    # Using a low number of ensemble configurations for speed in the CI environment
     classifier = TabPFNClassifier(device='cpu', N_ensemble_configurations=4)
-
-    # We "fit" the model on a small subset of the data to prime it.
-    # In a zero-shot context, this isn't traditional training.
-    # It just sets up the context for the transformer.
-    classifier.fit(X, y)
+    
+    # "Fit" the model to prime it for the dataset's characteristics.
+    classifier.fit(X, y, overwrite_warning=True)
     
     # Predict the probability of the "hype" class (1) for all projects
     y_eval, p_eval = classifier.predict_proba(X, return_winning_probability=True)
 
-    # The returned probability is our "hype score"
     hype_scores = p_eval.tolist()
     
     print("Inference completed.")
