@@ -1,16 +1,12 @@
 # .github/workflows/opal_pipeline.yml
-# OPAL Unified Pipeline — auto-predicts with TFT and TabPFN daily
+# OPAL - Full Unified Pipeline (with TabPFN feature prep fixed)
 
 name: OPAL - Full Unified Pipeline
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'  # Runs daily at 4 AM UTC
-
-permissions:
-  contents: read
-  actions: read
+    - cron: '0 4 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,9 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
+        with: { python-version: '3.11', cache: 'pip' }
       - name: Install Dependencies
         run: pip install -r requirements.txt
       - name: Create Mock Data
@@ -43,36 +37,35 @@ jobs:
 
   predict:
     runs-on: ubuntu-latest
-    needs: observe
+    needs: observe 
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
+        with: { python-version: '3.11', cache: 'pip' }
       - name: Install Dependencies
         run: pip install -r requirements.txt
       - name: Download Graph Artifact
         uses: actions/download-artifact@v4
+        with: { name: graph-artifact, path: artifacts }
+
+      # Download trained TFT model from latest successful run
+      - name: Download Trained TFT Model
+        uses: dawidd6/action-download-artifact@v6
         with:
-          name: graph-artifact
+          workflow: train_models.yml
+          workflow_conclusion: success
+          name: tft-model-checkpoint
           path: artifacts
-
-      # 🔥 FIXED: No cross-workflow artifact issues
-      - name: Run Training if No Model Exists
-        run: |
-          if [ ! -f artifacts/tft-model-checkpoint.ckpt ]; then
-            echo "📉 No existing model. Training..."
-            python predict/train_tft_model.py
-          else
-            echo "✅ Model exists. Skipping training."
-          fi
-
-      - name: Verify Artifacts
+          
+      - name: Verify All Artifacts
         run: ls -R artifacts
 
       - name: Build FAISS Index
         run: python predict/build_index.py
+
+      # ✅ FIX: Prepare TabPFN Features
+      - name: Prepare TabPFN Features
+        run: python predict/prepare_tabpfn_data.py
 
       - name: Run TabPFN Scorer
         run: python predict/run_tabpfn_scorer.py
@@ -82,12 +75,10 @@ jobs:
 
       - name: Run TFT Predictor
         run: python predict/run_tft_predictor.py
-
+      
       - name: Upload Results
         uses: actions/upload-artifact@v4
-        with:
-          name: results
-          path: results/
+        with: { name: results, path: results/ }
 
   act:
     runs-on: ubuntu-latest
@@ -95,16 +86,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
+        with: { python-version: '3.11', cache: 'pip' }
       - name: Install Dependencies
         run: pip install -r requirements.txt
       - name: Download Results
         uses: actions/download-artifact@v4
-        with:
-          name: results
-          path: .
+        with: { name: results, path: . }
       - name: Format Slack Message
         run: python act/format_slack_message.py
         env:
@@ -113,7 +100,6 @@ jobs:
           GITHUB_SERVER_URL: ${{ github.server_url }}
       - name: Send Detailed Slack Notification
         uses: slackapi/slack-github-action@v1.26.0
-        with:
-          payload-file-path: "./slack_payload.json"
+        with: { payload-file-path: "./slack_payload.json" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
