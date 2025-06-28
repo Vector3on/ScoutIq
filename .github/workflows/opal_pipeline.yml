@@ -1,77 +1,126 @@
-# act/format_slack_message.py
+# .github/workflows/opal_pipeline.yml
 #
-# Part of the ACT LAYER
-#
-# This script reads the hype_scores.json artifact, formats a rich
-# message with the top projects, and writes the final JSON payload
-# to a file for the Slack action to use.
+# THE DEFINITIVE OPAL PIPELINE
+# This version uses explicit YAML syntax to prevent any parsing errors.
 
-import json
-import os
+name: OPAL - Full Unified Pipeline
 
-# --- Configuration ---
-INPUT_SCORES_PATH = "hype_scores.json"
-OUTPUT_PAYLOAD_PATH = "slack_payload.json" # The output file
-TOP_N_PROJECTS = 5 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * *'
 
-def format_message():
-    """
-    Reads scores, formats them, and writes a Slack-compatible JSON payload to a file.
-    """
-    print("--- Formatting Slack Message ---")
-    try:
-        with open(INPUT_SCORES_PATH, 'r') as f:
-            scores = json.load(f)
-    except FileNotFoundError:
-        print(f"Error: Scores file not found at {INPUT_SCORES_PATH}")
-        error_payload = {"text": "Bloodhound OPAL Run: Failed to find hype_scores.json artifact."}
-        with open(OUTPUT_PAYLOAD_PATH, 'w') as f:
-            json.dump(error_payload, f)
-        return
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
-    sorted_projects = sorted(scores.items(), key=lambda item: item[1]['hype_score'], reverse=True)
-    
-    # --- Build the Slack Message ---
-    blocks = [
-        {"type": "header", "text": {"type": "plain_text", "text": "🚀 Bloodhound OPAL Run Complete"}},
-        {"type": "section", "text": {"type": "mrkdwn", "text": f"The full OPAL pipeline has successfully executed. *Top {TOP_N_PROJECTS} projects* by hype score are listed below."}},
-        {"type": "divider"}
-    ]
+jobs:
+  # --- JOB 1: OBSERVE & BUILD GRAPH ---
+  observe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
 
-    for project_id, data in sorted_projects[:TOP_N_PROJECTS]:
-        score = data['hype_score']
-        project_name = project_id.split('/')[-1]
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create Mock Data
+        run: |
+          mkdir -p data
+          echo "project_id,description,stars" > data/projects.csv
+          echo "\"ollama/ollama\",\"Get up and running with large language models, locally.\",50000" >> data/projects.csv
+          echo "\"langchain-ai/langchain\",\"Building applications with LLMs through composability\",80000" >> data/projects.csv
+          echo "signal_id,project_id,source,content,upvotes" > data/signals.csv
+          echo "\"hn_123\",\"ollama/ollama\",\"Hacker News\",\"Ollama is now available on Windows.\",150" >> data/signals.csv
+          echo "\"rd_456\",\"langchain-ai/langchain\",\"Reddit\",\"Has anyone tried LangChain for complex agentic workflows?\",50" >> data/signals.csv
+
+      - name: Build Graph and Embeddings
+        run: python observe/build_graph.py
+
+      - name: Upload Graph Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: graph-artifact
+          path: artifacts/hetero_graph_with_embeddings.gpickle
+
+  # --- JOB 2: PREDICT (DEPENDS ON OBSERVE) ---
+  predict:
+    runs-on: ubuntu-latest
+    needs: observe 
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download Graph Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: graph-artifact
+          path: artifacts
+
+      - name: Verify Graph Artifact
+        run: ls -R artifacts
+
+      - name: Build FAISS Index
+        run: python predict/build_index.py
+
+      - name: Run TabPFN Scorer
+        run: python predict/run_tabpfn_scorer.py
+      
+      - name: Upload Hype Score Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hype-scores
+          path: results/hype_scores.json
+
+  # --- JOB 3: ACT (DEPENDS ON PREDICT) ---
+  act:
+    runs-on: ubuntu-latest
+    needs: predict
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
         
-        project_block = {
-            "type": "section",
-            "text": {"type": "mrkdwn", "text": f"*{project_name}*\n*Hype Score:* `{score:.4f}`"},
-            "accessory": {
-                "type": "button",
-                "text": {"type": "plain_text", "text": "View Project", "emoji": True},
-                "url": f"https://github.com/{project_id}",
-                "action_id": f"view_project_{project_name}"
-            }
-        }
-        blocks.append(project_block)
+      - name: Download Hype Score Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hype-scores
+          path: .
+      
+      - name: Format Slack Message
+        run: python act/format_slack_message.py
+        env:
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
 
-    run_id = os.environ.get("GITHUB_RUN_ID")
-    repo = os.environ.get("GITHUB_REPOSITORY")
-    server_url = os.environ.get("GITHUB_SERVER_URL")
-
-    if run_id and repo and server_url:
-        blocks.append({"type": "divider"})
-        blocks.append({
-            "type": "context",
-            "elements": [{"type": "mrkdwn", "text": f"<{server_url}/{repo}/actions/runs/{run_id}|View full run details>"}]
-        })
-
-    final_payload = {"blocks": blocks}
-    
-    # --- Write to File ---
-    with open(OUTPUT_PAYLOAD_PATH, 'w') as f:
-        json.dump(final_payload, f)
-        
-    print(f"Successfully wrote Slack payload to {OUTPUT_PAYLOAD_PATH}")
-
-if __name__ == "__main__":
-    format_message()
+      - name: Send Detailed Slack Notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload-file-path: "./slack_payload.json"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
