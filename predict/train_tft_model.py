@@ -2,18 +2,17 @@
 
 import pandas as pd
 import torch
-from torch import nn
 from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer, QuantileLoss
 from pytorch_forecasting.data import GroupNormalizer
-from pytorch_lightning import Trainer, LightningModule
-from pytorch_lightning.loggers import CSVLogger
+from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.loggers import CSVLogger
 
 class TFTLightningWrapper(LightningModule):
     def __init__(self, dataset):
         super().__init__()
-        self.save_hyperparameters(ignore=['loss', 'logging_metrics'])
-        self.model = TemporalFusionTransformer.from_dataset(
+        self.save_hyperparameters(ignore=['loss'])
+        self.tft = TemporalFusionTransformer.from_dataset(
             dataset,
             learning_rate=0.03,
             hidden_size=16,
@@ -26,25 +25,33 @@ class TFTLightningWrapper(LightningModule):
         )
 
     def forward(self, x):
-        return self.model(x)
+        return self.tft(x)
 
     def training_step(self, batch, batch_idx):
-        loss = self.model.training_step(batch, batch_idx)
+        x, y = batch
+        output = self.tft(x)
+        loss = self.tft.loss(output, y)
+        self.log("train_loss", loss, prog_bar=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
-        return self.model.validation_step(batch, batch_idx)
+        x, y = batch
+        output = self.tft(x)
+        loss = self.tft.loss(output, y)
+        self.log("val_loss", loss, prog_bar=True)
+        return loss
 
     def configure_optimizers(self):
-        return self.model.configure_optimizers()
+        return self.tft.configure_optimizers()
 
 def train_tft_model():
     print("🚀 Starting TFT model training...")
 
+    print("📥 Loading data from artifacts/timeseries_data.parquet...")
     df = pd.read_parquet("artifacts/timeseries_data.parquet")
     df["star_count"] = df["star_count"].astype("float32")
-    print("📥 Loading data from artifacts/timeseries_data.parquet...")
 
+    print("📦 Creating TimeSeriesDataSet for training...")
     training_cutoff = df["time_idx"].max() - 6
     training = TimeSeriesDataSet(
         df[df.time_idx <= training_cutoff],
@@ -63,7 +70,7 @@ def train_tft_model():
     val_dataloader = validation.to_dataloader(train=False, batch_size=32, num_workers=0)
 
     print("⚙️ Configuring and training the TFT model...")
-    tft = TFTLightningWrapper(training)
+    model = TFTLightningWrapper(training)
 
     checkpoint_callback = ModelCheckpoint(
         dirpath="artifacts",
@@ -72,6 +79,7 @@ def train_tft_model():
         save_top_k=1,
         mode="min"
     )
+
     logger = CSVLogger("logs", name="tft")
 
     trainer = Trainer(
@@ -80,10 +88,11 @@ def train_tft_model():
         limit_train_batches=30,
         callbacks=[checkpoint_callback],
         logger=logger,
-        enable_checkpointing=True
+        enable_checkpointing=True,
+        enable_model_summary=True
     )
 
-    trainer.fit(tft, train_dataloaders=train_dataloader, val_dataloaders=val_dataloader)
+    trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=val_dataloader)
     print("✅ Model training complete. Checkpoint saved to artifacts/tft_model.ckpt")
 
 if __name__ == "__main__":
