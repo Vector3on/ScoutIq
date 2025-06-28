@@ -1,4 +1,4 @@
-# Core Data & Graph Stack
+# Core Framework
 polars
 networkx
 pyarrow
@@ -8,16 +8,16 @@ praw
 neo4j
 slack_sdk
 
-# ML + Embeddings
+# Embeddings + NLP
 sentence-transformers
 torch
 faiss-cpu
 numpy
 
-# Tabular Modeling (TabPFN etc.)
+# Tabular Inference
 tabpfn
 
-# Forecasting Stack
-scikit-learn==1.4.2
-pytorch-forecasting==0.10.3
+# Forecasting Stack (for Py 3.10)
+scikit-learn==1.0.2
+pytorch-forecasting==0.10.1
 pytorch-lightning==1.9.5
