@@ -1,21 +1,23 @@
-# Infra
+# Core Data & Graph Stack
 polars
 networkx
-sentence-transformers
-torch==2.0.1
-faiss-cpu
-numpy==1.24.4
+pyarrow
 python-dotenv
 requests
 praw
 neo4j
 slack_sdk
 
-# ML Core (compatible versions)
-pyarrow
-scikit-learn==1.0.2        # ✅ compatible with pytorch-forecasting 0.10.1
-pytorch-forecasting==0.10.1
-pytorch-lightning==1.9.0
+# ML + Embeddings
+sentence-transformers
+torch
+faiss-cpu
+numpy
 
-# Optional (comment out if unused)
+# Tabular Modeling (TabPFN etc.)
 tabpfn
+
+# Forecasting Stack
+scikit-learn==1.4.2
+pytorch-forecasting==0.10.3
+pytorch-lightning==1.9.5
