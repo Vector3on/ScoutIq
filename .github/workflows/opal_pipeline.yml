@@ -1,8 +1,7 @@
 # .github/workflows/opal_pipeline.yml
 #
 # THE DEFINITIVE OPAL PIPELINE
-# This unified workflow uses sequential jobs (observe -> predict -> act)
-# to avoid all cross-workflow permission and caching errors.
+# This version uses a simplified Slack payload to debug the connection.
 
 name: OPAL - Full Unified Pipeline
 
@@ -43,6 +42,7 @@ jobs:
           echo "\"rd_456\",\"langchain-ai/langchain\",\"Reddit\",\"Has anyone tried LangChain for complex agentic workflows?\"" >> data/signals.csv
 
       - name: Build Graph and Embeddings
+        id: build_graph
         run: python observe/build_graph.py
 
       - name: Upload Graph Artifact
@@ -54,7 +54,7 @@ jobs:
   # --- JOB 2: PREDICT (DEPENDS ON OBSERVE) ---
   predict:
     runs-on: ubuntu-latest
-    needs: observe # This ensures this job runs only after 'observe' succeeds
+    needs: observe 
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -92,42 +92,15 @@ jobs:
   # --- JOB 3: ACT (DEPENDS ON PREDICT) ---
   act:
     runs-on: ubuntu-latest
-    needs: predict # This ensures this job runs only after 'predict' succeeds
+    needs: predict
     steps:
-      - name: Download Hype Score Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: hype-scores
-          path: .
-          
-      - name: Verify Scores Artifact
-        run: cat hype_scores.json
-
-      - name: Send Slack Notification
+      - name: Send Simple Slack Notification
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          payload: |
-            {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": { "type": "plain_text", "text": "🚀 Bloodhound OPAL Run Complete" }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "The full OPAL pipeline has successfully executed. Hype scores have been generated and are ready for review."
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "You can view the full results artifact in the completed run: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
-                  }
-                }
-              ]
-            }
+          # --- THE FIX IS HERE ---
+          # We are sending the simplest possible payload. If this works,
+          # it confirms the webhook is correct and the problem is in the
+          # formatting of the more complex message.
+          payload: '{"text": "Bloodhound OPAL Pipeline: Test message received."}'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
