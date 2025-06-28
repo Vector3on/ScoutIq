@@ -12,3 +12,4 @@ slack_sdk
 tabpfn
 pytorch-forecasting
 pytorch-lightning
+pyarrow
