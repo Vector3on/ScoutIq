@@ -1,80 +1,55 @@
 # predict/run_tabpfn_scorer.py
 #
-# FINAL-BOSS SLAYER VERSION — Fully portable, float32-safe, and JSON-stable.
+# Bulletproof TabPFN scoring script
+# Ensures TabPFN is importable, then fits and scores on your feature data.
 
 import os
-import pickle
-import json
-import torch
-import polars as pl
-import numpy as np
-from tabpfn import TabPFNClassifier
+import sys
 
-# --- Configuration ---
-INPUT_GRAPH_PATH = "artifacts/hetero_graph_with_embeddings.gpickle"
-OUTPUT_SCORES_PATH = "results/hype_scores.json"
+# ─── Fix import path for local modules ─────────────────────────────────────────
+root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if root not in sys.path:
+    sys.path.insert(0, root)
+
+# ─── Ensure tabpfn is installed ────────────────────────────────────────────────
+try:
+    from tabpfn import TabPFNClassifier
+except ImportError:
+    raise ImportError(
+        "tabpfn library not found. Install via:\n"
+        "  pip install git+https://github.com/automl/TabPFN.git\n"
+        "or\n"
+        "  pip install tabpfn"
+    )
+
+import pandas as pd
 
 def run_tabpfn_scorer():
-    """
-    Generates a 'hype score' for each project using TabPFN.
-    """
-    print("--- Starting TabPFN Hype Scorer ---")
+    print("⚙️  Running TabPFN scorer...")
 
-    # 1. Load the graph
-    print(f"Loading graph from {INPUT_GRAPH_PATH}...")
-    if not os.path.exists(INPUT_GRAPH_PATH):
-        print(f"❌ Error: Graph file not found at {INPUT_GRAPH_PATH}. Run the Observe workflow first.")
-        return
+    FEATURES_PATH = "artifacts/tabpfn_features.parquet"
+    if not os.path.exists(FEATURES_PATH):
+        raise FileNotFoundError(f"Feature file not found: {FEATURES_PATH}")
+    df = pd.read_parquet(FEATURES_PATH)
 
-    with open(INPUT_GRAPH_PATH, 'rb') as f:
-        G = pickle.load(f)
+    if "target" not in df.columns:
+        raise ValueError("Column 'target' missing from features DataFrame")
+    X = df.drop(columns=["target"]).values
+    y = df["target"].values
 
-    # 2. Extract Features
-    print("Extracting tabular features from graph...")
-    project_features = []
-    project_ids = []
+    clf = TabPFNClassifier(
+        N_ensemble_configurations=8,
+        seed=42
+    )
+    clf.fit(X, y)
 
-    for node_id, data in G.nodes(data=True):
-        if data.get('node_type') == 'Project':
-            features = {
-                'stars': data.get('stars', 0) or 0,
-                'description_length': len(data.get('description', '')),
-                'signal_count': G.degree(node_id),
-                'mock_target': 1  # Required dummy target
-            }
-            project_features.append(features)
-            project_ids.append(node_id)
+    preds = clf.predict(X)
 
-    if not project_features:
-        print("❌ No project nodes found in the graph. Aborting.")
-        return
-
-    df_features = pl.DataFrame(project_features)
-    X = df_features.drop('mock_target').to_numpy()
-    y = df_features.select('mock_target').to_numpy().flatten()
-
-    print(f"✅ Feature matrix shape: {X.shape}, Target shape: {y.shape}")
-
-    # 3. Run TabPFN
-    print("Loading TabPFN model...")
-    classifier = TabPFNClassifier(device='cuda' if torch.cuda.is_available() else 'cpu')
-    classifier.fit(X, y)
-
-    print("Performing prediction...")
-    y_proba = classifier.predict_proba(X)
-    hype_scores = [float(round(max(row), 4)) for row in y_proba]  # Clean float32 to float64 conversion
-
-    # 4. Save Results
-    results = {
-        project_ids[i]: {"hype_score": hype_scores[i]}
-        for i in range(len(project_ids))
-    }
-
-    os.makedirs(os.path.dirname(OUTPUT_SCORES_PATH), exist_ok=True)
-    with open(OUTPUT_SCORES_PATH, 'w') as f:
-        json.dump(results, f, indent=2)
-
-    print(f"✅ Saved hype scores to {OUTPUT_SCORES_PATH}")
+    results_df = pd.DataFrame({"y_true": y, "y_pred": preds})
+    os.makedirs("results", exist_ok=True)
+    output_path = "results/tabpfn_scores.csv"
+    results_df.to_csv(output_path, index=False)
+    print(f"✅ TabPFN scoring complete. Results saved to {output_path}")
 
 if __name__ == "__main__":
     run_tabpfn_scorer()
