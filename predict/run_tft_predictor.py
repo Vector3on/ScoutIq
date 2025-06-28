@@ -1,7 +1,6 @@
 # predict/run_tft_predictor.py
 #
-# Final debug-safe version that integrates into GitHub Actions
-# This script prints your actual column names so we can fix the pipeline
+# Final version using real column: star_count
 
 import os
 import polars as pl
@@ -20,28 +19,21 @@ def run_tft_predictor():
     data = df.to_pandas()
 
     # Step 2: DEBUG actual columns
-    print("📊 DEBUG: Columns in DataFrame:", data.columns.tolist())
-    print("🔎 DEBUG: First 5 rows:")
+    print("📊 Columns in DataFrame:", data.columns.tolist())
+    print("🔎 First 5 rows:")
     print(data.head(5))
 
-    # Step 3: Fail-safe if 'target' column is missing
-    if "target" not in data.columns:
-        print("\n❌ ERROR: 'target' column not found in dataset!")
-        print("🧪 Available columns:", data.columns.tolist())
-        print("🛠️  You likely need to rename your actual target column in this script.")
-        raise KeyError("Missing 'target' column in input dataset. Fix this in run_tft_predictor.py")
+    # Step 3: Convert target column
+    print("✅ Converting 'star_count' to float32...")
+    if not pd.api.types.is_float_dtype(data["star_count"]):
+        data["star_count"] = data["star_count"].astype("float32")
 
-    # Step 4: Safe dtype cast to float32
-    print("✅ Converting 'target' to float32...")
-    if not pd.api.types.is_float_dtype(data["target"]):
-        data["target"] = data["target"].astype("float32")
-
-    # Step 5: Build dataset
+    # Step 4: Build dataset
     print("⚙️ Creating TimeSeriesDataSet...")
     dataset = TimeSeriesDataSet(
         data,
         time_idx="time_idx",
-        target="target",
+        target="star_count",
         group_ids=["series_id"],
         max_encoder_length=24,
         max_prediction_length=12,
@@ -50,30 +42,30 @@ def run_tft_predictor():
         time_varying_known_categoricals=[],
         time_varying_known_reals=["time_idx"],
         time_varying_unknown_categoricals=[],
-        time_varying_unknown_reals=["target"],
+        time_varying_unknown_reals=["star_count"],
         target_normalizer=GroupNormalizer(groups=["series_id"]),
         add_relative_time_idx=True,
         add_target_scales=True,
         add_encoder_length=True
     )
 
-    # Step 6: Dataloader
+    # Step 5: Dataloader
     print("📦 Creating dataloader...")
     val_dataloader = dataset.to_dataloader(train=False, batch_size=64, num_workers=0)
 
-    # Step 7: Load model
+    # Step 6: Load model
     model_path = "checkpoints/tft_model.ckpt"
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"❌ Model checkpoint not found at {model_path}")
     print("📥 Loading trained model from:", model_path)
     model = TemporalFusionTransformer.load_from_checkpoint(model_path)
 
-    # Step 8: Run prediction
+    # Step 7: Run prediction
     print("🤖 Running predictions...")
     trainer = Trainer(logger=False, enable_checkpointing=False, max_epochs=1)
     predictions = trainer.predict(model, dataloaders=val_dataloader)
 
-    # Step 9: Save results
+    # Step 8: Save results
     print("💾 Saving predictions to results/tft_predictions.pt...")
     os.makedirs("results", exist_ok=True)
     torch.save(predictions, "results/tft_predictions.pt")
