@@ -16,14 +16,14 @@ from pytorch_lightning.loggers import TensorBoardLogger
 def train_tft_model():
     print("\n🚀 Starting TFT model training (weekly)")
 
-    # Load data
+    # Load time-series data
     print("📥 Reading artifacts/timeseries_data.parquet...")
     df = pl.read_parquet("artifacts/timeseries_data.parquet")
     data = df.to_pandas()
 
-    # Validate
+    # Validate schema
     if "star_count" not in data.columns:
-        raise ValueError("Missing 'star_count' in dataset.")
+        raise ValueError("❌ Missing 'star_count' in dataset.")
     if not pd.api.types.is_float_dtype(data["star_count"]):
         print("🔁 Converting 'star_count' to float32...")
         data["star_count"] = data["star_count"].astype("float32")
@@ -90,14 +90,14 @@ def train_tft_model():
         default_root_dir="checkpoints",
     )
 
-    # Train!
+    # Train model
     print("🎯 Training begins...")
     trainer.fit(tft, train_dataloaders=train_dataloader, val_dataloaders=val_dataloader)
 
-    # Save model
+    # Save checkpoint
     os.makedirs("checkpoints", exist_ok=True)
     trainer.save_checkpoint("checkpoints/tft_model.ckpt")
-    print("✅ Saved: checkpoints/tft_model.ckpt")
+    print("✅ Saved model to checkpoints/tft_model.ckpt")
 
 if __name__ == "__main__":
     train_tft_model()
