@@ -51,11 +51,11 @@ jobs:
           name: graph-artifact
           path: artifacts/
 
-      # ✅ Download trained TFT model from Vector3on/ScoutIq using PAT
+      # ✅ Fixed token name: Use ACTIONS_PAT instead of github_token
       - name: Download Trained TFT Model from train_models.yml
         uses: dawidd6/action-download-artifact@v6
         with:
-          github_token: ${{ secrets.GH_PAT }}
+          github_token: ${{ secrets.ACTIONS_PAT }}
           workflow: train_models.yml
           workflow_conclusion: success
           name: tft-model-checkpoint
