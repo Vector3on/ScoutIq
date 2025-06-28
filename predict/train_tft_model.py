@@ -1,9 +1,7 @@
 # predict/train_tft_model.py
 #
-# THE ALL-IN-ONE, BULLETPROOF TFT TRAINING SCRIPT
-# – Loads your graph, simulates time-series,
-# – Builds & trains a TemporalFusionTransformer,
-# – No external dependencies beyond requirements.txt
+# FINAL BULLETPROOF TFT TRAINER
+# Now wraps the TFT in a LightningModule so Trainer accepts it directly
 
 import os
 import pickle
@@ -14,11 +12,14 @@ import torch
 from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer
 from pytorch_forecasting.metrics import QuantileLoss
 from pytorch_forecasting.data import GroupNormalizer
-from pytorch_lightning import Trainer
+from pytorch_lightning import Trainer, LightningModule
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 # ─── CONFIGURATION ───────────────────────────────────────────────────────────
 GRAPH_PATH      = "artifacts/hetero_graph_with_embeddings.gpickle"
+DATA_PATH       = "artifacts/timeseries_data.parquet"
+OUTPUT_DIR      = "artifacts"
+CHECKPOINT_FN   = "tft_model.ckpt"
 HISTORICAL_DAYS = 90
 MAX_ENCODER_LEN = 24
 MAX_PRED_LEN    = 12
@@ -27,12 +28,10 @@ MAX_EPOCHS      = 15
 TARGET_COL      = "star_count"
 TIME_COL        = "time_idx"
 GROUP_COL       = "project_id"
-OUTPUT_DIR      = "artifacts"
-CHECKPOINT_FN   = "tft_model.ckpt"
 # ──────────────────────────────────────────────────────────────────────────────
 
 def prepare_timeseries_df():
-    """Load graph; simulate per-project star history; return a tidy Pandas DataFrame."""
+    """Load graph; simulate per-project star history; return a DataFrame."""
     if not os.path.exists(GRAPH_PATH):
         raise FileNotFoundError(f"Graph not found at {GRAPH_PATH}")
     with open(GRAPH_PATH, "rb") as f:
@@ -41,7 +40,6 @@ def prepare_timeseries_df():
     for node_id, data in G.nodes(data=True):
         if data.get("node_type") != "Project":
             continue
-        # simulate backward growth
         base = data.get("stars", 1000) or 1000
         rate = random.uniform(1.005, 1.02)
         cur = float(base)
@@ -56,17 +54,63 @@ def prepare_timeseries_df():
                 TARGET_COL: float(val),
             })
     if not records:
-        raise RuntimeError("No Project nodes found to simulate.")
+        raise RuntimeError("No project nodes found.")
     df = pd.DataFrame(records)
-    # enforce types
     df[GROUP_COL] = df[GROUP_COL].astype("category")
     df[TIME_COL]  = df[TIME_COL].astype("int32")
     df[TARGET_COL] = df[TARGET_COL].astype("float32")
+    df.to_parquet(DATA_PATH, index=False)
     return df
 
-def train_tft(df: pd.DataFrame):
-    """Given a time-series DataFrame, build and train the TFT model."""
-    # build dataset
+class TFTModule(LightningModule):
+    def __init__(self, dataset):
+        super().__init__()
+        self.save_hyperparameters(ignore=['loss', 'logging_metrics'])
+        self.tft = TemporalFusionTransformer.from_dataset(
+            dataset,
+            learning_rate=1e-3,
+            hidden_size=16,
+            attention_head_size=1,
+            dropout=0.1,
+            loss=QuantileLoss(),
+            log_interval=10,
+            reduce_on_plateau_patience=4,
+        )
+
+    def forward(self, x):
+        return self.tft(x)
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        out = self.tft(x)
+        y_pred = out[0] if isinstance(out, tuple) else out
+        loss = self.tft.loss(y_pred, y)
+        self.log("train_loss", loss, prog_bar=True)
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        x, y = batch
+        out = self.tft(x)
+        y_pred = out[0] if isinstance(out, tuple) else out
+        loss = self.tft.loss(y_pred, y)
+        self.log("val_loss", loss, prog_bar=True)
+        return loss
+
+    def configure_optimizers(self):
+        return self.tft.configure_optimizers()
+
+def train_tft_model():
+    print("🚀 Starting TFT model training...")
+
+    # prepare or load data
+    if not os.path.exists(DATA_PATH):
+        print(f"📂 {DATA_PATH} missing. Generating it from graph...")
+        df = prepare_timeseries_df()
+    else:
+        print(f"📥 Loading existing time-series data from {DATA_PATH}")
+        df = pd.read_parquet(DATA_PATH)
+
+    # build datasets
     cutoff = df[TIME_COL].max() - MAX_PRED_LEN
     training = TimeSeriesDataSet(
         df[df[TIME_COL] <= cutoff],
@@ -87,45 +131,32 @@ def train_tft(df: pd.DataFrame):
     train_dl = training.to_dataloader(train=True, batch_size=BATCH_SIZE, num_workers=0)
     val_dl   = validation.to_dataloader(train=False, batch_size=BATCH_SIZE, num_workers=0)
 
-    # instantiate model
-    tft = TemporalFusionTransformer.from_dataset(
-        training,
-        learning_rate=1e-3,
-        hidden_size=16,
-        attention_head_size=1,
-        dropout=0.1,
-        loss=QuantileLoss(),
-        log_interval=10,
-        reduce_on_plateau_patience=4,
-    )
+    # wrap in LightningModule
+    model = TFTModule(training)
 
     # callbacks
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    ckpt_path = os.path.join(OUTPUT_DIR, CHECKPOINT_FN)
     checkpoint_cb = ModelCheckpoint(
         dirpath=OUTPUT_DIR,
         filename=os.path.splitext(CHECKPOINT_FN)[0],
-        save_top_k=1,
         monitor="val_loss",
-        mode="min"
+        save_top_k=1,
+        mode="min",
     )
-    early_stop_cb = EarlyStopping(monitor="val_loss", patience=3, mode="min")
+    earlystop_cb = EarlyStopping(monitor="val_loss", patience=3, mode="min")
 
     # trainer
     trainer = Trainer(
         max_epochs=MAX_EPOCHS,
         accelerator="cpu",
         logger=False,
-        callbacks=[checkpoint_cb, early_stop_cb],
+        callbacks=[earlystop_cb, checkpoint_cb],
         enable_progress_bar=True,
         gradient_clip_val=0.1
     )
 
-    trainer.fit(tft, train_dataloaders=train_dl, val_dataloaders=val_dl)
-    print(f"✅ Training complete. Checkpoint saved to {ckpt_path}")
+    trainer.fit(model, train_dataloaders=train_dl, val_dataloaders=val_dl)
+    print(f"✅ TFT training complete. Checkpoint in {OUTPUT_DIR}/{CHECKPOINT_FN}")
 
 if __name__ == "__main__":
-    print("🚀 OPAL TFT Training Starting")
-    df = prepare_timeseries_df()
-    print(f"📊 Prepared {len(df)} rows.")
-    train_tft(df)
+    train_tft_model()
