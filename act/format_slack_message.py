@@ -2,9 +2,8 @@
 #
 # Part of the ACT LAYER
 #
-# FINAL CORRECTED VERSION: This script now writes the formatted JSON
-# payload to a file instead of printing it to stdout. This is a more
-# robust method for GitHub Actions.
+# FINAL CORRECTED VERSION: This version adds the mandatory top-level "text"
+# field to the Slack payload to resolve the "no_text" API error.
 
 import json
 import os
@@ -65,10 +64,15 @@ def format_message():
             "elements": [{"type": "mrkdwn", "text": f"<{server_url}/{repo}/actions/runs/{run_id}|View full run details>"}]
         })
 
-    final_payload = {"blocks": blocks}
+    # --- THE FIX IS HERE ---
+    # The final payload must be a JSON object that contains BOTH a "blocks" key
+    # for the rich content, and a top-level "text" key for fallbacks.
+    final_payload = {
+        "text": f"Bloodhound Run Complete: Top project is {sorted_projects[0][0]} with score {sorted_projects[0][1]['hype_score']:.4f}",
+        "blocks": blocks
+    }
     
     # --- Write to File ---
-    # Instead of printing, we write the JSON to a file.
     with open(OUTPUT_PAYLOAD_PATH, 'w') as f:
         json.dump(final_payload, f)
         
