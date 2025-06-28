@@ -13,6 +13,7 @@ from prepare_tft_data import prepare_timeseries_data
 DATA_PATH = "artifacts/timeseries_data.parquet"
 MODEL_PATH = "artifacts/tft-model.ckpt"
 PREDICT_OUT = "results/tft_predictions.parquet"
+HYPE_JSON_PATH = "results/hype_scores.json"
 
 # Stub for TFT prediction output
 def run_dummy_tft_predict(df):
@@ -40,8 +41,8 @@ def run_inference():
 
     # Save as hype_scores.json for Slack
     scores = df_preds.sort_values("tft_score", ascending=False).head(10).to_dict(orient="records")
-    with open("results/hype_scores.json", "w") as f:
-        json.dump(scores, f, indent=2)
+    with open(HYPE_JSON_PATH, "w") as f:
+        json.dump({"projects": scores}, f, indent=2)
     print("📤 hype_scores.json written for Slack output")
 
 if __name__ == "__main__":
