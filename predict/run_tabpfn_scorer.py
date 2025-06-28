@@ -5,7 +5,7 @@ import pandas as pd
 from tabpfn import TabPFNClassifier
 
 FEATURES_PATH = "artifacts/tabpfn_features.parquet"
-OUTPUT_PATH = "results/tabpfn_scores.parquet"
+TABPFN_OUT = "results/tabpfn_scores.parquet"
 
 def run_tabpfn_scorer():
     print("⚙️  Running TabPFN scorer...")
@@ -23,7 +23,7 @@ def run_tabpfn_scorer():
     X = df[[col for col in df.columns if col.startswith("f")]].values
     y = df["target"].values
 
-    model = TabPFNClassifier(device="cpu")  # ✅ Fixed
+    model = TabPFNClassifier(device="cpu")
     model.fit(X, y)
 
     probs = model.predict_proba(X)
@@ -32,10 +32,9 @@ def run_tabpfn_scorer():
     df_out = df.copy()
     df_out["tabpfn_pred"] = preds
 
-    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-    df_out.to_parquet(OUTPUT_PATH)
-
-    print(f"✅ TabPFN predictions saved to {OUTPUT_PATH} with {len(df_out)} rows.")
+    os.makedirs(os.path.dirname(TABPFN_OUT), exist_ok=True)
+    df_out.to_parquet(TABPFN_OUT)
+    print(f"✅ TabPFN predictions saved to {TABPFN_OUT} with {len(df_out)} rows.")
 
 if __name__ == "__main__":
     run_tabpfn_scorer()
