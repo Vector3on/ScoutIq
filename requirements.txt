@@ -3,14 +3,16 @@ networkx
 sentence-transformers
 torch
 faiss-cpu
-numpy
 python-dotenv
 requests
 praw
 neo4j
 slack_sdk
 tabpfn
+numpy==1.24.4
+scikit-learn==1.2.2
 pyarrow
-pytorch-forecasting==0.10.1
-pytorch-lightning==1.9.0
-scikit-learn
+pandas
+pytorch-forecasting==1.0.0
+pytorch-lightning==1.7.7
+torch==1.13.1  # or match your CUDA if using GPU
