@@ -1,14 +1,11 @@
 # .github/workflows/train_models.yml
-#
-# OPAL Framework - LEARN Layer Workflow
-# Weekly job to train TFT model used by the daily OPAL pipeline
 
 name: OPAL - Weekly Model Training
 
 on:
-  workflow_dispatch:         # Manual trigger
+  workflow_dispatch:
   schedule:
-    - cron: '0 1 * * 0'      # Every Sunday at 1 AM UTC
+    - cron: '0 1 * * 0'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,10 +25,11 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install Dependencies (Safe Mode)
+      - name: Install Safe Dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install --prefer-binary --no-cache-dir -r requirements.txt
+          pip install --upgrade cython numpy
+          pip install --prefer-binary --no-cache-dir --no-build-isolation -r requirements.txt
 
       - name: Create Mock Data
         run: |
@@ -40,7 +38,7 @@ jobs:
           echo "\"ollama/ollama\",\"Get up and running with large language models, locally.\",50000" >> data/projects.csv
           echo "\"langchain-ai/langchain\",\"Building applications with LLMs through composability\",80000" >> data/projects.csv
 
-      - name: Build Graph (for data prep)
+      - name: Build Graph (for training)
         run: python observe/build_graph.py
 
       - name: Prepare Time-Series Data
