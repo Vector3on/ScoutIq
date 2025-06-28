@@ -1,74 +1,80 @@
 # predict/run_tft_predictor.py
 #
-# Part of the PREDICT LAYER (run daily)
-#
-# FINAL CORRECTED VERSION: This version fixes the FileNotFoundError by
-# pointing to the correct model checkpoint path in the 'artifacts' directory.
+# Daily OPAL inference: loads TFT checkpoint, predicts star_count,
+# and writes results to artifacts/tft_predictions.csv
 
 import os
-import polars as pl
-from pytorch_forecasting import TemporalFusionTransformer
-import torch
-import json
 import pandas as pd
+import torch
 
-# --- Configuration ---
-INPUT_DATA_PATH = "artifacts/timeseries_data.parquet"
-# --- THE FIX IS HERE ---
-# The path now correctly points to the 'artifacts' directory where the
-# training workflow saves the model.
-MODEL_CHECKPOINT_PATH = "artifacts/tft_model.ckpt"
-OUTPUT_PREDICTIONS_PATH = "results/tft_predictions.json"
+from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer
+from pytorch_lightning import Trainer
 
-def run_tft_predictor():
-    """
-    Loads a pre-trained TFT model and generates forecasts.
-    """
-    print("\n🔮 Starting TFT prediction run...")
+# ─── CONFIG ─────────────────────────────────────────────────────
+CHECKPOINT_PATH = "artifacts/tft_model.ckpt"
+DATA_PATH       = "artifacts/timeseries_data.parquet"
+OUTPUT_PATH     = "artifacts/tft_predictions.csv"
+BATCH_SIZE      = 64
+TIME_COL        = "time_idx"
+TARGET_COL      = "star_count"
+GROUP_COL       = "project_id"
+MAX_ENCODER_LEN = 24
+MAX_PRED_LEN    = 12
+# ───────────────────────────────────────────────────────────────
 
-    # 1. Load the pre-trained model
-    print(f"📥 Loading trained TFT model from {MODEL_CHECKPOINT_PATH}...")
-    try:
-        # Load the model from the corrected path
-        model = TemporalFusionTransformer.load_from_checkpoint(MODEL_CHECKPOINT_PATH)
-    except FileNotFoundError:
-        print(f"❌ Model checkpoint not found at {MODEL_CHECKPOINT_PATH}.")
-        print("   Please ensure the 'OPAL - Weekly Model Training' workflow has been run successfully at least once.")
-        return
-        
-    # 2. Load the latest timeseries data for inference
-    print(f"📥 Loading latest time-series data from {INPUT_DATA_PATH}...")
-    try:
-        df = pl.read_parquet(INPUT_DATA_PATH)
-        data = df.to_pandas()
-        data["month"] = data["time_idx"].mod(30).astype(str).astype("category")
-    except Exception as e:
-        print(f"❌ Error loading data for prediction: {e}.")
-        return
+def prepare_data_if_missing():
+    if not os.path.exists(DATA_PATH):
+        from predict.prepare_tft_data import prepare_timeseries_data
+        prepare_timeseries_data()
 
-    # 3. Generate predictions
-    print(f"Forecasting future star counts for {len(data['series_id'].unique())} projects...")
-    
-    # The `predict` method can take the full dataset; it will automatically
-    # use the last available data for each series as input.
-    raw_predictions = model.predict(data, mode="prediction")
+def load_dataset():
+    df = pd.read_parquet(DATA_PATH)
+    cutoff = df[TIME_COL].max() - MAX_PRED_LEN
+    dataset = TimeSeriesDataSet.from_dataset(
+        TimeSeriesDataSet(
+            df[df[TIME_COL] <= cutoff],
+            time_idx=TIME_COL,
+            target=TARGET_COL,
+            group_ids=[GROUP_COL],
+            max_encoder_length=MAX_ENCODER_LEN,
+            max_prediction_length=MAX_PRED_LEN,
+            time_varying_known_reals=[TIME_COL],
+            time_varying_unknown_reals=[TARGET_COL],
+        ),
+        df,
+        predict=True,
+        stop_randomization=True
+    )
+    return dataset
 
-    # 4. Format and save the predictions
-    predictions = {}
-    unique_series = data["series_id"].unique()
+def run_inference():
+    print("🔍 Starting TFT inference...")
+    prepare_data_if_missing()
+    dataset = load_dataset()
+    dataloader = dataset.to_dataloader(train=False, batch_size=BATCH_SIZE, num_workers=0)
 
-    for i, series_id in enumerate(unique_series):
-        # The predictions are for the next 7 days from the last data point.
-        series_prediction = raw_predictions[i].tolist()
-        predictions[series_id] = {
-            'predicted_star_growth_next_7_days': [round(p) for p in series_prediction]
-        }
-        
-    os.makedirs(os.path.dirname(OUTPUT_PREDICTIONS_PATH), exist_ok=True)
-    with open(OUTPUT_PREDICTIONS_PATH, 'w') as f:
-        json.dump(predictions, f, indent=2)
+    if not os.path.exists(CHECKPOINT_PATH):
+        raise FileNotFoundError(f"Checkpoint not found: {CHECKPOINT_PATH}")
 
-    print(f"✅ TFT predictions saved to {OUTPUT_PREDICTIONS_PATH}")
+    model = TemporalFusionTransformer.load_from_checkpoint(CHECKPOINT_PATH)
+    trainer = Trainer(accelerator="cpu", logger=False)
+
+    print("⚡ Running predictions...")
+    raw_preds = trainer.predict(model, dataloaders=dataloader)
+
+    # raw_preds is list of tensors; stack and flatten
+    all_preds = torch.cat(raw_preds).cpu().numpy().squeeze()
+    idxs = dataset.index_to_series()
+    times = dataset.index_to_time()
+
+    out_df = pd.DataFrame({
+        GROUP_COL: idxs[:, 0],
+        TIME_COL:  times[:, 0],
+        f"pred_{TARGET_COL}": all_preds
+    })
+    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    out_df.to_csv(OUTPUT_PATH, index=False)
+    print(f"✅ Predictions saved to {OUTPUT_PATH}")
 
 if __name__ == "__main__":
-    run_tft_predictor()
+    run_inference()
