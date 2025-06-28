@@ -10,3 +10,5 @@ praw
 neo4j
 slack_sdk
 tabpfn
+pytorch-forecasting
+pytorch-lightning
