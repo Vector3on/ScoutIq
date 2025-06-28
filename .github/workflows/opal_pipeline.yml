@@ -68,7 +68,7 @@ jobs:
         run: python predict/build_index.py
 
       - name: Prepare TabPFN Features
-        run: python predict/prepare_tft_data.py
+        run: python predict/prepare_tabpfn_data.py
 
       - name: Run TabPFN Scorer
         run: python predict/run_tabpfn_scorer.py
