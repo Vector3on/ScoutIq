@@ -1,18 +1,21 @@
-# Core infra
-polars==1.31.0
-networkx==3.5
-sentence-transformers==4.1.0
-torch==2.0.1
-faiss-cpu==1.11.0
-numpy==1.24.4
-python-dotenv==1.1.1
-requests==2.32.4
-praw==7.8.1
-neo4j==5.28.1
-slack_sdk==3.35.0
+# Core Infra
+polars
+networkx
+sentence-transformers
+torch
+faiss-cpu
+numpy
+python-dotenv
+requests
+praw
+neo4j
+slack_sdk
 
-# Time-series & forecasting stack
-pyarrow==15.0.2
+# ML Stack
+pyarrow
 scikit-learn==1.3.2
-pytorch-forecasting==0.10.1  # ✅ Supports Python 3.11
+pytorch-forecasting==0.10.1
 pytorch-lightning==1.9.0
+
+# TabPFN (assuming you meant this)
+tabpfn
