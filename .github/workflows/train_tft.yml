@@ -1,21 +1,17 @@
 # .github/workflows/train_tft.yml
 #
-# Corrected OPAL TFT Trainer — Weekly retrain with correct working directory
+# FINAL FIXED VERSION — works regardless of nesting inside ScoutIq
 
 name: OPAL - Weekly TFT Training
 
 on:
   schedule:
-    - cron: '0 3 * * 0'  # Every Sunday at 3:00 AM UTC
+    - cron: '0 3 * * 0'  # Every Sunday at 3 AM UTC
   workflow_dispatch:
 
 jobs:
   train:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./ScoutIq  # ✅ fix the path to match repo structure
 
     steps:
       - name: Check out repository
@@ -28,13 +24,13 @@ jobs:
           cache: 'pip'
 
       - name: Install Dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r ScoutIq/requirements.txt  # ✅ corrected path to requirements.txt
 
       - name: Run TFT Trainer
-        run: python predict/train_tft_model.py  # ✅ no double ScoutIq
+        run: python ScoutIq/predict/train_tft_model.py  # ✅ no working-dir nonsense
 
       - name: Upload Model Checkpoint
         uses: actions/upload-artifact@v4
         with:
           name: tft-model-checkpoint
-          path: checkpoints/tft_model.ckpt
+          path: ScoutIq/checkpoints/tft_model.ckpt  # ✅ full path
