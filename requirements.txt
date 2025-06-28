@@ -1,21 +1,21 @@
-# Core Infra
+# Infra
 polars
 networkx
 sentence-transformers
-torch
+torch==2.0.1
 faiss-cpu
-numpy
+numpy==1.24.4
 python-dotenv
 requests
 praw
 neo4j
 slack_sdk
 
-# ML Stack
+# ML Core (compatible versions)
 pyarrow
-scikit-learn==1.3.2
+scikit-learn==1.0.2        # ✅ compatible with pytorch-forecasting 0.10.1
 pytorch-forecasting==0.10.1
 pytorch-lightning==1.9.0
 
-# TabPFN (assuming you meant this)
+# Optional (comment out if unused)
 tabpfn
