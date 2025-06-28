@@ -1,12 +1,12 @@
 # predict/run_tabpfn_scorer.py
 #
-# Bulletproof TabPFN scoring script
-# Ensures TabPFN is importable, then fits and scores on your feature data.
+# Bulletproof TabPFN scoring script with clear error if features missing
 
 import os
 import sys
+import pandas as pd
 
-# ─── Fix import path for local modules ─────────────────────────────────────────
+# ─── Fix import path ────────────────────────────────────────────────────────────
 root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if root not in sys.path:
     sys.path.insert(0, root)
@@ -22,27 +22,26 @@ except ImportError:
         "  pip install tabpfn"
     )
 
-import pandas as pd
-
 def run_tabpfn_scorer():
     print("⚙️  Running TabPFN scorer...")
 
     FEATURES_PATH = "artifacts/tabpfn_features.parquet"
     if not os.path.exists(FEATURES_PATH):
-        raise FileNotFoundError(f"Feature file not found: {FEATURES_PATH}")
+        raise FileNotFoundError(
+            f"Feature file not found: {FEATURES_PATH}\n"
+            "Please generate it by running `predict/prepare_tabpfn_data.py` or ensure it exists."
+        )
+
     df = pd.read_parquet(FEATURES_PATH)
-
     if "target" not in df.columns:
-        raise ValueError("Column 'target' missing from features DataFrame")
-    X = df.drop(columns=["target"]).values
-    y = df["target"].values
+        raise ValueError("Column 'target' missing from features DataFrame.")
 
-    clf = TabPFNClassifier(
-        N_ensemble_configurations=8,
-        seed=42
-    )
+    X = df.drop(columns=["target"]).to_numpy()
+    y = df["target"].to_numpy()
+    print(f"Loaded {len(df)} rows of features.")
+
+    clf = TabPFNClassifier(N_ensemble_configurations=8, seed=42)
     clf.fit(X, y)
-
     preds = clf.predict(X)
 
     results_df = pd.DataFrame({"y_true": y, "y_pred": preds})
