@@ -1,12 +1,13 @@
 # predict/run_tabpfn_scorer.py
 #
-# FINAL UNIVERSAL VERSION — Fully portable, works across all TabPFN versions.
+# FINAL-BOSS SLAYER VERSION — Fully portable, float32-safe, and JSON-stable.
 
 import os
 import pickle
 import json
 import torch
 import polars as pl
+import numpy as np
 from tabpfn import TabPFNClassifier
 
 # --- Configuration ---
@@ -60,12 +61,12 @@ def run_tabpfn_scorer():
     classifier.fit(X, y)
 
     print("Performing prediction...")
-    y_proba = classifier.predict_proba(X)  # [n_samples, n_classes]
-    hype_scores = [max(row) for row in y_proba]  # take max probability as confidence
+    y_proba = classifier.predict_proba(X)
+    hype_scores = [float(round(max(row), 4)) for row in y_proba]  # Clean float32 to float64 conversion
 
     # 4. Save Results
     results = {
-        project_ids[i]: {"hype_score": round(hype_scores[i], 4)}
+        project_ids[i]: {"hype_score": hype_scores[i]}
         for i in range(len(project_ids))
     }
 
