@@ -1,7 +1,5 @@
 # .github/workflows/opal_pipeline.yml
-#
-# THE DEFINITIVE OPAL PIPELINE
-# This version uses explicit YAML syntax to prevent any parsing errors.
+# This version integrates the new Temporal Fusion Transformer predictor.
 
 name: OPAL - Full Unified Pipeline
 
@@ -15,112 +13,74 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # --- JOB 1: OBSERVE & BUILD GRAPH ---
   observe:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
       - name: Install Dependencies
         run: pip install -r requirements.txt
-
       - name: Create Mock Data
         run: |
           mkdir -p data
           echo "project_id,description,stars" > data/projects.csv
           echo "\"ollama/ollama\",\"Get up and running with large language models, locally.\",50000" >> data/projects.csv
           echo "\"langchain-ai/langchain\",\"Building applications with LLMs through composability\",80000" >> data/projects.csv
-          echo "signal_id,project_id,source,content,upvotes" > data/signals.csv
-          echo "\"hn_123\",\"ollama/ollama\",\"Hacker News\",\"Ollama is now available on Windows.\",150" >> data/signals.csv
-          echo "\"rd_456\",\"langchain-ai/langchain\",\"Reddit\",\"Has anyone tried LangChain for complex agentic workflows?\",50" >> data/signals.csv
-
       - name: Build Graph and Embeddings
         run: python observe/build_graph.py
-
       - name: Upload Graph Artifact
         uses: actions/upload-artifact@v4
-        with:
-          name: graph-artifact
-          path: artifacts/hetero_graph_with_embeddings.gpickle
+        with: { name: graph-artifact, path: artifacts/hetero_graph_with_embeddings.gpickle }
 
-  # --- JOB 2: PREDICT (DEPENDS ON OBSERVE) ---
   predict:
     runs-on: ubuntu-latest
     needs: observe 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
       - name: Install Dependencies
         run: pip install -r requirements.txt
-
       - name: Download Graph Artifact
         uses: actions/download-artifact@v4
-        with:
-          name: graph-artifact
-          path: artifacts
-
-      - name: Verify Graph Artifact
-        run: ls -R artifacts
-
+        with: { name: graph-artifact, path: artifacts }
       - name: Build FAISS Index
         run: python predict/build_index.py
-
       - name: Run TabPFN Scorer
         run: python predict/run_tabpfn_scorer.py
       
+      # --- NEW STEPS FOR TFT ---
+      - name: Prepare Time-Series Data
+        run: python predict/prepare_tft_data.py
+      
+      - name: Run TFT Predictor
+        run: python predict/run_tft_predictor.py
+        
       - name: Upload Hype Score Artifact
         uses: actions/upload-artifact@v4
-        with:
-          name: hype-scores
-          path: results/hype_scores.json
+        with: { name: hype-scores, path: results/ } # Upload all results
 
-  # --- JOB 3: ACT (DEPENDS ON PREDICT) ---
   act:
     runs-on: ubuntu-latest
     needs: predict
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-          
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11', cache: 'pip' }
       - name: Install Dependencies
         run: pip install -r requirements.txt
-        
       - name: Download Hype Score Artifact
         uses: actions/download-artifact@v4
-        with:
-          name: hype-scores
-          path: .
-      
+        with: { name: hype-scores, path: . }
       - name: Format Slack Message
         run: python act/format_slack_message.py
         env:
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_SERVER_URL: ${{ github.server_url }}
-
+            GITHUB_RUN_ID: ${{ github.run_id }}
+            GITHUB_REPOSITORY: ${{ github.repository }}
+            GITHUB_SERVER_URL: ${{ github.server_url }}
       - name: Send Detailed Slack Notification
         uses: slackapi/slack-github-action@v1.26.0
-        with:
-          payload-file-path: "./slack_payload.json"
+        with: { payload-file-path: "./slack_payload.json" }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
