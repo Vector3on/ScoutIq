@@ -1,63 +1,66 @@
 # predict/prepare_tft_data.py
-#
-# Part of the PREDICT LAYER
-#
-# Bulletproof version: Validates graph input, simulates project time series,
-# aligns schema with TFT model expectations, and ensures all required fields.
 
 import os
 import pickle
 import polars as pl
 import random
-import pandas as pd
 
-# --- Configuration ---
 INPUT_GRAPH_PATH = "artifacts/hetero_graph_with_embeddings.gpickle"
 OUTPUT_DATA_PATH = "artifacts/timeseries_data.parquet"
-HISTORICAL_DAYS = 90
 
 def prepare_timeseries_data():
-    """
-    Extracts and formats time-series data from the graph into Parquet.
-    """
     print("🧠 Starting Time-Series Data Preparation for TFT")
 
-    # 1. Load the graph
-    print(f"📦 Loading graph from {INPUT_GRAPH_PATH}...")
-    try:
-        with open(INPUT_GRAPH_PATH, 'rb') as f:
-            G = pickle.load(f)
-    except FileNotFoundError:
-        raise RuntimeError(f"❌ Graph file not found at {INPUT_GRAPH_PATH}")
+    # --- Step 1: Load Graph ---
+    if not os.path.exists(INPUT_GRAPH_PATH):
+        raise FileNotFoundError(f"❌ Graph file not found: {INPUT_GRAPH_PATH}")
 
-    # 2. Simulate historical star count data per project
-    print("🔄 Generating synthetic star count history...")
+    print(f"📦 Loading graph from {INPUT_GRAPH_PATH}...")
+    with open(INPUT_GRAPH_PATH, 'rb') as f:
+        G = pickle.load(f)
+
+    # --- Step 2: Find Project Nodes ---
     project_nodes = [
         (node_id, data) for node_id, data in G.nodes(data=True)
         if data.get("node_type") == "Project"
     ]
 
+    if not project_nodes:
+        raise ValueError("❌ No 'Project' nodes found in the graph!")
+
+    print(f"✅ Found {len(project_nodes)} Project nodes.")
+
+    # --- Step 3: Simulate Star Count History ---
+    print("🔄 Generating synthetic star count history...")
     all_series_data = []
+
     for project_id, data in project_nodes:
-        stars = data.get("stars", 1000) or 1000
-        growth = random.uniform(1.005, 1.02)
+        base_stars = data.get("stars", 1000) or 1000
+        growth_rate = random.uniform(1.005, 1.02)
+        days = 90
+        current_stars = base_stars
+        temp_history = []
 
-        # Reverse simulates 90-day history
-        star_history = []
-        current = stars
-        for _ in range(HISTORICAL_DAYS):
-            star_history.append(current)
-            current /= (growth + random.uniform(-0.001, 0.001))
+        for _ in range(days):
+            temp_history.append(current_stars)
+            current_stars /= (growth_rate + random.uniform(-0.001, 0.001))
 
-        # Chronological + consistent schema
-        for i, star_count in enumerate(reversed(star_history)):
+        for i, star_count in enumerate(reversed(temp_history)):
             all_series_data.append({
-                "project_id": str(project_id),         # group_id
-                "time_idx": i,                         # time index
-                "star_count": float(star_count),       # target
+                "series_id": str(project_id),
+                "time_idx": i,
+                "star_count": int(star_count)
             })
 
     if not all_series_data:
-        raise RuntimeError("❌ No valid time-series project data found.")
+        raise ValueError("❌ Time-series generation failed: no data produced.")
 
-    # 3. Convert to DataFrame and validate schema
+    df_timeseries = pl.DataFrame(all_series_data)
+
+    # --- Step 4: Save ---
+    os.makedirs(os.path.dirname(OUTPUT_DATA_PATH), exist_ok=True)
+    df_timeseries.write_parquet(OUTPUT_DATA_PATH)
+    print(f"✅ Time-series data saved: {OUTPUT_DATA_PATH} with {len(df_timeseries)} rows.")
+
+if __name__ == "__main__":
+    prepare_timeseries_data()
