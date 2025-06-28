@@ -1,100 +1,103 @@
 # predict/train_tft_model.py
 #
-# Part of the LEARN LAYER (run weekly)
-#
-# Objective:
-# 1. Load all historical time-series data.
-# 2. Train a Temporal Fusion Transformer model on this data.
-# 3. Save the trained model checkpoint as an artifact.
+# Weekly OPAL trainer — builds Temporal Fusion Transformer on GitHub star data.
+# Output: checkpoints/tft_model.ckpt
 
 import os
 import polars as pl
 import torch
+import pandas as pd
 from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer
 from pytorch_forecasting.data import GroupNormalizer
 from pytorch_lightning import Trainer
-from pytorch_lightning.callbacks import EarlyStopping
-import pandas as pd
-
-# --- Configuration ---
-INPUT_DATA_PATH = "artifacts/timeseries_data.parquet"
-OUTPUT_MODEL_PATH = "artifacts/tft_model.ckpt"
+from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
+from pytorch_lightning.loggers import TensorBoardLogger
 
 def train_tft_model():
-    """
-    Trains and saves a TFT model.
-    """
-    print("\n🚀 Starting TFT model training on GitHub star trends...")
+    print("\n🚀 Starting TFT model training (weekly)")
 
-    # 1. Load and prepare data
-    print(f"📥 Loading data from {INPUT_DATA_PATH}...")
-    try:
-        df = pl.read_parquet(INPUT_DATA_PATH)
-        data = df.to_pandas()
-    except Exception as e:
-        print(f"❌ Error loading data: {e}. Please ensure the 'Observe' job ran successfully.")
-        return
+    # Load data
+    print("📥 Reading artifacts/timeseries_data.parquet...")
+    df = pl.read_parquet("artifacts/timeseries_data.parquet")
+    data = df.to_pandas()
 
-    # Add a month column for time-varying known categoricals
-    data["month"] = data["time_idx"].mod(30).astype(str).astype("category")
+    # Validate
+    if "star_count" not in data.columns:
+        raise ValueError("Missing 'star_count' in dataset.")
+    if not pd.api.types.is_float_dtype(data["star_count"]):
+        print("🔁 Converting 'star_count' to float32...")
+        data["star_count"] = data["star_count"].astype("float32")
 
-    # 2. Define dataset parameters
-    max_prediction_length = 7  # Predict 7 days ahead
-    max_encoder_length = 30    # Use 30 days of history
+    # Time series settings
+    max_encoder_length = 24
+    max_prediction_length = 12
     training_cutoff = data["time_idx"].max() - max_prediction_length
 
-    # 3. Create the training dataset
-    print("📦 Creating TimeSeriesDataSet for training...")
-    training_dataset = TimeSeriesDataSet(
-        data[lambda x: x.time_idx <= training_cutoff],
+    # Build dataset
+    print("🧱 Building TimeSeriesDataSet...")
+    training = TimeSeriesDataSet(
+        data[data.time_idx <= training_cutoff],
         time_idx="time_idx",
         target="star_count",
         group_ids=["series_id"],
         max_encoder_length=max_encoder_length,
         max_prediction_length=max_prediction_length,
+        static_categoricals=[],
+        static_reals=[],
+        time_varying_known_categoricals=[],
         time_varying_known_reals=["time_idx"],
+        time_varying_unknown_categoricals=[],
         time_varying_unknown_reals=["star_count"],
-        time_varying_known_categoricals=["month"], # Added month as a feature
-        target_normalizer=GroupNormalizer(groups=["series_id"], transformation="softplus"),
-    )
-    
-    # 4. Create a validation dataset to prevent overfitting
-    validation_dataset = TimeSeriesDataSet.from_dataset(training_dataset, data, predict=True, stop_randomization=True)
-    
-    # Create dataloaders
-    train_dataloader = training_dataset.to_dataloader(train=True, batch_size=64, num_workers=0)
-    val_dataloader = validation_dataset.to_dataloader(train=False, batch_size=64, num_workers=0)
-
-    # 5. Configure and train the model
-    print("⚙️ Configuring and training the TFT model...")
-    early_stop_callback = EarlyStopping(monitor="val_loss", min_delta=1e-4, patience=5, verbose=False, mode="min")
-    
-    trainer = Trainer(
-        max_epochs=20, # A reasonable number of epochs for a weekly run
-        accelerator="cpu",
-        enable_model_summary=True,
-        gradient_clip_val=0.1,
-        callbacks=[early_stop_callback],
+        target_normalizer=GroupNormalizer(groups=["series_id"]),
+        add_relative_time_idx=True,
+        add_target_scales=True,
+        add_encoder_length=True,
     )
 
+    validation = TimeSeriesDataSet.from_dataset(training, data, predict=True, stop_randomization=True)
+
+    # Dataloaders
+    print("📦 Creating dataloaders...")
+    train_dataloader = training.to_dataloader(train=True, batch_size=64, num_workers=0)
+    val_dataloader = validation.to_dataloader(train=False, batch_size=64, num_workers=0)
+
+    # Model config
+    print("🧠 Initializing TFT...")
     tft = TemporalFusionTransformer.from_dataset(
-        training_dataset,
-        learning_rate=0.03,
+        training,
+        learning_rate=1e-3,
         hidden_size=16,
-        attention_head_size=2,
+        attention_head_size=1,
         dropout=0.1,
         hidden_continuous_size=8,
+        output_size=1,
+        loss=torch.nn.MSELoss(),
+        log_interval=10,
+        reduce_on_plateau_patience=4,
     )
 
-    print(f"Found {tft.size()} parameters. Training...")
+    # Training setup
+    early_stop_callback = EarlyStopping(monitor="val_loss", patience=5, mode="min")
+    lr_logger = LearningRateMonitor()
+    logger = TensorBoardLogger("lightning_logs", name="tft")
+
+    trainer = Trainer(
+        max_epochs=30,
+        gradient_clip_val=0.1,
+        callbacks=[early_stop_callback, lr_logger],
+        logger=logger,
+        enable_checkpointing=True,
+        default_root_dir="checkpoints",
+    )
+
+    # Train!
+    print("🎯 Training begins...")
     trainer.fit(tft, train_dataloaders=train_dataloader, val_dataloaders=val_dataloader)
 
-    # 6. Save the best model checkpoint
-    print(f"💾 Saving best model to {OUTPUT_MODEL_PATH}...")
-    trainer.save_checkpoint(OUTPUT_MODEL_PATH)
-    print("✅ Training complete.")
-
+    # Save model
+    os.makedirs("checkpoints", exist_ok=True)
+    trainer.save_checkpoint("checkpoints/tft_model.ckpt")
+    print("✅ Saved: checkpoints/tft_model.ckpt")
 
 if __name__ == "__main__":
     train_tft_model()
-
