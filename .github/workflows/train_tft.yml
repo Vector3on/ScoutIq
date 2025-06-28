@@ -1,6 +1,6 @@
 # .github/workflows/train_tft.yml
 #
-# FINAL FIXED VERSION — works regardless of nesting inside ScoutIq
+# Final version — runs from root, no directory confusion
 
 name: OPAL - Weekly TFT Training
 
@@ -24,13 +24,13 @@ jobs:
           cache: 'pip'
 
       - name: Install Dependencies
-        run: pip install -r ScoutIq/requirements.txt  # ✅ corrected path to requirements.txt
+        run: pip install -r requirements.txt  # ✅ this file is in repo root
 
       - name: Run TFT Trainer
-        run: python ScoutIq/predict/train_tft_model.py  # ✅ no working-dir nonsense
+        run: python predict/train_tft_model.py  # ✅ directly accessible
 
       - name: Upload Model Checkpoint
         uses: actions/upload-artifact@v4
         with:
           name: tft-model-checkpoint
-          path: ScoutIq/checkpoints/tft_model.ckpt  # ✅ full path
+          path: checkpoints/tft_model.ckpt  # ✅ relative to repo root
