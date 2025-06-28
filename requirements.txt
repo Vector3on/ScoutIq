@@ -16,3 +16,4 @@ faiss-cpu
 scikit-learn==1.3.2
 pytorch-lightning==1.9.5
 pytorch-forecasting==1.4.0
+tabpfn
