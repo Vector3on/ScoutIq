@@ -27,8 +27,22 @@ def prepare_data_if_missing():
         print(f"📥 {DATA_PATH} not found. Running data preparation...")
         prepare_timeseries_data()
 
+def ensure_mock_data():
+    os.makedirs("data", exist_ok=True)
+    mock_data_path = "data/projects.csv"
+    if not os.path.exists(mock_data_path):
+        print("⚠️ projects.csv not found. Creating mock data...")
+        with open(mock_data_path, "w") as f:
+            f.write("project_id,description,stars\n")
+            f.write("\"ollama/ollama\",\"Run large language models locally\",50000\n")
+            f.write("\"langchain-ai/langchain\",\"Framework for LLM-powered apps\",80000\n")
+        print("✅ Mock data created.")
+    else:
+        print("✅ projects.csv already exists.")
+
 def run_inference():
     print("🔍 Starting TFT inference...")
+    ensure_mock_data()
     prepare_data_if_missing()
 
     df = pd.read_parquet(DATA_PATH)
