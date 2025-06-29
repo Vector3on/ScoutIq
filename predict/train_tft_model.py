@@ -27,7 +27,7 @@ BATCH_SIZE      = 64
 MAX_EPOCHS      = 15
 TARGET_COL      = "star_count"
 TIME_COL        = "time_idx"
-GROUP_COL       = "project_id"
+GROUP_COL       = "series_id"  # ✅ FIXED
 # ──────────────────────────────────────────────────────────────────────────────
 
 def prepare_timeseries_df():
