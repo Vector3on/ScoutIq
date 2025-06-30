@@ -7,21 +7,27 @@ import sys
 # --- Define Modal App and Image ---
 app = modal.App("bloodhound-vc-weekly-training")
 
+import modal
+
+# Fixed image setup block — avoids pandas/torch/numpy conflict
 image = (
-    modal.Image.debian_slim(python_version="3.10")
-    .pip_install("pip==24.0")
+    modal.Image.debian_slim()
+    .apt_install("git")  # Required to clone private repos inside Modal
     .pip_install(
-        "requests",
-        "praw",
-        "neo4j",
-        "pandas==1.5.3",  # ✅ Compatible with pytorch-forecasting 0.10.3
-        "pyarrow",
-        "torch==1.13.1",
-        "pytorch-lightning==1.7.7",
-        "pytorch-forecasting==0.10.3",
+        "pip==24.0",
         "GitPython==3.1.43",
+        "neo4j",
+        "numpy==1.24.4",
+        "pandas==1.5.3",
+        "praw",
+        "pyarrow",
+        "pytorch-forecasting==0.10.3",
+        "pytorch-lightning==1.7.7",
+        "requests",
+        "torch==1.13.1"
     )
 )
+
 
 @app.function(
     image=image,
