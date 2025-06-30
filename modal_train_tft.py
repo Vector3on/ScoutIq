@@ -1,11 +1,13 @@
-# modal_train_tft.py
+# modal_train_tft.py (Corrected for modern Modal API)
 import modal
 import os
 
 # --- Environment Definition ---
 # This section defines the perfect, isolated environment for our training job.
 # It specifies the exact, stable library versions we need, solving all dependency conflicts.
-stub = modal.Stub("bloodhound-vc-weekly-training")
+
+# FIX: Use modal.App instead of the older modal.Stub
+app = modal.App("bloodhound-vc-weekly-training")
 
 image = modal.Image.debian_slim(python_version="3.10").pip_install(
     "requests",
@@ -22,7 +24,9 @@ image = modal.Image.debian_slim(python_version="3.10").pip_install(
 # --- The Training Function ---
 # This function runs in the cloud, inside the environment we just defined.
 # We request a T4 GPU and pass our secrets to it.
-@stub.function(
+
+# FIX: Use @app.function decorator instead of @stub.function
+@app.function(
     image=image,
     gpu="T4",  # Request a GPU for faster training
     secrets=[
