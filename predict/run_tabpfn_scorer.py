@@ -1,53 +1,39 @@
 # predict/run_tabpfn_scorer.py
-#
-# Part of the PREDICT LAYER
-#
-# UPDATED VERSION: This script now outputs a JSON file for the 'act' layer.
 
 import os
-import json
-import polars as pl
+import pandas as pd
 from tabpfn import TabPFNClassifier
 
-# --- Configuration ---
-INPUT_FEATURES_PATH = "artifacts/tabpfn_features.parquet"
-OUTPUT_SCORES_PATH = "results/hype_scores.json" # Changed to JSON for Slack
+FEATURES_PATH = "artifacts/tabpfn_features.parquet"
+TABPFN_OUT = "results/tabpfn_scores.parquet"
 
 def run_tabpfn_scorer():
-    """
-    Loads pre-prepared features and generates a hype score using TabPFN.
-    """
-    print("--- Starting TabPFN Hype Scorer ---")
+    print("⚙️  Running TabPFN scorer...")
 
-    # 1. Load pre-prepared features
-    print(f"Loading features from {INPUT_FEATURES_PATH}...")
-    df_features = pl.read_parquet(INPUT_FEATURES_PATH)
+    if not os.path.exists(FEATURES_PATH):
+        raise FileNotFoundError(
+            f"Feature file not found: {FEATURES_PATH}\n"
+            "Please generate it by running `predict/prepare_tabpfn_data.py` or ensure it exists."
+        )
 
-    project_ids = df_features['project_id'].to_list()
-    X = df_features.drop(['project_id', 'target']).to_numpy()
-    y = df_features.select('target').to_numpy().flatten()
+    df = pd.read_parquet(FEATURES_PATH)
+    if "target" not in df.columns:
+        raise ValueError("Column 'target' missing from features DataFrame.")
 
-    # 2. Run TabPFN Inference
-    print("Loading TabPFN model and running inference...")
-    classifier = TabPFNClassifier(device='cpu')
-    classifier.fit(X, y)
-    
-    # Get probability of class '1' (our "hype" class)
-    hype_probs = classifier.predict_proba(X)[:, 1]
-    
-    print("Inference completed.")
+    X = df[[col for col in df.columns if col.startswith("f")]].values
+    y = df["target"].values
 
-    # 3. Save the scores to a JSON file
-    results = {
-        project_id: {'hype_score': round(float(hype_probs[i]), 4)}
-        for i, project_id in enumerate(project_ids)
-    }
+    model = TabPFNClassifier(device="cpu")
+    model.fit(X, y)
 
-    os.makedirs(os.path.dirname(OUTPUT_SCORES_PATH), exist_ok=True)
-    with open(OUTPUT_SCORES_PATH, 'w') as f:
-        json.dump(results, f, indent=2)
+    preds = model.predict(X)
 
-    print(f"✅ Hype scores saved to {OUTPUT_SCORES_PATH}")
+    df_out = df.copy()
+    df_out["tabpfn_pred"] = preds
+
+    os.makedirs(os.path.dirname(TABPFN_OUT), exist_ok=True)
+    df_out.to_parquet(TABPFN_OUT)
+    print(f"✅ TabPFN predictions saved to {TABPFN_OUT} with {len(df_out)} rows.")
 
 if __name__ == "__main__":
     run_tabpfn_scorer()
