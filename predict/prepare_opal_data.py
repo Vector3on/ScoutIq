@@ -1,4 +1,4 @@
-# predict/prepare_opal_data.py (Corrected)
+# predict/prepare_opal_data.py (Corrected and more robust)
 import os
 import pandas as pd
 from neo4j import GraphDatabase
@@ -37,11 +37,16 @@ def create_real_timeseries_data():
             driver.close()
             return
             
-        # --- THIS IS THE FIX for the AttributeError ---
-        # Apply the conversion to each element in the Series, not the whole Series
-        df['day'] = pd.to_datetime(df['day'].apply(lambda x: x.to_py_date()))
+        # --- THIS IS THE ROBUST FIX for the AttributeError ---
+        # Only call .to_py_date() if the attribute exists, otherwise pass the value through.
+        # This safely handles any None values or other types.
+        df['day'] = pd.to_datetime(df['day'].apply(lambda x: x.to_py_date() if hasattr(x, 'to_py_date') else x))
 
     print(f"  - Processing data for {df['project_id'].nunique()} projects...")
+    
+    # Drop rows where day might be NaT (Not a Time) after conversion
+    df.dropna(subset=['day'], inplace=True)
+
     full_date_range = pd.date_range(start=df['day'].min(), end=df['day'].max(), freq='D')
     
     final_df = pd.DataFrame()
