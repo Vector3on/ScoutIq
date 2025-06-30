@@ -1,4 +1,4 @@
-# predict/train_tft_model.py (Final Version with Typo Fix)
+# predict/train_tft_model.py (Final Version with Modern Syntax)
 
 import os
 import pandas as pd
@@ -13,7 +13,7 @@ from pytorch_forecasting.metrics import QuantileLoss
 DATA_PATH = "artifacts/real_timeseries_data.parquet"
 MODEL_PATH = "artifacts/tft_model.ckpt"
 MAX_ENCODER_LENGTH = 60
-MAX_PREDICTION_LENGTH = 14 # This is the correctly spelled variable
+MAX_PREDICTION_LENGTH = 14
 BATCH_SIZE = 128
 
 def train_model():
@@ -29,7 +29,6 @@ def train_model():
     df = pd.read_parquet(DATA_PATH)
     
     # --- Create the TimeSeriesDataSet ---
-    # THIS IS THE FIX: Corrected the typo in the variable name below.
     training_cutoff = df["time_idx"].max() - MAX_PREDICTION_LENGTH
     
     training_dataset = TimeSeriesDataSet(
@@ -55,6 +54,7 @@ def train_model():
     early_stop_callback = EarlyStopping(monitor="val_loss", min_delta=1e-4, patience=5, verbose=False, mode="min")
     lr_logger = LearningRateMonitor()
     
+    # Use 'accelerator' and 'devices' for modern PyTorch Lightning
     accelerator = "gpu" if torch.cuda.is_available() else "cpu"
     
     trainer = pl.Trainer(
@@ -81,6 +81,7 @@ def train_model():
     
     print(f"  - Starting model training on {accelerator.upper()}...")
     
+    # Use positional arguments for .fit() in modern versions
     trainer.fit(
         tft,
         train_dataloader,
