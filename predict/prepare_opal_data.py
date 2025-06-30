@@ -4,7 +4,6 @@ import pandas as pd
 from neo4j import GraphDatabase
 from datetime import datetime, timedelta
 
-# --- Configuration ---
 NEO4J_URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.environ.get("NEO4J_USERNAME", "neo4j")
 NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
@@ -21,6 +20,7 @@ def create_real_timeseries_data():
     with driver.session(database="neo4j") as session:
         query = """
         MATCH (p:Project)-[:HAS_SIGNAL]->(s:Signal)
+        WHERE s.created_at IS NOT NULL
         RETURN
             p.project_id AS project_id,
             date(s.created_at) AS day,
@@ -36,16 +36,13 @@ def create_real_timeseries_data():
             driver.close()
             return
             
-        # --- THIS IS THE ROBUST FIX for the TypeError ---
-        # Explicitly loop through the 'day' column and convert each Neo4j Date
-        # object to a standard Python date object before passing to pandas.
-        converted_dates = []
-        for item in df['day']:
-            if hasattr(item, 'to_py_date'):
-                converted_dates.append(item.to_py_date())
-            else:
-                converted_dates.append(item) # Pass through any other types (like None)
-        df['day'] = pd.to_datetime(converted_dates)
+        # --- FINAL FIX for the TypeError ---
+        # Step 1: Manually create a new list containing only standard Python date objects.
+        # This is the most robust way to handle the conversion.
+        sanitized_dates = [item.to_py_date() for item in df['day']]
+
+        # Step 2: Assign the clean list back and then let pandas convert it.
+        df['day'] = pd.to_datetime(sanitized_dates)
     
     print(f"  - Processing data for {df['project_id'].nunique()} projects...")
     df.dropna(subset=['day'], inplace=True)
