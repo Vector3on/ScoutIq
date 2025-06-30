@@ -1,18 +1,23 @@
 # --------------------------------------------
-# 📦 Data Collection Libraries
+# For data collection
 # --------------------------------------------
 requests
 praw
 
 # --------------------------------------------
-# 🛢️ Data Loading / Graph DB Integration
+# For data loading
 # --------------------------------------------
 neo4j
 
 # --------------------------------------------
-# 📊 Data Handling & Processing
+# For AI-powered prediction & data handling
 # --------------------------------------------
 pandas==2.2.2
 pyarrow
 
-# ---------------------------------
+# --------------------------------------------
+# 🔥 The Crucial Stable Combination (TFT Stack)
+# --------------------------------------------
+torch==1.13.1
+pytorch-lightning==1.7.7
+pytorch-forecasting==0.10.3
