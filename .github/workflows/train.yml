@@ -29,7 +29,6 @@ jobs:
 
       - name: Deploy to Modal
         # This command connects to Modal using your secrets and deploys the app.
-        # The app will then run on the schedule defined in the Python script.
         env:
           MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
           MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
