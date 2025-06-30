@@ -6,13 +6,13 @@ from pathlib import Path
 
 # ─── Modal Config ─────────────────────────────────────────────────────────────
 
-# All secrets go under one Modal Secret group: 'bloodhound-secrets'
-stub = modal.Stub(
+# Modal App definition
+app = modal.App(
     "bloodhound-train-tft",
     secrets=[modal.Secret.from_name("bloodhound-secrets")]
 )
 
-# Image & deps
+# Image with all dependencies
 image = (
     modal.Image.debian_slim()
     .apt_install("git")
@@ -31,12 +31,12 @@ image = (
     )
 )
 
-# Shared volume for persistence if needed
+# Shared volume if needed
 volume = modal.SharedVolume().persisted("bloodhound-shared-vol")
 
 # ─── Train Function ───────────────────────────────────────────────────────────
 
-@stub.function(
+@app.function(
     image=image,
     shared_volumes={"/root/data": volume},
     timeout=1800,
@@ -51,9 +51,8 @@ def train_weekly_model():
     GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 
     repo_url = f"https://oauth2:{GITHUB_TOKEN}@github.com/{GITHUB_REPO}.git"
-
-    # Clone the repo
     repo_path = Path("/app/bloodhound-vc")
+
     if repo_path.exists():
         shutil.rmtree(repo_path)
 
@@ -61,10 +60,8 @@ def train_weekly_model():
     subprocess.run(["git", "clone", "--depth", "1", "--branch", GITHUB_BRANCH, repo_url, str(repo_path)], check=True)
     print("✅ Repo cloned successfully to", repo_path)
 
-    # Add repo to sys.path
     sys.path.insert(0, str(repo_path))
 
-    # Import and run training
     try:
         from predict import prepare_opal_data, train_tft_model
     except ModuleNotFoundError as e:
@@ -78,19 +75,17 @@ def train_weekly_model():
     timestamp = datetime.utcnow().isoformat()
     print(f"✅ Training completed at {timestamp} | Metrics: {metrics}")
 
-# ─── Debug/Test Secrets Function ──────────────────────────────────────────────
+# ─── Secrets Debug Function ───────────────────────────────────────────────────
 
-@stub.function(secrets=[modal.Secret.from_name("bloodhound-secrets")])
+@app.function(secrets=[modal.Secret.from_name("bloodhound-secrets")])
 def f():
     print("🔍 GITHUB_REPO:", os.environ["GITHUB_REPO"])
 
 # ─── Entrypoint ───────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    stub.deploy("modal_train_tft")
-    with stub.run():
-        # You can run this for testing
+    app.deploy("modal_train_tft")
+    with app.run():
+        # Choose one of these based on your purpose:
         f.remote()
-
-        # Or this for actual training
-        train_weekly_model.remote()
+        # train_weekly_model.remote()
