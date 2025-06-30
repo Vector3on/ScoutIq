@@ -38,8 +38,14 @@ image = (
 # Modal volume (for checkpoints or persistent cache if needed)
 volume = modal.SharedVolume().persisted("bloodhound-shared-vol")
 
-# Stub
-stub = modal.Stub("bloodhound-train-tft")
+# ✅ ADD THIS — Stub with secrets
+stub = modal.Stub(
+    "bloodhound-train-tft",
+    secrets=[
+        modal.Secret.from_name("GITHUB_TOKEN"),
+        modal.Secret.from_name("GITHUB_REPO")
+    ]
+)
 
 # ─── Modal Function ───────────────────────────────────────────────────────────
 
