@@ -1,4 +1,4 @@
-# .github/workflows/main.yml (Final Corrected Version)
+# .github/workflows/main.yml (Final Artifact-Based Version)
 name: Bloodhound OPAL Daily Prediction
 
 on:
@@ -11,20 +11,19 @@ jobs:
     name: Daily Signal Prediction
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code with LFS
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          # --- FIX #1: This is the critical change ---
-          # This tells the checkout action to find any files tracked by
-          # Git LFS and download the full file, not just the pointer.
-          lfs: true
 
-      # --- FIX #2: Add a diagnostic step ---
-      # This step will show us the contents of the artifacts directory.
-      # We can see if the tft_model.ckpt file is its full size or just a small pointer.
-      - name: Verify Artifacts
+      # --- THIS IS THE DEFINITIVE FIX ---
+      # Step 1: Download the model artifact from the latest successful weekly run
+      - name: Download Model from Weekly Run Artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Verifying contents of artifacts directory..."
+          echo "Downloading TFT model from the latest successful artifact..."
+          gh run list --workflow="main.yml" --repo=$GITHUB_REPOSITORY --json databaseId,conclusion --jq '.[] | select(.conclusion == "success") | .databaseId' | head -n 1 | xargs -I % gh run download % --repo=$GITHUB_REPOSITORY --name tft-model-checkpoint --dir artifacts
+          
+          echo "Verifying downloaded artifacts..."
           ls -lh artifacts/
 
       - name: Set up Python
