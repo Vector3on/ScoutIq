@@ -1,39 +1,34 @@
-# modal_train_tft.py (Final Working Version)
+# modal_train_tft.py
 import modal
 import os
 
-# --- Environment Definition ---
-# This section defines the perfect, isolated environment for our training job.
-# It specifies the exact, stable library versions we need, solving all dependency conflicts.
 app = modal.App("bloodhound-vc-weekly-training")
 
+# Build the custom image with system and pip dependencies
 image = (
     modal.Image.debian_slim(python_version="3.10")
-    .pip_install("pip==24.0")  # ✅ Crucial to handle lightning's outdated requirement syntax
+    .apt_install("git")  # 👈 CRUCIAL: Install actual git binary
     .pip_install(
         "requests",
         "praw",
         "neo4j",
-        "pandas==1.5.3",  # ✅ FIX: compatible with pytorch-forecasting==0.10.3
+        "pandas==2.2.2",
         "pyarrow",
         "torch==1.13.1",
         "pytorch-lightning==1.7.7",
         "pytorch-forecasting==0.10.3",
-        "GitPython==3.1.43",
+        "GitPython==3.1.43"
     )
 )
 
-# --- The Training Function ---
-# This function runs in the cloud, inside the environment we just defined.
 @app.function(
     image=image,
-    gpu="T4",  # Request a GPU for faster training
+    gpu="T4",
     secrets=[modal.Secret.from_name("bloodhound-secrets")],
-    timeout=3600,  # 1 hour timeout
-    schedule=modal.Cron("0 5 * * 0")  # Every Sunday at 5:00 AM UTC
+    timeout=3600,
+    schedule=modal.Cron("0 5 * * 0")  # Every Sunday 5:00AM UTC
 )
 def train_weekly_model():
-    # --- Part 1: Clone the Project Repo ---
     print("--> Cloning repository...")
     from git import Repo
 
@@ -47,14 +42,12 @@ def train_weekly_model():
     os.chdir(repo_path)
     print(f"✅ Repo cloned successfully into {repo_path}")
 
-    # --- Part 2: Execute the Training Scripts ---
     print("\n--> Executing the training workflow...")
     from predict import prepare_opal_data, train_tft_model
 
     prepare_opal_data.create_real_timeseries_data()
     train_tft_model.train_model()
 
-    # --- Part 3: Verify and Return Result ---
     model_path = "artifacts/tft_model.ckpt"
     if os.path.exists(model_path):
         print(f"✅ SUCCESS: Model file created at {model_path}")
