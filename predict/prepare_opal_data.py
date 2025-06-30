@@ -1,4 +1,4 @@
-# predict/prepare_opal_data.py (Corrected and more robust)
+# predict/prepare_opal_data.py (Final Corrected Version)
 import os
 import pandas as pd
 from neo4j import GraphDatabase
@@ -30,25 +30,32 @@ def create_real_timeseries_data():
         """
         print("  - Querying Neo4j for daily signal aggregations...")
         results = session.run(query)
-        
         df = pd.DataFrame([r.data() for r in results])
         if df.empty:
             print("  - ERROR: No signal data found in Neo4j. Cannot prepare data.")
             driver.close()
             return
             
-        # --- THIS IS THE ROBUST FIX for the AttributeError ---
-        # Only call .to_py_date() if the attribute exists, otherwise pass the value through.
-        # This safely handles any None values or other types.
-        df['day'] = pd.to_datetime(df['day'].apply(lambda x: x.to_py_date() if hasattr(x, 'to_py_date') else x))
-
-    print(f"  - Processing data for {df['project_id'].nunique()} projects...")
+        # --- THIS IS THE ROBUST FIX for the TypeError ---
+        # Explicitly loop through the 'day' column and convert each Neo4j Date
+        # object to a standard Python date object before passing to pandas.
+        converted_dates = []
+        for item in df['day']:
+            if hasattr(item, 'to_py_date'):
+                converted_dates.append(item.to_py_date())
+            else:
+                converted_dates.append(item) # Pass through any other types (like None)
+        df['day'] = pd.to_datetime(converted_dates)
     
-    # Drop rows where day might be NaT (Not a Time) after conversion
+    print(f"  - Processing data for {df['project_id'].nunique()} projects...")
     df.dropna(subset=['day'], inplace=True)
 
+    if df.empty:
+        print("  - No valid date entries found after cleaning. Aborting data preparation.")
+        driver.close()
+        return
+
     full_date_range = pd.date_range(start=df['day'].min(), end=df['day'].max(), freq='D')
-    
     final_df = pd.DataFrame()
     for project_id in df['project_id'].unique():
         project_df = df[df['project_id'] == project_id].set_index('day')
