@@ -1,4 +1,4 @@
-# predict/train_tft_model.py (Stable Version for Conda Environment)
+# predict/train_tft_model.py (Stable Version for Modal Environment)
 
 import os
 import pandas as pd
@@ -46,6 +46,7 @@ def train_model():
     early_stop_callback = EarlyStopping(monitor="val_loss", min_delta=1e-4, patience=5, verbose=False, mode="min")
     lr_logger = LearningRateMonitor()
     
+    # For pytorch-lightning==1.7.7, the accelerator is specified with 'gpus'
     gpus = 1 if torch.cuda.is_available() else 0
     
     trainer = pl.Trainer(
