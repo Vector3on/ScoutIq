@@ -1,4 +1,4 @@
-# requirements.txt (Final Version with Pinned Dependencies)
+# requirements.txt (Final Version for Python 3.11)
 
 # For data collection
 requests
@@ -11,8 +11,8 @@ neo4j
 pandas==2.2.2
 pyarrow
 
-# --- The Crucial Fix ---
-# Pinning libraries to a known compatible set to solve the TypeError
-torch==2.3.0
-pytorch-lightning==2.1.4
-pytorch-forecasting==1.0.0
+# --- The Crucial Fix for Python 3.11 ---
+# This is a more modern, compatible set of libraries.
+torch~=2.3.0
+pytorch-lightning~=2.2.5
+pytorch-forecasting~=1.2.0
