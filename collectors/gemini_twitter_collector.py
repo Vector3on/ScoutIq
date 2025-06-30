@@ -1,11 +1,10 @@
-# collectors/gemini_twitter_collector.py
-import os
-import requests
-from datetime import datetime, timezone
+# collectors/gemini_twitter_collector.py (New snscrape version)
 
-TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
-API_ENDPOINT = "https://api.twitter.com/2/tweets/search/recent"
+import snscrape.modules.twitter as sntwitter
+import itertools
+from datetime import datetime, timedelta, timezone
 
+# We still use the same keyword mapping
 PROJECT_KEYWORDS = {
     "langchain-ai/langchain": "(langchain OR #langchain)",
     "microsoft/autogen": "(autogen OR #autogen)",
@@ -14,47 +13,54 @@ PROJECT_KEYWORDS = {
     "superagent-ai/superagent": "(superagent OR #superagentai)",
 }
 
-def _bearer_oauth(r):
-    r.headers["Authorization"] = f"Bearer {TWITTER_BEARER_TOKEN}"
-    r.headers["User-Agent"] = "BloodhoundVCETL"
-    return r
+# Configuration for the scraper
+TWEET_LIMIT_PER_KEYWORD = 30 # Limit to avoid excessively long scrapes
 
 def collect_signals():
-    """Scrapes Twitter for project mentions and returns them as a list of signals."""
-    if not TWITTER_BEARER_TOKEN:
-        print("    - WARN: TWITTER_BEARER_TOKEN not found. Skipping Twitter.")
-        return []
-
-    print("  - Collecting signals from Twitter...")
+    """
+    Scrapes Twitter for project mentions using snscrape to avoid API rate limits.
+    This version does NOT require any API keys.
+    """
+    print("  - Collecting signals from Twitter (using snscrape)...")
     signals = []
     ingestion_time = datetime.now(timezone.utc).isoformat()
+    
+    # Define the time window for the search (e.g., last 3 days)
+    since_date = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
 
-    for project_id, query in PROJECT_KEYWORDS.items():
-        params = {'query': f"{query} -is:retweet", 'tweet.fields': 'public_metrics,created_at'}
+    for project_id, keyword_query in PROJECT_KEYWORDS.items():
+        # Construct the full query for snscrape
+        full_query = f"{keyword_query} since:{since_date}"
+        
         try:
-            response = requests.get(API_ENDPOINT, auth=_bearer_oauth, params=params)
-            if response.status_code != 200:
-                print(f"      - ERROR: Twitter API request failed with status {response.status_code}: {response.text}")
-                continue
+            # Create the scraper object and limit the number of tweets
+            scraper = sntwitter.TwitterSearchScraper(full_query)
             
-            json_response = response.json()
-            if not json_response.get("data"):
-                continue
-
-            for tweet in json_response["data"]:
+            for i, tweet in enumerate(itertools.islice(scraper.get_items(), TWEET_LIMIT_PER_KEYWORD)):
                 signal = {
-                    "signalId": f"twitter-{tweet['id']}",
+                    "signalId": f"twitter-{tweet.id}",
                     "project_id": project_id,
                     "source": "Twitter",
-                    "signalUrl": f"https://twitter.com/anyuser/status/{tweet['id']}",
-                    "title": tweet['text'],
-                    "upvotes": tweet['public_metrics']['like_count'],
-                    "createdAt": datetime.strptime(tweet['created_at'], "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc).isoformat(),
+                    "signalUrl": tweet.url,
+                    "title": tweet.rawContent,
+                    "upvotes": tweet.likeCount,
+                    "createdAt": tweet.date.isoformat(),
                     "ingestedAt": ingestion_time
                 }
                 signals.append(signal)
+
         except Exception as e:
-            print(f"      - ERROR: An exception occurred during Twitter search for '{query}': {e}")
+            print(f"      - ERROR: An exception occurred during snscrape for '{keyword_query}': {e}")
+            # Continue to the next keyword even if one fails
+            continue
             
-    print(f"    - Twitter: Collected {len(signals)} signals.")
+    print(f"    - Twitter: Collected {len(signals)} signals via snscrape.")
     return signals
+
+if __name__ == '__main__':
+    # For testing the collector directly
+    import json
+    collected_signals = collect_signals()
+    with open("results/signals-twitter.json", 'w') as f:
+        json.dump(collected_signals, f, indent=2)
+    print("Sample Twitter signals saved to results/signals-twitter.json")
