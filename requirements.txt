@@ -1,19 +1,18 @@
-# requirements.txt (Final Version with Pinned Dependencies)
-
-# For data collection
+# --------------------------------------------
+# 📦 Data Collection Libraries
+# --------------------------------------------
 requests
 praw
 
-# For data loading
+# --------------------------------------------
+# 🛢️ Data Loading / Graph DB Integration
+# --------------------------------------------
 neo4j
 
-# For AI-powered prediction & data handling
+# --------------------------------------------
+# 📊 Data Handling & Processing
+# --------------------------------------------
 pandas==2.2.2
 pyarrow
 
-# --- The Crucial Fix for the TypeError ---
-# Pinning libraries to a known compatible set as per instructions.
-# This combination is stable and works together.
-torch==1.13.1
-pytorch-lightning==1.7.7
-pytorch-forecasting==0.10.3
+# ---------------------------------
