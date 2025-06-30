@@ -1,12 +1,12 @@
-# act/format_slack_message.py
-#
-# FINAL FIXED VERSION — compatible with new hype_scores.json format
+# act/format_slack_message.py (Corrected)
 
 import json
 import os
 
 # --- Configuration ---
-INPUT_SCORES_PATH = "hype_scores.json"
+# --- THIS IS THE FIX ---
+# Point to the correct path where the predictor saves the file.
+INPUT_SCORES_PATH = "results/hype_scores.json"
 OUTPUT_PAYLOAD_PATH = "slack_payload.json"
 TOP_N_PROJECTS = 5
 
@@ -17,18 +17,19 @@ def format_message():
             data = json.load(f)
             projects = data.get("projects", [])
     except FileNotFoundError:
-        print(f"❌ Error: Scores file not found at {INPUT_SCORES_PATH}")
+        # This error message is now more accurate.
+        print(f"❌ Error: Scores file not found at '{INPUT_SCORES_PATH}'")
         with open(OUTPUT_PAYLOAD_PATH, 'w') as f:
-            json.dump({"text": "Bloodhound OPAL Run: Failed to find hype_scores.json artifact."}, f)
+            json.dump({"text": f"Bloodhound OPAL Run: Failed to find artifact at {INPUT_SCORES_PATH}"}, f)
         return
 
-    if not isinstance(projects, list) or len(projects) == 0:
-        print("❌ Error: No valid project scores found.")
+    if not isinstance(projects, list) or not projects:
+        print("❌ Error: No valid project scores found in the input file.")
         with open(OUTPUT_PAYLOAD_PATH, 'w') as f:
             json.dump({"text": "Bloodhound OPAL Run: No valid hype scores found."}, f)
         return
 
-    # ✅ Sort by tft_score (hype score proxy)
+    # Sort by tft_score (hype score proxy)
     sorted_projects = sorted(projects, key=lambda p: p["tft_score"], reverse=True)
 
     blocks = [
@@ -47,8 +48,8 @@ def format_message():
     ]
 
     for p in sorted_projects[:TOP_N_PROJECTS]:
-        repo_id = p["series_id"]
-        score = p["tft_score"]
+        repo_id = p.get("series_id", "Unknown Project")
+        score = p.get("tft_score", 0)
         project_name = repo_id.split("/")[-1]
 
         blocks.append({
@@ -87,7 +88,7 @@ def format_message():
     }
 
     with open(OUTPUT_PAYLOAD_PATH, 'w') as f:
-        json.dump(final_payload, f)
+        json.dump(final_payload, f, indent=2)
 
     print(f"✅ Slack payload written to {OUTPUT_PAYLOAD_PATH}")
 
