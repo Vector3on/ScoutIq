@@ -1,4 +1,4 @@
-# predict/prepare_opal_data.py
+# predict/prepare_opal_data.py (Corrected)
 import os
 import pandas as pd
 from neo4j import GraphDatabase
@@ -11,10 +11,6 @@ NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "password")
 OUTPUT_DATA_PATH = "artifacts/real_timeseries_data.parquet"
 
 def create_real_timeseries_data():
-    """
-    Connects to Neo4j, queries real signal data, and aggregates it into a
-    daily time-series format suitable for TFT model training.
-    """
     if not NEO4J_PASSWORD:
         print("    - WARN: NEO4J_PASSWORD not found. Skipping data preparation.")
         return
@@ -22,10 +18,7 @@ def create_real_timeseries_data():
     print("--- Preparing Real Time-Series Data for OPAL ---")
     driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
     
-    all_project_data = []
-
     with driver.session(database="neo4j") as session:
-        # This query fetches all signals and groups them by project and day
         query = """
         MATCH (p:Project)-[:HAS_SIGNAL]->(s:Signal)
         RETURN
@@ -44,10 +37,11 @@ def create_real_timeseries_data():
             driver.close()
             return
             
-        df['day'] = pd.to_datetime(df['day'].to_py_date())
+        # --- THIS IS THE FIX for the AttributeError ---
+        # Apply the conversion to each element in the Series, not the whole Series
+        df['day'] = pd.to_datetime(df['day'].apply(lambda x: x.to_py_date()))
 
     print(f"  - Processing data for {df['project_id'].nunique()} projects...")
-    # Create a complete date range to fill missing days with zeros
     full_date_range = pd.date_range(start=df['day'].min(), end=df['day'].max(), freq='D')
     
     final_df = pd.DataFrame()
@@ -58,11 +52,8 @@ def create_real_timeseries_data():
         project_df = project_df.reset_index().rename(columns={'index': 'day'})
         final_df = pd.concat([final_df, project_df])
 
-    # Add time_idx, which is required by PyTorch Forecasting
     final_df = final_df.sort_values(by=['project_id', 'day'])
     final_df['time_idx'] = final_df.groupby('project_id').cumcount()
-
-    # Ensure correct data types
     final_df['mention_count'] = final_df['mention_count'].astype(float)
     final_df['daily_upvotes'] = final_df['daily_upvotes'].astype(float)
 
