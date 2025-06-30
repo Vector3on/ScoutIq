@@ -1,19 +1,15 @@
-requirements.txt (Final Pinned Version for Hugging Face)
-For the Gradio UI
-gradio==3.50.2
-
-For data collection
+# --- Data Collection ---
 requests
 praw
 
-For data loading
+# --- Data Loading ---
 neo4j
 
-For AI-powered prediction & data handling
+# --- AI-Powered Prediction & Data Handling ---
 pandas==2.2.2
 pyarrow
 
-The Crucial Stable Combination for our ML model
-torch==1.13.1
-pytorch-lightning==1.7.7
-pytorch-forecasting==0.10.3
+# --- Note ---
+# For maximum compatibility with PyTorch Forecasting and Lightning under Python 3.10:
+# Install these separately via Conda in the environment:
+#   conda install pytorch==1.13.1 pytorch-lightning==1.7.7 pytorch-forecasting==0.10.3 -c conda-forge
