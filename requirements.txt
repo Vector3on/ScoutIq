@@ -19,3 +19,6 @@ pyarrow
 # 🤖 AI/ML Model Training (Stable combo)
 # These versions are known to work together without conflict
 # ---------
+scikit-learn
+numpy
+matplotlib
