@@ -1,21 +1,18 @@
-# ─── Core Libraries ─────────────────────────────
-polars
-networkx
-pyarrow
-python-dotenv
+# requirements.txt (Final Version with Pinned Dependencies)
+
+# For data collection
 requests
 praw
-neo4j
-slack_sdk
-sentence-transformers
-numpy
-torch
-faiss-cpu
 
-# ─── ML Stack (Latest Stable + Compatible) ──────
-scikit-learn==1.3.2
-pytorch-lightning==1.9.5
-pytorch-forecasting==1.4.0
-tabpfn
-snscrape==0.7.0.20230622
-certifi
+# For data loading
+neo4j
+
+# For AI-powered prediction & data handling
+pandas==2.2.2
+pyarrow
+
+# --- The Crucial Fix ---
+# Pinning libraries to a known compatible set to solve the TypeError
+torch==2.3.0
+pytorch-lightning==2.1.4
+pytorch-forecasting==1.0.0
