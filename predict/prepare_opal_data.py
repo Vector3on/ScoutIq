@@ -14,7 +14,7 @@ def create_real_timeseries_data():
         return
 
     print("--- Preparing Real Time-Series Data for OPAL ---")
-    driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEOJ_PASSWORD))
+    driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
     
     with driver.session(database="neo4j") as session:
         # --- THIS IS THE FIX for the TypeError ---
