@@ -1,63 +1,59 @@
 # predict/run_tft_predictor.py
+#
+# Part of the PREDICT LAYER (run daily)
+#
+# This script loads the trained TFT model and makes a forecast.
 
 import os
-import sys
 import pandas as pd
 import json
+from pytorch_forecasting import TemporalFusionTransformer
 
-# Add current folder to sys.path for local import
-sys.path.append(os.path.dirname(__file__))
-
-from prepare_tft_data import prepare_timeseries_data
-
+# --- Configuration ---
 DATA_PATH = "artifacts/timeseries_data.parquet"
-MODEL_PATH = "artifacts/tft-model.ckpt"
-PREDICT_OUT = "results/tft_predictions.parquet"
-HYPE_JSON_PATH = "results/hype_scores.json"
+MODEL_PATH = "artifacts/tft_model.ckpt"
+PREDICTIONS_OUT = "results/tft_predictions.json"
 
-# Stub for TFT prediction output
-def run_dummy_tft_predict(df):
-    # Replace this with your real model inference
-    df_out = df.groupby("series_id").tail(1)[["series_id", "star_count"]].copy()
-    df_out["tft_score"] = df_out["star_count"] * 1.03  # dummy growth
-    return df_out[["series_id", "tft_score"]]
+def run_tft_predictor():
+    print("🔮 Starting TFT inference...")
+    
+    # 1. Load the trained model
+    if not os.path.exists(MODEL_PATH):
+        print(f"⚠️ Model checkpoint not found at {MODEL_PATH}. Skipping TFT prediction.")
+        # Create an empty file to ensure the 'act' job doesn't fail
+        os.makedirs(os.path.dirname(PREDICTIONS_OUT), exist_ok=True)
+        with open(PREDICTIONS_OUT, "w") as f:
+            json.dump({}, f)
+        return
 
-def prepare_data_if_missing():
-    if not os.path.exists(DATA_PATH):
-        print(f"📥 {DATA_PATH} not found. Running data preparation...")
-        prepare_timeseries_data()
-
-def ensure_mock_data():
-    os.makedirs("data", exist_ok=True)
-    mock_data_path = "data/projects.csv"
-    if not os.path.exists(mock_data_path):
-        print("⚠️ projects.csv not found. Creating mock data...")
-        with open(mock_data_path, "w") as f:
-            f.write("project_id,description,stars\n")
-            f.write("\"ollama/ollama\",\"Run large language models locally\",50000\n")
-            f.write("\"langchain-ai/langchain\",\"Framework for LLM-powered apps\",80000\n")
-        print("✅ Mock data created.")
-    else:
-        print("✅ projects.csv already exists.")
-
-def run_inference():
-    print("🔍 Starting TFT inference...")
-    ensure_mock_data()
-    prepare_data_if_missing()
-
+    print(f"📥 Loading trained model from {MODEL_PATH}...")
+    model = TemporalFusionTransformer.load_from_checkpoint(MODEL_PATH)
+    
+    # 2. Load the full dataset for prediction context
     df = pd.read_parquet(DATA_PATH)
-    print(f"✅ Loaded {len(df)} rows for prediction")
+    df["star_count"] = df["star_count"].astype("float32")
+    
+    # 3. Generate predictions
+    print(f"Forecasting for {len(df['series_id'].unique())} projects...")
+    # The `predict` method will automatically use the last available data for each series
+    raw_predictions = model.predict(df)
+    
+    # 4. Format and save the predictions
+    predictions = {}
+    unique_series = df["series_id"].unique()
+    
+    for i, series_id in enumerate(unique_series):
+        # The output is a tensor of shape [prediction_length]
+        # These are the predicted star counts for the next 7 days
+        series_prediction = raw_predictions[i].tolist()
+        predictions[series_id] = {
+            'predicted_star_values_next_7_days': [round(p, 2) for p in series_prediction]
+        }
 
-    df_preds = run_dummy_tft_predict(df)
-    os.makedirs(os.path.dirname(PREDICT_OUT), exist_ok=True)
-    df_preds.to_parquet(PREDICT_OUT)
-    print(f"📈 TFT predictions saved to {PREDICT_OUT} with {len(df_preds)} rows.")
-
-    # Save as hype_scores.json for Slack
-    scores = df_preds.sort_values("tft_score", ascending=False).head(10).to_dict(orient="records")
-    with open(HYPE_JSON_PATH, "w") as f:
-        json.dump({"projects": scores}, f, indent=2)
-    print("📤 hype_scores.json written for Slack output")
+    with open(PREDICTIONS_OUT, "w") as f:
+        json.dump(predictions, f, indent=2)
+        
+    print(f"📈 TFT predictions saved to {PREDICTIONS_OUT}")
 
 if __name__ == "__main__":
-    run_inference()
+    run_tft_predictor()
