@@ -1,4 +1,4 @@
-# predict/train_tft_model.py (Final Version with Modern Syntax)
+# predict/train_tft_model.py (Stable Version for venv)
 
 import os
 import pandas as pd
@@ -17,20 +17,14 @@ MAX_PREDICTION_LENGTH = 14
 BATCH_SIZE = 128
 
 def train_model():
-    """
-    Trains the TFT model using modern syntax compatible with newer versions
-    of PyTorch Lightning that are being installed in the Colab environment.
-    """
     if not os.path.exists(DATA_PATH):
         print(f"❌ ERROR: Data file not found at {DATA_PATH}. Run prepare_opal_data.py first.")
         return
 
-    print("--- Training OPAL Temporal Fusion Transformer (Modern Syntax) ---")
+    print("--- Training OPAL Temporal Fusion Transformer (Stable Version) ---")
     df = pd.read_parquet(DATA_PATH)
     
-    # --- Create the TimeSeriesDataSet ---
     training_cutoff = df["time_idx"].max() - MAX_PREDICTION_LENGTH
-    
     training_dataset = TimeSeriesDataSet(
         df[lambda x: x.time_idx <= training_cutoff],
         time_idx="time_idx",
@@ -45,28 +39,23 @@ def train_model():
         add_relative_time_idx=True,
     )
 
-    # --- Create validation set and dataloaders ---
     validation_dataset = TimeSeriesDataSet.from_dataset(training_dataset, df, predict=True, stop_randomization=True)
     train_dataloader = training_dataset.to_dataloader(train=True, batch_size=BATCH_SIZE, num_workers=0)
     val_dataloader = validation_dataset.to_dataloader(train=False, batch_size=BATCH_SIZE, num_workers=0)
 
-    # --- Configure the Trainer with Modern Syntax ---
     early_stop_callback = EarlyStopping(monitor="val_loss", min_delta=1e-4, patience=5, verbose=False, mode="min")
     lr_logger = LearningRateMonitor()
     
-    # Use 'accelerator' and 'devices' for modern PyTorch Lightning
-    accelerator = "gpu" if torch.cuda.is_available() else "cpu"
+    gpus = 1 if torch.cuda.is_available() else 0
     
     trainer = pl.Trainer(
         max_epochs=30,
-        accelerator=accelerator,
-        devices=1,
+        gpus=gpus,
         gradient_clip_val=0.1,
         limit_train_batches=50,
         callbacks=[lr_logger, early_stop_callback],
     )
 
-    # --- Configure the Model ---
     tft = TemporalFusionTransformer.from_dataset(
         training_dataset,
         learning_rate=0.03,
@@ -79,16 +68,14 @@ def train_model():
         reduce_on_plateau_patience=4,
     )
     
-    print(f"  - Starting model training on {accelerator.upper()}...")
+    print(f"  - Starting model training on {'GPU' if gpus > 0 else 'CPU'}...")
     
-    # Use positional arguments for .fit() in modern versions
     trainer.fit(
-        tft,
-        train_dataloader,
-        val_dataloader,
+        model=tft,
+        train_dataloaders=train_dataloader,
+        val_dataloaders=val_dataloader,
     )
     
-    # --- Save the best model checkpoint ---
     best_model_path = trainer.checkpoint_callback.best_model_path
     if best_model_path and os.path.exists(best_model_path):
         if os.path.exists(MODEL_PATH):
