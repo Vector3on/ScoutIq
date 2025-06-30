@@ -2,63 +2,55 @@ import modal
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
-# ─── Modal Setup ──────────────────────────────────────────────────────────────
+# ─── Modal Config ─────────────────────────────────────────────────────────────
 
-# Using modal.App, which is the recommended new pattern.
-# The app is named "bloodhound-train-tft", which will be used for deployment.
-app = modal.App("bloodhound-train-tft")
+# All secrets go under one Modal Secret group: 'bloodhound-secrets'
+stub = modal.Stub(
+    "bloodhound-train-tft",
+    secrets=[modal.Secret.from_name("bloodhound-secrets")]
+)
 
-# The image definition remains the same. It installs dependencies.
-# Version pins for ML libraries are removed to let pip resolve compatible versions.
+# Image & deps
 image = (
     modal.Image.debian_slim()
     .apt_install("git")
     .pip_install(
-        "GitPython",
+        "pip==23.3.1",
+        "GitPython==3.1.43",
         "neo4j",
-        "pandas",
+        "numpy==1.24.4",
+        "pandas==1.5.3",
         "praw",
         "pyarrow",
-        "pytorch-forecasting",
-        "pytorch-lightning",
+        "pytorch-forecasting==0.10.3",
+        "pytorch-lightning==1.7.6",
         "requests",
-        "torch"
+        "torch==1.13.1"
     )
 )
 
-# Modal volume (for checkpoints or persistent cache if needed)
+# Shared volume for persistence if needed
 volume = modal.SharedVolume().persisted("bloodhound-shared-vol")
 
-# ─── Modal Function ───────────────────────────────────────────────────────────
+# ─── Train Function ───────────────────────────────────────────────────────────
 
-@app.function(
+@stub.function(
     image=image,
     shared_volumes={"/root/data": volume},
     timeout=1800,
     gpu="A10G",
-    # All secrets are now loaded from a single group called "bloodhound-secrets".
-    # Make sure this secret group exists in your Modal account and contains
-    # both GITHUB_TOKEN and GITHUB_REPO.
-    secrets=[modal.Secret.from_name("bloodhound-secrets")]
 )
 def train_weekly_model():
     import subprocess
     import shutil
-    from pathlib import Path
 
-    # The function now reads the secrets directly from the environment,
-    # which are populated by the `secrets` argument in the decorator.
-    GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-    GITHUB_REPO = os.environ.get("GITHUB_REPO")
-
-    if not GITHUB_TOKEN or not GITHUB_REPO:
-        print("❌ Missing GITHUB_TOKEN or GITHUB_REPO in environment.")
-        print("Ensure they are set in the 'bloodhound-secrets' secret group in Modal.")
-        sys.exit(1)
+    GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
+    GITHUB_REPO = os.environ["GITHUB_REPO"]
+    GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 
     repo_url = f"https://oauth2:{GITHUB_TOKEN}@github.com/{GITHUB_REPO}.git"
-    GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 
     # Clone the repo
     repo_path = Path("/app/bloodhound-vc")
@@ -69,30 +61,36 @@ def train_weekly_model():
     subprocess.run(["git", "clone", "--depth", "1", "--branch", GITHUB_BRANCH, repo_url, str(repo_path)], check=True)
     print("✅ Repo cloned successfully to", repo_path)
 
-    # Add repo to sys.path so it can import predict/
+    # Add repo to sys.path
     sys.path.insert(0, str(repo_path))
 
-    # Import training functions
+    # Import and run training
     try:
         from predict import prepare_opal_data, train_tft_model
-    except (ModuleNotFoundError, ImportError) as e:
-        print(f"❌ Failed to import modules: {e}")
-        print("Listing contents of /app/bloodhound-vc:")
-        os.system(f"ls -lR {repo_path}")
+    except ModuleNotFoundError as e:
+        print("❌ Failed to import modules:", e)
         sys.exit(1)
 
-    # Call training pipeline
     print("🚀 Starting training pipeline...")
     df = prepare_opal_data.main()
     metrics = train_tft_model.main(df)
 
-    # Save or log training output
     timestamp = datetime.utcnow().isoformat()
     print(f"✅ Training completed at {timestamp} | Metrics: {metrics}")
 
-# ─── Entry ────────────────────────────────────────────────────────────────────
+# ─── Debug/Test Secrets Function ──────────────────────────────────────────────
 
-# This block is mainly for local testing and deployment.
-# Your GitHub Action `modal deploy modal_train_tft.py` will deploy the `app` object.
+@stub.function(secrets=[modal.Secret.from_name("bloodhound-secrets")])
+def f():
+    print("🔍 GITHUB_REPO:", os.environ["GITHUB_REPO"])
+
+# ─── Entrypoint ───────────────────────────────────────────────────────────────
+
 if __name__ == "__main__":
-    app.deploy()
+    stub.deploy("modal_train_tft")
+    with stub.run():
+        # You can run this for testing
+        f.remote()
+
+        # Or this for actual training
+        train_weekly_model.remote()
