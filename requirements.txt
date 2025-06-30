@@ -1,23 +1,19 @@
-# -------------------------------
-# Data Collection
-# -------------------------------
+requirements.txt (Final Pinned Version for Hugging Face)
+For the Gradio UI
+gradio==3.50.2
+
+For data collection
 requests
 praw
 
-# -------------------------------
-# Data Loading
-# -------------------------------
+For data loading
 neo4j
 
-# -------------------------------
-# AI-Powered Prediction & Data Handling
-# -------------------------------
+For AI-powered prediction & data handling
 pandas==2.2.2
 pyarrow
 
-# -------------------------------
-# Crucial Stable ML Stack (Python < 3.11)
-# Note: torch is installed via conda separately for CUDA support
-# -------------------------------
+The Crucial Stable Combination for our ML model
+torch==1.13.1
 pytorch-lightning==1.7.7
 pytorch-forecasting==0.10.3
