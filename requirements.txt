@@ -1,24 +1,19 @@
-# -------------------------------
-# 📦 Core: Data Collection
-# -------------------------------
+# requirements.txt (Final Version with Pinned Dependencies)
+
+# For data collection
 requests
 praw
 
-# -------------------------------
-# 🛢️  Data Loading & Querying
-# -------------------------------
+# For data loading
 neo4j
 
-# -------------------------------
-# 📊 Data Processing
-# -------------------------------
+# For AI-powered prediction & data handling
 pandas==2.2.2
 pyarrow
 
-# -------------------------------
-# 🤖 AI/ML Model Training (Stable combo)
-# These versions are known to work together without conflict
-# ---------
-scikit-learn
-numpy
-matplotlib
+# --- The Crucial Fix for the TypeError ---
+# Pinning libraries to a known compatible set as per instructions.
+# This combination is stable and works together.
+torch==1.13.1
+pytorch-lightning==1.7.7
+pytorch-forecasting==0.10.3
