@@ -1,0 +1,41 @@
+# .github/workflows/main.yml
+name: Bloodhound VC Daily Run
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *' # Runs at 8 AM UTC every day
+
+jobs:
+  run-pipeline:
+    name: Collect, Load, and Predict
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Collectors
+        id: collect
+        run: python run_pipeline.py
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+      
+      # NOTE: In the future, we will add more steps here for the
+      # Gemini Predict and Act layers after this step succeeds.
+      - name: Run Complete
+        if: success()
+        run: echo "Pipeline's Collect and Load phases completed successfully."
