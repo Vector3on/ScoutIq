@@ -1,23 +1,15 @@
-# --------------------------------------------
-# For data collection
-# --------------------------------------------
+# Data Collection
 requests
 praw
 
-# --------------------------------------------
-# For data loading
-# --------------------------------------------
+# Data Loading
 neo4j
 
-# --------------------------------------------
-# For AI-powered prediction & data handling
-# --------------------------------------------
+# AI-Powered Prediction & Data Handling
 pandas==2.2.2
 pyarrow
 
-# --------------------------------------------
-# 🔥 The Crucial Stable Combination (TFT Stack)
-# --------------------------------------------
+# Crucial Stable ML Stack
 torch==1.13.1
 pytorch-lightning==1.7.7
 pytorch-forecasting==0.10.3
