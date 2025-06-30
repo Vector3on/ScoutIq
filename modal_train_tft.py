@@ -4,10 +4,11 @@ import os
 
 app = modal.App("bloodhound-vc-weekly-training")
 
-# Build the custom image with system and pip dependencies
+# Build image with system + pip + Python deps, with safe pip version
 image = (
     modal.Image.debian_slim(python_version="3.10")
-    .apt_install("git")  # 👈 CRUCIAL: Install actual git binary
+    .apt_install("git")
+    .pip_install("pip==24.0")  # 👈 Pin pip to avoid metadata rejection
     .pip_install(
         "requests",
         "praw",
@@ -26,7 +27,7 @@ image = (
     gpu="T4",
     secrets=[modal.Secret.from_name("bloodhound-secrets")],
     timeout=3600,
-    schedule=modal.Cron("0 5 * * 0")  # Every Sunday 5:00AM UTC
+    schedule=modal.Cron("0 5 * * 0")
 )
 def train_weekly_model():
     print("--> Cloning repository...")
