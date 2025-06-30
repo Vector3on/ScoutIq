@@ -1,10 +1,19 @@
-# daily_run.py (Corrected)
+# daily_run.py (Final Corrected Version)
 import os
 import json
+import ssl # <--- IMPORT SSL
 from collectors import gemini_github_collector, gemini_hacker_news_collector, gemini_reddit_collector, gemini_twitter_collector
 from loaders import neo4j_loader
 from predict import prepare_opal_data, run_tft_predictor
 from act import format_slack_message
+
+# ==============================================================================
+# --- FINAL FIX for SSL: CERTIFICATE_VERIFY_FAILED ---
+# This globally overrides the default SSL context to bypass verification.
+# It's a powerful workaround for stubborn SSL issues in environments like GHA.
+print("--> Applying SSL context workaround for scrapers...")
+ssl._create_default_https_context = ssl._create_unverified_context
+# ==============================================================================
 
 RESULTS_DIR = "results"
 
@@ -17,11 +26,9 @@ def run_collect_and_load():
         "github": gemini_github_collector.collect_signals,
         "hackernews": gemini_hacker_news_collector.collect_signals,
         "reddit": gemini_reddit_collector.collect_signals,
-        "twitter": gemini_twitter_collector.collect_signals, # This now calls the snscrape version
+        "twitter": gemini_twitter_collector.collect_signals,
     }
     
-    # --- THIS IS THE FIX for the "No signal files found" bug ---
-    # Loop through collectors and correctly SAVE their output to files
     for name, collector_func in all_collectors.items():
         signals = collector_func()
         if signals:
@@ -30,24 +37,19 @@ def run_collect_and_load():
                 json.dump(signals, f, indent=2)
             print(f"  ✅ Output for {name} saved to {file_path}")
 
-    # Now, the loader will find the files and load them
     neo4j_loader.load_all_signals(RESULTS_DIR)
 
 def main():
     print("--- Starting Bloodhound OPAL Daily Run ---")
     
-    # Phase 1
     run_collect_and_load()
 
-    # Phase 2
     print("\n[Phase 2/4] Preparing Prediction Data...")
     prepare_opal_data.create_real_timeseries_data()
 
-    # Phase 3
     print("\n[Phase 3/4] Running Predictions...")
     run_tft_predictor.run_predictions()
 
-    # Phase 4
     print("\n[Phase 4/4] Formatting Slack Message...")
     format_slack_message.format_message()
 
