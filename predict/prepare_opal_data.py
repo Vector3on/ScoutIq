@@ -1,4 +1,4 @@
-# predict/prepare_opal_data.py (Final Version with Cypher Fix)
+# predict/prepare_opal_data.py (Final Corrected Version)
 import os
 import pandas as pd
 from neo4j import GraphDatabase
@@ -17,9 +17,6 @@ def create_real_timeseries_data():
     driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
     
     with driver.session(database="neo4j") as session:
-        # --- THIS IS THE FIX for the TypeError ---
-        # Convert the date to an ISO 8601 string directly in the Cypher query.
-        # This bypasses all Python type conversion issues.
         query = """
         MATCH (p:Project)-[:HAS_SIGNAL]->(s:Signal)
         WHERE s.created_at IS NOT NULL
@@ -38,7 +35,6 @@ def create_real_timeseries_data():
             driver.close()
             return
             
-        # Now, this conversion will work perfectly on the date strings.
         df['day'] = pd.to_datetime(df['day'])
     
     print(f"  - Processing data for {df['project_id'].nunique()} projects...")
@@ -57,6 +53,11 @@ def create_real_timeseries_data():
         project_df['project_id'] = project_id
         project_df = project_df.reset_index().rename(columns={'index': 'day'})
         final_df = pd.concat([final_df, project_df])
+
+    # --- THIS IS THE FIX for the AssertionError ---
+    # This crucial step groups by project and day one last time to sum any potential
+    # duplicates created during the re-indexing process. This guarantees a unique index.
+    final_df = final_df.groupby(['project_id', 'day']).sum().reset_index()
 
     final_df = final_df.sort_values(by=['project_id', 'day'])
     final_df['time_idx'] = final_df.groupby('project_id').cumcount()
