@@ -1,4 +1,4 @@
-# predict/train_tft_model.py
+# predict/train_tft_model.py (Final Corrected Version)
 import os
 import pandas as pd
 import pytorch_lightning as pl
@@ -6,12 +6,13 @@ from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
 from pytorch_forecasting import TemporalFusionTransformer, TimeSeriesDataSet
 from pytorch_forecasting.data import GroupNormalizer
 import torch
+import pytorch_forecasting # <--- THIS IS THE FIX
 
 # --- Configuration ---
 DATA_PATH = "artifacts/real_timeseries_data.parquet"
 MODEL_PATH = "artifacts/tft_model.ckpt"
-MAX_ENCODER_LENGTH = 30  # Look back 30 days
-MAX_PREDICTION_LENGTH = 7 # Predict next 7 days
+MAX_ENCODER_LENGTH = 30
+MAX_PREDICTION_LENGTH = 7
 
 def train_model():
     """Trains the TFT model on the real time-series data."""
@@ -64,8 +65,8 @@ def train_model():
         attention_head_size=1,
         dropout=0.1,
         hidden_continuous_size=16,
-        output_size=7, # Corresponds to MAX_PREDICTION_LENGTH
-        loss=torch_forecasting.metrics.QuantileLoss(),
+        output_size=7,
+        loss=pytorch_forecasting.metrics.QuantileLoss(),
         optimizer="Ranger",
     )
     
@@ -75,7 +76,7 @@ def train_model():
     # Save best model by renaming it
     best_model_path = trainer.checkpoint_callback.best_model_path
     if os.path.exists(MODEL_PATH):
-        os.remove(MODEL_PATH) # Remove old model if it exists
+        os.remove(MODEL_PATH)
     os.rename(best_model_path, MODEL_PATH)
     print(f"✅ TFT model training complete. Model saved to {MODEL_PATH}")
 
