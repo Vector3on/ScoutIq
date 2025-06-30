@@ -1,111 +1,83 @@
 # predict/train_tft_model.py
-#
-# Part of the LEARN LAYER (run weekly)
-#
-# This is the definitive TFT trainer, based on your more robust LightningModule implementation.
-
 import os
 import pandas as pd
-import torch
-from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer
-from pytorch_forecasting.metrics import QuantileLoss
+import pytorch_lightning as pl
+from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
+from pytorch_forecasting import TemporalFusionTransformer, TimeSeriesDataSet
 from pytorch_forecasting.data import GroupNormalizer
-from pytorch_lightning import Trainer, LightningModule
-from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
+import torch
 
 # --- Configuration ---
-DATA_PATH       = "artifacts/timeseries_data.parquet"
-OUTPUT_DIR      = "artifacts"
-CHECKPOINT_FN   = "tft_model.ckpt"
-MAX_ENCODER_LEN = 30 # Days of history to use
-MAX_PRED_LEN    = 7  # Days to predict ahead
-BATCH_SIZE      = 128
-MAX_EPOCHS      = 15
-TARGET_COL      = "star_count"
-TIME_COL        = "time_idx"
-GROUP_COL       = "series_id"
+DATA_PATH = "artifacts/real_timeseries_data.parquet"
+MODEL_PATH = "artifacts/tft_model.ckpt"
+MAX_ENCODER_LENGTH = 30  # Look back 30 days
+MAX_PREDICTION_LENGTH = 7 # Predict next 7 days
 
-class TFTLightningModule(LightningModule):
-    """ Wraps the TFT model in a LightningModule for robust training. """
-    def __init__(self, training_dataset):
-        super().__init__()
-        # `save_hyperparameters` is important for loading the model later
-        self.save_hyperparameters()
-        self.model = TemporalFusionTransformer.from_dataset(
-            training_dataset,
-            learning_rate=1e-3,
-            hidden_size=16,
-            attention_head_size=1,
-            dropout=0.1,
-            loss=QuantileLoss(),
-        )
+def train_model():
+    """Trains the TFT model on the real time-series data."""
+    if not os.path.exists(DATA_PATH):
+        print(f"  - ERROR: Data file not found at {DATA_PATH}. Run prepare_opal_data.py first.")
+        return
 
-    def forward(self, x):
-        return self.model(x)
-
-    def training_step(self, batch, batch_idx):
-        x, y = batch
-        y_hat, _ = self.model(x)
-        loss = self.model.loss(y_hat, y)
-        self.log("train_loss", loss)
-        return loss
-
-    def validation_step(self, batch, batch_idx):
-        x, y = batch
-        y_hat, _ = self.model(x)
-        loss = self.model.loss(y_hat, y)
-        self.log("val_loss", loss, prog_bar=True)
-        return loss
-
-    def configure_optimizers(self):
-        return self.model.configure_optimizers()
-
-def train_tft_model():
-    print("🚀 Starting TFT model training...")
-
-    # 1. Load data
-    print(f"📥 Loading time-series data from {DATA_PATH}")
+    print("--- Training OPAL Temporal Fusion Transformer ---")
     df = pd.read_parquet(DATA_PATH)
-    df[TARGET_COL] = df[TARGET_COL].astype("float32") # Ensure correct type
-
-    # 2. Create datasets
-    print("📦 Creating TimeSeriesDataSet...")
-    cutoff = df[TIME_COL].max() - MAX_PRED_LEN
-    training = TimeSeriesDataSet(
-        df[df[TIME_COL] <= cutoff],
-        time_idx=TIME_COL,
-        target=TARGET_COL,
-        group_ids=[GROUP_COL],
-        max_encoder_length=MAX_ENCODER_LEN,
-        max_prediction_length=MAX_PRED_LEN,
-        time_varying_known_reals=[TIME_COL],
-        time_varying_unknown_reals=[TARGET_COL],
-        target_normalizer=GroupNormalizer(groups=[GROUP_COL]),
-    )
-    validation = TimeSeriesDataSet.from_dataset(training, df, predict=True, stop_randomization=True)
-
-    train_dl = training.to_dataloader(train=True, batch_size=BATCH_SIZE, num_workers=0)
-    val_dl   = validation.to_dataloader(train=False, batch_size=BATCH_SIZE, num_workers=0)
-
-    # 3. Set up trainer and callbacks
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    checkpoint_cb = ModelCheckpoint(dirpath=OUTPUT_DIR, filename=os.path.splitext(CHECKPOINT_FN)[0], monitor="val_loss", mode="min")
-    early_stop_cb = EarlyStopping(monitor="val_loss", patience=3, mode="min")
-
-    trainer = Trainer(
-        max_epochs=MAX_EPOCHS,
-        accelerator="cpu",
-        logger=False,
-        callbacks=[early_stop_cb, checkpoint_cb],
-        gradient_clip_val=0.1
-    )
-
-    # 4. Train the model
-    model = TFTLightningModule(training)
-    print("⚙️ Training the model...")
-    trainer.fit(model, train_dataloaders=train_dl, val_dataloaders=val_dl)
     
-    print(f"✅ TFT training complete. Best model saved to {checkpoint_cb.best_model_path}")
+    # Create the TimeSeriesDataSet
+    training_cutoff = df["time_idx"].max() - MAX_PREDICTION_LENGTH
+    dataset = TimeSeriesDataSet(
+        df[lambda x: x.time_idx <= training_cutoff],
+        time_idx="time_idx",
+        target="mention_count",
+        group_ids=["project_id"],
+        max_encoder_length=MAX_ENCODER_LENGTH,
+        max_prediction_length=MAX_PREDICTION_LENGTH,
+        static_categoricals=["project_id"],
+        time_varying_known_reals=["time_idx"],
+        time_varying_unknown_reals=["mention_count", "daily_upvotes"],
+        target_normalizer=GroupNormalizer(groups=["project_id"], transformation="softplus"),
+        add_relative_time_idx=True,
+        add_target_scales=True,
+        add_encoder_length=True,
+    )
+
+    # Create validation set and dataloaders
+    validation = TimeSeriesDataSet.from_dataset(dataset, df, predict=True, stop_randomization=True)
+    train_dataloader = dataset.to_dataloader(train=True, batch_size=64, num_workers=0)
+    val_dataloader = validation.to_dataloader(train=False, batch_size=64, num_workers=0)
+
+    # Configure the trainer
+    early_stop_callback = EarlyStopping(monitor="val_loss", min_delta=1e-4, patience=5, verbose=False, mode="min")
+    lr_logger = LearningRateMonitor()
+    trainer = pl.Trainer(
+        max_epochs=30,
+        accelerator="cpu",
+        gradient_clip_val=0.1,
+        limit_train_batches=30,
+        callbacks=[lr_logger, early_stop_callback],
+    )
+
+    # Configure the model
+    tft = TemporalFusionTransformer.from_dataset(
+        dataset,
+        learning_rate=0.03,
+        hidden_size=32,
+        attention_head_size=1,
+        dropout=0.1,
+        hidden_continuous_size=16,
+        output_size=7, # Corresponds to MAX_PREDICTION_LENGTH
+        loss=torch_forecasting.metrics.QuantileLoss(),
+        optimizer="Ranger",
+    )
+    
+    print(f"  - Starting model training... This may take a few minutes.")
+    trainer.fit(tft, train_dataloader=train_dataloader, val_dataloaders=val_dataloader)
+
+    # Save best model by renaming it
+    best_model_path = trainer.checkpoint_callback.best_model_path
+    if os.path.exists(MODEL_PATH):
+        os.remove(MODEL_PATH) # Remove old model if it exists
+    os.rename(best_model_path, MODEL_PATH)
+    print(f"✅ TFT model training complete. Model saved to {MODEL_PATH}")
 
 if __name__ == "__main__":
-    train_tft_model()
+    train_model()
