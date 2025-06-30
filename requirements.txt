@@ -8,8 +8,3 @@ neo4j
 # --- AI-Powered Prediction & Data Handling ---
 pandas==2.2.2
 pyarrow
-
-# --- Note ---
-# For maximum compatibility with PyTorch Forecasting and Lightning under Python 3.10:
-# Install these separately via Conda in the environment:
-#   conda install pytorch==1.13.1 pytorch-lightning==1.7.7 pytorch-forecasting==0.10.3 -c conda-forge
