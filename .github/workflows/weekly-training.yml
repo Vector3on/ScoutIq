@@ -1,0 +1,69 @@
+# .github/workflows/weekly-training.yml
+# This workflow runs the heavy weekly model training job directly on GitHub Actions.
+
+name: Bloodhound OPAL Weekly Training
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Runs automatically every Sunday at 5:00 AM UTC
+  schedule:
+    - cron: '0 5 * * 0'
+
+jobs:
+  train-and-upload-model:
+    name: Train and Upload TFT Model
+    runs-on: ubuntu-latest
+    
+    # Grant permissions for the job to write to GitHub Actions artifacts
+    permissions:
+      contents: read
+      actions: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          python-version: 3.10 # We specify the correct Python version here
+
+      - name: Create and Activate Conda Environment
+        shell: bash -l {0}
+        run: |
+          conda create -n bloodhound_env python=3.10 -y
+          conda activate bloodhound_env
+          echo "CONDA_ENV_PATH=$(conda info --base)/envs/bloodhound_env" >> $GITHUB_ENV
+
+      - name: Install ML Libraries with Conda
+        shell: bash -l {0}
+        run: |
+          conda activate bloodhound_env
+          # Install the core libraries from the stable pytorch channel
+          conda install -c pytorch -c conda-forge pytorch=1.13.1 pytorch-lightning=1.7.7 pytorch-forecasting=0.10.3 -y
+
+      - name: Install Remaining Libraries with Pip
+        shell: bash -l {0}
+        run: |
+          conda activate bloodhound_env
+          pip install -r requirements.txt
+
+      - name: Run the Weekly Training Script
+        shell: bash -l {0}
+        env:
+          # Pass all your secrets to the script
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        run: |
+          conda activate bloodhound_env
+          python weekly_training_run.py
+
+      - name: Upload Trained Model as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tft-model-checkpoint
+          path: artifacts/tft_model.ckpt
+          if-no-files-found: error # The workflow will fail if the model wasn't created
