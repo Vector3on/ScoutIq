@@ -1,19 +1,21 @@
-# requirements.txt (Final Version with All Pinned Dependencies)
-
-# For data collection
+# -------------------------------
+# 📦 Core: Data Collection
+# -------------------------------
 requests
 praw
 
-# For data loading
+# -------------------------------
+# 🛢️  Data Loading & Querying
+# -------------------------------
 neo4j
 
-# For AI-powered prediction & data handling
+# -------------------------------
+# 📊 Data Processing
+# -------------------------------
 pandas==2.2.2
 pyarrow
 
-# --- The Crucial Fix for the PyTorch Ecosystem ---
-# This pins all related torch libraries to a known compatible set.
-torch==2.3.0
-torchvision==0.18.0
-pytorch-lightning==2.2.5
-pytorch-forecasting==1.2.0
+# -------------------------------
+# 🤖 AI/ML Model Training (Stable combo)
+# These versions are known to work together without conflict
+# ---------
