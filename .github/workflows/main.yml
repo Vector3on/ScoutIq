@@ -1,21 +1,31 @@
-# .github/workflows/main.yml
+# .github/workflows/main.yml (Final Corrected Version)
 name: Bloodhound OPAL Daily Prediction
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *' # Runs at 8 AM UTC every day
+    - cron: '0 8 * * *'
 
 jobs:
   daily-run:
     name: Daily Signal Prediction
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout code with LFS
         uses: actions/checkout@v4
         with:
-          # We need the full history for the TFT model to work correctly
-          fetch-depth: 0
+          # --- FIX #1: This is the critical change ---
+          # This tells the checkout action to find any files tracked by
+          # Git LFS and download the full file, not just the pointer.
+          lfs: true
+
+      # --- FIX #2: Add a diagnostic step ---
+      # This step will show us the contents of the artifacts directory.
+      # We can see if the tft_model.ckpt file is its full size or just a small pointer.
+      - name: Verify Artifacts
+        run: |
+          echo "Verifying contents of artifacts directory..."
+          ls -lh artifacts/
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -28,11 +38,11 @@ jobs:
       - name: Run the Daily Pipeline
         run: python daily_run.py
         env:
-          # Add all your secrets here
+          # Your secrets go here
           NEO4J_URI: ${{ secrets.NEO4J_URI }}
           NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
           NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
