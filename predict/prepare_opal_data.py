@@ -1,8 +1,7 @@
-# predict/prepare_opal_data.py (Final Corrected Version)
+# predict/prepare_opal_data.py (Final Version with Cypher Fix)
 import os
 import pandas as pd
 from neo4j import GraphDatabase
-from datetime import datetime, timedelta
 
 NEO4J_URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.environ.get("NEO4J_USERNAME", "neo4j")
@@ -15,15 +14,18 @@ def create_real_timeseries_data():
         return
 
     print("--- Preparing Real Time-Series Data for OPAL ---")
-    driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
+    driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEOJ_PASSWORD))
     
     with driver.session(database="neo4j") as session:
+        # --- THIS IS THE FIX for the TypeError ---
+        # Convert the date to an ISO 8601 string directly in the Cypher query.
+        # This bypasses all Python type conversion issues.
         query = """
         MATCH (p:Project)-[:HAS_SIGNAL]->(s:Signal)
         WHERE s.created_at IS NOT NULL
         RETURN
             p.project_id AS project_id,
-            date(s.created_at) AS day,
+            toString(date(s.created_at)) AS day, 
             count(s) AS mention_count,
             sum(s.upvotes) AS daily_upvotes
         ORDER BY day
@@ -36,13 +38,8 @@ def create_real_timeseries_data():
             driver.close()
             return
             
-        # --- FINAL FIX for the TypeError ---
-        # Step 1: Manually create a new list containing only standard Python date objects.
-        # This is the most robust way to handle the conversion.
-        sanitized_dates = [item.to_py_date() for item in df['day']]
-
-        # Step 2: Assign the clean list back and then let pandas convert it.
-        df['day'] = pd.to_datetime(sanitized_dates)
+        # Now, this conversion will work perfectly on the date strings.
+        df['day'] = pd.to_datetime(df['day'])
     
     print(f"  - Processing data for {df['project_id'].nunique()} projects...")
     df.dropna(subset=['day'], inplace=True)
