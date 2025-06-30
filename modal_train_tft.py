@@ -1,58 +1,54 @@
-# modal_train_tft.py (Corrected for modern Modal API)
+# modal_train_tft.py (Corrected for modern Modal API + Pip Fix)
 import modal
 import os
 
-# --- Environment Definition ---
-# This section defines the perfect, isolated environment for our training job.
-# It specifies the exact, stable library versions we need, solving all dependency conflicts.
 app = modal.App("bloodhound-vc-weekly-training")
 
-image = modal.Image.debian_slim(python_version="3.10").pip_install(
-    "requests",
-    "praw",
-    "neo4j",
-    "pandas==2.2.2",
-    "pyarrow",
-    "torch==1.13.1",
-    "pytorch-lightning==1.7.7",
-    "pytorch-forecasting==0.10.3",
-    "GitPython==3.1.43",  # For cloning the repo inside the container
-)
+# Fix: Downgrade pip before installing dependencies (to avoid metadata validation errors)
+image = modal.Image.debian_slim(python_version="3.10")\
+    .pip_install("pip==24.0")\  # ✅ CRUCIAL: Prevents torchlightning install error
+    .pip_install(
+        "requests",
+        "praw",
+        "neo4j",
+        "pandas==2.2.2",
+        "pyarrow",
+        "torch==1.13.1",
+        "pytorch-lightning==1.7.7",
+        "pytorch-forecasting==0.10.3",
+        "GitPython==3.1.43",
+    )
 
-# --- The Training Function ---
-# This function runs in the cloud, inside the environment we just defined.
 @app.function(
     image=image,
-    gpu="T4",  # Request a GPU for faster training
-    secrets=[
-        modal.Secret.from_name("bloodhound-secrets")
-    ],
-    timeout=3600,  # Set a 1-hour timeout for the job
-    schedule=modal.Cron("0 5 * * 0") # Schedule to run every Sunday at 5:00 AM UTC
+    gpu="T4",
+    secrets=[modal.Secret.from_name("bloodhound-secrets")],
+    timeout=3600,
+    schedule=modal.Cron("0 5 * * 0")  # Sundays at 5:00 AM UTC
 )
 def train_weekly_model():
-    # --- Part 1: Clone the Project Repo ---
+    # Clone the repo
     print("--> Cloning repository...")
     from git import Repo
-    
+
     repo_path = "/app"
     git_url = f"https://oauth2:{os.environ['GITHUB_TOKEN']}@github.com/{os.environ['GITHUB_REPO']}.git"
-    
+
     if not os.path.exists(repo_path):
         os.makedirs(repo_path)
-    
+
     Repo.clone_from(git_url, repo_path)
     os.chdir(repo_path)
     print(f"✅ Repo cloned successfully into {repo_path}")
 
-    # --- Part 2: Execute the Training Scripts ---
+    # Run the training steps
     print("\n--> Executing the training workflow...")
     from predict import prepare_opal_data, train_tft_model
 
     prepare_opal_data.create_real_timeseries_data()
     train_tft_model.train_model()
-    
-    # --- Part 3: Verify and Return Result ---
+
+    # Check for result
     model_path = "artifacts/tft_model.ckpt"
     if os.path.exists(model_path):
         print(f"✅ SUCCESS: Model file created at {model_path}")
@@ -60,4 +56,3 @@ def train_weekly_model():
     else:
         print(f"❌ FAILURE: Model file was not created.")
         return "Training script finished, but the model file was not found."
-
