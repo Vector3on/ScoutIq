@@ -17,21 +17,21 @@ if not GITHUB_TOKEN or not GITHUB_REPO:
 repo_url = f"https://oauth2:{GITHUB_TOKEN}@github.com/{GITHUB_REPO}.git"
 
 # Modal image setup
+# The version pins for pandas, numpy, and torch-related libraries have been removed
+# to allow pip to resolve a set of compatible versions, fixing the error.
 image = (
     modal.Image.debian_slim()
     .apt_install("git")
     .pip_install(
-        "pip==23.3.1",
-        "GitPython==3.1.43",
+        "GitPython",
         "neo4j",
-        "numpy==1.24.4",
-        "pandas==1.5.3",
+        "pandas",
         "praw",
         "pyarrow",
-        "pytorch-forecasting==0.10.3",
-        "pytorch-lightning==1.7.6",
+        "pytorch-forecasting",
+        "pytorch-lightning",
         "requests",
-        "torch==1.13.1"
+        "torch"
     )
 )
 
@@ -75,9 +75,13 @@ def train_weekly_model():
     # Import training functions
     try:
         from predict import prepare_opal_data, train_tft_model
-    except ModuleNotFoundError as e:
-        print("❌ Failed to import modules:", e)
+    except (ModuleNotFoundError, ImportError) as e:
+        print(f"❌ Failed to import modules: {e}")
+        # An additional check to see what's in the directory can be helpful for debugging
+        print("Listing contents of /app/bloodhound-vc:")
+        os.system(f"ls -lR {repo_path}")
         sys.exit(1)
+
 
     # Call training pipeline
     print("🚀 Starting training pipeline...")
@@ -92,5 +96,6 @@ def train_weekly_model():
 
 if __name__ == "__main__":
     stub.deploy("modal_train_tft")
-    with stub.run():
-        train_weekly_model.remote()
+    # The following lines are for running locally; Modal deploy handles the execution in the cloud.
+    # with stub.run():
+    #     train_weekly_model.remote()
