@@ -1,15 +1,19 @@
-# Data Collection
+# requirements.txt (Final Version with Pinned Dependencies)
+
+# For data collection
 requests
 praw
 
-# Data Loading
+# For data loading
 neo4j
 
-# AI-Powered Prediction & Data Handling
+# For AI-powered prediction & data handling
 pandas==2.2.2
 pyarrow
 
-# Crucial Stable ML Stack (Python < 3.11)
-# ⚠️ torch is installed separately via conda for CUDA compatibility
+# --- The Crucial Fix for the TypeError ---
+# Pinning libraries to a known compatible set as per instructions.
+# This combination is stable and works together.
+torch==1.13.1
 pytorch-lightning==1.7.7
 pytorch-forecasting==0.10.3
