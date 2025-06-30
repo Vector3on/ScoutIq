@@ -1,4 +1,4 @@
-# predict/train_tft_model.py (Stable Version for Clean Room)
+# predict/train_tft_model.py (Stable Version for Conda Environment)
 
 import os
 import pandas as pd
