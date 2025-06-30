@@ -9,7 +9,7 @@ neo4j
 pandas==2.2.2
 pyarrow
 
-# Crucial Stable ML Stack
+# Crucial Stable ML Stack (for Python < 3.11)
 torch==1.13.1
 pytorch-lightning==1.7.7
 pytorch-forecasting==0.10.3
