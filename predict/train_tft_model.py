@@ -1,4 +1,4 @@
-# predict/train_tft_model.py (Final Corrected Version)
+# predict/train_tft_model.py (Final Syntax Correction)
 import os
 import pandas as pd
 import pytorch_lightning as pl
@@ -6,7 +6,7 @@ from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
 from pytorch_forecasting import TemporalFusionTransformer, TimeSeriesDataSet
 from pytorch_forecasting.data import GroupNormalizer
 import torch
-import pytorch_forecasting # <--- THIS IS THE FIX
+import pytorch_forecasting
 
 # --- Configuration ---
 DATA_PATH = "artifacts/real_timeseries_data.parquet"
@@ -71,7 +71,11 @@ def train_model():
     )
     
     print(f"  - Starting model training... This may take a few minutes.")
-    trainer.fit(tft, train_dataloader=train_dataloader, val_dataloaders=val_dataloader)
+    
+    # --- THIS IS THE FIX for the TypeError ---
+    # Newer versions of PyTorch Lightning expect positional arguments, not keyword arguments.
+    # OLD line: trainer.fit(tft, train_dataloader=train_dataloader, val_dataloaders=val_dataloader)
+    trainer.fit(tft, train_dataloader, val_dataloader)
 
     # Save best model by renaming it
     best_model_path = trainer.checkpoint_callback.best_model_path
