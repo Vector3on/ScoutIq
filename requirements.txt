@@ -1,10 +1,15 @@
-# --- Data Collection ---
+# ─── Data Collection ───────────────────────────────
 requests
 praw
 
-# --- Data Loading ---
+# ─── Data Loading ──────────────────────────────────
 neo4j
 
-# --- AI-Powered Prediction & Data Handling ---
+# ─── Data Handling & Prediction ────────────────────
 pandas==2.2.2
 pyarrow
+
+# ─── Stable AI Stack for Python 3.10 ───────────────
+torch==1.13.1
+pytorch-lightning==1.7.7
+pytorch-forecasting==0.10.3
