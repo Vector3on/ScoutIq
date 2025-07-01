@@ -1,4 +1,4 @@
-# predict/train_tft_model.py (Stable Version for Conda Environment)
+# predict/train_tft_model.py (Stable Version for Codespace Environment)
 
 import os
 import pandas as pd
@@ -46,7 +46,7 @@ def train_model():
     early_stop_callback = EarlyStopping(monitor="val_loss", min_delta=1e-4, patience=5, verbose=False, mode="min")
     lr_logger = LearningRateMonitor()
     
-    # Gitpod workspaces may have GPUs available depending on the plan
+    # Codespaces can have GPUs. This code will automatically use one if available.
     gpus = 1 if torch.cuda.is_available() else 0
     
     trainer = pl.Trainer(
