@@ -1,0 +1,29 @@
+{
+  "name": "Bloodhound VC Training Environment",
+  // Use a standard, full-featured base image from Microsoft
+  "image": "mcr.microsoft.com/devcontainers/python:3.10",
+
+  "features": {
+    // Automatically install the GitHub CLI for any future needs
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  // These commands run after the container is created to set up the environment.
+  "postCreateCommand": "bash ./.devcontainer/post-create.sh",
+
+  // Forward the port for the Neo4j database if you ever run it locally
+  "forwardPorts": [7687],
+
+  // Custom settings for the VS Code editor inside the Codespace
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  }
+}
