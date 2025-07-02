@@ -1,16 +1,7 @@
-# ─── Data Collection ───────────────────────────────
+# requirements.txt (Starting point for Phase Ω)
+# For data collection
 requests
 praw
-
-# ─── Data Loading ──────────────────────────────────
-neo4j
-
-# ─── Data Handling & Prediction ────────────────────
-pandas==2.2.2
-pyarrow
-
-# ─── Stable AI Stack for Python 3.10 ───────────────
-torch==1.13.1
-pytorch-lightning==1.7.7
-pytorch-forecasting==0.10.3
+# For data handling
 pandas
+pyarrow
