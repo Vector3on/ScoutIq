@@ -1,17 +1,14 @@
 {
   "name": "Bloodhound VC Training Environment",
-
   // This section tells Codespaces to build our custom Dockerfile
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
   },
-
   "features": {
     // Automatically install the GitHub CLI for any future needs
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-
   // Custom settings for the VS Code editor inside the Codespace
   "customizations": {
     "vscode": {
