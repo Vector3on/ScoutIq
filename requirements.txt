@@ -1,7 +1,26 @@
-# requirements.txt (Starting point for Phase Ω)
+# requirements.txt (Phase Ω - Milestone 1.1)
+
 # For data collection
 requests
 praw
+
 # For data handling
 pandas
 pyarrow
+scikit-learn
+
+# For forecasting engine
+# DLinear and its dependencies
+torch
+
+# For data loading
+neo4j
+twint
+
+PyDriller
+causal-learn
+statsmodels
+mesa==0.8.9
+beautifulsoup4
+tabulate
+slack_sdk

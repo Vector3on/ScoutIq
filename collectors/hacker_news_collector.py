@@ -5,7 +5,6 @@
 import os
 import sys
 import requests
-from neo4j import GraphDatabase
 from datetime import datetime, timedelta
 
 # --- Configuration ---
