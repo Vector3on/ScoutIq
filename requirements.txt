@@ -7,20 +7,3 @@ praw
 # For data handling
 pandas
 pyarrow
-scikit-learn
-
-# For forecasting engine
-# DLinear and its dependencies
-torch
-
-# For data loading
-neo4j
-twint
-
-PyDriller
-causal-learn
-statsmodels
-mesa==0.8.9
-beautifulsoup4
-tabulate
-slack_sdk
