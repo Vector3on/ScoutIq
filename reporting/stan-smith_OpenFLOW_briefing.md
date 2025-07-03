@@ -1,10 +1,10 @@
-# 📈 Intelligence Briefing: sirbread/sink
+# 📈 Intelligence Briefing: stan-smith/OpenFLOW
 
-**Repository:** [https://github.com/sirbread/sink](https://github.com/sirbread/sink)
-**Report Generated:** 2025-07-03 21:26:33
+**Repository:** [https://github.com/stan-smith/OpenFLOW](https://github.com/stan-smith/OpenFLOW)
+**Report Generated:** 2025-07-03 20:48:52
 
 ## 🔬 Anomaly Score
-> This project's activity has an anomaly score of **0.0669** compared to its peers. A higher score indicates more unusual activity.
+> This project's activity has an anomaly score of **0.5037** compared to its peers. A higher score indicates more unusual activity.
 
 
 ## 🧠 Causal Analysis: New Contributors vs. Commits

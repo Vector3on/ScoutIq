@@ -1,10 +1,10 @@
-# 📈 Intelligence Briefing: sirbread/sink
+# 📈 Intelligence Briefing: FunAudioLLM/ThinkSound
 
-**Repository:** [https://github.com/sirbread/sink](https://github.com/sirbread/sink)
-**Report Generated:** 2025-07-03 21:26:33
+**Repository:** [https://github.com/FunAudioLLM/ThinkSound](https://github.com/FunAudioLLM/ThinkSound)
+**Report Generated:** 2025-07-03 21:16:13
 
 ## 🔬 Anomaly Score
-> This project's activity has an anomaly score of **0.0669** compared to its peers. A higher score indicates more unusual activity.
+> This project's activity has an anomaly score of **0.0000** compared to its peers. A higher score indicates more unusual activity.
 
 
 ## 🧠 Causal Analysis: New Contributors vs. Commits

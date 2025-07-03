@@ -1,0 +1,402 @@
+[
+  {
+    "repo_url": "https://github.com/Brynthosoqvsb/Trading-bot",
+    "repo_full_name": "Brynthosoqvsb/Trading-bot",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 3
+  },
+  {
+    "repo_url": "https://github.com/santhoshravindran7/Fabric-Analytics-MCP",
+    "repo_full_name": "santhoshravindran7/Fabric-Analytics-MCP",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/johnson7788/MultiAgentPPT",
+    "repo_full_name": "johnson7788/MultiAgentPPT",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 4,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/tayb2/free-augmentcode",
+    "repo_full_name": "tayb2/free-augmentcode",
+    "readme_content": "...",
+    "clarity_score": 3,
+    "vision_score": 1,
+    "problem_solution_fit": 2
+  },
+  {
+    "repo_url": "https://github.com/LLMotion/Gift-Buyer-Tg",
+    "repo_full_name": "LLMotion/Gift-Buyer-Tg",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/ml-tooling/best-of-ml-python",
+    "repo_full_name": "ml-tooling/best-of-ml-python",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 2,
+    "problem_solution_fit": 3
+  },
+  {
+    "repo_url": "https://github.com/huggingface/transformers",
+    "repo_full_name": "huggingface/transformers",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 5,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/scikit-learn/scikit-learn",
+    "repo_full_name": "scikit-learn/scikit-learn",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 3,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/BerriAI/litellm",
+    "repo_full_name": "BerriAI/litellm",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/tensorflow/tensorflow",
+    "repo_full_name": "tensorflow/tensorflow",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/pytorch/pytorch",
+    "repo_full_name": "pytorch/pytorch",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/UKPLab/sentence-transformers",
+    "repo_full_name": "UKPLab/sentence-transformers",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/explosion/spaCy",
+    "repo_full_name": "explosion/spaCy",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/nltk/nltk",
+    "repo_full_name": "nltk/nltk",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/piskvorky/gensim",
+    "repo_full_name": "piskvorky/gensim",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/Lightning-AI/pytorch-lightning",
+    "repo_full_name": "Lightning-AI/pytorch-lightning",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/keras-team/keras",
+    "repo_full_name": "keras-team/keras",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 3,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/flairNLP/flair",
+    "repo_full_name": "flairNLP/flair",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/RasaHQ/rasa",
+    "repo_full_name": "RasaHQ/rasa",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/dmlc/xgboost",
+    "repo_full_name": "dmlc/xgboost",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/huggingface/tokenizers",
+    "repo_full_name": "huggingface/tokenizers",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 3,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/apache/spark",
+    "repo_full_name": "apache/spark",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/statsmodels/statsmodels",
+    "repo_full_name": "statsmodels/statsmodels",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/microsoft/LightGBM",
+    "repo_full_name": "microsoft/LightGBM",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/catboost/catboost",
+    "repo_full_name": "catboost/catboost",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/fastai/fastai",
+    "repo_full_name": "fastai/fastai",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/arogozhnikov/einops",
+    "repo_full_name": "arogozhnikov/einops",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 3,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/NVIDIA/NeMo",
+    "repo_full_name": "NVIDIA/NeMo",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/ivy-llc/ivy",
+    "repo_full_name": "ivy-llc/ivy",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 5,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/jina-ai/serve",
+    "repo_full_name": "jina-ai/serve",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/jax-ml/jax",
+    "repo_full_name": "jax-ml/jax",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/PaddlePaddle/Paddle",
+    "repo_full_name": "PaddlePaddle/Paddle",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/explosion/thinc",
+    "repo_full_name": "explosion/thinc",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 4,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/mlpack/mlpack",
+    "repo_full_name": "mlpack/mlpack",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 3
+  },
+  {
+    "repo_url": "https://github.com/google/flax",
+    "repo_full_name": "google/flax",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/ludwig-ai/ludwig",
+    "repo_full_name": "ludwig-ai/ludwig",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/pytorch/ignite",
+    "repo_full_name": "pytorch/ignite",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/VowpalWabbit/vowpal_wabbit",
+    "repo_full_name": "VowpalWabbit/vowpal_wabbit",
+    "readme_content": "...",
+    "clarity_score": 3,
+    "vision_score": 3,
+    "problem_solution_fit": 3
+  },
+  {
+    "repo_url": "https://github.com/google-deepmind/dm-haiku",
+    "repo_full_name": "google-deepmind/dm-haiku",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/mindsdb/mindsdb",
+    "repo_full_name": "mindsdb/mindsdb",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 5,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/skorch-dev/skorch",
+    "repo_full_name": "skorch-dev/skorch",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 3,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/google-deepmind/sonnet",
+    "repo_full_name": "google-deepmind/sonnet",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/davisking/dlib",
+    "repo_full_name": "davisking/dlib",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/ROCm/tensorflow-upstream",
+    "repo_full_name": "ROCm/tensorflow-upstream",
+    "readme_content": "...",
+    "clarity_score": 3,
+    "vision_score": 2,
+    "problem_solution_fit": 2
+  },
+  {
+    "repo_url": "https://github.com/apache/mxnet",
+    "repo_full_name": "apache/mxnet",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 4
+  },
+  {
+    "repo_url": "https://github.com/Theano/Theano",
+    "repo_full_name": "Theano/Theano",
+    "readme_content": "...",
+    "clarity_score": 3,
+    "vision_score": 1,
+    "problem_solution_fit": 3
+  },
+  {
+    "repo_url": "https://github.com/determined-ai/determined",
+    "repo_full_name": "determined-ai/determined",
+    "readme_content": "...",
+    "clarity_score": 5,
+    "vision_score": 4,
+    "problem_solution_fit": 5
+  },
+  {
+    "repo_url": "https://github.com/geomstats/geomstats",
+    "repo_full_name": "geomstats/geomstats",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 3,
+    "problem_solution_fit": 3
+  },
+  {
+    "repo_url": "https://github.com/pyRiemann/pyRiemann",
+    "repo_full_name": "pyRiemann/pyRiemann",
+    "readme_content": "...",
+    "clarity_score": 4,
+    "vision_score": 2,
+    "problem_solution_fit": 3
+  },
+  {
+    "repo_url": "https://github.com/numenta/nupic-legacy",
+    "repo_full_name": "numenta/nupic-legacy",
+    "readme_content": "...",
+    "clarity_score": 3,
+    "vision_score": 3,
+    "problem_solution_fit": 3
+  }
+]

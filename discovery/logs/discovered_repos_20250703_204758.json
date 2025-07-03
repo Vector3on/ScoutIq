@@ -1,0 +1,746 @@
+[
+  {
+    "repo": "https://github.com/davidkimai/Context-Engineering",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Tencent-Hunyuan/Hunyuan-A13B",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/THUDM/GLM-4.1V-Thinking",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/MeiGen-AI/PosterCraft",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/apple/ml-diffucoder",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Coder4TG/Telegram-Members-Adder-Forwarder-Scraper-Much-More",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/sajjadabd/freenet",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/c4pt0r/gmailtail",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/LLMotion/Gift-Buyer-Tg",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/FunAudioLLM/ThinkSound",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/cmriat/l0",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ZZZSimulator/ZSim",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/SakanaAI/treequest",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/HVision-NKU/DepthAnythingAC",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/GVCoder09/NoDPI4Android",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/octra-labs/octra_pre_client",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/carlnehm/vocode-core",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/senereone/PRNet",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/CN-makers/LongAnimation",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Calligrapher2025/Calligrapher",
+    "source": "trending",
+    "reason": "api_trending_python",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/labmlai/annotated_deep_learning_paper_implementations",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/photoprism/photoprism",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/google-research/google-research",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ultralytics/ultralytics",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/deepspeedai/DeepSpeed",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/paperless-ngx/paperless-ngx",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/microsoft/AI-For-Beginners",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/binhnguyennus/awesome-scalability",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/donnemartin/data-science-ipython-notebooks",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/google-ai-edge/mediapipe",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/CMU-Perceptual-Computing-Lab/openpose",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/gradio-app/gradio",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/huggingface/transformers",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/lutzroeder/netron",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/AMAI-GmbH/AI-Expert-Roadmap",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/tesseract-ocr/tesseract",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/JaidedAI/EasyOCR",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ray-project/ray",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/LAION-AI/Open-Assistant",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/fastai/fastai",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Avik-Jain/100-Days-Of-ML-Code",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ageitgey/face_recognition",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/apache/airflow",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ultralytics/yolov5",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/aymericdamien/TensorFlow-Examples",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/scikit-learn/scikit-learn",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/GokuMohandas/Made-With-ML",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/rasbt/LLMs-from-scratch",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/netdata/netdata",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/d2l-ai/d2l-zh",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/keras-team/keras",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/streamlit/streamlit",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/mlabonne/llm-course",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Lightning-AI/pytorch-lightning",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/openai/CLIP",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/tensorflow/tensorflow",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ZuzooVn/machine-learning-for-software-engineers",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/JuliaLang/julia",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/microsoft/ML-For-Beginners",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Developer-Y/cs-video-courses",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/explosion/spaCy",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/pathwaycom/llm-app",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/deepfakes/faceswap",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/eugeneyan/applied-ml",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/BVLC/caffe",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/TheAlgorithms/C-Plus-Plus",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/pytorch/pytorch",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/iperov/DeepFaceLive",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/OpenBB-finance/OpenBB",
+    "source": "explore",
+    "reason": "api_explore",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ytherisrwcCSS/Free-code-for-Passive-Income",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ittavonat/ittavonat.github.io",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/xsrazy/TikTok-Batch-Downloader",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/upes-open/OSoC-25-Askage",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/nst-sdc/Campus-Buddy",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/DAWENS-BOY96/JESUS-CRASH-V1",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ayussh-2/hackodisha5.0",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/upesacm/21DaysOfCode-2025",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/cy33r/IR-NET",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Giant-Bomb-Dot-Com/giant-bomb-wiki",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/DeVisHD/CICD-Lecture",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/luisrodrigonet/Machine-Learning-UC1-Alunos",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/SYMBaiEX/SYMindX",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/krishnagopika/TRNG-2224-data-engineering",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/SJTU-Geek/SJTU-Wiki",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/liwernv/Roblox-Dress-To-Impress",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/upes-open/OSoC-25-FormEase",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/osmanx8/solana-casino-site",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/web-programming-contest/web-v2025-summer-spbstu",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Nexus-Web-Developement-Club/SAInT",
+    "source": "sleeper_hits",
+    "reason": "api_search",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ExtensityAI/symbolicai",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/e6a5/zenta",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/openfiletax/openfile",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/dotnet/runtime",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/stan-smith/OpenFLOW",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/microsoft/vscode-copilot-chat",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/topling/toplingdb",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/pacocoursey/xslt",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/octelium/octelium",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/sirius-db/sirius",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/M4THYOU/TokenDagger",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/RedPlanetHQ/core",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/sirbread/sink",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/kelindar/event",
+    "source": "hacker_news",
+    "reason": "hn_links",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/huggingface/transformers",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ollama/ollama",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/langgenius/dify",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/open-webui/open-webui",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/browser-use/browser-use",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/All-Hands-AI/OpenHands",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/infiniflow/ragflow",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/rasbt/LLMs-from-scratch",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/FoundationAgents/MetaGPT",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/mlabonne/llm-course",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/hiyouga/LLaMA-Factory",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/vllm-project/vllm",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/Mintplex-Labs/anything-llm",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/run-llama/llama_index",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/mendableai/firecrawl",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/unslothai/unsloth",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/tw93/Pake",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/QuivrHQ/quivr",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/zhayujie/chatgpt-on-wechat",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  },
+  {
+    "repo": "https://github.com/ray-project/ray",
+    "source": "topic_search",
+    "reason": "api_topic_llm",
+    "score": 0.5
+  }
+]

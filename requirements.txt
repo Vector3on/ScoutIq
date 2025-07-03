@@ -1,9 +1,21 @@
-# requirements.txt (Phase Ω - Milestone 1.1)
-
 # For data collection
 requests
 praw
-
 # For data handling
 pandas
 pyarrow
+# For forecasting engine & ML
+torch>=1.9.0
+# NEW: Specify modern versions to ensure compatibility
+scikit-learn>=1.0.0
+transformers>=4.20.0
+sentence-transformers>=2.2.0
+# Causal Inference
+causal-learn
+statsmodels
+# Behavioral Feature Extraction
+PyDriller
+# Agent-Based Simulation (Pinned to stable version)
+Mesa==0.8.9
+# For Notifications
+slack_sdk
