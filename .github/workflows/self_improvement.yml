@@ -53,8 +53,6 @@ jobs:
             ${{ runner.os }}-models-
 
       - name: 'Run Self-Improvement Cycle'
-        # THE FIX: Pass the inputs as environment variables directly to the step.
-        # This is a more robust way to handle variables in GitHub Actions.
         env:
           BASE_VERSION: ${{ github.event.inputs.base_model_version }}
           NEW_VERSION: ${{ github.event.inputs.new_model_version }}
