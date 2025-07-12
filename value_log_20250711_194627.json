@@ -1,0 +1,479 @@
+[
+  {
+    "day": 0,
+    "estimated_value": 5.063941955566406,
+    "capital": 50000.0,
+    "team_size": 1,
+    "product_progress": 5.0,
+    "market_traction": 0.0,
+    "founder_burnout": 10.0
+  },
+  {
+    "day": 7,
+    "estimated_value": 4.2320733070373535,
+    "capital": 48366.66666666665,
+    "team_size": 1,
+    "product_progress": 5.6999999999999975,
+    "market_traction": 0.0,
+    "founder_burnout": 15.699999999999998
+  },
+  {
+    "day": 14,
+    "estimated_value": 3.8315176963806152,
+    "capital": 36733.3333333333,
+    "team_size": 1,
+    "product_progress": 6.399999999999995,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 16.400000000000002
+  },
+  {
+    "day": 21,
+    "estimated_value": 3.1948444843292236,
+    "capital": 35099.99999999995,
+    "team_size": 1,
+    "product_progress": 7.0999999999999925,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 22.100000000000012
+  },
+  {
+    "day": 28,
+    "estimated_value": 2.6169159412384033,
+    "capital": 33466.6666666666,
+    "team_size": 1,
+    "product_progress": 7.79999999999999,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 27.800000000000022
+  },
+  {
+    "day": 35,
+    "estimated_value": 3.8233368396759033,
+    "capital": 29833.333333333274,
+    "team_size": 1,
+    "product_progress": 8.499999999999988,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 18.500000000000032
+  },
+  {
+    "day": 42,
+    "estimated_value": 3.6682119369506836,
+    "capital": 28199.99999999995,
+    "team_size": 1,
+    "product_progress": 9.199999999999985,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 19.200000000000042
+  },
+  {
+    "day": 49,
+    "estimated_value": 3.5130865573883057,
+    "capital": 26566.666666666624,
+    "team_size": 1,
+    "product_progress": 9.899999999999983,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 19.900000000000052
+  },
+  {
+    "day": 56,
+    "estimated_value": 3.3579611778259277,
+    "capital": 24933.3333333333,
+    "team_size": 1,
+    "product_progress": 10.59999999999998,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 20.600000000000062
+  },
+  {
+    "day": 63,
+    "estimated_value": 5.497952938079834,
+    "capital": 23299.999999999975,
+    "team_size": 1,
+    "product_progress": 11.299999999999978,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 21.30000000000007
+  },
+  {
+    "day": 70,
+    "estimated_value": 5.33347749710083,
+    "capital": 21666.66666666665,
+    "team_size": 1,
+    "product_progress": 11.999999999999975,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 22.00000000000008
+  },
+  {
+    "day": 77,
+    "estimated_value": 5.169002056121826,
+    "capital": 20033.333333333325,
+    "team_size": 1,
+    "product_progress": 12.699999999999973,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 22.70000000000009
+  },
+  {
+    "day": 84,
+    "estimated_value": 5.004486560821533,
+    "capital": 18400.0,
+    "team_size": 1,
+    "product_progress": 13.39999999999997,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 23.4000000000001
+  },
+  {
+    "day": 91,
+    "estimated_value": 6.858973503112793,
+    "capital": 16766.666666666675,
+    "team_size": 1,
+    "product_progress": 14.099999999999968,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 4.100000000000102
+  },
+  {
+    "day": 98,
+    "estimated_value": 10.320992469787598,
+    "capital": 15133.33333333334,
+    "team_size": 1,
+    "product_progress": 14.799999999999965,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 0.7
+  },
+  {
+    "day": 105,
+    "estimated_value": 10.260494232177734,
+    "capital": 13500.000000000002,
+    "team_size": 1,
+    "product_progress": 15.499999999999963,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 1.4000000000000001
+  },
+  {
+    "day": 112,
+    "estimated_value": 10.199993133544922,
+    "capital": 11866.666666666664,
+    "team_size": 1,
+    "product_progress": 16.199999999999964,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.1000000000000005
+  },
+  {
+    "day": 119,
+    "estimated_value": 10.139492988586426,
+    "capital": 10233.333333333327,
+    "team_size": 1,
+    "product_progress": 16.899999999999974,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.800000000000001
+  },
+  {
+    "day": 126,
+    "estimated_value": 10.61367416381836,
+    "capital": 78609.06804104146,
+    "team_size": 1,
+    "product_progress": 17.599999999999984,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 3.5000000000000018
+  },
+  {
+    "day": 133,
+    "estimated_value": 10.630437850952148,
+    "capital": 76975.73470770816,
+    "team_size": 1,
+    "product_progress": 18.299999999999994,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 0.7
+  },
+  {
+    "day": 140,
+    "estimated_value": 10.556960105895996,
+    "capital": 75342.40137437487,
+    "team_size": 1,
+    "product_progress": 19.000000000000004,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 1.4000000000000001
+  },
+  {
+    "day": 147,
+    "estimated_value": 10.51983642578125,
+    "capital": 73709.06804104157,
+    "team_size": 1,
+    "product_progress": 19.700000000000014,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 0.7
+  },
+  {
+    "day": 154,
+    "estimated_value": 10.44636058807373,
+    "capital": 72075.73470770827,
+    "team_size": 1,
+    "product_progress": 20.400000000000023,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 1.4000000000000001
+  },
+  {
+    "day": 161,
+    "estimated_value": 10.372925758361816,
+    "capital": 70442.40137437497,
+    "team_size": 1,
+    "product_progress": 21.100000000000033,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.1000000000000005
+  },
+  {
+    "day": 168,
+    "estimated_value": 10.353935241699219,
+    "capital": 68809.06804104167,
+    "team_size": 1,
+    "product_progress": 21.800000000000043,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 0.7
+  },
+  {
+    "day": 175,
+    "estimated_value": 10.300079345703125,
+    "capital": 67175.73470770837,
+    "team_size": 1,
+    "product_progress": 22.500000000000053,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 0.7
+  },
+  {
+    "day": 182,
+    "estimated_value": 10.229219436645508,
+    "capital": 65542.40137437507,
+    "team_size": 1,
+    "product_progress": 23.200000000000063,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 1.4000000000000001
+  },
+  {
+    "day": 189,
+    "estimated_value": 10.15836238861084,
+    "capital": 63909.06804104172,
+    "team_size": 1,
+    "product_progress": 23.900000000000073,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.1000000000000005
+  },
+  {
+    "day": 196,
+    "estimated_value": 10.087589263916016,
+    "capital": 62275.73470770837,
+    "team_size": 1,
+    "product_progress": 24.600000000000083,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.800000000000001
+  },
+  {
+    "day": 203,
+    "estimated_value": 10.016910552978516,
+    "capital": 60642.40137437502,
+    "team_size": 1,
+    "product_progress": 25.300000000000093,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 3.5000000000000018
+  },
+  {
+    "day": 210,
+    "estimated_value": 9.94279670715332,
+    "capital": 59009.06804104167,
+    "team_size": 1,
+    "product_progress": 26.000000000000103,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 4.200000000000001
+  },
+  {
+    "day": 217,
+    "estimated_value": 9.8673677444458,
+    "capital": 57375.73470770832,
+    "team_size": 1,
+    "product_progress": 26.700000000000113,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 4.899999999999999
+  },
+  {
+    "day": 224,
+    "estimated_value": 9.791939735412598,
+    "capital": 55742.40137437497,
+    "team_size": 1,
+    "product_progress": 27.400000000000123,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 5.599999999999996
+  },
+  {
+    "day": 231,
+    "estimated_value": 9.719033241271973,
+    "capital": 54109.06804104162,
+    "team_size": 1,
+    "product_progress": 28.100000000000133,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 6.299999999999994
+  },
+  {
+    "day": 238,
+    "estimated_value": 9.647846221923828,
+    "capital": 52475.73470770827,
+    "team_size": 1,
+    "product_progress": 28.800000000000143,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 6.999999999999991
+  },
+  {
+    "day": 245,
+    "estimated_value": 9.752320289611816,
+    "capital": 50842.40137437492,
+    "team_size": 1,
+    "product_progress": 29.500000000000153,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 0.7
+  },
+  {
+    "day": 252,
+    "estimated_value": 9.681142807006836,
+    "capital": 49209.068041041566,
+    "team_size": 1,
+    "product_progress": 30.200000000000163,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 1.4000000000000001
+  },
+  {
+    "day": 259,
+    "estimated_value": 9.609965324401855,
+    "capital": 47575.734707708216,
+    "team_size": 1,
+    "product_progress": 30.900000000000173,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.1000000000000005
+  },
+  {
+    "day": 266,
+    "estimated_value": 9.536849975585938,
+    "capital": 45942.401374374866,
+    "team_size": 1,
+    "product_progress": 31.600000000000183,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.800000000000001
+  },
+  {
+    "day": 273,
+    "estimated_value": 9.534507751464844,
+    "capital": 44309.068041041515,
+    "team_size": 1,
+    "product_progress": 32.30000000000019,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 0.7
+  },
+  {
+    "day": 280,
+    "estimated_value": 9.459948539733887,
+    "capital": 42675.734707708165,
+    "team_size": 1,
+    "product_progress": 33.0000000000002,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 1.4000000000000001
+  },
+  {
+    "day": 287,
+    "estimated_value": 9.384817123413086,
+    "capital": 41042.401374374815,
+    "team_size": 1,
+    "product_progress": 33.70000000000021,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.1000000000000005
+  },
+  {
+    "day": 294,
+    "estimated_value": 9.309686660766602,
+    "capital": 39409.068041041464,
+    "team_size": 1,
+    "product_progress": 34.40000000000022,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 2.800000000000001
+  },
+  {
+    "day": 301,
+    "estimated_value": 9.2345552444458,
+    "capital": 37775.734707708114,
+    "team_size": 1,
+    "product_progress": 35.10000000000023,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 3.5000000000000018
+  },
+  {
+    "day": 308,
+    "estimated_value": 9.156503677368164,
+    "capital": 36142.401374374764,
+    "team_size": 1,
+    "product_progress": 35.80000000000024,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 4.200000000000001
+  },
+  {
+    "day": 315,
+    "estimated_value": 9.077853202819824,
+    "capital": 34509.06804104141,
+    "team_size": 1,
+    "product_progress": 36.50000000000025,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 4.899999999999999
+  },
+  {
+    "day": 322,
+    "estimated_value": 8.997209548950195,
+    "capital": 32875.73470770806,
+    "team_size": 1,
+    "product_progress": 37.20000000000026,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 5.599999999999996
+  },
+  {
+    "day": 329,
+    "estimated_value": 8.91656494140625,
+    "capital": 31242.40137437474,
+    "team_size": 1,
+    "product_progress": 37.90000000000027,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 6.299999999999994
+  },
+  {
+    "day": 336,
+    "estimated_value": 8.832157135009766,
+    "capital": 29609.068041041413,
+    "team_size": 1,
+    "product_progress": 38.60000000000028,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 6.999999999999991
+  },
+  {
+    "day": 343,
+    "estimated_value": 8.745611190795898,
+    "capital": 27975.73470770809,
+    "team_size": 1,
+    "product_progress": 39.30000000000029,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 7.699999999999989
+  },
+  {
+    "day": 350,
+    "estimated_value": 8.655814170837402,
+    "capital": 26342.401374374764,
+    "team_size": 1,
+    "product_progress": 40.0000000000003,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 8.399999999999986
+  },
+  {
+    "day": 357,
+    "estimated_value": 8.557092666625977,
+    "capital": 24709.06804104144,
+    "team_size": 1,
+    "product_progress": 40.70000000000031,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 9.099999999999984
+  },
+  {
+    "day": 364,
+    "estimated_value": 8.455118179321289,
+    "capital": 23075.734707708114,
+    "team_size": 1,
+    "product_progress": 41.40000000000032,
+    "market_traction": 1.1993333333333334,
+    "founder_burnout": 9.799999999999981
+  }
+]

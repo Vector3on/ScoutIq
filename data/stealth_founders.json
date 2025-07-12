@@ -1,0 +1,73 @@
+[
+  {
+    "username": "PartyAdventurous3235",
+    "score": 10,
+    "account_age_days": 7,
+    "matched_keywords": [
+      "firebase",
+      "gcp",
+      "lemonsqueezy",
+      "paddle",
+      "react",
+      "stripe"
+    ],
+    "subreddits": [
+      "SaaS"
+    ],
+    "urls": [
+      "https://www.reddit.com/r/SaaS/comments/1lt9fru/looking_for_highquality_and_complex_web_app/"
+    ],
+    "reason": "High-scoring activity detected. Mentioned: firebase, gcp, lemonsqueezy, paddle, react, stripe. Active in: r/SaaS."
+  },
+  {
+    "username": "CivApps",
+    "score": 6,
+    "account_age_days": 4,
+    "matched_keywords": [
+      "aws",
+      "azure"
+    ],
+    "subreddits": [
+      "MLQuestions"
+    ],
+    "urls": [
+      "https://www.reddit.com/r/MLQuestions/comments/1lsc4yc/which_one_is_more_used_these_days_aws_or_azure/n1hgede/",
+      "https://www.reddit.com/r/MLQuestions/comments/1lsc4yc/which_one_is_more_used_these_days_aws_or_azure/n1hexbn/",
+      "https://www.reddit.com/r/MLQuestions/comments/1lsax61/deploying_pytorch_as_api_called_1x_a_day/n1h3dz8/"
+    ],
+    "reason": "High-scoring activity detected. Mentioned: aws, azure. Active in: r/MLQuestions."
+  },
+  {
+    "username": "PalpitationSharp7470",
+    "score": 4,
+    "account_age_days": 1,
+    "matched_keywords": [
+      "nextjs",
+      "supabase"
+    ],
+    "subreddits": [
+      "indiehackers"
+    ],
+    "urls": [
+      "https://www.reddit.com/r/indiehackers/comments/1ls8vba/didnt_find_a_clean_nextjs_supabase_lemon_squeezy/"
+    ],
+    "reason": "High-scoring activity detected. Mentioned: nextjs, supabase. Active in: r/indiehackers."
+  },
+  {
+    "username": "Sorry_Ad191",
+    "score": 4,
+    "account_age_days": 21,
+    "matched_keywords": [
+      "python",
+      "vllm"
+    ],
+    "subreddits": [
+      "LocalLLaMA"
+    ],
+    "urls": [
+      "https://www.reddit.com/r/LocalLLaMA/comments/1lshe4q/build_vllm_on_cuda_129_kernel_6152_nvidia_57564/",
+      "https://www.reddit.com/r/LocalLLaMA/comments/1lshe4q/build_vllm_on_cuda_129_kernel_6152_nvidia_57564/n1po15g/"
+    ],
+    "reason": "High-scoring activity detected. Mentioned: python, vllm. Active in: r/LocalLLaMA."
+  }
+]
