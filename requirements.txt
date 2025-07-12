@@ -1,22 +1,25 @@
-# For data collection
+# === Core ML & Data Handling ===
+numpy
+pandas
+torch
+transformers
+scikit-learn
+
+# === Simulation & Analysis ===
+simpy
+networkx
+matplotlib
+seaborn
+
+# === Data Acquisition & APIs ===
 requests
 praw
-# For data handling
-pandas
-pyarrow
-# For forecasting engine & ML
-torch>=1.9.0
-# NEW: Specify modern versions to ensure compatibility
-scikit-learn>=1.0.0
-transformers>=4.20.0
-sentence-transformers>=2.2.0
-# Causal Inference
-causal-learn
-statsmodels
-# Behavioral Feature Extraction
-PyDriller
-# Agent-Based Simulation (Pinned to stable version)
-Mesa==0.8.9
-# For Notifications
+
+# === Legacy Causal / Behavioral Analysis ===
+dowhy
+graphviz
+pydriller
+mesa==0.8.9
+
+# === Notifications ===
 slack_sdk
-pytorch-forecasting==1.0.2
