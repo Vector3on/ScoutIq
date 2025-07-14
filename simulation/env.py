@@ -5,10 +5,61 @@ from typing import Dict, Any, List, Tuple
 import os
 import copy
 import math
+import numpy as np
+
+# --- NEW: RewardShaper Class from Research Document ---
+class RewardShaper:
+    """Implements Potential-Based Reward Shaping for the startup environment."""
+    def __init__(self, gamma=0.99, weights=None):
+        self.gamma = gamma
+        self.weights = weights if weights is not None else {
+            "potential_survival": 1.0,
+            "potential_growth": 0.5,
+            "potential_efficiency": 0.3,
+            "potential_sustainability": 0.4
+        }
+
+    def potential(self, state):
+        """Calculates the potential (Phi) of a given state."""
+        capital = state.get('capital', 0)
+        product_progress = state.get('product_progress', 0)
+        team_size = state.get('team_size', 1)
+        # Calculate burn_rate based on team_size if not present
+        burn_rate = state.get('burn_rate', team_size * 7000 / 30)
+
+        # Use log for capital to model diminishing returns
+        phi_survival = self.weights["potential_survival"] * np.log(capital + 1e-9)
+        phi_growth = self.weights["potential_growth"] * product_progress
+        phi_efficiency = self.weights["potential_efficiency"] * (product_progress / (team_size + 1e-9))
+        phi_sustainability = -self.weights["potential_sustainability"] * (burn_rate / (capital + 1e-9))
+
+        return phi_survival + phi_growth + phi_efficiency + phi_sustainability
+
+    def calculate_shaped_reward(self, state, next_state, done):
+        """Calculates the final reward including the base reward and the shaping term."""
+        # --- 1. Calculate Base Reward ---
+        base_reward = 0.0
+        # Terminal penalty for bankruptcy remains crucial
+        if done and next_state.get('capital', 0) <= 0:
+            base_reward = -100.0
+        # Small reward for progress can still be useful
+        base_reward += (next_state.get('product_progress', 0) - state.get('product_progress', 0))
+
+        # --- 2. Calculate Shaping Reward ---
+        potential_current = self.potential(state)
+        potential_next = self.potential(next_state)
+        # If terminal state, the future potential is zero
+        if done:
+            potential_next = 0
+        
+        shaping_reward = (self.gamma * potential_next) - potential_current
+        return base_reward + shaping_reward
 
 class StartupSimEnv:
     def __init__(self, seed: int = None):
         self.seed = seed
+        # --- NEW: Instantiate the RewardShaper ---
+        self.reward_shaper = RewardShaper()
         self.reset()
 
     def reset(self) -> Dict[str, Any]:
@@ -84,49 +135,13 @@ class StartupSimEnv:
             yield self.env.timeout(1)
 
     def _calculate_rewards(self) -> float:
-        reward = 0.0
-        
-        # --- NEW: Enhanced Reward Shaping ---
-        # Reward for hiring the first engineer
-        if "hire_first_engineer" not in self.unlocked_achievements and self.state["team_size"] > 1:
-            reward += 10.0
-            self.unlocked_achievements.add("hire_first_engineer")
-            self._log_entry("achievement", {"name": "hire_first_engineer"})
-
-        # Reward for building an MVP
-        if "build_MVP" not in self.unlocked_achievements and self.state["product_progress"] > 50:
-            reward += 20.0
-            self.unlocked_achievements.add("build_MVP")
-            self._log_entry("achievement", {"name": "build_MVP"})
-
-        # Reward for getting first real traction
-        if "first_10_users" not in self.unlocked_achievements and self.state["market_traction"] > 10:
-            reward += 20.0
-            self.unlocked_achievements.add("first_10_users")
-            self._log_entry("achievement", {"name": "first_10_users"})
-
-        # Reward for surviving for a long time (e.g., past 180 days)
-        if "survived_6_months" not in self.unlocked_achievements and self.env.now > 180:
-             reward += 15.0
-             self.unlocked_achievements.add("survived_6_months")
-             self._log_entry("achievement", {"name": "survived_6_months"})
-        # --- END NEW ---
-
-        # Original reward components
-        reward += self.state.get('delta_progress', 0) * 0.1
-        reward += self.state.get('delta_traction', 0) * 0.2
-        reward -= (self.state['founder_burnout'] / 100.0) * 0.1
-
-        # Penalty for inaction
-        if self.last_action == "wait":
-            reward -= 0.1
-
-        if reward != 0:
-            self._log_entry("reward_event", {"amount": round(reward, 3)})
-            
-        return reward
+        # This method is now a simple wrapper around the RewardShaper
+        # We pass dummy next_state for now, as the shaper calculates it.
+        # A more integrated approach would pass the real next_state.
+        return self.reward_shaper.calculate_shaped_reward(self.state, self.state, self.state['done'])
 
     def _apply_action_consequences(self, action: str):
+        # ... (This method remains unchanged) ...
         if action == "hire_engineer":
             traction_modifier = 1 + (self.state['market_traction'] / 100.0)
             cost = 5000 * (1 - self.state["hiring_market_strength"] / 200) / traction_modifier
@@ -161,6 +176,7 @@ class StartupSimEnv:
         
         self.last_action = action
 
+
     def _competitor_launch_event(self):
         yield self.env.timeout(random.uniform(80, 120))
         if not self.state['done']:
@@ -187,11 +203,16 @@ class StartupSimEnv:
         state_before = self.get_state()
         self._apply_action_consequences(action)
         self.env.run(until=self.env.now + 7)
-        reward = self._calculate_rewards()
-        done = self._update_done_status()
-        self._log_entry("step_data", {"state": state_before, "action": action, "reward": reward, "next_state": self.get_state(), "done": done})
         
-        return self.get_state(), reward, done, {}
+        # --- NEW: Use RewardShaper with the real next_state ---
+        next_state = self.get_state()
+        done = self._update_done_status()
+        reward = self.reward_shaper.calculate_shaped_reward(state_before, next_state, done)
+        # --- END NEW ---
+
+        self._log_entry("step_data", {"state": state_before, "action": action, "reward": reward, "next_state": next_state, "done": done})
+        
+        return next_state, reward, done, {}
 
     def get_state(self) -> Dict[str, Any]:
         return self.state.copy()
