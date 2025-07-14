@@ -11,7 +11,6 @@ from control.mcts_planner import MCTSPlanner
 def generate_self_play_data(args):
     """Uses the MCTS planner to generate a new dataset of trajectories."""
     
-    # Create the output directory if it doesn't exist
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
         print(f"Created directory: {args.output_dir}")
@@ -30,8 +29,9 @@ def generate_self_play_data(args):
     value_function = ValueFunction(state_dim=env_config['state_dim'])
     value_function.load_state_dict(torch.load(args.value_function_path))
     
-    # Assuming v2 data is the basis for the scaling params
-    scaling_params = torch.load('radt_preprocessed_data_v2.pt')['scaling_params']
+    # THE FIX: Load the data file specified in the arguments
+    print(f"Loading scaling parameters from: {args.data_file}")
+    scaling_params = torch.load(args.data_file)['scaling_params']
     
     planner = MCTSPlanner(
         world_model=world_model, value_function=value_function,
@@ -44,7 +44,6 @@ def generate_self_play_data(args):
     for i in range(args.num_episodes):
         print(f"--- Generating Self-Play Episode {i+1}/{args.num_episodes} ---", end='\r')
         
-        # Use a new env for each episode to ensure a clean start
         env = StartupSimEnv(seed=int(time.time()) + i)
         state = env.reset()
         done = False
@@ -57,7 +56,6 @@ def generate_self_play_data(args):
             if env.env.now > args.max_ep_len:
                 done = True
 
-        # Save the trajectory
         episode_id = f"selfplay_{int(time.time() * 1000)}_{i}.json"
         output_path = os.path.join(args.output_dir, episode_id)
         env.export_trajectory(output_path)
@@ -68,10 +66,12 @@ def generate_self_play_data(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--world_model_path', type=str, default='world_model_v2.pth')
-    parser.add_argument('--value_function_path', type=str, default='value_function_v2.pth')
+    # ADDED: Argument for the data file
+    parser.add_argument('--data_file', type=str, default='radt_preprocessed_data_v5.pt', help="Path to the pre-processed data file for scaling parameters.")
+    parser.add_argument('--world_model_path', type=str, default='world_model_v5.pth')
+    parser.add_argument('--value_function_path', type=str, default='value_function_v5.pth')
     parser.add_argument('--num_episodes', type=int, default=500)
-    parser.add_argument('--num_simulations_per_step', type=int, default=50) # Fewer sims per step to speed up data generation
+    parser.add_argument('--num_simulations_per_step', type=int, default=50)
     parser.add_argument('--max_ep_len', type=int, default=365)
     parser.add_argument('--output_dir', type=str, default='simulation/self_play_trajectories/')
     args = parser.parse_args()

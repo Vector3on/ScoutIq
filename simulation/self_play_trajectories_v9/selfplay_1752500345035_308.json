@@ -1,0 +1,529 @@
+[
+  {
+    "timestamp": 7,
+    "type": "reward_event",
+    "amount": 0.001
+  },
+  {
+    "timestamp": 7,
+    "type": "step_data",
+    "state": {
+      "capital": 50000.0,
+      "team_size": 1,
+      "product_progress": 5.0,
+      "market_traction": 0.0,
+      "founder_burnout": 10.0,
+      "team_alignment": 90.0,
+      "technical_debt": 10.0,
+      "investor_interest": 20.0,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false
+    },
+    "action": "seek_funding",
+    "reward": 0.0012314718055994392,
+    "next_state": {
+      "capital": 48366.66666666665,
+      "team_size": 1,
+      "product_progress": 5.8352030263919605,
+      "market_traction": 0.0,
+      "founder_burnout": 10.699999999999998,
+      "team_alignment": 90.0,
+      "technical_debt": 10.417601513195986,
+      "investor_interest": 20.07000000000001,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.11931471805599436,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 14,
+    "type": "reward_event",
+    "amount": 0.001
+  },
+  {
+    "timestamp": 14,
+    "type": "step_data",
+    "state": {
+      "capital": 48366.66666666665,
+      "team_size": 1,
+      "product_progress": 5.8352030263919605,
+      "market_traction": 0.0,
+      "founder_burnout": 10.699999999999998,
+      "team_alignment": 90.0,
+      "technical_debt": 10.417601513195986,
+      "investor_interest": 20.07000000000001,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.11931471805599436,
+      "delta_traction": 0.0
+    },
+    "action": "seek_funding",
+    "reward": 0.0005314718055994417,
+    "next_state": {
+      "capital": 46733.3333333333,
+      "team_size": 1,
+      "product_progress": 6.670406052783921,
+      "market_traction": 0.0,
+      "founder_burnout": 11.399999999999995,
+      "team_alignment": 90.0,
+      "technical_debt": 10.835203026391973,
+      "investor_interest": 20.140000000000022,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.11931471805599436,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 21,
+    "type": "reward_event",
+    "amount": 5.004
+  },
+  {
+    "timestamp": 21,
+    "type": "step_data",
+    "state": {
+      "capital": 46733.3333333333,
+      "team_size": 1,
+      "product_progress": 6.670406052783921,
+      "market_traction": 0.0,
+      "founder_burnout": 11.399999999999995,
+      "team_alignment": 90.0,
+      "technical_debt": 10.835203026391973,
+      "investor_interest": 20.140000000000022,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.11931471805599436,
+      "delta_traction": 0.0
+    },
+    "action": "hire_engineer",
+    "reward": 5.003886122886681,
+    "next_state": {
+      "capital": 40216.66666666665,
+      "team_size": 2,
+      "product_progress": 7.789434654851599,
+      "market_traction": 0.0,
+      "founder_burnout": 12.099999999999993,
+      "team_alignment": 85.0,
+      "technical_debt": 11.394717327425806,
+      "investor_interest": 20.28000000000002,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 28,
+    "type": "reward_event",
+    "amount": 0.003
+  },
+  {
+    "timestamp": 28,
+    "type": "step_data",
+    "state": {
+      "capital": 40216.66666666665,
+      "team_size": 2,
+      "product_progress": 7.789434654851599,
+      "market_traction": 0.0,
+      "founder_burnout": 12.099999999999993,
+      "team_alignment": 85.0,
+      "technical_debt": 11.394717327425806,
+      "investor_interest": 20.28000000000002,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "run_marketing_campaign",
+    "reward": 0.0031861228866811187,
+    "next_state": {
+      "capital": 26949.999999999975,
+      "team_size": 2,
+      "product_progress": 8.908463256919276,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 12.79999999999999,
+      "team_alignment": 85.0,
+      "technical_debt": 11.954231628459638,
+      "investor_interest": 20.43815576397453,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 35,
+    "type": "reward_event",
+    "amount": 0.002
+  },
+  {
+    "timestamp": 35,
+    "type": "step_data",
+    "state": {
+      "capital": 26949.999999999975,
+      "team_size": 2,
+      "product_progress": 8.908463256919276,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 12.79999999999999,
+      "team_alignment": 85.0,
+      "technical_debt": 11.954231628459638,
+      "investor_interest": 20.43815576397453,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "seek_funding",
+    "reward": 0.0024861228866811212,
+    "next_state": {
+      "capital": 23683.3333333333,
+      "team_size": 2,
+      "product_progress": 10.027491858986954,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 13.499999999999988,
+      "team_alignment": 85.0,
+      "technical_debt": 12.51374592949347,
+      "investor_interest": 20.596311527949045,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 42,
+    "type": "reward_event",
+    "amount": 0.002
+  },
+  {
+    "timestamp": 42,
+    "type": "step_data",
+    "state": {
+      "capital": 23683.3333333333,
+      "team_size": 2,
+      "product_progress": 10.027491858986954,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 13.499999999999988,
+      "team_alignment": 85.0,
+      "technical_debt": 12.51374592949347,
+      "investor_interest": 20.596311527949045,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "seek_funding",
+    "reward": 0.0017861228866811237,
+    "next_state": {
+      "capital": 20416.666666666624,
+      "team_size": 2,
+      "product_progress": 11.146520461054632,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 14.199999999999985,
+      "team_alignment": 85.0,
+      "technical_debt": 13.073260230527303,
+      "investor_interest": 20.754467291923557,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 49,
+    "type": "reward_event",
+    "amount": 0.001
+  },
+  {
+    "timestamp": 49,
+    "type": "step_data",
+    "state": {
+      "capital": 20416.666666666624,
+      "team_size": 2,
+      "product_progress": 11.146520461054632,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 14.199999999999985,
+      "team_alignment": 85.0,
+      "technical_debt": 13.073260230527303,
+      "investor_interest": 20.754467291923557,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "seek_funding",
+    "reward": 0.0010861228866811262,
+    "next_state": {
+      "capital": 17149.99999999995,
+      "team_size": 2,
+      "product_progress": 12.26554906312231,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 14.899999999999983,
+      "team_alignment": 85.0,
+      "technical_debt": 13.632774531561136,
+      "investor_interest": 20.91262305589807,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 56,
+    "type": "reward_event",
+    "amount": 0.0
+  },
+  {
+    "timestamp": 56,
+    "type": "step_data",
+    "state": {
+      "capital": 17149.99999999995,
+      "team_size": 2,
+      "product_progress": 12.26554906312231,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 14.899999999999983,
+      "team_alignment": 85.0,
+      "technical_debt": 13.632774531561136,
+      "investor_interest": 20.91262305589807,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "seek_funding",
+    "reward": 0.000386122886681127,
+    "next_state": {
+      "capital": 13883.333333333285,
+      "team_size": 2,
+      "product_progress": 13.384577665189987,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 15.59999999999998,
+      "team_alignment": 85.0,
+      "technical_debt": 14.192288832594969,
+      "investor_interest": 21.070778819872583,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 63,
+    "type": "reward_event",
+    "amount": -0.135
+  },
+  {
+    "timestamp": 63,
+    "type": "step_data",
+    "state": {
+      "capital": 13883.333333333285,
+      "team_size": 2,
+      "product_progress": 13.384577665189987,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 15.59999999999998,
+      "team_alignment": 85.0,
+      "technical_debt": 14.192288832594969,
+      "investor_interest": 21.070778819872583,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "rest",
+    "reward": -0.1347138771133189,
+    "next_state": {
+      "capital": 10616.666666666622,
+      "team_size": 2,
+      "product_progress": 14.503606267257664,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 0.7,
+      "team_alignment": 85.0,
+      "technical_debt": 14.751803133628801,
+      "investor_interest": 21.228934583847096,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 70,
+    "type": "reward_event",
+    "amount": 0.015
+  },
+  {
+    "timestamp": 70,
+    "type": "step_data",
+    "state": {
+      "capital": 10616.666666666622,
+      "team_size": 2,
+      "product_progress": 14.503606267257664,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 0.7,
+      "team_alignment": 85.0,
+      "technical_debt": 14.751803133628801,
+      "investor_interest": 21.228934583847096,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "seek_funding",
+    "reward": 0.014586122886681109,
+    "next_state": {
+      "capital": 7349.999999999958,
+      "team_size": 2,
+      "product_progress": 15.622634869325342,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 1.4000000000000001,
+      "team_alignment": 85.0,
+      "technical_debt": 15.311317434662634,
+      "investor_interest": 21.38709034782161,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 77,
+    "type": "reward_event",
+    "amount": 0.015
+  },
+  {
+    "timestamp": 77,
+    "type": "step_data",
+    "state": {
+      "capital": 7349.999999999958,
+      "team_size": 2,
+      "product_progress": 15.622634869325342,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 1.4000000000000001,
+      "team_alignment": 85.0,
+      "technical_debt": 15.311317434662634,
+      "investor_interest": 21.38709034782161,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668111,
+      "delta_traction": 0.0
+    },
+    "action": "team_building_offsite",
+    "reward": 0.015286122886680933,
+    "next_state": {
+      "capital": 83.33333333329148,
+      "team_size": 2,
+      "product_progress": 16.74166347139301,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 0.7,
+      "team_alignment": 100,
+      "technical_debt": 15.870831735696466,
+      "investor_interest": 21.54524611179612,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668093,
+      "delta_traction": 0.0
+    },
+    "done": false
+  },
+  {
+    "timestamp": 77,
+    "type": "sim_event",
+    "name": "failure_bankruptcy"
+  },
+  {
+    "timestamp": 84,
+    "type": "reward_event",
+    "amount": 0.015
+  },
+  {
+    "timestamp": 84,
+    "type": "step_data",
+    "state": {
+      "capital": 83.33333333329148,
+      "team_size": 2,
+      "product_progress": 16.74166347139301,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 0.7,
+      "team_alignment": 100,
+      "technical_debt": 15.870831735696466,
+      "investor_interest": 21.54524611179612,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": false,
+      "delta_progress": 0.1598612288668093,
+      "delta_traction": 0.0
+    },
+    "action": "team_building_offsite",
+    "reward": 0.015286122886680933,
+    "next_state": {
+      "capital": -383.3333333333752,
+      "team_size": 2,
+      "product_progress": 16.74166347139301,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 0.7,
+      "team_alignment": 100,
+      "technical_debt": 15.870831735696466,
+      "investor_interest": 21.54524611179612,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": true,
+      "delta_progress": 0.1598612288668093,
+      "delta_traction": 0.0
+    },
+    "done": true
+  },
+  {
+    "timestamp": 84,
+    "type": "sim_event",
+    "name": "simulation_end",
+    "final_state": {
+      "capital": -383.3333333333752,
+      "team_size": 2,
+      "product_progress": 16.74166347139301,
+      "market_traction": 1.2968402838930746,
+      "founder_burnout": 0.7,
+      "team_alignment": 100,
+      "technical_debt": 15.870831735696466,
+      "investor_interest": 21.54524611179612,
+      "hiring_market_strength": 70.0,
+      "competitive_pressure": 10.0,
+      "done": true,
+      "delta_progress": 0.1598612288668093,
+      "delta_traction": 0.0
+    }
+  }
+]
