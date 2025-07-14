@@ -5,6 +5,9 @@ import json
 import os
 import random
 
+# NEW: Import the environment and reward shaper to calculate rewards if they are missing
+from simulation.env import StartupSimEnv, RewardShaper
+
 def process_trajectories(input_dir, output_path, max_trajectories=None):
     """
     Loads raw JSON trajectories, calculates returns-to-go, and saves them
@@ -20,8 +23,12 @@ def process_trajectories(input_dir, output_path, max_trajectories=None):
     state_dim = None
     action_map = {
         "hire_engineer": 0, "run_marketing_campaign": 1, "seek_funding": 2,
-        "refactor_codebase": 3, "team_building_offsite": 4, "rest": 5, "wait": 6
+        "refactor_codebase": 3, "team_building_offsite": 4, "rest": 5, "wait": 6,
+        "crunch_mode": 6 # Treat crunch_mode like 'wait' for action mapping
     }
+    
+    # NEW: Instantiate a reward shaper to calculate rewards if needed
+    reward_shaper = RewardShaper()
 
     for filename in trajectory_files:
         filepath = os.path.join(input_dir, filename)
@@ -32,20 +39,35 @@ def process_trajectories(input_dir, output_path, max_trajectories=None):
         if not step_data:
             continue
 
-        # Extract sequences
+        # --- FIX for KeyError: 'reward' ---
+        # Calculate rewards on the fly if they don't exist in the data
+        rewards = []
+        for item in step_data:
+            if 'reward' in item:
+                rewards.append(item['reward'])
+            else:
+                # Calculate reward using the PBRS logic from our environment
+                reward = reward_shaper.calculate_shaped_reward(
+                    item['state'], 
+                    item['next_state'], 
+                    item['done']
+                )
+                rewards.append(reward)
+        rewards = np.array(rewards)
+        # --- END FIX ---
+
+        # Extract other sequences
         observations_list = []
-        # Infer state keys from the first entry to maintain order
         state_keys = [k for k in step_data[0]['state'].keys() if k not in ['done', 'delta_progress', 'delta_traction']]
         if state_dim is None:
             state_dim = len(state_keys)
         
         for item in step_data:
-            state_vector = [item['state'][key] for key in state_keys]
+            state_vector = [item['state'].get(key, 0) for key in state_keys] # Use .get for safety
             observations_list.append(state_vector)
 
         observations = np.array(observations_list)
-        actions = np.array([action_map.get(item['action'], 6) for item in step_data]) # Default to 'wait'
-        rewards = np.array([item['reward'] for item in step_data])
+        actions = np.array([action_map.get(item['action'], 6) for item in step_data])
         
         # Calculate returns-to-go (RTG)
         rtgs = np.zeros_like(rewards, dtype=float)
@@ -62,7 +84,6 @@ def process_trajectories(input_dir, output_path, max_trajectories=None):
     
     print(f"Processed {len(all_trajectories)} trajectories.")
     
-    # Save the processed data
     with open(output_path, 'wb') as f:
         torch.save(all_trajectories, f)
         
@@ -70,7 +91,7 @@ def process_trajectories(input_dir, output_path, max_trajectories=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_dir', type=str, default='simulation/self_play_trajectories_v9/')
-    parser.add_argument('--output_path', type=str, default='dt_trajectories_v9.pt')
+    parser.add_argument('--input_dir', type=str, default='simulation/human_trajectory/')
+    parser.add_argument('--output_path', type=str, default='dt_golden_trajectory.pt')
     args = parser.parse_args()
     process_trajectories(args.input_dir, args.output_path)
