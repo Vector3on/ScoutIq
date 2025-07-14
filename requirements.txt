@@ -1,37 +1,6 @@
-<<<<<<< HEAD
-# requirements.txt
-
-# For Graph-based Inference
-networkx
-
-# For Causal Inference (Legacy)
-dowhy
-graphviz
-
-# General purpose
-=======
 # For data collection
->>>>>>> fc10f115e6816bce023bb9938437e2625c9e0254
 requests
-numpy
-
-# Reddit API Wrapper
 praw
-<<<<<<< HEAD
-
-# Simulation Environment
-simpy
-
-# PyTorch & Transformers
-torch
-torchvision
-torchaudio
-transformers
-
-# NEW: For analysis and visualization
-matplotlib
-seaborn
-=======
 # For data handling
 pandas
 pyarrow
@@ -51,4 +20,3 @@ Mesa==0.8.9
 # For Notifications
 slack_sdk
 pytorch-forecasting==1.0.2
->>>>>>> fc10f115e6816bce023bb9938437e2625c9e0254

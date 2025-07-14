@@ -54,18 +54,13 @@ jobs:
 
       - name: 'Run Self-Improvement Cycle'
         env:
-          # Add any necessary secrets here if your scripts require them
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_VERSION: ${{ github.event.inputs.base_model_version }}
+          NEW_VERSION: ${{ github.event.inputs.new_model_version }}
+          NUM_EPISODES: ${{ github.event.inputs.num_self_play_episodes }}
         run: |
-          # Define versions from inputs
-          BASE_VERSION=${{ github.event.inputs.base_model_version }}
-          NEW_VERSION=${{ github.event.inputs.new_model_version }}
-          NUM_EPISODES=${{ github.event.inputs.num_self_play_episodes }}
-
           echo "--- Starting Self-Improvement Cycle: Training ${NEW_VERSION} from ${BASE_VERSION} ---"
 
           # STEP 1: Generate self-play data using the base models
-          # Note: This assumes the base models (e.g., v5) are already checked into the repo or cached
           echo "--- Generating ${NUM_EPISODES} self-play trajectories using ${BASE_VERSION} models... ---"
           python -m simulation.generate_self_play \
             --world_model_path world_model_${BASE_VERSION}.pth \
