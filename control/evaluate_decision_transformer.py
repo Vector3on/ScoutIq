@@ -2,14 +2,26 @@ import torch
 import numpy as np
 import argparse
 
-from .decision_transformer import DecisionTransformer
+from control.decision_transformer import DecisionTransformer
 from simulation.env import StartupSimEnv
 
-def evaluate_dt(model_path, target_return, state_dim, act_dim, context_len, seed):
-    print("--- Evaluating Decision Transformer ---")
+def evaluate_dt(model_path, target_return, seed):
+    print("--- Evaluating Decision Transformer (Corrected Version) ---")
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
+
+    try:
+        checkpoint = torch.load(model_path, map_location=device)
+    except FileNotFoundError:
+        print(f"ERROR: Model file not found at '{model_path}'.")
+        return
+    
+    state_dim = checkpoint['state_dim']
+    act_dim = checkpoint['act_dim']
+    context_len = checkpoint['context_len']
+    
+    print(f"Loaded model metadata: state_dim={state_dim}, act_dim={act_dim}, context_len={context_len}")
 
     model = DecisionTransformer(
         state_dim=state_dim,
@@ -19,9 +31,10 @@ def evaluate_dt(model_path, target_return, state_dim, act_dim, context_len, seed
         n_layer=3,
         n_head=1
     ).to(device)
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    
+    model.load_state_dict(checkpoint['model_state_dict'])
     model.eval()
-    print(f"Model loaded from {model_path}")
+    print(f"Model weights loaded successfully from {model_path}")
 
     env = StartupSimEnv(seed=seed)
     state = env.reset()
@@ -30,7 +43,7 @@ def evaluate_dt(model_path, target_return, state_dim, act_dim, context_len, seed
     total_reward = 0
     target_return_tensor = torch.tensor(target_return, device=device, dtype=torch.float32).reshape(1, 1)
     
-    states = torch.from_numpy(np.array([state[key] for key in env.state_keys if key in state])).to(device).float().unsqueeze(0)
+    states = torch.from_numpy(np.array([state[key] for key in env.state_keys])).to(device).float().unsqueeze(0)
     actions = torch.zeros((0), device=device, dtype=torch.long)
     timesteps = torch.tensor([0], device=device, dtype=torch.long)
 
@@ -62,13 +75,13 @@ def evaluate_dt(model_path, target_return, state_dim, act_dim, context_len, seed
             action_idx = torch.argmax(action_preds[0, -1, :]).item()
 
         action_name = action_map.get(action_idx, "wait")
-        print(f"[Day {env.env.now:3}] Planner chose action: {action_name}")
+        print(f"[Day {t*7:3}] Planner chose action: {action_name}")
 
         state, reward, done, _ = env.step(action_name)
         total_reward += reward
         
         actions = torch.cat([actions, torch.tensor([action_idx], device=device, dtype=torch.long)], dim=0)
-        current_state_np = np.array([state[key] for key in env.state_keys if key in state])
+        current_state_np = np.array([state[key] for key in env.state_keys])
         states = torch.cat([states, torch.from_numpy(current_state_np).to(device).float().unsqueeze(0)], dim=0)
         timesteps = torch.cat([timesteps, torch.tensor([t + 1], device=device, dtype=torch.long)], dim=0)
 
@@ -76,9 +89,7 @@ def evaluate_dt(model_path, target_return, state_dim, act_dim, context_len, seed
             break
             
     print("\n--- Final Evaluation Complete ---")
-    print(f"Final Day: {env.env.now}")
     print(f"Total Reward: {total_reward:.2f}")
-    print(f"Achievements Unlocked: {env.unlocked_achievements or 'None'}")
     print("Final State:")
     for key, value in env.get_state().items():
         if isinstance(value, float):
@@ -86,15 +97,11 @@ def evaluate_dt(model_path, target_return, state_dim, act_dim, context_len, seed
         else:
             print(f"  {key:<25}: {value}")
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_path', type=str, default='/content/drive/MyDrive/decision_transformer_v1.pth')
-    parser.add_argument('--target_return', type=int, default=100)
-    parser.add_argument('--state_dim', type=int, default=10)
-    parser.add_argument('--act_dim', type=int, default=7)
-    parser.add_argument('--context_len', type=int, default=20)
+    parser.add_argument('--model_path', type=str, default='/content/drive/MyDrive/decision_transformer_v12_dagger.pth')
+    parser.add_argument('--target_return', type=int, default=500)
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()
     
-    evaluate_dt(args.model_path, args.target_return, args.state_dim, args.act_dim, args.context_len, args.seed)
+    evaluate_dt(args.model_path, args.target_return, args.seed)
