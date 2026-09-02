@@ -1,4 +1,0 @@
-# For data collection
-requests
-praw
-

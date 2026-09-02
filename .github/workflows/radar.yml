@@ -1,0 +1,81 @@
+name: Refresh ScopePulse
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master, main]
+    paths-ignore:
+      - "data/**"
+      - "public/data/**"
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: scopepulse-radar
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Collect and diff public programs
+        id: collect
+        run: node scripts/collect.mjs
+
+      - name: Commit changed radar data
+        if: steps.collect.outputs.changed == 'true'
+        run: |
+          git config user.name "scopepulse-bot"
+          git config user.email "scopepulse-bot@users.noreply.github.com"
+          git add data/state.json public/data/programs.json public/data/events.json
+          git commit -m "data: refresh ScopePulse"
+          git push
+
+      - name: Send optional Discord alert
+        if: steps.collect.outputs.event_count != '0'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node scripts/notify.mjs
+
+      - name: Install dependencies
+        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
+        run: npm ci
+
+      - name: Build dashboard
+        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
+        run: npm run build
+
+      - name: Configure GitHub Pages
+        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist/client
+
+      - name: Deploy GitHub Pages
+        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
+        id: deployment
+        uses: actions/deploy-pages@v4

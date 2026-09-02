@@ -1,0 +1,78 @@
+{
+  "sources": [
+    {
+      "id": "hackerone",
+      "label": "HackerOne",
+      "platform": "HackerOne",
+      "adapter": "hackerone",
+      "url": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/main/data/hackerone_data.json",
+      "homepage": "https://hackerone.com/directory/programs",
+      "programUrlTemplate": "https://hackerone.com/{id}",
+      "priority": 10,
+      "paidOnly": true,
+      "minRecords": 10,
+      "maxBytes": 30000000
+    },
+    {
+      "id": "bugcrowd",
+      "label": "Bugcrowd",
+      "platform": "Bugcrowd",
+      "adapter": "bugcrowd",
+      "url": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/main/data/bugcrowd_data.json",
+      "homepage": "https://bugcrowd.com/engagements",
+      "priority": 20,
+      "paidOnly": true,
+      "minRecords": 10,
+      "maxBytes": 30000000
+    },
+    {
+      "id": "intigriti",
+      "label": "Intigriti",
+      "platform": "Intigriti",
+      "adapter": "intigriti",
+      "url": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/main/data/intigriti_data.json",
+      "homepage": "https://app.intigriti.com/researcher/programs",
+      "priority": 30,
+      "paidOnly": true,
+      "minRecords": 10,
+      "maxBytes": 30000000
+    },
+    {
+      "id": "yeswehack",
+      "label": "YesWeHack",
+      "platform": "YesWeHack",
+      "adapter": "yeswehack",
+      "url": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/main/data/yeswehack_data.json",
+      "homepage": "https://yeswehack.com/programs",
+      "programUrlTemplate": "https://yeswehack.com/programs/{id}",
+      "priority": 40,
+      "paidOnly": true,
+      "minRecords": 10,
+      "maxBytes": 30000000
+    },
+    {
+      "id": "federacy",
+      "label": "Federacy",
+      "platform": "Federacy",
+      "adapter": "federacy",
+      "url": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/main/data/federacy_data.json",
+      "homepage": "https://www.federacy.com/programs",
+      "priority": 50,
+      "paidOnly": true,
+      "minRecords": 1,
+      "maxBytes": 10000000
+    },
+    {
+      "id": "projectdiscovery",
+      "label": "ProjectDiscovery public programs",
+      "platform": "Self-hosted",
+      "adapter": "projectdiscovery",
+      "url": "https://raw.githubusercontent.com/projectdiscovery/public-bugbounty-programs/main/dist/data.json",
+      "homepage": "https://github.com/projectdiscovery/public-bugbounty-programs",
+      "priority": 90,
+      "paidOnly": true,
+      "minRecords": 10,
+      "maxBytes": 10000000
+    }
+  ]
+}

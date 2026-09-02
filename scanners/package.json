@@ -1,9 +1,0 @@
-{
-  "name": "scoutiq-scanners",
-  "version": "1.0.0",
-  "description": "Scanners for the ScoutIQ project",
-  "main": "tech_stack_scanner.js",
-  "dependencies": {
-    "wappalyzer": "^6.10.66"
-  }
-}
