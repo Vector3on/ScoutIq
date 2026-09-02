@@ -1,4 +1,32 @@
 {
-  "generatedAt": "2026-09-02T23:02:43.170Z",
-  "events": []
+  "generatedAt": "2026-09-02T23:08:54.084Z",
+  "events": [
+    {
+      "id": "2026-09-02T23:08:54.084Z:program:volkswagen:new_program",
+      "programId": "program:volkswagen",
+      "programName": "Volkswagen",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/volkswagen-og",
+      "score": 54,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-02T23:08:54.084Z"
+      }
+    },
+    {
+      "id": "2026-09-02T23:08:54.084Z:program:intercom:scope_updated",
+      "programId": "program:intercom",
+      "programName": "Intercom",
+      "platform": "Self-hosted",
+      "url": "https://bugcrowd.com/intercom",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-02T23:08:54.084Z",
+        "removedTargets": 12
+      }
+    }
+  ]
 }

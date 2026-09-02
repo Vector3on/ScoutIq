@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-02T23:02:43.170Z",
+  "generatedAt": "2026-09-02T23:08:54.084Z",
   "sourceSnapshots": {
     "hackerone": [
       {
@@ -40148,6 +40148,39 @@
         "sourcePriority": 20
       },
       {
+        "mergeKey": "fireblocks-mpc-managed-bug-bounty-engagement",
+        "name": "Fireblocks MPC Managed Bug Bounty Engagement",
+        "platform": "Bugcrowd",
+        "url": "https://bugcrowd.com/engagements/fireblocks-mbb-og2",
+        "status": "open",
+        "paid": true,
+        "currency": null,
+        "maxReward": 150000,
+        "safeHarbor": "full",
+        "disclosureAllowed": false,
+        "sourceIds": [
+          "bugcrowd"
+        ],
+        "sourceCode": true,
+        "repositoryCount": 1,
+        "targetCount": 1,
+        "tags": [
+          "other",
+          "source-code"
+        ],
+        "languages": [],
+        "targets": [
+          {
+            "key": "6ba4cc2828e89967",
+            "type": "other",
+            "value": "https://github.com/fireblocks/mpc-lib",
+            "eligible": true
+          }
+        ],
+        "localTestingHint": false,
+        "sourcePriority": 20
+      },
+      {
         "mergeKey": "fireblocks-web-managed-bug-bounty-engagement",
         "name": "Fireblocks Web Managed Bug Bounty Engagement",
         "platform": "Bugcrowd",
@@ -41508,107 +41541,6 @@
             "key": "d9f84f6b3f6b12de",
             "type": "web",
             "value": "https://marketplace.atlassian.com/apps/1218151/capacity-tracker?hosting=cloud&tab=overview",
-            "eligible": true
-          }
-        ],
-        "localTestingHint": false,
-        "sourcePriority": 20
-      },
-      {
-        "mergeKey": "intercom",
-        "name": "Intercom",
-        "platform": "Bugcrowd",
-        "url": "https://bugcrowd.com/engagements/intercom",
-        "status": "open",
-        "paid": true,
-        "currency": null,
-        "maxReward": 6000,
-        "safeHarbor": "partial",
-        "disclosureAllowed": true,
-        "sourceIds": [
-          "bugcrowd"
-        ],
-        "sourceCode": false,
-        "repositoryCount": 0,
-        "targetCount": 12,
-        "tags": [
-          "ai/ml",
-          "api",
-          "mobile",
-          "web"
-        ],
-        "languages": [],
-        "targets": [
-          {
-            "key": "0b9d50558fa11417",
-            "type": "api",
-            "value": "https://*.mobile-messenger.intercom.com",
-            "eligible": true
-          },
-          {
-            "key": "21dec38537abfa68",
-            "type": "web",
-            "value": "https://app.fin.ai/",
-            "eligible": true
-          },
-          {
-            "key": "2a212440013e19a0",
-            "type": "mobile",
-            "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-android",
-            "eligible": true
-          },
-          {
-            "key": "341be95086808969",
-            "type": "web",
-            "value": "https://app.intercom.com",
-            "eligible": true
-          },
-          {
-            "key": "545ddd4cb10115d4",
-            "type": "web",
-            "value": "https://app.intercom.io/",
-            "eligible": true
-          },
-          {
-            "key": "9282d89e63063e5d",
-            "type": "web",
-            "value": "*.intercomassets.com / *.intercomcdn.com",
-            "eligible": true
-          },
-          {
-            "key": "ae9386d0862d0120",
-            "type": "api",
-            "value": "https://api-iam.intercom.io",
-            "eligible": true
-          },
-          {
-            "key": "af2f0636a01023af",
-            "type": "web",
-            "value": "https://www.intercom.com/",
-            "eligible": true
-          },
-          {
-            "key": "c42d76565236d1d6",
-            "type": "api",
-            "value": "https://api.intercom.com",
-            "eligible": true
-          },
-          {
-            "key": "d63994fca3163213",
-            "type": "mobile",
-            "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-ios",
-            "eligible": true
-          },
-          {
-            "key": "da459cd2a912161a",
-            "type": "web",
-            "value": "http://mcp.intercom.com",
-            "eligible": true
-          },
-          {
-            "key": "f30687eab03b2210",
-            "type": "web",
-            "value": "https://fin.ai/",
             "eligible": true
           }
         ],
@@ -53117,38 +53049,6 @@
         "sourcePriority": 20
       },
       {
-        "mergeKey": "spacex-starlink",
-        "name": "SpaceX/Starlink",
-        "platform": "Bugcrowd",
-        "url": "https://bugcrowd.com/engagements/spacex",
-        "status": "open",
-        "paid": true,
-        "currency": null,
-        "maxReward": 100000,
-        "safeHarbor": null,
-        "disclosureAllowed": false,
-        "sourceIds": [
-          "bugcrowd"
-        ],
-        "sourceCode": false,
-        "repositoryCount": 0,
-        "targetCount": 1,
-        "tags": [
-          "web"
-        ],
-        "languages": [],
-        "targets": [
-          {
-            "key": "7c30991a11a84277",
-            "type": "web",
-            "value": "SpaceX and Starlink assets (target information and rewards detailed above on the brief)",
-            "eligible": true
-          }
-        ],
-        "localTestingHint": false,
-        "sourcePriority": 20
-      },
-      {
         "mergeKey": "square",
         "name": "Square",
         "platform": "Bugcrowd",
@@ -56268,6 +56168,38 @@
             "key": "f42439fb0cfc2755",
             "type": "web",
             "value": "https://*.viatorinc.com",
+            "eligible": true
+          }
+        ],
+        "localTestingHint": false,
+        "sourcePriority": 20
+      },
+      {
+        "mergeKey": "volkswagen",
+        "name": "Volkswagen",
+        "platform": "Bugcrowd",
+        "url": "https://bugcrowd.com/engagements/volkswagen-og",
+        "status": "open",
+        "paid": true,
+        "currency": null,
+        "maxReward": 2500,
+        "safeHarbor": "full",
+        "disclosureAllowed": false,
+        "sourceIds": [
+          "bugcrowd"
+        ],
+        "sourceCode": false,
+        "repositoryCount": 0,
+        "targetCount": 1,
+        "tags": [
+          "web"
+        ],
+        "languages": [],
+        "targets": [
+          {
+            "key": "9b89b6d8c073074e",
+            "type": "web",
+            "value": "*.volkswagen.de",
             "eligible": true
           }
         ],
@@ -98492,6 +98424,62 @@
       "attentionPressure": "unknown"
     },
     {
+      "id": "program:volkswagen",
+      "name": "Volkswagen",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/volkswagen-og",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 2500,
+      "safeHarbor": "full",
+      "disclosureAllowed": false,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "9b89b6d8c073074e",
+          "type": "web",
+          "value": "*.volkswagen.de",
+          "eligible": true
+        }
+      ],
+      "localTestingHint": false,
+      "firstSeenAt": "2026-09-02T23:08:54.084Z",
+      "lastSeenAt": "2026-09-02T23:08:54.084Z",
+      "lastChangedAt": "2026-09-02T23:08:54.084Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-02T23:08:54.084Z"
+      },
+      "missingCount": 0,
+      "score": 54,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 8,
+        "inspectability": 0,
+        "authorization": 13,
+        "friction": 6
+      },
+      "reasons": [
+        "New program",
+        "Confirmed reward ceiling clears $1,000",
+        "Small scope with 1 tracked target",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
+    },
+    {
       "id": "program:nvidia-public-bug-bounty",
       "name": "NVIDIA Public Bug Bounty",
       "platform": "Intigriti",
@@ -110830,137 +110818,6 @@
       "reasons": [
         "Confirmed reward ceiling clears $1,000",
         "Small scope with 1 tracked target",
-        "Safe-harbor field is present, verify the official wording"
-      ],
-      "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:intercom",
-      "name": "Intercom",
-      "platform": "Bugcrowd",
-      "url": "https://bugcrowd.com/engagements/intercom",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": 6000,
-      "safeHarbor": "partial",
-      "disclosureAllowed": true,
-      "sourceIds": [
-        "bugcrowd",
-        "projectdiscovery"
-      ],
-      "sourceCode": false,
-      "repositoryCount": 0,
-      "targetCount": 13,
-      "tags": [
-        "ai/ml",
-        "api",
-        "mobile",
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "0b9d50558fa11417",
-          "type": "api",
-          "value": "https://*.mobile-messenger.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "21dec38537abfa68",
-          "type": "web",
-          "value": "https://app.fin.ai/",
-          "eligible": true
-        },
-        {
-          "key": "2a212440013e19a0",
-          "type": "mobile",
-          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-android",
-          "eligible": true
-        },
-        {
-          "key": "341be95086808969",
-          "type": "web",
-          "value": "https://app.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "545ddd4cb10115d4",
-          "type": "web",
-          "value": "https://app.intercom.io/",
-          "eligible": true
-        },
-        {
-          "key": "9282d89e63063e5d",
-          "type": "web",
-          "value": "*.intercomassets.com / *.intercomcdn.com",
-          "eligible": true
-        },
-        {
-          "key": "ae9386d0862d0120",
-          "type": "api",
-          "value": "https://api-iam.intercom.io",
-          "eligible": true
-        },
-        {
-          "key": "af2f0636a01023af",
-          "type": "web",
-          "value": "https://www.intercom.com/",
-          "eligible": true
-        },
-        {
-          "key": "b933d137ce4de6fc",
-          "type": "web",
-          "value": "intercom.io",
-          "eligible": true
-        },
-        {
-          "key": "c42d76565236d1d6",
-          "type": "api",
-          "value": "https://api.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "d63994fca3163213",
-          "type": "mobile",
-          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-ios",
-          "eligible": true
-        },
-        {
-          "key": "da459cd2a912161a",
-          "type": "web",
-          "value": "http://mcp.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "f30687eab03b2210",
-          "type": "web",
-          "value": "https://fin.ai/",
-          "eligible": true
-        }
-      ],
-      "localTestingHint": false,
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastChangedAt": "2026-09-02T23:02:43.170Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-02T23:02:43.170Z"
-      },
-      "missingCount": 0,
-      "score": 39,
-      "scoreBreakdown": {
-        "freshness": 5,
-        "reward": 12,
-        "inspectability": 4,
-        "authorization": 14,
-        "friction": 4
-      },
-      "reasons": [
-        "Structured API surface",
-        "Confirmed reward ceiling clears $1,000",
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
@@ -134488,6 +134345,61 @@
         "Confirmed reward ceiling clears $1,000"
       ],
       "attentionPressure": "unknown"
+    },
+    {
+      "id": "program:intercom",
+      "name": "Intercom",
+      "platform": "Self-hosted",
+      "url": "https://bugcrowd.com/intercom",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": null,
+      "safeHarbor": null,
+      "disclosureAllowed": null,
+      "sourceIds": [
+        "projectdiscovery"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "b933d137ce4de6fc",
+          "type": "web",
+          "value": "intercom.io",
+          "eligible": true
+        }
+      ],
+      "localTestingHint": false,
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-02T23:08:54.084Z",
+      "lastChangedAt": "2026-09-02T23:08:54.084Z",
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-02T23:08:54.084Z",
+        "removedTargets": 12
+      },
+      "missingCount": 0,
+      "score": 33,
+      "scoreBreakdown": {
+        "freshness": 18,
+        "reward": 0,
+        "inspectability": 0,
+        "authorization": 10,
+        "friction": 5
+      },
+      "reasons": [
+        "Scope or policy changed",
+        "Small scope with 1 tracked target"
+      ],
+      "attentionPressure": "medium"
     },
     {
       "id": "program:klaviyo-managed-bug-bounty",
@@ -211616,5 +211528,33 @@
       "attentionPressure": "unknown"
     }
   ],
-  "events": []
+  "events": [
+    {
+      "id": "2026-09-02T23:08:54.084Z:program:volkswagen:new_program",
+      "programId": "program:volkswagen",
+      "programName": "Volkswagen",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/volkswagen-og",
+      "score": 54,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-02T23:08:54.084Z"
+      }
+    },
+    {
+      "id": "2026-09-02T23:08:54.084Z:program:intercom:scope_updated",
+      "programId": "program:intercom",
+      "programName": "Intercom",
+      "platform": "Self-hosted",
+      "url": "https://bugcrowd.com/intercom",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-02T23:08:54.084Z",
+        "removedTargets": 12
+      }
+    }
+  ]
 }
