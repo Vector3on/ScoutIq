@@ -66,18 +66,21 @@ jobs:
         run: npm run build
 
       - name: Configure GitHub Pages
+        continue-on-error: true
         if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
       - name: Upload Pages artifact
+        continue-on-error: true
         if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
         uses: actions/upload-pages-artifact@v5
         with:
           path: dist/client
 
       - name: Deploy GitHub Pages
+        continue-on-error: true
         if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
         id: deployment
         uses: actions/deploy-pages@v4
