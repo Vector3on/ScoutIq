@@ -70,6 +70,7 @@ export type RepoSignals = {
   files90dTruncated?: boolean;
   mergedPrs90d?: number | null;
   maxMergedPrAdditions90d?: number | null;
+  activityCoverage?: "graphql" | "rest-fallback";
   secTooling?: boolean | null;
   securityMd?: boolean | null;
   fuzzPath?: boolean | null;

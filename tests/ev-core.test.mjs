@@ -210,8 +210,10 @@ test("parses GitHub and nested GitLab repository targets", () => {
 
 test("GitHub metadata query batches exactly 100 repositories", () => {
   const refs = Array.from({ length: 100 }, (_, index) => ({ owner: `owner${index}`, name: `repo${index}` }));
-  const query = buildGithubMetadataQuery(refs, now).query;
+  const { query, variables } = buildGithubMetadataQuery(refs, now);
   assert.equal((query.match(/repository\(owner:/g) ?? []).length, 100);
+  assert.doesNotMatch(query, /history|pullRequests/);
+  assert.deepEqual(variables, {});
   assert.throws(() => buildGithubMetadataQuery([...refs, { owner: "overflow", name: "repo" }], now), /exceeds 100/);
 });
 

@@ -125,24 +125,17 @@ function githubHeaders(token) {
   };
 }
 
-export function buildGithubMetadataQuery(refs, now = new Date().toISOString()) {
+export function buildGithubMetadataQuery(refs) {
   if (refs.length > GITHUB_METADATA_BATCH_SIZE) throw new Error(`GitHub metadata batch exceeds ${GITHUB_METADATA_BATCH_SIZE} repositories`);
   const repositories = refs.map((ref, index) => `r${index}: repository(owner: ${JSON.stringify(ref.owner)}, name: ${JSON.stringify(ref.name)}) {
     nameWithOwner createdAt pushedAt stargazerCount forkCount isArchived
-    defaultBranchRef { name target { ... on Commit {
-      commits7: history(since: $since7) { totalCount }
-      commits30: history(since: $since30) { totalCount }
-      commits90: history(since: $since90) { totalCount }
-    } } }
+    defaultBranchRef { name }
     releases { totalCount }
     languages(first: 20, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } }
-    pullRequests(first: 100, states: MERGED, orderBy: {field: UPDATED_AT, direction: DESC}) {
-      nodes { additions mergedAt }
-    }
   }`).join("\n");
   return {
-    query: `query ScoutRepoBatch($since7: GitTimestamp!, $since30: GitTimestamp!, $since90: GitTimestamp!) {\n${repositories}\n}`,
-    variables: { since7: isoBefore(now, 7), since30: isoBefore(now, 30), since90: isoBefore(now, 90) },
+    query: `query ScoutRepoBatch {\n${repositories}\n}`,
+    variables: {},
   };
 }
 
@@ -203,6 +196,69 @@ export async function githubGraphqlBatchResilient(refs, token, now, fetchImpl, l
       fallbacks: 1 + left.fallbacks + right.fallbacks,
     };
   }
+}
+
+async function githubRepositoryActivity(ref, token, now, fetchImpl) {
+  const query = `query ScoutRepoActivity($owner: String!, $name: String!, $since7: GitTimestamp!, $since30: GitTimestamp!, $since90: GitTimestamp!) {
+    repository(owner: $owner, name: $name) {
+      defaultBranchRef { target { ... on Commit {
+        commits7: history(since: $since7) { totalCount }
+        commits30: history(since: $since30) { totalCount }
+        commits90: history(since: $since90) { totalCount }
+      } } }
+      pullRequests(first: 100, states: MERGED, orderBy: {field: UPDATED_AT, direction: DESC}) {
+        nodes { additions mergedAt }
+      }
+    }
+  }`;
+  const response = await requestJson("https://api.github.com/graphql", {
+    method: "POST",
+    headers: { ...githubHeaders(token), "content-type": "application/json" },
+    body: JSON.stringify({
+      query,
+      variables: {
+        owner: ref.owner,
+        name: ref.name,
+        since7: isoBefore(now, 7),
+        since30: isoBefore(now, 30),
+        since90: isoBefore(now, 90),
+      },
+    }),
+    fetchImpl,
+  });
+  const repository = response.payload?.data?.repository;
+  if (!repository) {
+    const message = (response.payload?.errors ?? []).map((error) => error.message).join("; ");
+    throw new Error((message || "repository activity unavailable").slice(0, 240));
+  }
+  return repository;
+}
+
+function pagedCount(response) {
+  if (!response) return null;
+  return parseLastPage(response.headers?.get("link"))
+    ?? (Array.isArray(response.payload) ? response.payload.length : null);
+}
+
+async function githubActivityRestFallback(basePath, token, now, fetchImpl) {
+  const safe = (promise) => promise.catch(() => null);
+  const [commits7, commits30, commits90, pullsResponse] = await Promise.all([
+    safe(githubRest(`${basePath}/commits`, token, fetchImpl, `?since=${encodeURIComponent(isoBefore(now, 7))}&per_page=1`)),
+    safe(githubRest(`${basePath}/commits`, token, fetchImpl, `?since=${encodeURIComponent(isoBefore(now, 30))}&per_page=1`)),
+    safe(githubRest(`${basePath}/commits`, token, fetchImpl, `?since=${encodeURIComponent(isoBefore(now, 90))}&per_page=1`)),
+    safe(githubRest(`${basePath}/pulls`, token, fetchImpl, "?state=closed&sort=updated&direction=desc&per_page=100")),
+  ]);
+  const cutoff90 = new Date(isoBefore(now, 90)).getTime();
+  const pulls = (Array.isArray(pullsResponse?.payload) ? pullsResponse.payload : [])
+    .filter((pull) => pull.merged_at && new Date(pull.merged_at).getTime() >= cutoff90);
+  return {
+    commits7d: pagedCount(commits7),
+    commits30d: pagedCount(commits30),
+    commits90d: pagedCount(commits90),
+    mergedPrs90d: pullsResponse ? pulls.length : null,
+    maxMergedPrAdditions90d: null,
+    mergedPrs90dTruncated: (pullsResponse?.payload?.length ?? 0) === 100,
+  };
 }
 
 async function githubRest(path, token, fetchImpl, query = "") {
@@ -365,12 +421,24 @@ export async function enrichGithubRepository(ref, options = {}) {
   if (!branch) throw new Error("repository has no default branch");
   const basePath = `/repos/${encodeURIComponent(ref.owner)}/${encodeURIComponent(ref.name)}`;
 
-  const [treeResponse, contributorsResponse, advisoriesResponse, baseCommitResponse] = await Promise.all([
+  const [treeResponse, contributorsResponse, advisoriesResponse, baseCommitResponse, activityAttempt] = await Promise.all([
     githubRest(`${basePath}/git/trees/${encodeURIComponent(branch)}`, token, fetchImpl, "?recursive=1"),
     githubRest(`${basePath}/contributors`, token, fetchImpl, "?per_page=1&anon=1"),
     githubRest(`${basePath}/security-advisories`, token, fetchImpl, "?per_page=100").catch((error) => ({ payload: [], advisoryError: error.message })),
     githubRest(`${basePath}/commits`, token, fetchImpl, `?until=${encodeURIComponent(isoBefore(now, 90))}&per_page=1`).catch(() => ({ payload: [] })),
+    githubRepositoryActivity(ref, token, now, fetchImpl)
+      .then((activity) => ({ activity, error: null }))
+      .catch((error) => ({ activity: null, error: String(error?.message ?? error).slice(0, 240) })),
   ]);
+
+  const activity = activityAttempt.activity;
+  let activityFallback = null;
+  let activityCoverage = "graphql";
+  if (!activity) {
+    activityCoverage = "rest-fallback";
+    options.logger?.warn?.(`[repo-enrichment] ${ref.key} activity GraphQL failed: ${activityAttempt.error}; using REST fallback`);
+    activityFallback = await githubActivityRestFallback(basePath, token, now, fetchImpl);
+  }
 
   const tree = Array.isArray(treeResponse.payload?.tree) ? treeResponse.payload.tree : [];
   const baseSha = baseCommitResponse.payload?.[0]?.sha;
@@ -394,7 +462,7 @@ export async function enrichGithubRepository(ref, options = {}) {
   const contributors = parseLastPage(contributorsResponse.headers?.get("link"))
     ?? (Array.isArray(contributorsResponse.payload) ? contributorsResponse.payload.length : 0);
   const cutoff90 = new Date(isoBefore(now, 90)).getTime();
-  const pulls = (repo.pullRequests?.nodes ?? []).filter((pull) => new Date(pull.mergedAt).getTime() >= cutoff90);
+  const pulls = (activity?.pullRequests?.nodes ?? []).filter((pull) => new Date(pull.mergedAt).getTime() >= cutoff90);
   const ageY = Math.max(0, (new Date(now).getTime() - new Date(repo.createdAt).getTime()) / (365.25 * DAY));
   const languages = Object.fromEntries((repo.languages?.edges ?? []).map((edge) => [edge.node.name.toLowerCase(), edge.size]));
 
@@ -416,16 +484,17 @@ export async function enrichGithubRepository(ref, options = {}) {
     languages,
     treeTop2: top.paths,
     treeTruncated: Boolean(treeResponse.payload?.truncated) || top.truncated,
-    commits7d: repo.defaultBranchRef?.target?.commits7?.totalCount ?? 0,
-    commits30d: repo.defaultBranchRef?.target?.commits30?.totalCount ?? 0,
-    commits90d: repo.defaultBranchRef?.target?.commits90?.totalCount ?? 0,
+    commits7d: activity?.defaultBranchRef?.target?.commits7?.totalCount ?? activityFallback?.commits7d ?? null,
+    commits30d: activity?.defaultBranchRef?.target?.commits30?.totalCount ?? activityFallback?.commits30d ?? null,
+    commits90d: activity?.defaultBranchRef?.target?.commits90?.totalCount ?? activityFallback?.commits90d ?? null,
     filesTouched90d: files.length,
     filesAdded90d: filesAdded.length,
     filesAdded90dList: filesAdded.slice(0, 300),
     files90dTruncated: files.length >= 300 || number(compare?.total_commits) > 250,
-    mergedPrs90d: pulls.length,
-    maxMergedPrAdditions90d: pulls.reduce((max, pull) => Math.max(max, number(pull.additions)), 0),
-    mergedPrs90dTruncated: pulls.length === 100,
+    mergedPrs90d: activity ? pulls.length : activityFallback?.mergedPrs90d ?? null,
+    maxMergedPrAdditions90d: activity ? pulls.reduce((max, pull) => Math.max(max, number(pull.additions)), 0) : activityFallback?.maxMergedPrAdditions90d ?? null,
+    mergedPrs90dTruncated: activity ? pulls.length === 100 : activityFallback?.mergedPrs90dTruncated ?? null,
+    activityCoverage,
     advisories: advisoriesResponse.advisoryError ? null : { open: advisory.open, resolved: advisory.resolved, total: advisory.total },
     openRecentAdvisoryPathMatch: advisoriesResponse.advisoryError ? null : advisory.pathMatch,
     advisoryCoverage: advisoriesResponse.advisoryError ? "unavailable" : "repository-advisories",
