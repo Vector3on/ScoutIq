@@ -33,6 +33,10 @@ const TOP_LIMIT = 25;
 const STORAGE_WATCHLIST = "scoutiq:watchlist";
 const STORAGE_REVIEWED = "scoutiq:reviewed";
 const LIVE_WORKFLOWS = new Set<Workflow>(["live-web", "live-api", "live-contract", "ai-agent"]);
+const RADAR_DATA_URLS = [
+  "https://raw.githubusercontent.com/Vector3on/ScoutIq/master/public/data/programs.json",
+  "./data/programs.json",
+];
 
 const changeLabels: Record<ChangeType, string> = {
   new_program: "New program",
@@ -261,16 +265,20 @@ export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayloa
   const [copied, setCopied] = useState(false);
 
   const loadData = useCallback(async () => {
-    try {
-      const response = await fetch("./data/programs.json", { cache: "no-store" });
-      if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
-      const nextPayload = (await response.json()) as RadarPayload;
-      if (!Array.isArray(nextPayload.programs) || !nextPayload.meta) throw new Error("Invalid radar payload");
-      setPayload(nextPayload);
-      setLoadState(nextPayload.meta.mode);
-    } catch {
-      setLoadState("error");
+    for (const url of RADAR_DATA_URLS) {
+      try {
+        const response = await fetch(url, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
+        const nextPayload = (await response.json()) as RadarPayload;
+        if (!Array.isArray(nextPayload.programs) || !nextPayload.meta) throw new Error("Invalid radar payload");
+        setPayload(nextPayload);
+        setLoadState(nextPayload.meta.mode);
+        return;
+      } catch {
+        // Keep trying so the bundled snapshot survives a transient GitHub Raw outage.
+      }
     }
+    setLoadState("error");
   }, []);
 
   useEffect(() => {

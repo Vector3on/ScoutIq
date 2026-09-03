@@ -203,6 +203,8 @@ Add an Actions secret named `GH_PAT` containing a read-only fine-grained PAT for
 
 Repository failures are emitted as `[repo-enrichment]` log lines and stored as explicit pending records with `lastError`; a failed refresh never overwrites a good cache entry and never writes zero-valued evidence. The public dataset is withheld unless at least 80% of discovered repository targets have numeric hardening evidence, capped at a 400-target absolute requirement. Cache progress is still committed on a failed coverage run, while the prior `programs.json` remains untouched.
 
+The public dashboard loads the latest open JSON snapshot from `Vector3on/ScoutIq` on GitHub, then falls back to its bundled snapshot if GitHub Raw is unavailable. Data-only Actions commits therefore appear without a separate frontend deployment.
+
 DEV_KNOWN detection scans prioritized test and source blobs for suspicious test filenames, known-vulnerability comments, and disabled security/fork gates. DOS_CEILING and DORMANT are computed as hard exclusion traps during EV evaluation. Regression fixtures cover Electroneum's public `priority_sig_binding_test.go` and `FutureForkBlock: math.MaxInt64`, plus a managed TON/RLP parser ceiling.
 
 Scheduled runs do not install frontend dependencies. Source-change and manual runs execute the complete build and test suite. This keeps private-repository Actions usage low while still validating code changes.
