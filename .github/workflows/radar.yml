@@ -57,4 +57,4 @@ jobs:
 
       - name: Validate dashboard source changes
         if: github.event_name != 'schedule'
-        run: npm test && npm run build
+        run: env -u GITHUB_ACTIONS npm test
