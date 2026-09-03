@@ -1,6 +1,85 @@
 {
-  "generatedAt": "2026-09-02T23:08:54.084Z",
+  "generatedAt": "2026-09-03T01:09:24.996Z",
   "events": [
+    {
+      "id": "2026-09-03T01:09:24.996Z:program:intercom:new_target",
+      "programId": "program:intercom",
+      "programName": "Intercom",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/intercom",
+      "score": 66,
+      "change": {
+        "type": "new_target",
+        "label": "12 targets added",
+        "at": "2026-09-03T01:09:24.996Z",
+        "addedTargets": 12
+      }
+    },
+    {
+      "id": "2026-09-03T01:09:24.996Z:program:aptis:new_program",
+      "programId": "program:aptis",
+      "programName": "APTIS",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/epicsumup",
+      "score": 54,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      }
+    },
+    {
+      "id": "2026-09-03T01:09:24.996Z:program:okapya:new_program",
+      "programId": "program:okapya",
+      "programName": "Okapya",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/okapya",
+      "score": 54,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      }
+    },
+    {
+      "id": "2026-09-03T01:09:24.996Z:program:shinetech-software-inc-marketplace-managed-bug-bounty-engagement:new_program",
+      "programId": "program:shinetech-software-inc-marketplace-managed-bug-bounty-engagement",
+      "programName": "Shinetech Software Inc Marketplace Managed Bug Bounty Engagement",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/shinetech-software-market",
+      "score": 54,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      }
+    },
+    {
+      "id": "2026-09-03T01:09:24.996Z:program:xopero-software-s-a-marketplace-managed-bug-bounty-engagement:new_program",
+      "programId": "program:xopero-software-s-a-marketplace-managed-bug-bounty-engagement",
+      "programName": "Xopero Software S.A. Marketplace Managed Bug Bounty Engagement",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/xopero-software-marketplace",
+      "score": 54,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      }
+    },
+    {
+      "id": "2026-09-03T01:09:24.996Z:program:akeles-marketplace-bug-bounty:new_program",
+      "programId": "program:akeles-marketplace-bug-bounty",
+      "programName": "Akeles Marketplace Bug Bounty",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/akeles",
+      "score": 47,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      }
+    },
     {
       "id": "2026-09-02T23:08:54.084Z:program:volkswagen:new_program",
       "programId": "program:volkswagen",

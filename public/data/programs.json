@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-09-02T23:08:54.084Z",
+    "generatedAt": "2026-09-03T01:09:24.996Z",
     "mode": "live",
     "sourceCount": 6,
     "healthySourceCount": 6,
-    "programCount": 1008,
-    "targetCount": 10673,
-    "eventCount": 2,
+    "programCount": 1013,
+    "targetCount": 10705,
+    "eventCount": 8,
     "sources": [
       {
         "id": "hackerone",
@@ -18,13 +18,13 @@
         "id": "bugcrowd",
         "label": "Bugcrowd",
         "status": "ok",
-        "count": 260
+        "count": 265
       },
       {
         "id": "intigriti",
         "label": "Intigriti",
         "status": "ok",
-        "count": 74
+        "count": 73
       },
       {
         "id": "yeswehack",
@@ -197,6 +197,137 @@
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
+    },
+    {
+      "id": "program:intercom",
+      "name": "Intercom",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/intercom",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 6000,
+      "safeHarbor": "partial",
+      "disclosureAllowed": true,
+      "sourceIds": [
+        "bugcrowd",
+        "projectdiscovery"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 13,
+      "tags": [
+        "ai/ml",
+        "api",
+        "mobile",
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "0b9d50558fa11417",
+          "type": "api",
+          "value": "https://*.mobile-messenger.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "21dec38537abfa68",
+          "type": "web",
+          "value": "https://app.fin.ai/",
+          "eligible": true
+        },
+        {
+          "key": "2a212440013e19a0",
+          "type": "mobile",
+          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-android",
+          "eligible": true
+        },
+        {
+          "key": "341be95086808969",
+          "type": "web",
+          "value": "https://app.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "545ddd4cb10115d4",
+          "type": "web",
+          "value": "https://app.intercom.io/",
+          "eligible": true
+        },
+        {
+          "key": "9282d89e63063e5d",
+          "type": "web",
+          "value": "*.intercomassets.com / *.intercomcdn.com",
+          "eligible": true
+        },
+        {
+          "key": "ae9386d0862d0120",
+          "type": "api",
+          "value": "https://api-iam.intercom.io",
+          "eligible": true
+        },
+        {
+          "key": "af2f0636a01023af",
+          "type": "web",
+          "value": "https://www.intercom.com/",
+          "eligible": true
+        },
+        {
+          "key": "b933d137ce4de6fc",
+          "type": "web",
+          "value": "intercom.io",
+          "eligible": true
+        },
+        {
+          "key": "c42d76565236d1d6",
+          "type": "api",
+          "value": "https://api.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "d63994fca3163213",
+          "type": "mobile",
+          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-ios",
+          "eligible": true
+        },
+        {
+          "key": "da459cd2a912161a",
+          "type": "web",
+          "value": "http://mcp.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "f30687eab03b2210",
+          "type": "web",
+          "value": "https://fin.ai/",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastChangedAt": "2026-09-03T01:09:24.996Z",
+      "change": {
+        "type": "new_target",
+        "label": "12 targets added",
+        "at": "2026-09-03T01:09:24.996Z",
+        "addedTargets": 12
+      },
+      "score": 66,
+      "scoreBreakdown": {
+        "freshness": 32,
+        "reward": 12,
+        "inspectability": 4,
+        "authorization": 14,
+        "friction": 4
+      },
+      "reasons": [
+        "12 targets added",
+        "Structured API surface",
+        "Confirmed reward ceiling clears $1,000",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
     },
     {
       "id": "program:aiven-managed-bug-bounty",
@@ -1419,6 +1550,60 @@
       "attentionPressure": "unknown"
     },
     {
+      "id": "program:aptis",
+      "name": "APTIS",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/epicsumup",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 1500,
+      "safeHarbor": "full",
+      "disclosureAllowed": false,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "9e87338b1e64e1b5",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1213091/esu-sum-up-kpi-budget-reporting-project-epic-overview?hosting=cloud&tab=overview",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastChangedAt": "2026-09-03T01:09:24.996Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      },
+      "score": 54,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 8,
+        "inspectability": 0,
+        "authorization": 13,
+        "friction": 6
+      },
+      "reasons": [
+        "New program",
+        "Confirmed reward ceiling clears $1,000",
+        "Small scope with 1 tracked target",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
+    },
+    {
       "id": "program:octopus",
       "name": "Octopus",
       "platform": "Bugcrowd",
@@ -1485,6 +1670,120 @@
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
+    },
+    {
+      "id": "program:okapya",
+      "name": "Okapya",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/okapya",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 1500,
+      "safeHarbor": "full",
+      "disclosureAllowed": false,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "aa51bebeac6c8807",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1233908/connectors-for-jira-free?hosting=cloud",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastChangedAt": "2026-09-03T01:09:24.996Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      },
+      "score": 54,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 8,
+        "inspectability": 0,
+        "authorization": 13,
+        "friction": 6
+      },
+      "reasons": [
+        "New program",
+        "Confirmed reward ceiling clears $1,000",
+        "Small scope with 1 tracked target",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
+    },
+    {
+      "id": "program:shinetech-software-inc-marketplace-managed-bug-bounty-engagement",
+      "name": "Shinetech Software Inc Marketplace Managed Bug Bounty Engagement",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/shinetech-software-market",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 1500,
+      "safeHarbor": "full",
+      "disclosureAllowed": false,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 2,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "032c5889eb1bd4a5",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1221271/easy-heading-macro-floating-table-of-contents?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "1346f0d948489fd6",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1221271/easy-heading-macro-floating-table-of-contents?hosting=datacenter",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastChangedAt": "2026-09-03T01:09:24.996Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      },
+      "score": 54,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 8,
+        "inspectability": 0,
+        "authorization": 13,
+        "friction": 6
+      },
+      "reasons": [
+        "New program",
+        "Confirmed reward ceiling clears $1,000",
+        "Small scope with 2 tracked targets",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
     },
     {
       "id": "program:uphold",
@@ -1703,6 +2002,60 @@
         "type": "new_program",
         "label": "New program",
         "at": "2026-09-02T23:08:54.084Z"
+      },
+      "score": 54,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 8,
+        "inspectability": 0,
+        "authorization": 13,
+        "friction": 6
+      },
+      "reasons": [
+        "New program",
+        "Confirmed reward ceiling clears $1,000",
+        "Small scope with 1 tracked target",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
+    },
+    {
+      "id": "program:xopero-software-s-a-marketplace-managed-bug-bounty-engagement",
+      "name": "Xopero Software S.A. Marketplace Managed Bug Bounty Engagement",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/xopero-software-marketplace",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 1500,
+      "safeHarbor": "full",
+      "disclosureAllowed": false,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "35c67957d4104ce4",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1228719/gitprotect-io-for-jira-backup-restore-dr-data-management?hosting=cloud",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastChangedAt": "2026-09-03T01:09:24.996Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
       },
       "score": 54,
       "scoreBreakdown": {
@@ -3804,6 +4157,142 @@
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
+    },
+    {
+      "id": "program:akeles-marketplace-bug-bounty",
+      "name": "Akeles Marketplace Bug Bounty",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/akeles",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 1500,
+      "safeHarbor": null,
+      "disclosureAllowed": false,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 15,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "0275b87f5495958f",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1224848/banners-for-confluence?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "052460cd7c3d1e00",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1217056/canned-search-for-confluence?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "0efe5727b36ba7b6",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1211116/countdown-timer?tab=overview&hosting=cloud",
+          "eligible": true
+        },
+        {
+          "key": "217d6e6cf8972d8a",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1237524/dashboard-assistant-for-jira-cloud?hosting=cloud",
+          "eligible": true
+        },
+        {
+          "key": "24b9e84a751cab4c",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1225375/site-statistics-for-jira-cloud?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "458fac6442bdf469",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1223780/tissue-table-of-linked-issues?hosting=cloud",
+          "eligible": true
+        },
+        {
+          "key": "599876d3809c98b0",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1211314/three-dimensional-date-gadgets?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "5e9bae82f714a876",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1229447/site-statistics-for-confluence-cloud?tab=overview&hosting=cloud",
+          "eligible": true
+        },
+        {
+          "key": "64d6e761e888c390",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1211976/gauge-gadget?hosting=cloud",
+          "eligible": true
+        },
+        {
+          "key": "92dc33131779e169",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1214394/menu-gadget?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "b9b8300c00fc48d7",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1215764/calendar-heatmap-gadget?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "daed297977f8c695",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1238098/project-access-review-for-jira-cloud?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "e90608570408f773",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1214613/multiple-filters-chart-gadget?hosting=cloud",
+          "eligible": true
+        },
+        {
+          "key": "ef463b479d8014ae",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1238069/file-type-checker-for-jira-cloud?hosting=cloud&tab=overview",
+          "eligible": true
+        },
+        {
+          "key": "fc5abcd7ebdf987c",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1217224/countdown-gadget?hosting=cloud&tab=overview",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastSeenAt": "2026-09-03T01:09:24.996Z",
+      "lastChangedAt": "2026-09-03T01:09:24.996Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T01:09:24.996Z"
+      },
+      "score": 47,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 8,
+        "inspectability": 0,
+        "authorization": 10,
+        "friction": 2
+      },
+      "reasons": [
+        "New program",
+        "Confirmed reward ceiling clears $1,000"
+      ],
+      "attentionPressure": "medium"
     },
     {
       "id": "program:ripe-ncc",
@@ -27435,59 +27924,6 @@
       "attentionPressure": "unknown"
     },
     {
-      "id": "program:intercom",
-      "name": "Intercom",
-      "platform": "Self-hosted",
-      "url": "https://bugcrowd.com/intercom",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": null,
-      "safeHarbor": null,
-      "disclosureAllowed": null,
-      "sourceIds": [
-        "projectdiscovery"
-      ],
-      "sourceCode": false,
-      "repositoryCount": 0,
-      "targetCount": 1,
-      "tags": [
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "b933d137ce4de6fc",
-          "type": "web",
-          "value": "intercom.io",
-          "eligible": true
-        }
-      ],
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-02T23:08:54.084Z",
-      "lastChangedAt": "2026-09-02T23:08:54.084Z",
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-02T23:08:54.084Z",
-        "removedTargets": 12
-      },
-      "score": 33,
-      "scoreBreakdown": {
-        "freshness": 18,
-        "reward": 0,
-        "inspectability": 0,
-        "authorization": 10,
-        "friction": 5
-      },
-      "reasons": [
-        "Scope or policy changed",
-        "Small scope with 1 tracked target"
-      ],
-      "attentionPressure": "medium"
-    },
-    {
       "id": "program:klaviyo-managed-bug-bounty",
       "name": "Klaviyo Managed Bug Bounty",
       "platform": "Bugcrowd",
@@ -32109,159 +32545,6 @@
           "type": "application",
           "value": "https://www.cyberghostvpn.com/en_US/apps/linux-vpn",
           "eligible": true
-        }
-      ],
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastChangedAt": "2026-09-02T23:02:43.170Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-02T23:02:43.170Z"
-      },
-      "score": 31,
-      "scoreBreakdown": {
-        "freshness": 5,
-        "reward": 8,
-        "inspectability": 4,
-        "authorization": 10,
-        "friction": 4
-      },
-      "reasons": [
-        "Structured API surface",
-        "Confirmed reward ceiling clears $1,000"
-      ],
-      "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:datacamp",
-      "name": "DataCamp",
-      "platform": "Intigriti",
-      "url": "https://www.intigriti.com/programs/datacamp/datacamp/detail",
-      "status": "open",
-      "paid": true,
-      "currency": "EUR",
-      "minReward": 25,
-      "maxReward": 1500,
-      "safeHarbor": null,
-      "disclosureAllowed": null,
-      "sourceIds": [
-        "intigriti"
-      ],
-      "sourceCode": false,
-      "repositoryCount": 0,
-      "targetCount": 15,
-      "tags": [
-        "api",
-        "mobile",
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "2be98e401cb66367",
-          "type": "web",
-          "value": "practice.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "3c0518038c85bb67",
-          "type": "web",
-          "value": "app.datacamp.com/certification",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "3c2807510dace253",
-          "type": "web",
-          "value": "assessment.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "4522dc96fe9aae31",
-          "type": "web",
-          "value": "projects.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "65313452bc5a10e1",
-          "type": "web",
-          "value": "www.datacamp.com/datalab",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "7097f76719aa1211",
-          "type": "web",
-          "value": "www.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "8cd243eb5f23ca3a",
-          "type": "web",
-          "value": "assessment-api.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "af3345629aa6e539",
-          "type": "web",
-          "value": "app.datacamp.com/groups",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "b5090789914b5858",
-          "type": "mobile",
-          "value": "com.datacamp",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "b535648528376f01",
-          "type": "web",
-          "value": "profiles-api.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "b7eb52a74905fe44",
-          "type": "web",
-          "value": "app.datacamp.com/learn",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "bcced62f50cc775f",
-          "type": "web",
-          "value": "*.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 3"
-        },
-        {
-          "key": "e676773a8e81eb02",
-          "type": "web",
-          "value": "assessment-v2.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "fce16e48b01909e6",
-          "type": "web",
-          "value": "campus.datacamp.com",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "ffb4d48d59aa1429",
-          "type": "mobile",
-          "value": "https://apps.apple.com/au/app/datacamp-learn-data-science/id1263413087",
-          "eligible": true,
-          "impact": "Tier 2"
         }
       ],
       "firstSeenAt": "2026-09-02T23:02:43.170Z",
@@ -41123,6 +41406,159 @@
       "reasons": [
         "Confirmed reward ceiling clears $1,000",
         "Small scope with 4 tracked targets"
+      ],
+      "attentionPressure": "unknown"
+    },
+    {
+      "id": "program:datacamp",
+      "name": "DataCamp",
+      "platform": "Intigriti",
+      "url": "https://www.intigriti.com/programs/datacamp/datacamp/detail",
+      "status": "stale",
+      "paid": true,
+      "currency": "EUR",
+      "minReward": 25,
+      "maxReward": 1500,
+      "safeHarbor": null,
+      "disclosureAllowed": null,
+      "sourceIds": [
+        "intigriti"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 15,
+      "tags": [
+        "api",
+        "mobile",
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "2be98e401cb66367",
+          "type": "web",
+          "value": "practice.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "3c0518038c85bb67",
+          "type": "web",
+          "value": "app.datacamp.com/certification",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "3c2807510dace253",
+          "type": "web",
+          "value": "assessment.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "4522dc96fe9aae31",
+          "type": "web",
+          "value": "projects.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "65313452bc5a10e1",
+          "type": "web",
+          "value": "www.datacamp.com/datalab",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "7097f76719aa1211",
+          "type": "web",
+          "value": "www.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "8cd243eb5f23ca3a",
+          "type": "web",
+          "value": "assessment-api.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "af3345629aa6e539",
+          "type": "web",
+          "value": "app.datacamp.com/groups",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "b5090789914b5858",
+          "type": "mobile",
+          "value": "com.datacamp",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "b535648528376f01",
+          "type": "web",
+          "value": "profiles-api.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "b7eb52a74905fe44",
+          "type": "web",
+          "value": "app.datacamp.com/learn",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "bcced62f50cc775f",
+          "type": "web",
+          "value": "*.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 3"
+        },
+        {
+          "key": "e676773a8e81eb02",
+          "type": "web",
+          "value": "assessment-v2.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "fce16e48b01909e6",
+          "type": "web",
+          "value": "campus.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "ffb4d48d59aa1429",
+          "type": "mobile",
+          "value": "https://apps.apple.com/au/app/datacamp-learn-data-science/id1263413087",
+          "eligible": true,
+          "impact": "Tier 2"
+        }
+      ],
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastChangedAt": "2026-09-02T23:02:43.170Z",
+      "change": {
+        "type": "baseline",
+        "label": "Baseline import",
+        "at": "2026-09-02T23:02:43.170Z"
+      },
+      "score": 27,
+      "scoreBreakdown": {
+        "freshness": 5,
+        "reward": 8,
+        "inspectability": 4,
+        "authorization": 6,
+        "friction": 4
+      },
+      "reasons": [
+        "Structured API surface",
+        "Confirmed reward ceiling clears $1,000"
       ],
       "attentionPressure": "unknown"
     },
