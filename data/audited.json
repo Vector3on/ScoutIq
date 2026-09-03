@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-03T00:00:00.000Z",
+  "entries": {
+    "okx-go-wallet-sdk": {
+      "verdict": "sub-bar",
+      "date": "2026-09-02",
+      "notes": "TON parser review produced only allocation or out-of-bounds denial-of-service candidates below the payable floor.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["okx go wallet sdk", "okx-go-wallet-sdk"]
+    },
+    "exodus": {
+      "verdict": "hardened",
+      "date": "2026-09-02",
+      "notes": "Core library audit found no novel payable issue; mature reviewed code is not worth another blind pass.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["exodus"]
+    },
+    "kiwicom": {
+      "verdict": "hardened",
+      "date": "2026-09-02",
+      "notes": "Core repositories were reviewed without a payable result.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["kiwicom", "kiwi.com", "kiwi com"]
+    },
+    "vercel-eve": {
+      "verdict": "hardened",
+      "date": "2026-09-02",
+      "notes": "Vercel Eve core review produced no payable finding.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["vercel/eve", "vercel eve"]
+    },
+    "electroneum-sc": {
+      "verdict": "sub-bar",
+      "date": "2026-09-02",
+      "notes": "Replay behavior was developer-known and the affected gas-waiver path was dormant on-chain.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["electroneum-sc", "electroneum sc"]
+    },
+    "hytale": {
+      "verdict": "sub-bar",
+      "date": "2026-09-02",
+      "notes": "The prior pass is closed. Re-open only after a large fresh-code jump; future Hytale-style work should target live auth and business logic.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["hytale", "hypixel studios"]
+    },
+    "trustwallet-wallet-core": {
+      "verdict": "sub-bar",
+      "date": "2026-09-02",
+      "notes": "Pactus parser review produced only denial-of-service candidates below the payable floor.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["trustwallet/wallet-core", "wallet-core", "wallet core"]
+    },
+    "immutable-passport": {
+      "verdict": "hardened",
+      "date": "2026-09-02",
+      "notes": "Reviewed core Passport code yielded no novel payable issue.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["immutable passport", "immutable-passport"]
+    },
+    "fireblocks-mpc-lib": {
+      "verdict": "hardened",
+      "date": "2026-09-02",
+      "notes": "MPC core is mature and heavily reviewed; no payable result from the prior pass.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["fireblocks/mpc-lib", "fireblocks mpc lib", "mpc-lib"]
+    },
+    "aiven-operator": {
+      "verdict": "hardened",
+      "date": "2026-09-02",
+      "notes": "Operator core review yielded no payable cross-tenant or authorization issue.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["aiven operator", "aiven-operator"]
+    },
+    "expressvpn-lightway": {
+      "verdict": "hardened",
+      "date": "2026-09-02",
+      "notes": "Lightway core review yielded no payable issue and should not receive another blind audit.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["expressvpn/lightway", "expressvpn lightway", "lightway"]
+    }
+  }
+}

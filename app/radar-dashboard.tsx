@@ -1,13 +1,8 @@
 "use client";
 
+import { type CSSProperties, useCallback, useEffect, useMemo, useState } from "react";
 import {
-  type CSSProperties,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import {
+  Activity,
   ArrowDownToLine,
   ArrowUpRight,
   Bookmark,
@@ -21,46 +16,23 @@ import {
   RefreshCw,
   Search,
   ShieldCheck,
-  Sparkles,
-  Target,
+  TriangleAlert,
   Zap,
 } from "lucide-react";
 
-import type {
-  ChangeType,
-  RadarPayload,
-  RadarProgram,
-} from "@/app/radar-types";
+import type { ChangeType, RadarPayload, RadarProgram, Workflow } from "@/app/radar-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const PAGE_SIZE = 12;
-const STORAGE_WATCHLIST = "scopepulse:watchlist";
-const STORAGE_REVIEWED = "scopepulse:reviewed";
+const TOP_LIMIT = 25;
+const STORAGE_WATCHLIST = "scoutiq:watchlist";
+const STORAGE_REVIEWED = "scoutiq:reviewed";
+const LIVE_WORKFLOWS = new Set<Workflow>(["live-web", "live-api", "live-contract", "ai-agent"]);
 
 const changeLabels: Record<ChangeType, string> = {
   new_program: "New program",
@@ -70,6 +42,19 @@ const changeLabels: Record<ChangeType, string> = {
   reactivated: "Reactivated",
   baseline: "Tracked",
 };
+
+const workflowLabels: Record<Workflow, string> = {
+  "live-web": "Live web",
+  "live-api": "Live API",
+  "live-contract": "Live contract",
+  "ai-agent": "AI agent",
+  "static-source": "Fresh source",
+  "static-source-hardened": "Hardened source",
+};
+
+function workflowOf(program: RadarProgram): Workflow {
+  return program.workflow ?? (program.sourceCode ? "static-source" : program.tags.includes("api") ? "live-api" : "live-web");
+}
 
 function readStoredSet(key: string) {
   try {
@@ -90,97 +75,82 @@ function relativeTime(value: string) {
   const seconds = Math.round((timestamp - Date.now()) / 1000);
   const formatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
   const units: Array<[Intl.RelativeTimeFormatUnit, number]> = [
-    ["year", 31_536_000],
-    ["month", 2_592_000],
-    ["day", 86_400],
-    ["hour", 3_600],
-    ["minute", 60],
+    ["year", 31_536_000], ["month", 2_592_000], ["day", 86_400], ["hour", 3_600], ["minute", 60],
   ];
   for (const [unit, size] of units) {
-    if (Math.abs(seconds) >= size || unit === "minute") {
-      return formatter.format(Math.round(seconds / size), unit);
-    }
+    if (Math.abs(seconds) >= size || unit === "minute") return formatter.format(Math.round(seconds / size), unit);
   }
   return "just now";
 }
 
-function compactMoney(value: number, currency: string | null) {
-  const code = currency || "USD";
+function compactMoney(value: number, currency: string | null = "USD") {
   try {
     return new Intl.NumberFormat("en", {
       style: "currency",
-      currency: code,
-      notation: value >= 10_000 ? "compact" : "standard",
-      maximumFractionDigits: 0,
+      currency: currency || "USD",
+      notation: Math.abs(value) >= 10_000 ? "compact" : "standard",
+      maximumFractionDigits: value < 1_000 ? 0 : 1,
     }).format(value);
   } catch {
-    return `${code} ${value.toLocaleString()}`;
+    return `${currency || "USD"} ${Math.round(value).toLocaleString()}`;
   }
 }
 
 function rewardLabel(program: RadarProgram) {
-  if (!program.paid) return "No confirmed reward";
-  if (program.minReward != null && program.maxReward != null) {
-    return `${compactMoney(program.minReward, program.currency)} to ${compactMoney(
-      program.maxReward,
-      program.currency,
-    )}`;
-  }
-  if (program.maxReward != null) {
-    return `Up to ${compactMoney(program.maxReward, program.currency)}`;
-  }
-  return "Paid, amount unparsed";
+  if (program.minReward != null && program.maxReward != null) return `${compactMoney(program.minReward, program.currency)} to ${compactMoney(program.maxReward, program.currency)}`;
+  if (program.maxReward != null) return `Up to ${compactMoney(program.maxReward, program.currency)}`;
+  return program.paid ? "Paid, amount unparsed" : "No confirmed reward";
 }
 
-function scoreTier(score: number) {
-  if (score >= 78) return { label: "Strike now", className: "tier-hot" };
-  if (score >= 62) return { label: "Strong", className: "tier-strong" };
-  if (score >= 45) return { label: "Possible", className: "tier-possible" };
-  return { label: "Cold", className: "tier-cold" };
+function evLabel(program: RadarProgram) {
+  return compactMoney(Number(program.evScore ?? 0), program.currency);
+}
+
+function evTier(value: number) {
+  if (value >= 5_000) return { label: "High EV", className: "tier-hot" };
+  if (value >= 1_500) return { label: "Strong", className: "tier-strong" };
+  if (value >= 500) return { label: "Plausible", className: "tier-possible" };
+  return { label: "Thin", className: "tier-cold" };
 }
 
 function normalized(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
 
-function buildBrief(program: RadarProgram) {
-  const targetLines = program.targets
-    .slice(0, 10)
-    .map(
-      (target) =>
-        `- [${target.type}] ${target.value}${
-          target.impact ? ` (${target.impact})` : ""
-        }`,
-    )
-    .join("\n");
-  const reasons = program.reasons.map((reason) => `- ${reason}`).join("\n");
+function honestReason(program: RadarProgram) {
+  return program.honestReason ?? program.reasons?.[0] ?? `${workflowLabels[workflowOf(program)]} + ${program.payableSeverityCeiling ?? "unknown"} ceiling`;
+}
 
-  return `PUBLIC BUG BOUNTY TRIAGE PACKET
+function buildBrief(program: RadarProgram) {
+  const targetLines = program.targets.slice(0, 10).map((target) =>
+    `- [${target.workflow ?? target.type}] ${target.value} | EV ${compactMoney(target.evScore ?? 0, program.currency)}${target.excludeReason ? ` | EXCLUDED: ${target.excludeReason}` : ""}`,
+  ).join("\n");
+  return `SCOUTIQ PAYABLE-BUG TRIAGE PACKET
 
 Program: ${program.name}
 Official policy: ${program.url}
-Platform: ${program.platform}
-Reward: ${rewardLabel(program)}
-Status: ${program.status}
-Latest signal: ${program.change.label} at ${program.change.at}
-Safe harbor: ${program.safeHarbor ?? "not parsed, verify manually"}
-Edge score: ${program.score}/100
+Workflow: ${workflowLabels[workflowOf(program)]}
+Reward ceiling: ${rewardLabel(program)}
+Payable severity ceiling: ${program.payableSeverityCeiling ?? "unknown"}
+Program floor: ${program.programFloorSeverity ?? "unknown"} (${program.programFloorSource ?? "unknown source"})
+EV estimate: ${evLabel(program)}
+P(findable): ${Math.round((program.pFindable ?? 0) * 100)}%
+P(payable): ${Math.round((program.pPayable ?? 0) * 100)}%
+P(first): ${Math.round((program.pFirst ?? 0) * 100)}%
+Reason: ${honestReason(program)}
 
-Why it surfaced:
-${reasons || "- No strong signal was extracted"}
-
-In-scope preview:
-${targetLines || "- Open the official policy and extract the exact scope"}
+Target routes:
+${targetLines || "- No structured target was available"}
 
 Task:
-1. Open and verify the current official policy before touching the target.
-2. Confirm this is paid, public, open, and allows the intended local or researcher-owned testing.
-3. Identify the smallest inspectable repository or component matching the scope.
-4. Spend no more than 90 minutes on buildability, architecture, prior audits, recent diffs, and three concrete vulnerability hypotheses.
-5. Stop if authorization, payout, reproducibility, or novelty cannot be established.
-6. Do not test third parties, other users, or production beyond what the policy explicitly permits.
+1. Re-open the official policy and verify current scope, payout table, safe harbor, account limits, and researcher eligibility.
+2. Work only on the selected ${workflowOf(program)} route. Do not broaden into unrelated core libraries.
+3. Form three hypotheses that can reach ${program.programFloorSeverity ?? "the payable floor"}; discard pure low-impact DoS immediately.
+4. For live services, use only your own accounts and policy-approved traffic. For contracts, confirm deployed activity and value first.
+5. Search tests, issues, advisories, and feature flags for prior developer knowledge before building a PoC.
+6. Stop after 90 minutes if exploitability, novelty, severity, or payout eligibility cannot be evidenced.
 
-Return a compact go/no-go decision with evidence and exact source links.`;
+Return a go/no-go decision with exact evidence and links.`;
 }
 
 function downloadText(filename: string, text: string, type: string) {
@@ -196,144 +166,75 @@ function downloadText(filename: string, text: string, type: string) {
 }
 
 function programsToCsv(programs: RadarProgram[]) {
-  const fields = [
-    "score",
-    "name",
-    "platform",
-    "change",
-    "min_reward",
-    "max_reward",
-    "currency",
-    "source_code",
-    "targets",
-    "url",
-  ];
-  const escape = (value: unknown) =>
-    `"${String(value ?? "").replaceAll('"', '""')}"`;
-  return [
-    fields.join(","),
-    ...programs.map((program) =>
-      [
-        program.score,
-        program.name,
-        program.platform,
-        program.change.type,
-        program.minReward,
-        program.maxReward,
-        program.currency,
-        program.sourceCode,
-        program.targetCount,
-        program.url,
-      ]
-        .map(escape)
-        .join(","),
-    ),
-  ].join("\n");
+  const fields = ["ev_score", "name", "platform", "workflow", "ceiling", "program_floor", "p_findable", "p_payable", "p_first", "hardening", "fresh_code", "known_issue_risk", "max_reward", "reason", "url"];
+  const escape = (value: unknown) => `"${String(value ?? "").replaceAll('"', '""')}"`;
+  return [fields.join(","), ...programs.map((program) => [
+    program.evScore, program.name, program.platform, workflowOf(program), program.payableSeverityCeiling,
+    program.programFloorSeverity, program.pFindable, program.pPayable, program.pFirst, program.hardeningIndex,
+    program.freshCodeIndex, program.knownIssueRisk, program.maxReward, honestReason(program), program.url,
+  ].map(escape).join(","))].join("\n");
 }
 
-function ScoreBar({ label, value, max }: { label: string; value: number; max: number }) {
+function Meter({ label, value, tone = "good" }: { label: string; value: number; tone?: "good" | "risk" }) {
   return (
     <div className="score-row">
       <div className="flex items-center justify-between gap-4 text-sm">
         <span>{label}</span>
-        <span className="font-mono text-[13px] text-[var(--signal)]">
-          {value}/{max}
-        </span>
+        <span className={`font-mono text-[13px] ${tone === "risk" ? "text-[var(--hot)]" : "text-[var(--signal)]"}`}>{Math.round(value)}</span>
       </div>
-      <div className="score-track" aria-hidden="true">
-        <span style={{ width: `${Math.min(100, (value / max) * 100)}%` }} />
-      </div>
+      <div className={`score-track ${tone === "risk" ? "score-track-risk" : ""}`} aria-hidden="true"><span style={{ width: `${Math.max(0, Math.min(100, value))}%` }} /></div>
     </div>
   );
 }
 
-function ProgramCard({
-  program,
-  watched,
-  onWatch,
-  onOpen,
-}: {
-  program: RadarProgram;
-  watched: boolean;
-  onWatch: () => void;
-  onOpen: () => void;
-}) {
-  const tier = scoreTier(program.score);
-  const scoreStyle = { "--score": `${program.score}%` } as CSSProperties;
+function Probability({ label, value }: { label: string; value: number }) {
+  return <div className="probability-cell"><span>{label}</span><strong>{Math.round(value * 100)}%</strong></div>;
+}
 
+function ProgramCard({ program, watched, onWatch, onOpen }: { program: RadarProgram; watched: boolean; onWatch: () => void; onOpen: () => void }) {
+  const probability = Math.min(100, Math.round((program.pFindable ?? 0) * (program.pPayable ?? 0) * (program.pFirst ?? 0) * 100));
+  const scoreStyle = { "--score": `${probability}%` } as CSSProperties;
+  const tier = evTier(Number(program.evScore ?? 0));
+  const workflow = workflowOf(program);
   return (
     <article className="program-card group">
       <div className="flex min-w-0 items-start gap-4">
-        <div className="score-orbit" style={scoreStyle} aria-label={`Edge score ${program.score} out of 100`}>
-          <div>
-            <strong>{program.score}</strong>
-            <span>EDGE</span>
-          </div>
+        <div className="score-orbit ev-orbit" style={scoreStyle} aria-label={`Combined payable probability ${probability} percent`}>
+          <div><strong>{evLabel(program)}</strong><span>EV</span></div>
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge className={`change-badge change-${program.change.type}`}>
-              <span className="pulse-dot" />
-              {changeLabels[program.change.type]}
-            </Badge>
-            <span className="meta-copy">{relativeTime(program.change.at)}</span>
+            <Badge className="workflow-badge"><span className="pulse-dot" />{workflowLabels[workflow]}</Badge>
+            <span className="meta-copy">{changeLabels[program.change.type]} · {relativeTime(program.change.at)}</span>
             {program.sample ? <span className="sample-flag">PREVIEW</span> : null}
           </div>
-          <h2 className="mt-3 truncate text-xl font-semibold tracking-[-0.03em] text-white">
-            {program.name}
-          </h2>
-          <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[var(--muted-foreground)]">
-            <span>{program.platform}</span>
-            <span aria-hidden="true">·</span>
-            <span>{rewardLabel(program)}</span>
-          </p>
+          <h2 className="mt-3 truncate text-xl font-semibold tracking-[-0.03em] text-white">{program.name}</h2>
+          <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[var(--muted-foreground)]"><span>{program.platform}</span><span>·</span><span>{rewardLabel(program)}</span></p>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className={`watch-button ${watched ? "is-watched" : ""}`}
-          aria-label={watched ? `Remove ${program.name} from watchlist` : `Watch ${program.name}`}
-          aria-pressed={watched}
-          onClick={onWatch}
-        >
-          <Bookmark className={watched ? "fill-current" : ""} />
-        </Button>
+        <Button variant="ghost" size="icon" className={`watch-button ${watched ? "is-watched" : ""}`} aria-label={watched ? `Remove ${program.name} from watchlist` : `Watch ${program.name}`} aria-pressed={watched} onClick={onWatch}><Bookmark className={watched ? "fill-current" : ""} /></Button>
       </div>
 
       <div className="mt-5 rounded-xl border border-white/[0.07] bg-black/20 p-3.5">
         <div className="flex items-center justify-between gap-3">
           <span className={`tier-label ${tier.className}`}>{tier.label}</span>
-          <span className="font-mono text-xs text-[var(--muted-foreground)]">
-            {program.targetCount} target{program.targetCount === 1 ? "" : "s"}
-          </span>
+          <span className="font-mono text-xs text-[var(--muted-foreground)]">{program.payableSeverityCeiling ?? "?"} ceiling</span>
         </div>
-        <p className="mt-2.5 line-clamp-2 min-h-10 text-sm leading-5 text-[var(--foreground)]">
-          {program.reasons[0] ?? "Tracked for material scope or reward movement."}
-        </p>
+        <p className="mt-2.5 line-clamp-2 min-h-10 text-sm leading-5 text-[var(--foreground)]">{honestReason(program)}</p>
       </div>
 
       <div className="mt-4 flex min-h-7 flex-wrap gap-1.5">
-        {program.tags.slice(0, 4).map((tag) => (
-          <span className="data-chip" key={tag}>
-            {tag}
-          </span>
-        ))}
-        {program.languages.slice(0, 2).map((language) => (
-          <span className="language-chip" key={language}>
-            {language}
-          </span>
-        ))}
+        <span className="data-chip">H {Math.round(program.hardeningIndex ?? 0)}</span>
+        <span className="data-chip">F {Math.round(program.freshCodeIndex ?? 0)}</span>
+        <span className={(program.knownIssueRisk ?? 0) > 0 ? "risk-chip" : "data-chip"}>K {Math.round(program.knownIssueRisk ?? 0)}</span>
+        {program.repoSignals?.fullName ? <span className="language-chip">{program.repoSignals.fullName}</span> : null}
       </div>
 
       <div className="mt-5 flex items-center justify-between border-t border-white/[0.07] pt-4">
         <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)]">
           {program.safeHarbor ? <ShieldCheck className="size-4 text-[var(--signal)]" /> : <CircleHelp className="size-4" />}
-          <span>{program.safeHarbor ? `${program.safeHarbor} safe harbor` : "Verify safe harbor"}</span>
+          <span>{program.safeHarbor ? "Safe-harbor field present" : "Verify safe harbor"}</span>
         </div>
-        <Button variant="ghost" size="sm" className="open-button" onClick={onOpen}>
-          Inspect
-          <ChevronRight />
-        </Button>
+        <Button variant="ghost" size="sm" className="open-button" onClick={onOpen}>Inspect <ChevronRight /></Button>
       </div>
     </article>
   );
@@ -341,23 +242,18 @@ function ProgramCard({
 
 export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayload }) {
   const [payload, setPayload] = useState(initialPayload);
-  const [loadState, setLoadState] = useState<"seed" | "live" | "error">(
-    initialPayload.meta.mode,
-  );
+  const [loadState, setLoadState] = useState<"seed" | "live" | "error">(initialPayload.meta.mode);
   const [query, setQuery] = useState("");
   const [platform, setPlatform] = useState("all");
-  const [surface, setSurface] = useState("all");
-  const [minimumReward, setMinimumReward] = useState(
-    String(initialPayload.preferences.minReward),
-  );
-  const [sort, setSort] = useState("edge");
-  const [tab, setTab] = useState("all");
+  const [workflow, setWorkflow] = useState("all");
+  const [minimumEv, setMinimumEv] = useState("0");
+  const [sort, setSort] = useState("ev");
+  const [tab, setTab] = useState("top");
   const [hideReviewed, setHideReviewed] = useState(true);
   const [watchlist, setWatchlist] = useState<Set<string>>(new Set());
   const [reviewed, setReviewed] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<RadarProgram | null>(null);
   const [methodOpen, setMethodOpen] = useState(false);
-  const [page, setPage] = useState(1);
   const [copied, setCopied] = useState(false);
 
   const loadData = useCallback(async () => {
@@ -365,9 +261,7 @@ export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayloa
       const response = await fetch("./data/programs.json", { cache: "no-store" });
       if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
       const nextPayload = (await response.json()) as RadarPayload;
-      if (!Array.isArray(nextPayload.programs) || !nextPayload.meta) {
-        throw new Error("Invalid radar payload");
-      }
+      if (!Array.isArray(nextPayload.programs) || !nextPayload.meta) throw new Error("Invalid radar payload");
       setPayload(nextPayload);
       setLoadState(nextPayload.meta.mode);
     } catch {
@@ -376,103 +270,65 @@ export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayloa
   }, []);
 
   useEffect(() => {
-    const storedWatchlist = readStoredSet(STORAGE_WATCHLIST);
-    const storedReviewed = readStoredSet(STORAGE_REVIEWED);
+    const lane = new URL(window.location.href).searchParams.get("lane");
     queueMicrotask(() => {
-      setWatchlist(storedWatchlist);
-      setReviewed(storedReviewed);
+      setWatchlist(readStoredSet(STORAGE_WATCHLIST));
+      setReviewed(readStoredSet(STORAGE_REVIEWED));
+      if (lane === "live") setTab("live");
+      if (lane === "fresh-source") setTab("fresh-source");
       void loadData();
     });
   }, [loadData]);
 
-  const platforms = useMemo(
-    () => [...new Set(payload.programs.map((program) => program.platform))].sort(),
-    [payload.programs],
-  );
-
-  const initialReviewedNames = useMemo(
-    () => new Set(payload.preferences.reviewedPrograms.map(normalized)),
-    [payload.preferences.reviewedPrograms],
-  );
+  const platforms = useMemo(() => [...new Set(payload.programs.map((program) => program.platform))].sort(), [payload.programs]);
+  const initialReviewedNames = useMemo(() => new Set(payload.preferences.reviewedPrograms.map(normalized)), [payload.preferences.reviewedPrograms]);
 
   const filtered = useMemo(() => {
-    const floor = Number(minimumReward) || 0;
+    const floor = Number(minimumEv) || 0;
     const term = query.trim().toLowerCase();
-    const result = payload.programs.filter((program) => {
-      if (tab === "fresh" && program.change.type === "baseline") return false;
+    return payload.programs.filter((program) => {
+      const route = workflowOf(program);
+      if (program.excludeReason || Number(program.evScore ?? 0) <= 0) return false;
+      if (tab === "top" && route === "static-source-hardened") return false;
+      if (tab === "live" && !LIVE_WORKFLOWS.has(route)) return false;
+      if (tab === "fresh-source" && !(route === "static-source" && Number(program.freshCodeIndex ?? 0) > 50)) return false;
       if (tab === "watchlist" && !watchlist.has(program.id)) return false;
       if (platform !== "all" && program.platform !== platform) return false;
-      if (surface !== "all" && !program.tags.includes(surface)) return false;
-      if ((program.maxReward ?? 0) < floor) return false;
-      if (!program.paid) return false;
-      if (program.status !== "open") return false;
-      if (
-        hideReviewed &&
-        (reviewed.has(program.id) || initialReviewedNames.has(normalized(program.name)))
-      ) {
-        return false;
-      }
+      if (workflow !== "all" && route !== workflow) return false;
+      if (Number(program.evScore ?? 0) < floor) return false;
+      if (hideReviewed && (reviewed.has(program.id) || initialReviewedNames.has(normalized(program.name)))) return false;
       if (term) {
-        const haystack = [
-          program.name,
-          program.platform,
-          ...program.tags,
-          ...program.languages,
-          ...program.targets.map((target) => target.value),
-        ]
-          .join(" ")
-          .toLowerCase();
+        const haystack = [program.name, program.platform, route, program.findableClass, program.honestReason, ...program.tags, ...program.languages, ...program.targets.map((target) => target.value)].join(" ").toLowerCase();
         if (!haystack.includes(term)) return false;
       }
       return true;
-    });
-
-    return result.sort((a, b) => {
+    }).sort((a, b) => {
       if (sort === "reward") return (b.maxReward ?? 0) - (a.maxReward ?? 0);
-      if (sort === "fresh") {
-        return new Date(b.lastChangedAt).getTime() - new Date(a.lastChangedAt).getTime();
-      }
+      if (sort === "fresh") return Number(b.freshCodeIndex ?? 0) - Number(a.freshCodeIndex ?? 0);
       if (sort === "name") return a.name.localeCompare(b.name);
-      return b.score - a.score || new Date(b.lastChangedAt).getTime() - new Date(a.lastChangedAt).getTime();
+      return Number(b.evScore ?? 0) - Number(a.evScore ?? 0) || Number(b.pFindable ?? 0) - Number(a.pFindable ?? 0);
     });
-  }, [
-    hideReviewed,
-    initialReviewedNames,
-    minimumReward,
-    payload.programs,
-    platform,
-    query,
-    reviewed,
-    sort,
-    surface,
-    tab,
-    watchlist,
-  ]);
+  }, [hideReviewed, initialReviewedNames, minimumEv, payload.programs, platform, query, reviewed, sort, tab, watchlist, workflow]);
 
-  const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const currentPage = Math.min(page, pages);
-  const visiblePrograms = filtered.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
-  );
-  const freshCount = payload.programs.filter(
-    (program) => program.change.type !== "baseline",
-  ).length;
-  const sourceCodeCount = payload.programs.filter((program) => program.sourceCode).length;
-  const newTargetCount = payload.programs.filter(
-    (program) => program.change.type === "new_target",
-  ).length;
+  const visiblePrograms = filtered.slice(0, TOP_LIMIT);
+  const liveCount = payload.programs.filter((program) => !program.excludeReason && LIVE_WORKFLOWS.has(workflowOf(program))).length;
+  const freshSourceCount = payload.programs.filter((program) => !program.excludeReason && workflowOf(program) === "static-source" && Number(program.freshCodeIndex ?? 0) > 50).length;
+  const enrichedRepos = new Set(payload.programs.flatMap((program) => program.targets.map((target) => target.repoSignals?.status === "ok" ? target.repoSignals.fullName : null)).filter(Boolean)).size;
 
-  function updateFilter<T>(setter: (value: T) => void, value: T) {
-    setter(value);
-    setPage(1);
+  function updateFilter<T>(setter: (value: T) => void, value: T) { setter(value); }
+
+  function selectLane(value: string) {
+    setTab(value);
+    const url = new URL(window.location.href);
+    if (value === "live" || value === "fresh-source") url.searchParams.set("lane", value);
+    else url.searchParams.delete("lane");
+    window.history.replaceState({}, "", url);
   }
 
   function toggleWatch(program: RadarProgram) {
     setWatchlist((current) => {
       const next = new Set(current);
-      if (next.has(program.id)) next.delete(program.id);
-      else next.add(program.id);
+      if (next.has(program.id)) next.delete(program.id); else next.add(program.id);
       writeStoredSet(STORAGE_WATCHLIST, next);
       return next;
     });
@@ -490,19 +346,12 @@ export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayloa
   async function copyBrief(program: RadarProgram) {
     await navigator.clipboard.writeText(buildBrief(program));
     setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
+    window.setTimeout(() => setCopied(false), 1_600);
   }
 
   function exportResults(format: "json" | "csv") {
-    if (format === "json") {
-      downloadText(
-        "scopepulse-shortlist.json",
-        JSON.stringify(filtered, null, 2),
-        "application/json",
-      );
-      return;
-    }
-    downloadText("scopepulse-shortlist.csv", programsToCsv(filtered), "text/csv");
+    if (format === "json") downloadText("scoutiq-shortlist.json", JSON.stringify(filtered, null, 2), "application/json");
+    else downloadText("scoutiq-shortlist.csv", programsToCsv(filtered), "text/csv");
   }
 
   return (
@@ -511,304 +360,97 @@ export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayloa
       <div className="mx-auto w-full max-w-[1480px] px-4 py-4 sm:px-6 lg:px-8">
         <header className="topbar">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="brand-mark" aria-hidden="true">
-              <Radar />
-            </div>
+            <div className="brand-mark" aria-hidden="true"><Radar /></div>
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg font-semibold tracking-[-0.04em] text-white sm:text-xl">
-                  ScopePulse
-                </h1>
-                <span className="version-chip">v0.1</span>
-              </div>
-              <p className="truncate text-xs text-[var(--muted-foreground)]">
-                Public bounty change intelligence
-              </p>
+              <div className="flex items-center gap-2"><h1 className="text-lg font-semibold tracking-[-0.04em] text-white sm:text-xl">ScoutIQ</h1><span className="version-chip">v2</span></div>
+              <p className="truncate text-xs text-[var(--muted-foreground)]">Payable bug opportunity radar</p>
             </div>
           </div>
-
           <div className="flex items-center gap-2">
-            <div className={`sync-pill sync-${loadState}`}>
-              <span />
-              {loadState === "live" ? "LIVE DATA" : loadState === "error" ? "SEED FALLBACK" : "SEED PREVIEW"}
-            </div>
-            <Button variant="ghost" size="icon" className="header-button" onClick={() => void loadData()} aria-label="Refresh data">
-              <RefreshCw />
-            </Button>
-            <Button variant="ghost" size="icon" className="header-button" onClick={() => setMethodOpen(true)} aria-label="Open scoring method">
-              <CircleHelp />
-            </Button>
+            <div className={`sync-pill sync-${loadState}`}><span />{loadState === "live" ? "LIVE DATA" : loadState === "error" ? "SEED FALLBACK" : "SEED PREVIEW"}</div>
+            <Button variant="ghost" size="icon" className="header-button" onClick={() => void loadData()} aria-label="Refresh data"><RefreshCw /></Button>
+            <Button variant="ghost" size="icon" className="header-button" onClick={() => setMethodOpen(true)} aria-label="Open scoring method"><CircleHelp /></Button>
           </div>
         </header>
 
-        {loadState !== "live" ? (
-          <div className="preview-notice" role="status">
-            <Sparkles className="size-4" />
-            <p>
-              {loadState === "error"
-                ? "Live JSON was unavailable, so the interface is showing its bundled preview records."
-                : "This hosted preview uses representative records. The first GitHub refresh replaces them with your independent live dataset."}
-            </p>
-          </div>
-        ) : null}
+        {loadState !== "live" ? <div className="preview-notice"><TriangleAlert className="size-4" /><span>Live v2 data could not be loaded. These cards demonstrate the payable-EV schema only.</span></div> : null}
 
-        <section className="overview-grid" aria-label="Radar summary">
+        <section className="overview-grid" aria-label="ScoutIQ summary">
           <div className="overview-primary">
-            <div>
-              <p className="eyebrow">RADAR STATUS</p>
-              <p className="mt-2 max-w-2xl text-2xl font-semibold tracking-[-0.045em] text-white sm:text-3xl">
-                Hunt change, not crowded directories.
-              </p>
-            </div>
-            <div className="sync-copy">
-              <span>Last sync</span>
-              <strong>{relativeTime(payload.meta.generatedAt)}</strong>
-              <small>
-                {payload.meta.healthySourceCount}/{payload.meta.sourceCount} sources healthy
-              </small>
-            </div>
+            <div><p className="eyebrow">EXPECTED PAYABLE VALUE</p><h2 className="mt-2 max-w-3xl text-2xl font-semibold tracking-[-0.045em] text-white sm:text-3xl">Find the live or freshly changed surface where a bug can still be novel, severe, and paid.</h2></div>
+            <div className="sync-copy"><span>LAST PIPELINE RUN</span><strong>{relativeTime(payload.meta.generatedAt)}</strong><small>{payload.meta.healthySourceCount}/{payload.meta.sourceCount} discovery sources healthy</small></div>
           </div>
-
           <div className="metric-strip">
-            <div className="metric-cell">
-              <Zap />
-              <div><strong>{freshCount}</strong><span>Fresh signals</span></div>
-            </div>
-            <div className="metric-cell">
-              <GitBranch />
-              <div><strong>{newTargetCount}</strong><span>New targets</span></div>
-            </div>
-            <div className="metric-cell">
-              <Database />
-              <div><strong>{sourceCodeCount}</strong><span>Source-code scopes</span></div>
-            </div>
-            <div className="metric-cell">
-              <Target />
-              <div><strong>{payload.meta.targetCount.toLocaleString()}</strong><span>Targets watched</span></div>
-            </div>
+            <div className="metric-cell"><Zap /><div><strong>{payload.meta.rankedProgramCount ?? payload.programs.filter((program) => !program.excludeReason).length}</strong><span>Payable candidates</span></div></div>
+            <div className="metric-cell"><Activity /><div><strong>{liveCount}</strong><span>Live-lane candidates</span></div></div>
+            <div className="metric-cell"><GitBranch /><div><strong>{freshSourceCount}</strong><span>Fresh-source candidates</span></div></div>
+            <div className="metric-cell"><Database /><div><strong>{enrichedRepos}</strong><span>Repos enriched</span></div></div>
           </div>
         </section>
 
         <section className="control-deck" aria-label="Radar controls">
           <div className="control-topline">
-            <Tabs value={tab} onValueChange={(value) => updateFilter(setTab, value)}>
+            <Tabs value={tab} onValueChange={selectLane}>
               <TabsList variant="line" className="radar-tabs">
-                <TabsTrigger value="all">All paid</TabsTrigger>
-                <TabsTrigger value="fresh">Fresh changes</TabsTrigger>
+                <TabsTrigger value="top">Top 25</TabsTrigger>
+                <TabsTrigger value="live">Live lane</TabsTrigger>
+                <TabsTrigger value="fresh-source">Fresh source</TabsTrigger>
                 <TabsTrigger value="watchlist">Watchlist {watchlist.size ? `(${watchlist.size})` : ""}</TabsTrigger>
               </TabsList>
             </Tabs>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="export-button" onClick={() => exportResults("csv")}>
-                <ArrowDownToLine /> CSV
-              </Button>
-              <Button variant="outline" size="sm" className="export-button" onClick={() => exportResults("json")}>
-                JSON
-              </Button>
-            </div>
+            <div className="flex items-center gap-2"><Button variant="outline" size="sm" className="export-button" onClick={() => exportResults("csv")}><ArrowDownToLine /> CSV</Button><Button variant="outline" size="sm" className="export-button" onClick={() => exportResults("json")}>JSON</Button></div>
           </div>
-
           <div className="filter-grid">
-            <label className="search-wrap">
-              <span className="sr-only">Search programs and targets</span>
-              <Search aria-hidden="true" />
-              <Input value={query} onChange={(event) => updateFilter(setQuery, event.target.value)} placeholder="Search program, target, language..." className="radar-input" />
-            </label>
-
-            <Select value={platform} onValueChange={(value) => updateFilter(setPlatform, value)}>
-              <SelectTrigger className="radar-select" aria-label="Filter by platform"><SelectValue placeholder="All platforms" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All platforms</SelectItem>
-                {platforms.map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}
-              </SelectContent>
-            </Select>
-
-            <Select value={surface} onValueChange={(value) => updateFilter(setSurface, value)}>
-              <SelectTrigger className="radar-select" aria-label="Filter by target type"><SelectValue placeholder="All surfaces" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All surfaces</SelectItem>
-                <SelectItem value="source-code">Source code</SelectItem>
-                <SelectItem value="api">API</SelectItem>
-                <SelectItem value="smart-contract">Smart contract</SelectItem>
-                <SelectItem value="hardware">Hardware</SelectItem>
-                <SelectItem value="mobile">Mobile</SelectItem>
-                <SelectItem value="web">Web</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={minimumReward} onValueChange={(value) => updateFilter(setMinimumReward, value)}>
-              <SelectTrigger className="radar-select" aria-label="Filter by maximum reward"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="0">Any confirmed reward</SelectItem>
-                <SelectItem value="1000">Max reward $1k+</SelectItem>
-                <SelectItem value="5000">Max reward $5k+</SelectItem>
-                <SelectItem value="10000">Max reward $10k+</SelectItem>
-                <SelectItem value="25000">Max reward $25k+</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={sort} onValueChange={(value) => updateFilter(setSort, value)}>
-              <SelectTrigger className="radar-select" aria-label="Sort results"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="edge">Sort: Edge score</SelectItem>
-                <SelectItem value="fresh">Sort: Freshest</SelectItem>
-                <SelectItem value="reward">Sort: Reward</SelectItem>
-                <SelectItem value="name">Sort: Name</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <label className="reviewed-switch">
-              <Switch checked={hideReviewed} onCheckedChange={(value) => updateFilter(setHideReviewed, value)} />
-              <span>Hide reviewed</span>
-            </label>
+            <label className="search-wrap"><span className="sr-only">Search programs and targets</span><Search aria-hidden="true" /><Input value={query} onChange={(event) => updateFilter(setQuery, event.target.value)} placeholder="Search program, route, class, target..." className="radar-input" /></label>
+            <Select value={platform} onValueChange={(value) => updateFilter(setPlatform, value)}><SelectTrigger className="radar-select" aria-label="Filter by platform"><SelectValue placeholder="All platforms" /></SelectTrigger><SelectContent><SelectItem value="all">All platforms</SelectItem>{platforms.map((item) => <SelectItem value={item} key={item}>{item}</SelectItem>)}</SelectContent></Select>
+            <Select value={workflow} onValueChange={(value) => updateFilter(setWorkflow, value)}><SelectTrigger className="radar-select" aria-label="Filter by workflow"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All workflows</SelectItem>{Object.entries(workflowLabels).map(([value, label]) => <SelectItem value={value} key={value}>{label}</SelectItem>)}</SelectContent></Select>
+            <Select value={minimumEv} onValueChange={(value) => updateFilter(setMinimumEv, value)}><SelectTrigger className="radar-select" aria-label="Filter by expected value"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="0">Any positive EV</SelectItem><SelectItem value="500">EV $500+</SelectItem><SelectItem value="1000">EV $1k+</SelectItem><SelectItem value="2500">EV $2.5k+</SelectItem><SelectItem value="5000">EV $5k+</SelectItem></SelectContent></Select>
+            <Select value={sort} onValueChange={(value) => updateFilter(setSort, value)}><SelectTrigger className="radar-select" aria-label="Sort results"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="ev">Sort: EV</SelectItem><SelectItem value="fresh">Sort: Fresh code</SelectItem><SelectItem value="reward">Sort: Reward</SelectItem><SelectItem value="name">Sort: Name</SelectItem></SelectContent></Select>
+            <label className="reviewed-switch"><Switch checked={hideReviewed} onCheckedChange={(value) => updateFilter(setHideReviewed, value)} /><span>Hide reviewed</span></label>
           </div>
         </section>
 
-        <div className="results-line">
-          <p><strong>{filtered.length}</strong> programs match</p>
-          <p>Scores are explainable signals, never proof of low competition.</p>
-        </div>
+        <div className="results-line"><p>Showing <strong>{visiblePrograms.length}</strong> of {filtered.length} surviving candidates</p><p>Hard exclusions are removed before ranking. EV is a triage estimate, not promised payout.</p></div>
 
-        {visiblePrograms.length ? (
-          <section className="program-grid" aria-label="Matching bounty programs">
-            {visiblePrograms.map((program) => (
-              <ProgramCard
-                key={program.id}
-                program={program}
-                watched={watchlist.has(program.id)}
-                onWatch={() => toggleWatch(program)}
-                onOpen={() => setSelected(program)}
-              />
-            ))}
-          </section>
-        ) : (
-          <section className="empty-state">
-            <Radar />
-            <h2>No signal survives these filters.</h2>
-            <p>Lower the reward floor, switch tabs, or search a broader surface.</p>
-            <Button variant="outline" onClick={() => { setQuery(""); setPlatform("all"); setSurface("all"); setMinimumReward("0"); setTab("all"); }}>Clear filters</Button>
-          </section>
-        )}
+        {visiblePrograms.length ? <section className="program-grid" aria-label="Top payable bug candidates">{visiblePrograms.map((program) => <ProgramCard key={program.id} program={program} watched={watchlist.has(program.id)} onWatch={() => toggleWatch(program)} onOpen={() => setSelected(program)} />)}</section> : <section className="empty-state"><Radar /><h2>No payable candidate survives these filters.</h2><p>Try another lane or lower the EV floor. Excluded targets remain excluded.</p><Button variant="outline" onClick={() => { setQuery(""); setPlatform("all"); setWorkflow("all"); setMinimumEv("0"); setTab("top"); }}>Clear filters</Button></section>}
 
-        {pages > 1 ? (
-          <Pagination className="mt-8">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#results" aria-disabled={currentPage === 1} className={currentPage === 1 ? "pointer-events-none opacity-40" : ""} onClick={(event) => { event.preventDefault(); setPage((value) => Math.max(1, value - 1)); }} />
-              </PaginationItem>
-              <PaginationItem><span className="page-count">Page {currentPage} of {pages}</span></PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#results" aria-disabled={currentPage === pages} className={currentPage === pages ? "pointer-events-none opacity-40" : ""} onClick={(event) => { event.preventDefault(); setPage((value) => Math.min(pages, value + 1)); }} />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        ) : null}
-
-        <footer className="radar-footer">
-          <p>Discovery data is never authorization. The linked official policy controls every test.</p>
-          <p>ScopePulse stores watchlists and reviewed status only in this browser.</p>
-        </footer>
+        <footer className="radar-footer"><p>Discovery data is never authorization. The linked official policy controls every test.</p><p>ScoutIQ stores watchlists and reviewed status only in this browser.</p></footer>
       </div>
 
       <Sheet open={Boolean(selected)} onOpenChange={(open) => { if (!open) setSelected(null); }}>
-        <SheetContent className="detail-sheet w-[92vw] overflow-y-auto sm:max-w-[620px]">
-          {selected ? (
-            <>
-              <SheetHeader className="border-b border-white/[0.08] px-6 py-6">
-                <div className="mb-2 flex flex-wrap items-center gap-2">
-                  <Badge className={`change-badge change-${selected.change.type}`}>{changeLabels[selected.change.type]}</Badge>
-                  <span className="sample-flag">{selected.platform.toUpperCase()}</span>
-                </div>
-                <SheetTitle className="pr-8 text-2xl tracking-[-0.04em] text-white">{selected.name}</SheetTitle>
-                <SheetDescription>{rewardLabel(selected)} · {selected.targetCount} tracked targets</SheetDescription>
-              </SheetHeader>
+        <SheetContent className="detail-sheet w-[92vw] overflow-y-auto sm:max-w-[660px]">
+          {selected ? <>
+            <SheetHeader className="border-b border-white/[0.08] px-6 py-6">
+              <div className="mb-2 flex flex-wrap items-center gap-2"><Badge className="workflow-badge">{workflowLabels[workflowOf(selected)]}</Badge><span className="sample-flag">{selected.platform.toUpperCase()}</span></div>
+              <SheetTitle className="pr-8 text-2xl tracking-[-0.04em] text-white">{selected.name}</SheetTitle>
+              <SheetDescription>{rewardLabel(selected)} · ceiling {selected.payableSeverityCeiling ?? "unknown"} · floor {selected.programFloorSeverity ?? "unknown"}</SheetDescription>
+            </SheetHeader>
+            <div className="space-y-7 px-6 pb-8">
+              <section className="detail-score"><div><span>EXPECTED VALUE</span><strong>{evLabel(selected)}</strong></div><p>Reward ceiling multiplied by the estimated chances we can find it, it is payable, and we are first.</p></section>
+              <section><h3 className="detail-heading">Probability chain</h3><div className="probability-grid"><Probability label="P(findable)" value={selected.pFindable ?? 0} /><Probability label="P(payable)" value={selected.pPayable ?? 0} /><Probability label="P(first)" value={selected.pFirst ?? 0} /></div></section>
+              <section><h3 className="detail-heading">Why it surfaced</h3><ul className="reason-list"><li><Zap />{honestReason(selected)}</li></ul></section>
+              <section><h3 className="detail-heading">Anti-waste indices</h3><div className="space-y-3"><Meter label="Fresh code" value={selected.freshCodeIndex ?? 0} /><Meter label="Hardening" value={selected.hardeningIndex ?? 0} tone="risk" /><Meter label="Known-issue risk" value={selected.knownIssueRisk ?? 0} tone="risk" /></div></section>
 
-              <div className="space-y-7 px-6 pb-8">
-                <section className="detail-score">
-                  <div>
-                    <span>EDGE SCORE</span>
-                    <strong>{selected.score}</strong>
-                    <small>/100</small>
-                  </div>
-                  <p>A transparent prioritization score, not a vulnerability or payout prediction.</p>
-                </section>
+              {selected.repoSignals ? <section><h3 className="detail-heading">Repository evidence</h3><div className="signal-grid"><div><span>Repository</span><strong>{selected.repoSignals.fullName ?? "Pending"}</strong></div><div><span>Stars</span><strong>{(selected.repoSignals.stars ?? 0).toLocaleString()}</strong></div><div><span>Commits / 90d</span><strong>{selected.repoSignals.commits90d ?? 0}</strong></div><div><span>Files added / 90d</span><strong>{selected.repoSignals.filesAdded90d ?? 0}</strong></div><div><span>Security tooling</span><strong>{selected.repoSignals.secTooling ? "Present" : "Not detected"}</strong></div><div><span>GHSA</span><strong>{selected.repoSignals.advisories?.open ?? 0} open · {selected.repoSignals.advisories?.resolved ?? 0} resolved</strong></div></div></section> : null}
 
-                <section>
-                  <h3 className="detail-heading">Why it surfaced</h3>
-                  <ul className="reason-list">
-                    {selected.reasons.map((reason) => <li key={reason}><Zap />{reason}</li>)}
-                  </ul>
-                </section>
+              {selected.traps?.length ? <section className="exclusion-box"><TriangleAlert /><div><strong>Trap signals</strong><p>{selected.traps.join(", ")}</p></div></section> : null}
 
-                <section>
-                  <div className="mb-3 flex items-end justify-between gap-3">
-                    <h3 className="detail-heading mb-0">Score anatomy</h3>
-                    <button className="method-link" onClick={() => { setSelected(null); setMethodOpen(true); }}>Read method</button>
-                  </div>
-                  <div className="space-y-3">
-                    <ScoreBar label="Freshness" value={selected.scoreBreakdown.freshness} max={32} />
-                    <ScoreBar label="Reward signal" value={selected.scoreBreakdown.reward} max={22} />
-                    <ScoreBar label="Inspectability" value={selected.scoreBreakdown.inspectability} max={24} />
-                    <ScoreBar label="Authorization clarity" value={selected.scoreBreakdown.authorization} max={14} />
-                    <ScoreBar label="Low-friction scope" value={selected.scoreBreakdown.friction} max={8} />
-                  </div>
-                </section>
+              <section><h3 className="detail-heading">Routed target preview</h3><div className="target-list">{selected.targets.length ? selected.targets.slice(0, 12).map((target) => <div key={target.key} className="target-row"><div><span>{target.workflow ?? target.type} · EV {compactMoney(target.evScore ?? 0, selected.currency)}</span><strong>{target.value}</strong>{target.excludeReason ? <p className="text-[var(--hot)]">Excluded: {target.excludeReason}</p> : target.reason ? <p>{target.reason}</p> : null}</div>{target.excludeReason ? <TriangleAlert className="size-4 text-[var(--hot)]" /> : <Check className="size-4 text-[var(--signal)]" />}</div>) : <p className="p-4 text-sm text-[var(--muted-foreground)]">No structured targets were available. Verify the official scope.</p>}</div></section>
 
-                <section>
-                  <h3 className="detail-heading">In-scope preview</h3>
-                  <div className="target-list">
-                    {selected.targets.length ? selected.targets.slice(0, 12).map((target) => (
-                      <div key={target.key} className="target-row">
-                        <div>
-                          <span>{target.type}</span>
-                          <strong>{target.value}</strong>
-                          {target.description ? <p>{target.description}</p> : null}
-                        </div>
-                        {target.eligible === true ? <Check className="size-4 text-[var(--signal)]" aria-label="Bounty eligible" /> : null}
-                      </div>
-                    )) : <p className="text-sm text-[var(--muted-foreground)]">No structured targets were available. Verify scope on the official page.</p>}
-                  </div>
-                </section>
-
-                <section className="verification-box">
-                  <ShieldCheck />
-                  <div>
-                    <strong>Verify before testing</strong>
-                    <p>Confirm paid status, current scope, safe harbor, account rules, and permitted environments on the official policy.</p>
-                  </div>
-                </section>
-
-                <div className="grid gap-2 sm:grid-cols-2">
-                  <Button asChild className="action-primary">
-                    <a href={selected.url} target="_blank" rel="noreferrer">Open official policy <ArrowUpRight /></a>
-                  </Button>
-                  <Button variant="outline" className="action-secondary" onClick={() => void copyBrief(selected)}>
-                    {copied ? <Check /> : <Copy />}{copied ? "Copied" : "Copy 90-min brief"}
-                  </Button>
-                  <Button variant="ghost" className="sm:col-span-2" onClick={() => markReviewed(selected)}>Mark reviewed and hide</Button>
-                </div>
-              </div>
-            </>
-          ) : null}
+              <section className="verification-box"><ShieldCheck /><div><strong>Verify before testing</strong><p>Confirm scope, payout floor, researcher eligibility, safe harbor, account rules, and the exact permitted environment on the official policy.</p></div></section>
+              <div className="grid gap-2 sm:grid-cols-2"><Button asChild className="action-primary"><a href={selected.url} target="_blank" rel="noreferrer">Open official policy <ArrowUpRight /></a></Button><Button variant="outline" className="action-secondary" onClick={() => void copyBrief(selected)}>{copied ? <Check /> : <Copy />}{copied ? "Copied" : "Copy 90-min brief"}</Button><Button variant="ghost" className="sm:col-span-2" onClick={() => markReviewed(selected)}>Mark reviewed and hide</Button></div>
+            </div>
+          </> : null}
         </SheetContent>
       </Sheet>
 
       <Sheet open={methodOpen} onOpenChange={setMethodOpen}>
-        <SheetContent className="detail-sheet w-[92vw] overflow-y-auto sm:max-w-[560px]">
-          <SheetHeader className="border-b border-white/[0.08] px-6 py-6">
-            <SheetTitle className="text-2xl tracking-[-0.04em] text-white">How the edge score works</SheetTitle>
-            <SheetDescription>No secret model and no pretend hunter count.</SheetDescription>
-          </SheetHeader>
-          <div className="space-y-6 px-6 pb-8 text-sm leading-6 text-[var(--foreground)]">
-            <p>ScopePulse ranks observable facts. It cannot know undisclosed reports, private researchers, or whether a target contains a valid vulnerability.</p>
-            <div className="method-grid">
-              <div><strong>32</strong><span>Freshness</span><p>New targets outrank new programs, reward changes, and ordinary edits.</p></div>
-              <div><strong>22</strong><span>Reward</span><p>Confirmed and materially larger ceilings score higher.</p></div>
-              <div><strong>24</strong><span>Inspectability</span><p>Source code, repositories, APIs, testnets, and local-build language help.</p></div>
-              <div><strong>14</strong><span>Authorization</span><p>Open status, confirmed rewards, and explicit safe harbor increase confidence.</p></div>
-              <div><strong>8</strong><span>Friction</span><p>Small, clearly typed scopes with parsed reward data are quicker to evaluate.</p></div>
-            </div>
-            <div className="verification-box"><CircleHelp /><div><strong>Unknown is not low risk</strong><p>“Attention pressure” is deliberately conservative. Only very fresh, inspectable targets receive a lower label.</p></div></div>
+        <SheetContent className="detail-sheet w-[92vw] overflow-y-auto sm:max-w-[590px]">
+          <SheetHeader className="border-b border-white/[0.08] px-6 py-6"><SheetTitle className="text-2xl tracking-[-0.04em] text-white">How ScoutIQ v2 ranks work</SheetTitle><SheetDescription>The score estimates a payable first finding, not how interesting a repository looks.</SheetDescription></SheetHeader>
+          <div className="space-y-6 px-6 pb-8">
+            <section className="formula-box"><span>EV</span><strong>reward × P(findable) × P(payable) × P(first)</strong><p>Each probability is visible in the record. Unknown policy and chain evidence stays marked unknown.</p></section>
+            <section><h3 className="detail-heading">Hard filters</h3><div className="method-grid"><div><strong>01</strong><span>Severity floor</span><p>Drop classes whose best plausible impact is below the program&apos;s payable floor.</p></div><div><strong>02</strong><span>Mature static trap</span><p>Drop hardening above 70 when fresh code remains below 25.</p></div><div><strong>03</strong><span>Known or dormant</span><p>Drop known-issue risk at 60+, audited targets without a 40-point fresh jump, and deployed contracts with zero use or value.</p></div><div><strong>04</strong><span>Eligibility</span><p>Drop invite-only, KYC-blocked, India-ineligible, closed, unpaid, and explicitly unsafe routes.</p></div></div></section>
+            <section className="verification-box"><CircleHelp /><div><strong>Conservative defaults are labeled</strong><p>If a reward table cannot be parsed yet, the configured MEDIUM payable floor is used. A nightly backfill keeps trying official policy and repository sources.</p></div></section>
           </div>
         </SheetContent>
       </Sheet>

@@ -30,6 +30,12 @@ function firstDefined(...values) {
   return values.find((value) => value !== undefined && value !== null);
 }
 
+function isoDate(value) {
+  if (!value) return null;
+  const date = new Date(value);
+  return Number.isFinite(date.getTime()) ? date.toISOString() : null;
+}
+
 function moneyValue(raw, snakeName, camelName) {
   const candidate = firstDefined(raw?.[snakeName], raw?.[camelName]);
   if (candidate && typeof candidate === "object") {
@@ -82,6 +88,7 @@ function normalizeTarget(rawTarget) {
   const eligible = eligibleValue == null ? true : Boolean(eligibleValue);
   const description = firstDefined(raw.description, raw.instructions, raw.notes);
   const impact = firstDefined(raw.impact, raw.tier, raw.severity);
+  const addedAt = isoDate(firstDefined(raw.added_at, raw.created_at, raw.first_seen_at, raw.addedAt));
   const identity = `${type}:${value.toLowerCase().replace(/\s+/g, " ")}`;
   return {
     key: stableHash(identity),
@@ -90,6 +97,7 @@ function normalizeTarget(rawTarget) {
     eligible,
     ...(description ? { description: String(description).slice(0, 600) } : {}),
     ...(impact ? { impact: String(impact).slice(0, 120) } : {}),
+    ...(addedAt ? { addedAt } : {}),
   };
 }
 
@@ -249,6 +257,11 @@ export function normalizeSource(source, payload) {
     ]
       .filter(Boolean)
       .join(" ");
+    const policyText = [raw.description, raw.policy, raw.rules, raw.notes, raw.eligibility]
+      .filter(Boolean)
+      .map(String)
+      .join(" ")
+      .slice(0, 100_000);
     const tags = tagsOf(uniqueTargets, descriptiveText);
     const sourceCode = tags.includes("source-code");
     const repositoryCount = uniqueTargets.filter(
@@ -275,6 +288,17 @@ export function normalizeSource(source, payload) {
       languages: languagesOf(descriptiveText),
       targets: uniqueTargets,
       localTestingHint: LOCAL_WORDS.test(descriptiveText),
+      policyText,
+      launchedAt: isoDate(firstDefined(raw.launched_at, raw.started_at, raw.created_at, raw.createdAt)),
+      resolvedReports: asNumber(firstDefined(
+        raw.resolved_reports,
+        raw.reports_resolved,
+        raw.resolvedReports,
+        raw.valid_reports,
+      )),
+      inviteOnly: Boolean(firstDefined(raw.invite_only, raw.inviteOnly, raw.private, false)),
+      kycRequired: Boolean(firstDefined(raw.kyc_required, raw.kycRequired, false)),
+      excludedCountries: Array.isArray(raw.excluded_countries) ? raw.excluded_countries.map(String) : [],
       sourcePriority: source.priority ?? 100,
     });
   }
@@ -327,6 +351,14 @@ export function mergePrograms(records) {
       languages: [...new Set(group.flatMap((record) => record.languages))].sort(),
       targets,
       localTestingHint: group.some((record) => record.localTestingHint),
+      policyText: group.map((record) => record.policyText).filter(Boolean).join(" ").slice(0, 150_000),
+      launchedAt: group.map((record) => record.launchedAt).filter(Boolean).sort()[0] ?? null,
+      resolvedReports: Math.max(...group.map((record) => record.resolvedReports ?? -1)) >= 0
+        ? Math.max(...group.map((record) => record.resolvedReports ?? -1))
+        : null,
+      inviteOnly: group.some((record) => record.inviteOnly),
+      kycRequired: group.some((record) => record.kycRequired),
+      excludedCountries: [...new Set(group.flatMap((record) => record.excludedCountries ?? []))],
     };
   }).sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -347,6 +379,11 @@ function coreFingerprint(program) {
     maxReward: program.maxReward,
     safeHarbor: program.safeHarbor,
     disclosureAllowed: program.disclosureAllowed,
+    launchedAt: program.launchedAt,
+    resolvedReports: program.resolvedReports,
+    inviteOnly: program.inviteOnly,
+    kycRequired: program.kycRequired,
+    excludedCountries: program.excludedCountries,
     sourceIds: program.sourceIds,
     tags: program.tags,
     languages: program.languages,
@@ -452,8 +489,17 @@ export function reconcilePrograms(currentPrograms, previousPrograms, now, { base
     const previous = previousById.get(current.id);
     const change = changeFor(current, previous, now, baseline);
     const changed = !previous || coreFingerprint(current) !== coreFingerprint(previous);
+    const previousTargets = new Map((previous?.targets ?? []).map((target) => [target.key, target]));
+    const targets = current.targets.map((target) => {
+      const priorTarget = previousTargets.get(target.key);
+      return {
+        ...target,
+        firstSeenAt: priorTarget?.firstSeenAt ?? target.addedAt ?? (baseline ? null : now),
+      };
+    });
     const program = {
       ...current,
+      targets,
       firstSeenAt: previous?.firstSeenAt ?? now,
       lastSeenAt: changed ? now : previous?.lastSeenAt ?? now,
       lastChangedAt: change === previous?.change ? previous.lastChangedAt : now,
@@ -495,9 +541,57 @@ export function reconcilePrograms(currentPrograms, previousPrograms, now, { base
 }
 
 export function publicProgram(program, targetLimit = 16) {
-  const value = { ...program, targets: program.targets.slice(0, targetLimit) };
+  const compactRepoSignals = (signals) => signals ? {
+    status: signals.status,
+    provider: signals.provider,
+    fullName: signals.fullName,
+    url: signals.url,
+    fetchedAt: signals.fetchedAt ?? null,
+    createdAt: signals.createdAt ?? null,
+    pushedAt: signals.pushedAt ?? null,
+    ageY: signals.ageY ?? null,
+    stars: signals.stars ?? 0,
+    forks: signals.forks ?? 0,
+    contributorsCount: signals.contributorsCount ?? 0,
+    releases: signals.releases ?? 0,
+    defaultBranch: signals.defaultBranch ?? null,
+    languages: signals.languages ?? {},
+    commits7d: signals.commits7d ?? 0,
+    commits30d: signals.commits30d ?? 0,
+    commits90d: signals.commits90d ?? 0,
+    filesTouched90d: signals.filesTouched90d ?? 0,
+    filesAdded90d: signals.filesAdded90d ?? 0,
+    filesAdded90dList: (signals.filesAdded90dList ?? []).slice(0, 40),
+    files90dTruncated: Boolean(signals.files90dTruncated),
+    mergedPrs90d: signals.mergedPrs90d ?? 0,
+    maxMergedPrAdditions90d: signals.maxMergedPrAdditions90d ?? 0,
+    secTooling: Boolean(signals.secTooling),
+    securityMd: Boolean(signals.securityMd),
+    fuzzPath: Boolean(signals.fuzzPath),
+    fuzzFunction: Boolean(signals.fuzzFunction),
+    securityWorkflows: signals.securityWorkflows ?? [],
+    advisories: signals.advisories ?? { open: 0, resolved: 0, total: 0 },
+    advisoryCoverage: signals.advisoryCoverage ?? "unknown",
+    trapHits: (signals.trapHits ?? []).slice(0, 10),
+    trapTags: signals.trapTags ?? [],
+    devKnown: Boolean(signals.devKnown),
+    securityFixGated: Boolean(signals.securityFixGated),
+    openRecentAdvisoryPathMatch: Boolean(signals.openRecentAdvisoryPathMatch),
+    lastError: signals.lastError,
+  } : null;
+  const rankedTargets = [...program.targets].sort((a, b) => {
+    if (a.key === program.bestTargetKey) return -1;
+    if (b.key === program.bestTargetKey) return 1;
+    return (b.evScore ?? 0) - (a.evScore ?? 0);
+  });
+  const targets = rankedTargets.slice(0, targetLimit).map((target) => ({
+    ...target,
+    repoSignals: compactRepoSignals(target.repoSignals),
+  }));
+  const value = { ...program, targets, repoSignals: compactRepoSignals(program.repoSignals) };
   delete value.missingCount;
   delete value.localTestingHint;
+  delete value.policyText;
   return value;
 }
 

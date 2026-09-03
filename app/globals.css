@@ -522,6 +522,23 @@ input {
   line-height: 1;
 }
 
+.ev-orbit {
+  width: 72px;
+  height: 72px;
+}
+
+.ev-orbit > div {
+  width: 64px;
+  height: 64px;
+}
+
+.ev-orbit strong {
+  max-width: 58px;
+  overflow: hidden;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+}
+
 .score-orbit span {
   margin-top: 0.18rem;
   color: #71807a;
@@ -535,6 +552,16 @@ input {
   border-radius: 4px;
   color: var(--signal);
   background: rgba(124,255,178,0.07);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.03em;
+}
+
+.workflow-badge {
+  border: 1px solid rgba(111,216,255,0.22);
+  border-radius: 4px;
+  color: var(--cyan);
+  background: rgba(111,216,255,0.065);
   font-family: var(--font-mono);
   font-size: 0.64rem;
   letter-spacing: 0.03em;
@@ -604,6 +631,16 @@ input {
   padding: 0.22rem 0.42rem;
   color: #86938f;
   background: rgba(255,255,255,0.028);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.risk-chip {
+  border: 1px solid rgba(255,118,104,0.2);
+  border-radius: 4px;
+  padding: 0.22rem 0.42rem;
+  color: #ff9a90;
+  background: rgba(255,118,104,0.055);
   font-family: var(--font-mono);
   font-size: 0.65rem;
 }
@@ -765,6 +802,109 @@ input {
   border-radius: inherit;
   background: linear-gradient(90deg, var(--signal-dim), var(--signal));
   box-shadow: 0 0 12px rgba(124,255,178,0.38);
+}
+
+.score-track-risk span {
+  background: linear-gradient(90deg, #a54640, var(--hot));
+  box-shadow: 0 0 12px rgba(255,118,104,0.28);
+}
+
+.probability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.probability-cell,
+.signal-grid > div {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid rgba(255,255,255,0.075);
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.02);
+}
+
+.probability-cell span,
+.signal-grid span {
+  color: var(--muted-foreground);
+  font-size: 0.68rem;
+}
+
+.probability-cell strong {
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+}
+
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.signal-grid strong {
+  overflow-wrap: anywhere;
+  color: #e2eae7;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+
+.formula-box {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+  border: 1px solid rgba(124,255,178,0.16);
+  border-radius: 9px;
+  padding: 1rem;
+  background: rgba(124,255,178,0.035);
+}
+
+.formula-box span {
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.formula-box strong {
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.formula-box p {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.exclusion-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border: 1px solid rgba(255,118,104,0.2);
+  border-radius: 8px;
+  padding: 0.85rem;
+  color: #ffc0ba;
+  background: rgba(255,118,104,0.05);
+}
+
+.exclusion-box > svg {
+  width: 18px;
+  flex: 0 0 auto;
+  color: var(--hot);
+}
+
+.exclusion-box strong {
+  display: block;
+  font-size: 0.8rem;
+}
+
+.exclusion-box p {
+  margin-top: 0.18rem;
+  font-size: 0.74rem;
 }
 
 .method-link {
@@ -968,6 +1108,11 @@ input {
     border-right: 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
     padding-bottom: 0.7rem;
+  }
+
+  .probability-grid,
+  .signal-grid {
+    grid-template-columns: 1fr;
   }
 }
 

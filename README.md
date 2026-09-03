@@ -1,177 +1,230 @@
-# ScopePulse
+# ScoutIQ v2
 
-ScopePulse is an independent, zero-backend radar for public bug bounty programs. A scheduled GitHub Action collects public datasets, normalizes scopes, detects meaningful changes, assigns a transparent edge score, and publishes a searchable GitHub Pages dashboard.
+ScoutIQ ranks public bug bounty targets by estimated payable value, not by how interesting a repository looks.
 
-It is optimized for finding newly added, inspectable targets before spending model tokens on deep triage. It is not affiliated with BBRadar or any bounty platform, and it does not scrape or reproduce proprietary BBRadar data.
+```text
+EV = max reward × P(findable by us) × P(payable) × P(first)
+```
 
-## What makes it useful
+The collector runs on GitHub Actions, writes static JSON, and serves a public dashboard. It uses no LLM and no paid backend. The official program policy always controls authorization.
 
-- Tracks new programs, new targets, scope edits, reward increases, and reactivations.
-- Prioritizes source code, repositories, APIs, smart contracts, testnets, and local-testing language.
-- Explains every score instead of hiding ranking behind an AI model.
-- Produces a compact 90-minute triage brief for any result.
-- Keeps watchlist and reviewed state locally in your browser.
-- Preserves the last good snapshot when an upstream source fails.
-- Waits for two successful misses before removing a program from the dataset.
-- Sends optional Discord alerts without requiring a server.
-- Uses no paid API and no LLM during collection.
+## What changed in v2
 
-## Data flow
+- Routes each target to `live-web`, `live-api`, `live-contract`, `ai-agent`, `static-source`, or `static-source-hardened`.
+- Enriches GitHub and GitLab targets with repository age, activity, new files, merged PR size, contributors, releases, languages, tree signals, security tooling, and advisories.
+- Scrapes official policy pages incrementally to infer the lowest severity that can clear the configured payable reward.
+- Detects developer-known issues, disabled security fixes, low-only parser DoS, and dormant deployed contracts.
+- Permanently remembers completed audits in `data/audited.json`, unless fresh code rises by more than 40 points from the audit baseline.
+- Hard-excludes traps before ranking. Excluded records retain `excludeReason` in JSON for auditability but never appear in the normal dashboard or CLI shortlist.
+- Defaults to the top 25 positive-EV candidates and provides dedicated live and fresh-source lanes.
+
+## Pipeline
 
 ```mermaid
 flowchart TD
-  A[Public program datasets] --> B[Normalize and deduplicate]
-  B --> C[Diff last good snapshot]
-  C --> D[Transparent edge score]
-  D --> E[Static JSON and dashboard]
-  C --> F[Optional Discord alert]
+  A[Public bounty feeds] --> B[Normalize and diff]
+  B --> C[Repo, policy, and chain caches]
+  C --> D[Target class and workflow]
+  D --> E[Hard exclusions]
+  E --> F[EV ranking]
+  F --> G[Static JSON and public dashboard]
 ```
 
-The dashboard always links back to the official program policy. Discovery data is not authorization. Verify current scope, safe harbor, account rules, rate limits, and testing environments on the official policy before testing anything.
+Six discovery feeds currently cover HackerOne, Bugcrowd, Intigriti, YesWeHack, Federacy, and community-listed public programs. Feed data is discovery evidence, not permission.
 
-## Sources included in v0.1
+## Scoring
 
-| Feed | Coverage |
-| --- | --- |
-| `arkadiyt/bounty-targets-data` | HackerOne, Bugcrowd, Intigriti, YesWeHack, Federacy |
-| `projectdiscovery/public-bugbounty-programs` | Community-curated public and independent programs |
-| `config/manual-programs.json` | Programs you add from official public policies |
+### HardeningIndex
 
-The upstream feeds are discovery indexes, not legal authority. ScopePulse deliberately avoids guessing at private program data, undisclosed reports, or actual researcher competition.
+High means avoid:
 
-## One-time GitHub setup
-
-1. Create an empty **public** GitHub repository. Public repositories can use standard GitHub-hosted Actions runners without consuming private-repository minutes.
-2. Copy this project into the repository and push it to a branch named `main`.
-3. In **Settings → Pages**, choose **GitHub Actions** as the source.
-4. Open **Actions → Refresh ScopePulse → Run workflow** for the first collection.
-5. After the run finishes, the Pages URL appears in the deployment step and the repository's **Deployments** panel.
-
-Example push commands:
-
-```bash
-git init
-git add .
-git commit -m "build: launch ScopePulse"
-git branch -M master
-git remote add origin https://github.com/Vector3on/ScoutIq.git
-git push -u origin main
+```text
+min(30, stars / 300)
++20 security tooling
++15 repo older than 4 years
++15 more than 100 contributors
++10 at least 3 resolved advisories
++10 mature-core keyword
 ```
 
-The workflow runs at minute 17 of every hour. Using a non-zero minute avoids the heaviest scheduled-workflow congestion. It only rebuilds and deploys when the normalized dataset or source health actually changes.
+### FreshCodeIndex
 
-## Your preferences
+High means investigate:
 
-Edit `config/preferences.json`:
-
-```json
-{
-  "reviewedPrograms": ["Decred", "Leather", "MetaMask"],
-  "minReward": 1000
-}
+```text
+min(35, commits_90d / 2)
++min(25, files_added_90d × 3)
++20 merged PR over 800 additions
++20 target or repository added to the program within 45 days
 ```
 
-`reviewedPrograms` starts hidden in the dashboard. You can also mark individual results reviewed in the UI. Browser changes stay in local storage and are not committed.
+### KnownIssueRisk
 
-## Add a program the feeds miss
-
-Add an official public policy to `config/manual-programs.json` using the same compact shape accepted by the generic adapter:
-
-```json
-[
-  {
-    "name": "Example Security Program",
-    "url": "https://security.example.com/bug-bounty",
-    "status": "open",
-    "public": true,
-    "paid": true,
-    "min_bounty": { "value": 1000, "currency": "USD" },
-    "max_bounty": { "value": 25000, "currency": "USD" },
-    "safe_harbor": "program-defined",
-    "targets": {
-      "in_scope": [
-        {
-          "type": "source_code",
-          "target": "https://github.com/example/project",
-          "description": "Build and test locally using researcher-owned data"
-        }
-      ]
-    }
-  }
-]
+```text
++40 developer-known pattern
++30 open or recent advisory matching the path
++30 security fix gated behind a disabled flag or dormant fork
 ```
 
-Only add information that is already public. Do not commit invitations, credentials, private scopes, or vulnerability details.
+### Probabilities
 
-## Edge score
+```text
+P_findable = clamp(
+  0.15
+  + 0.45 × FreshCodeIndex / 100
+  + 0.30 × (100 - HardeningIndex) / 100
+  + 0.10 × proficiency_fit
+)
 
-The maximum score is 100:
+P_payable = (ceiling >= program floor)
+  × (1 - KnownIssueRisk / 100)
+  × eligibility
 
-| Signal | Points | What it measures |
-| --- | ---: | --- |
-| Freshness | 32 | New targets, launches, reward changes, and scope edits, decaying over time |
-| Reward | 22 | Confirmed reward ceiling and minimum |
-| Inspectability | 24 | Source code, repositories, languages, APIs, smart contracts, and local/testnet language |
-| Authorization clarity | 14 | Open status, paid status, safe-harbor field, and disclosure field |
-| Low friction | 8 | Smaller typed scope and parsed reward data |
+P_first = clamp(
+  0.2
+  + 0.5 × (program age < 90 days)
+  + 0.3 × crowd term
+)
+```
 
-“Lower attention pressure” is only a conservative heuristic for a very fresh, inspectable, small scope. ScopePulse never claims to know how many researchers are active.
+Mature crypto and hardened static-source classes receive explicit findability multipliers after the base formula. This encodes the observed failure rate of blind core-library review.
 
-## Optional Discord alerts
+## Hard exclusions
 
-Create a Discord webhook, then add its URL as the repository Actions secret `DISCORD_WEBHOOK_URL`. New changes are sent after each non-baseline refresh. If the secret is absent, the step exits cleanly.
+A target is removed before ranking when any of these is true:
 
-## Local development
+- Its plausible severity ceiling is below the program's payable floor.
+- `HardeningIndex > 70` and `FreshCodeIndex < 25`.
+- `KnownIssueRisk >= 60`.
+- It is in `data/audited.json` and fresh code has not jumped by more than 40 points.
+- It is closed, unpaid, target-ineligible, invite-only, KYC-required, explicitly unavailable to Indian researchers, or explicitly lacks required safe harbor.
+- It is a deployed contract with an explicit `tx30d == 0` or `tvl == 0` signal.
+
+Unknown is not silently converted to evidence. Unparsed policy floors use the configurable conservative default and are labeled `conservative-default`. Chain dormancy only fires on configured explorer/RPC evidence.
+
+## Run locally
 
 Requirements: Node.js 22 or newer.
 
 ```bash
 npm ci
-npm run test:radar
-npm run build
+npm test
 ```
 
-Run a live collection only when your network can reach the configured public GitHub raw URLs:
+Run the normal incremental collection:
 
 ```bash
 npm run collect
 ```
 
-The collector writes:
+Run the larger nightly backfill budget:
 
-- `data/state.json`: last good normalized snapshots and change history.
-- `public/data/programs.json`: browser-safe current dataset.
-- `public/data/events.json`: the latest 200 change events.
-- `.radar-run.json`: ignored, per-run notification data.
+```bash
+npm run collect:nightly
+```
 
-## Failure behavior
+Query the default top 25:
 
-- Each source gets a timeout, payload-size cap, minimum-record sanity check, and three attempts.
-- A failed source keeps its previous snapshot and appears unhealthy in the dashboard metadata.
-- A missing program becomes stale for one successful poll and is removed only after the second miss.
-- The first live run is a baseline import, so it does not announce every existing program as new.
-- Scheduled runs do not commit or deploy when nothing material changed.
+```bash
+npm run shortlist
+```
 
-## Current limits
+Query only live services and contracts:
 
-- Coverage is six public feeds, not every bounty platform on the internet.
-- Reward and safe-harbor fields are only as complete as upstream structured data.
-- Name-based cross-feed deduplication is intentionally simple and can require a manual alias in a future version.
-- GitHub schedules can be delayed, and public-repository schedules are disabled after prolonged repository inactivity.
-- The official policy always wins if a feed is stale or incomplete.
+```bash
+npm run shortlist -- --lane live
+```
 
-## Project structure
+Query only source targets with `FreshCodeIndex > 50`:
+
+```bash
+npm run shortlist -- --lane fresh-source
+```
+
+Machine-readable output:
+
+```bash
+npm run shortlist -- --lane live --format json
+```
+
+## Configuration
+
+`config/preferences.json` sets the desired minimum reward and initial reviewed list.
+
+`config/program-overrides.json` stores verified policy facts that cannot be parsed reliably:
+
+```json
+{
+  "defaults": {
+    "researcherCountry": "IN",
+    "minimumPayableReward": 1000,
+    "unknownProgramFloor": "MEDIUM",
+    "unknownResolvedReports": 25
+  },
+  "programs": {
+    "program:example": {
+      "programFloorSeverity": "HIGH",
+      "excludedCountries": ["IN"],
+      "safeHarborRequired": true,
+      "noSafeHarbor": true
+    }
+  }
+}
+```
+
+`config/live-targets.json` enables evidence-based EVM checks. Do not commit API keys; refer to Actions secret names:
+
+```json
+{
+  "version": 1,
+  "targets": [
+    {
+      "match": "Example Vault",
+      "adapter": "evm",
+      "chainId": 1,
+      "address": "0x0000000000000000000000000000000000000000",
+      "rpcUrlEnv": "EXAMPLE_RPC_URL",
+      "explorerApiUrl": "https://api.etherscan.io/v2/api",
+      "explorerApiKeyEnv": "ETHERSCAN_API_KEY"
+    }
+  ]
+}
+```
+
+`data/audited.json` is persistent memory. Add the program or repository alias, verdict, date, note, and its FreshCodeIndex at audit time.
+
+## GitHub Actions
+
+`.github/workflows/radar.yml` runs at minute 17 each hour with a small enrichment budget and at 02:41 UTC with a larger nightly backfill. The workflow uses the repository-provided `GITHUB_TOKEN`. Add `GITLAB_TOKEN` only if public GitLab rate limits become a problem. Optional EVM and Discord secrets are referenced only when configured.
+
+Scheduled runs do not install frontend dependencies. Source-change and manual runs execute the complete build and test suite. This keeps private-repository Actions usage low while still validating code changes.
+
+## Output schema
+
+`public/data/programs.json` retains the v1 fields and adds:
 
 ```text
-app/                       dashboard and scoring explanation
-config/                    feeds, preferences, manual programs
-scripts/collect.mjs        fetch, fail-soft snapshot, and output
-scripts/radar-core.mjs     adapters, deduplication, diff, scoring
-scripts/notify.mjs         optional Discord notification
-.github/workflows/radar.yml hourly collection and Pages deployment
-tests/radar-core.test.mjs  normalization, diff, grace, scoring tests
+hardeningIndex, freshCodeIndex, knownIssueRisk,
+payableSeverityCeiling, programFloorSeverity, workflow,
+pFindable, pPayable, pFirst, evScore, traps,
+repoSignals, liveState, excludeReason, honestReason
+```
+
+The same decision fields are attached to each public target. Full repository trees remain in `data/repo-cache.json`; public JSON carries only the lean evidence needed to explain a rank.
+
+## Files
+
+```text
+scripts/collect.mjs             orchestration and fail-soft snapshots
+scripts/radar-core.mjs          feed normalization, dedupe, and change history
+scripts/repo-enrichment.mjs     GitHub GraphQL/REST and GitLab enrichment
+scripts/policy-enrichment.mjs   policy scraper and severity floor parser
+scripts/live-enrichment.mjs     configured explorer/RPC live-state checks
+scripts/ev-core.mjs             class map, indices, traps, hard filters, EV
+scripts/query.mjs               default, live, and fresh-source CLI lanes
+data/audited.json               persistent completed-audit memory
 ```
 
 ## Responsible use
 
-Use ScopePulse only to discover public, authorized security programs. Do not scan or test a target merely because it appears in this dashboard. Open the linked official policy, confirm the exact asset and permitted method, and keep all testing within those rules.
+Only test public programs you are personally eligible for, within the exact current policy. Use your own accounts and data. Do not test third parties, exceed permitted traffic, or treat a discovery feed as authorization.

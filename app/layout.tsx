@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ScopePulse | Fresh bug bounty signals",
+  title: "ScoutIQ | Payable bug opportunity radar",
   description:
-    "A transparent, source-first radar for newly launched and newly expanded public bug bounty programs.",
+    "A transparent expected-value radar for public bug bounty programs, live attack surfaces, and fresh source code.",
   other: {
     "codex-preview": "development",
   },

@@ -10,9 +10,11 @@
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
     "build": "bash scripts/build-verified.sh",
     "collect": "node scripts/collect.mjs",
+    "collect:nightly": "node scripts/collect.mjs --nightly",
+    "shortlist": "node scripts/query.mjs",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/*.test.mjs",
-    "test:radar": "node --test tests/radar-core.test.mjs",
+    "test:radar": "node --test tests/radar-core.test.mjs tests/ev-core.test.mjs",
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate"
   },

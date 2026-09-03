@@ -1,0 +1,9 @@
+{
+  "defaults": {
+    "researcherCountry": "IN",
+    "minimumPayableReward": 1000,
+    "unknownProgramFloor": "MEDIUM",
+    "unknownResolvedReports": 25
+  },
+  "programs": {}
+}

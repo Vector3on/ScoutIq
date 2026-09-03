@@ -7,13 +7,29 @@ import {
   publicProgram,
   reconcilePrograms,
 } from "./radar-core.mjs";
+import { evaluateProgram } from "./ev-core.mjs";
+import {
+  enrichRepositoryCache,
+  repositorySignalsFor,
+} from "./repo-enrichment.mjs";
+import {
+  enrichPolicyCache,
+  policySignalsFor,
+} from "./policy-enrichment.mjs";
+import { enrichLiveCache, liveStateFor } from "./live-enrichment.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const paths = {
   sources: resolve(root, "config/sources.json"),
   preferences: resolve(root, "config/preferences.json"),
   manual: resolve(root, "config/manual-programs.json"),
+  overrides: resolve(root, "config/program-overrides.json"),
+  liveConfig: resolve(root, "config/live-targets.json"),
+  audited: resolve(root, "data/audited.json"),
   state: resolve(root, "data/state.json"),
+  repoCache: resolve(root, "data/repo-cache.json"),
+  policyCache: resolve(root, "data/policy-cache.json"),
+  liveCache: resolve(root, "data/live-cache.json"),
   output: resolve(root, "public/data/programs.json"),
   events: resolve(root, "public/data/events.json"),
   run: resolve(root, ".radar-run.json"),
@@ -81,14 +97,21 @@ const now = new Date().toISOString();
 const sourceConfig = await readJson(paths.sources, { sources: [] });
 const preferences = await readJson(paths.preferences, { reviewedPrograms: [], minReward: 1000 });
 const manualRecords = await readJson(paths.manual, []);
+const overrideConfig = await readJson(paths.overrides, { defaults: {}, programs: {} });
+const liveConfig = await readJson(paths.liveConfig, { targets: [] });
+const audited = await readJson(paths.audited, { entries: {} });
+const publicPrior = await readJson(paths.output, { programs: [], meta: {} });
 const prior = await readJson(paths.state, {
-  version: 1,
+  version: 0,
   generatedAt: null,
   sourceSnapshots: {},
   sourceHealth: [],
-  programs: [],
+  programs: publicPrior.programs ?? [],
   events: [],
 });
+const priorRepoCache = await readJson(paths.repoCache, { version: 2, repositories: {} });
+const priorPolicyCache = await readJson(paths.policyCache, { version: 2, policies: {} });
+const priorLiveCache = await readJson(paths.liveCache, { version: 2, states: {} });
 
 const remoteResults = await Promise.all(sourceConfig.sources.map(fetchJson));
 const nextSnapshots = { ...prior.sourceSnapshots };
@@ -126,17 +149,80 @@ if (manualRecords.length) {
 }
 
 const merged = mergePrograms(Object.values(nextSnapshots).flat());
-const baseline = prior.programs.length === 0;
-const reconciliation = reconcilePrograms(merged, prior.programs, now, { baseline });
+const migratingToV2 = Number(prior.version ?? 0) < 2;
+const previousPrograms = migratingToV2 ? [] : prior.programs;
+const baseline = previousPrograms.length === 0;
+const reconciliation = reconcilePrograms(merged, previousPrograms, now, { baseline });
+const enrichmentMode = process.env.ENRICH_MODE ?? (process.argv.includes("--nightly") ? "nightly" : "hourly");
+const numericEnv = (name, fallback) => {
+  const value = Number(process.env[name]);
+  return Number.isFinite(value) ? value : fallback;
+};
+const repoBudget = numericEnv("REPO_ENRICH_BUDGET", enrichmentMode === "nightly" ? 120 : 8);
+const policyBudget = numericEnv("POLICY_ENRICH_BUDGET", enrichmentMode === "nightly" ? 80 : 4);
+const repoEnrichment = await enrichRepositoryCache(reconciliation.programs, priorRepoCache, {
+  now,
+  budget: repoBudget,
+  ttlHours: enrichmentMode === "nightly" ? 24 * 7 : 24 * 3,
+});
+const policyEnrichment = await enrichPolicyCache(reconciliation.programs, priorPolicyCache, {
+  now,
+  budget: policyBudget,
+  ttlHours: 24 * 7,
+  minimumPayableReward: overrideConfig.defaults?.minimumPayableReward ?? preferences.minReward ?? 1_000,
+});
+const liveEnrichment = await enrichLiveCache(reconciliation.programs, liveConfig, priorLiveCache, { now });
+
+function programOverride(program) {
+  return overrideConfig.programs?.[program.id]
+    ?? overrideConfig.programs?.[program.name]
+    ?? overrideConfig.programs?.[program.name.toLowerCase()]
+    ?? {};
+}
+
+const evaluatedPrograms = reconciliation.programs.map((program) => {
+  const policySignals = policySignalsFor(program, policyEnrichment.cache);
+  const resolvedReports = program.resolvedReports ?? policySignals?.resolvedReports ?? null;
+  const targetContexts = new Map((program.targets ?? []).map((target) => [target.key, {
+    repoSignals: repositorySignalsFor(target, repoEnrichment.cache),
+    liveState: liveStateFor(target, liveEnrichment.cache),
+  }]));
+  return evaluateProgram({ ...program, resolvedReports }, {
+    now,
+    audited,
+    policySignals,
+    targetContexts,
+    settings: {
+      ...overrideConfig.defaults,
+      minimumPayableReward: overrideConfig.defaults?.minimumPayableReward ?? preferences.minReward ?? 1_000,
+      programOverride: programOverride(program),
+    },
+  });
+}).sort((a, b) => {
+  if (Boolean(a.excludeReason) !== Boolean(b.excludeReason)) return a.excludeReason ? 1 : -1;
+  return b.evScore - a.evScore || b.pFindable - a.pFindable || a.name.localeCompare(b.name);
+});
+
+const evaluatedById = new Map(evaluatedPrograms.map((program) => [program.id, program]));
+for (const event of reconciliation.events) {
+  const program = evaluatedById.get(event.programId);
+  if (program) {
+    event.score = program.score;
+    event.evScore = program.evScore;
+    event.workflow = program.workflow;
+    event.excludeReason = program.excludeReason;
+  }
+}
 const recentEvents = [...reconciliation.events, ...(prior.events ?? [])]
   .filter((event, index, array) => array.findIndex((candidate) => candidate.id === event.id) === index)
   .slice(0, 200);
 
-const publicPrograms = reconciliation.programs.map((program) => publicProgram(program));
+const statePrograms = evaluatedPrograms.map((program) => publicProgram(program, Number.MAX_SAFE_INTEGER));
+const publicPrograms = evaluatedPrograms.map((program) => publicProgram(program));
 const structural = {
   snapshots: nextSnapshots,
   health: publicHealth(health),
-  programs: reconciliation.programs,
+  programs: statePrograms,
   events: recentEvents,
 };
 const priorStructural = {
@@ -149,11 +235,11 @@ const changed = baseline || datasetSignature(structural) !== datasetSignature(pr
 const generatedAt = changed ? now : prior.generatedAt ?? now;
 
 const state = {
-  version: 1,
+  version: 2,
   generatedAt,
   sourceSnapshots: nextSnapshots,
   sourceHealth: publicHealth(health),
-  programs: reconciliation.programs,
+  programs: statePrograms,
   events: recentEvents,
 };
 const payload = {
@@ -165,6 +251,12 @@ const payload = {
     programCount: publicPrograms.length,
     targetCount: publicPrograms.reduce((sum, program) => sum + program.targetCount, 0),
     eventCount: recentEvents.length,
+    rankedProgramCount: publicPrograms.filter((program) => !program.excludeReason && program.evScore > 0).length,
+    excludedProgramCount: publicPrograms.filter((program) => Boolean(program.excludeReason)).length,
+    repoEnrichment: repoEnrichment.stats,
+    policyEnrichment: policyEnrichment.stats,
+    liveEnrichment: liveEnrichment.stats,
+    enrichmentMode,
     sources: publicHealth(health),
   },
   programs: publicPrograms,
@@ -176,6 +268,9 @@ const runPayload = { changed, baseline, generatedAt: now, events: reconciliation
 if (changed) {
   await Promise.all([
     writeJsonAtomic(paths.state, state),
+    writeJsonAtomic(paths.repoCache, repoEnrichment.cache),
+    writeJsonAtomic(paths.policyCache, policyEnrichment.cache),
+    writeJsonAtomic(paths.liveCache, liveEnrichment.cache),
     writeJsonAtomic(paths.output, payload),
     writeJsonAtomic(paths.events, eventPayload),
   ]);
@@ -183,10 +278,10 @@ if (changed) {
 await writeJsonAtomic(paths.run, runPayload);
 
 if (process.env.GITHUB_OUTPUT) {
-  await appendFile(process.env.GITHUB_OUTPUT, `changed=${changed}\nevent_count=${reconciliation.events.length}\n`);
+  await appendFile(process.env.GITHUB_OUTPUT, `changed=${changed}\nevent_count=${reconciliation.events.length}\nranked_count=${payload.meta.rankedProgramCount}\nexcluded_count=${payload.meta.excludedProgramCount}\n`);
 }
 
 const healthy = health.filter((source) => source.status === "ok").length;
-console.log(`ScopePulse: ${publicPrograms.length} paid programs, ${reconciliation.events.length} new events, ${healthy}/${health.length} sources healthy${changed ? "." : "; no dataset change."}`);
+console.log(`ScoutIQ v2: ${payload.meta.rankedProgramCount}/${publicPrograms.length} payable candidates, ${payload.meta.excludedProgramCount} hard-excluded, ${repoEnrichment.stats.updated} repos enriched, ${healthy}/${health.length} sources healthy${changed ? "." : "; no dataset change."}`);
 
 if (healthy === 0) process.exitCode = 1;
