@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "generatedAt": "2026-09-03T19:53:57.133Z",
+  "generatedAt": "2026-09-03T19:59:40.593Z",
   "ttlHours": 168,
   "repositories": {
     "auth0/auth0-php": {
@@ -9,8 +9,8 @@
       "fullName": "auth0/auth0-php",
       "url": "https://github.com/auth0/auth0-php",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1668d6b6f46a5511"
     },
     "auth0/auth0-java": {
@@ -19,8 +19,8 @@
       "fullName": "auth0/auth0-java",
       "url": "https://github.com/auth0/auth0-java",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c4cc2c309e9e439f"
     },
     "auth0/lock": {
@@ -29,8 +29,8 @@
       "fullName": "auth0/lock",
       "url": "https://github.com/auth0/lock",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "6b1f5e2389670b44"
     },
     "auth0/nextjs-auth0": {
@@ -39,8 +39,8 @@
       "fullName": "auth0/nextjs-auth0",
       "url": "https://github.com/auth0/nextjs-auth0",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a0259258baff5ab5"
     },
     "auth0/auth0-spa-js": {
@@ -49,8 +49,8 @@
       "fullName": "auth0/auth0-spa-js",
       "url": "https://github.com/auth0/auth0-spa-js",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5e90f4b2142685ec"
     },
     "auth0/auth0.net": {
@@ -59,8 +59,8 @@
       "fullName": "auth0/Auth0.Net",
       "url": "https://github.com/auth0/Auth0.Net",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c2d02d380081248b"
     },
     "auth0/react-native-auth0": {
@@ -69,8 +69,8 @@
       "fullName": "auth0/react-native-auth0",
       "url": "https://github.com/auth0/react-native-auth0",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "72ba7481039addfc"
     },
     "auth0/auth0.js": {
@@ -79,8 +79,8 @@
       "fullName": "auth0/auth0.js",
       "url": "https://github.com/auth0/auth0.js",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "bafb1dde732a9884"
     },
     "fireblocks/mpc-lib": {
@@ -89,8 +89,8 @@
       "fullName": "fireblocks/mpc-lib",
       "url": "https://github.com/fireblocks/mpc-lib",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "614c80e07914da01"
     },
     "projectopensea/seaport": {
@@ -99,8 +99,8 @@
       "fullName": "ProjectOpenSea/seaport",
       "url": "https://github.com/ProjectOpenSea/seaport",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "bbf0c12e3907679b"
     },
     "electroneum/electroneum-sc": {
@@ -109,8 +109,8 @@
       "fullName": "electroneum/electroneum-sc",
       "url": "https://github.com/electroneum/electroneum-sc",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "53e35e43284f8d98"
     },
     "immutable/ts-immutable-sdk": {
@@ -119,8 +119,8 @@
       "fullName": "immutable/ts-immutable-sdk",
       "url": "https://github.com/immutable/ts-immutable-sdk",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "181436c8573c71ef"
     },
     "digitalocean/doctl": {
@@ -129,8 +129,8 @@
       "fullName": "digitalocean/doctl",
       "url": "https://github.com/digitalocean/doctl",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "234db1531286aa0c"
     },
     "digitalocean/droplet-agent": {
@@ -139,8 +139,8 @@
       "fullName": "digitalocean/droplet-agent",
       "url": "https://github.com/digitalocean/droplet-agent",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ca3a9f57b0e612a0"
     },
     "digitalocean/do-agent": {
@@ -149,8 +149,8 @@
       "fullName": "digitalocean/do-agent",
       "url": "https://github.com/digitalocean/do-agent",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c27477012854adc2"
     },
     "trustwallet/wallet-core": {
@@ -159,8 +159,8 @@
       "fullName": "trustwallet/wallet-core",
       "url": "https://github.com/trustwallet/wallet-core",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "398061727c87d626"
     },
     "electroneum/electroneum": {
@@ -169,8 +169,8 @@
       "fullName": "electroneum/electroneum",
       "url": "https://github.com/electroneum/electroneum",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a178ce88baf93221"
     },
     "freedomofpress/securedrop-client": {
@@ -179,8 +179,8 @@
       "fullName": "freedomofpress/securedrop-client",
       "url": "https://github.com/freedomofpress/securedrop-client",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "7b3180ba65b74ff0"
     },
     "freedomofpress/securedrop-workstation": {
@@ -189,8 +189,8 @@
       "fullName": "freedomofpress/securedrop-workstation",
       "url": "https://github.com/freedomofpress/securedrop-workstation",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "f3c97a8c4ba035a5"
     },
     "freedomofpress/securedrop": {
@@ -199,8 +199,8 @@
       "fullName": "freedomofpress/securedrop",
       "url": "https://github.com/freedomofpress/securedrop",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c1340a819a41eeb4"
     },
     "infomaniak/desktop-kdrive": {
@@ -209,8 +209,8 @@
       "fullName": "Infomaniak/desktop-kDrive",
       "url": "https://github.com/Infomaniak/desktop-kDrive",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "993b853d2a2e722d"
     },
     "mattermost/mattermost-plugin-msteams-meetings": {
@@ -219,8 +219,8 @@
       "fullName": "mattermost/mattermost-plugin-msteams-meetings",
       "url": "https://github.com/mattermost/mattermost-plugin-msteams-meetings",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "08d7b1d588a4278f"
     },
     "mattermost/mattermost-plugin-zoom": {
@@ -229,8 +229,8 @@
       "fullName": "mattermost/mattermost-plugin-zoom",
       "url": "https://github.com/mattermost/mattermost-plugin-zoom",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "6c54f3c92b49b8b1"
     },
     "mattermost/mattermost-plugin-mscalendar": {
@@ -239,8 +239,8 @@
       "fullName": "mattermost/mattermost-plugin-mscalendar",
       "url": "https://github.com/mattermost/mattermost-plugin-mscalendar",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "0d4cfd4731a1bf09"
     },
     "mattermost/mattermost-plugin-confluence": {
@@ -249,8 +249,8 @@
       "fullName": "mattermost/mattermost-plugin-confluence",
       "url": "https://github.com/mattermost/mattermost-plugin-confluence",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "869c35c5ee79bd9f"
     },
     "mattermost/mattermost-plugin-msteams": {
@@ -259,8 +259,8 @@
       "fullName": "mattermost/mattermost-plugin-msteams",
       "url": "https://github.com/mattermost/mattermost-plugin-msteams",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "f43a7ea3fab0d8dc"
     },
     "mattermost/mattermost-plugin-boards": {
@@ -269,8 +269,8 @@
       "fullName": "mattermost/mattermost-plugin-boards",
       "url": "https://github.com/mattermost/mattermost-plugin-boards",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "0933010b2c6862b5"
     },
     "mattermost/mattermost-plugin-playbooks": {
@@ -279,8 +279,8 @@
       "fullName": "mattermost/mattermost-plugin-playbooks",
       "url": "https://github.com/mattermost/mattermost-plugin-playbooks",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e3639f24f05415b6"
     },
     "mattermost/mattermost-plugin-gitlab": {
@@ -289,8 +289,8 @@
       "fullName": "mattermost/mattermost-plugin-gitlab",
       "url": "https://github.com/mattermost/mattermost-plugin-gitlab",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ad64869babaa0dc0"
     },
     "mattermost/mattermost-plugin-ai": {
@@ -299,8 +299,8 @@
       "fullName": "mattermost/mattermost-plugin-ai",
       "url": "https://github.com/mattermost/mattermost-plugin-ai",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "50a8c057daecb7f1"
     },
     "mattermost/mattermost-plugin-jira": {
@@ -309,8 +309,8 @@
       "fullName": "mattermost/mattermost-plugin-jira",
       "url": "https://github.com/mattermost/mattermost-plugin-jira",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "4d8073eb499b5a88"
     },
     "mattermost/mattermost-plugin-github": {
@@ -319,8 +319,8 @@
       "fullName": "mattermost/mattermost-plugin-github",
       "url": "https://github.com/mattermost/mattermost-plugin-github",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "001537a23d44e7a3"
     },
     "mattermost/mattermost-plugin-calls": {
@@ -329,8 +329,8 @@
       "fullName": "mattermost/mattermost-plugin-calls",
       "url": "https://github.com/mattermost/mattermost-plugin-calls",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "fa5092173e4fd5b2"
     },
     "clickhouse/clickhouse": {
@@ -339,8 +339,8 @@
       "fullName": "ClickHouse/ClickHouse",
       "url": "https://github.com/ClickHouse/ClickHouse",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "331cdd965435ae0f"
     },
     "expressvpn/lightway": {
@@ -349,8 +349,8 @@
       "fullName": "expressvpn/lightway",
       "url": "https://github.com/expressvpn/lightway",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1e1954e9973659b4"
     },
     "expressvpn/wolfssl-rs": {
@@ -359,8 +359,8 @@
       "fullName": "expressvpn/wolfssl-rs",
       "url": "https://github.com/expressvpn/wolfssl-rs",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1eeb6056c566015f"
     },
     "ripe-ncc/rsyncit": {
@@ -369,8 +369,8 @@
       "fullName": "RIPE-NCC/rsyncit",
       "url": "https://github.com/RIPE-NCC/rsyncit",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "d958c7b2a6f75458"
     },
     "ripe-ncc/rpki-ta-0": {
@@ -379,8 +379,8 @@
       "fullName": "RIPE-NCC/rpki-ta-0",
       "url": "https://github.com/RIPE-NCC/rpki-ta-0",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "3f40fd968d0180f7"
     },
     "ripe-ncc/rpki-publication-server": {
@@ -389,8 +389,8 @@
       "fullName": "RIPE-NCC/rpki-publication-server",
       "url": "https://github.com/RIPE-NCC/rpki-publication-server",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "7562f97fdd9fdb77"
     },
     "ripe-ncc/rpki-commons": {
@@ -399,8 +399,8 @@
       "fullName": "RIPE-NCC/rpki-commons",
       "url": "https://github.com/RIPE-NCC/rpki-commons",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "09b4b4318a57d436"
     },
     "ripe-ncc/whois": {
@@ -409,8 +409,8 @@
       "fullName": "RIPE-NCC/whois",
       "url": "https://github.com/RIPE-NCC/whois",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5d9d8874066a65b8"
     },
     "ripe-ncc/rpki-core": {
@@ -419,8 +419,8 @@
       "fullName": "RIPE-NCC/rpki-core",
       "url": "https://github.com/RIPE-NCC/rpki-core",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e40b905932ee07eb"
     },
     "ripe-ncc/rpki-monitoring": {
@@ -429,8 +429,8 @@
       "fullName": "RIPE-NCC/rpki-monitoring",
       "url": "https://github.com/RIPE-NCC/rpki-monitoring",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "3ba0d0c986e2c6f8"
     },
     "smartcontractkit/chainlink-evm": {
@@ -439,8 +439,8 @@
       "fullName": "smartcontractkit/chainlink-evm",
       "url": "https://github.com/smartcontractkit/chainlink-evm",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1ee11e15bc72592f"
     },
     "smartcontractkit/chainlink-solana": {
@@ -449,8 +449,8 @@
       "fullName": "smartcontractkit/chainlink-solana",
       "url": "https://github.com/smartcontractkit/chainlink-solana",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5b03a095bda6e65b"
     },
     "smartcontractkit/chainlink": {
@@ -459,8 +459,8 @@
       "fullName": "smartcontractkit/chainlink",
       "url": "https://github.com/smartcontractkit/chainlink",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ad0a32795c74a93c"
     },
     "smartcontractkit/staking-v0.1": {
@@ -469,8 +469,8 @@
       "fullName": "smartcontractkit/staking-v0.1",
       "url": "https://github.com/smartcontractkit/staking-v0.1",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "60d8d357d8ccc22d"
     },
     "smartcontractkit/external-adapters-js": {
@@ -479,8 +479,8 @@
       "fullName": "smartcontractkit/external-adapters-js",
       "url": "https://github.com/smartcontractkit/external-adapters-js",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ca547568df3b7a2f"
     },
     "chia-network/chiavdf": {
@@ -489,8 +489,8 @@
       "fullName": "Chia-Network/chiavdf",
       "url": "https://github.com/Chia-Network/chiavdf",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5e11ca590fa0f45f"
     },
     "chia-network/chia-blockchain": {
@@ -499,8 +499,8 @@
       "fullName": "Chia-Network/chia-blockchain",
       "url": "https://github.com/Chia-Network/chia-blockchain",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "65c6e770e3925ae8"
     },
     "chia-network/chia_rs": {
@@ -509,8 +509,8 @@
       "fullName": "Chia-Network/chia_rs",
       "url": "https://github.com/Chia-Network/chia_rs",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "f8cbd461000830ed"
     },
     "chia-network/clvm_rs": {
@@ -519,8 +519,8 @@
       "fullName": "Chia-Network/clvm_rs",
       "url": "https://github.com/Chia-Network/clvm_rs",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "6c419be16efb9ee6"
     },
     "chia-network/chia-blockchain-gui": {
@@ -529,8 +529,8 @@
       "fullName": "Chia-Network/chia-blockchain-gui",
       "url": "https://github.com/Chia-Network/chia-blockchain-gui",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e52eb615b8913c9f"
     },
     "chia-network/chiapos": {
@@ -539,8 +539,8 @@
       "fullName": "Chia-Network/chiapos",
       "url": "https://github.com/Chia-Network/chiapos",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5fcf5391dfb5817f"
     },
     "worldcoin/orb-rustzone": {
@@ -549,8 +549,8 @@
       "fullName": "worldcoin/orb-rustzone",
       "url": "https://github.com/worldcoin/orb-rustzone",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "2d0b7633d7a6a314"
     },
     "worldcoin/orb-firmware": {
@@ -559,8 +559,8 @@
       "fullName": "worldcoin/orb-firmware",
       "url": "https://github.com/worldcoin/orb-firmware",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "dae5734f651478f9"
     },
     "worldcoin/orb-relay-messages": {
@@ -569,8 +569,8 @@
       "fullName": "worldcoin/orb-relay-messages",
       "url": "https://github.com/worldcoin/orb-relay-messages",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "2e3464b70cd6bfc7"
     },
     "worldcoin/orb-software": {
@@ -579,8 +579,8 @@
       "fullName": "worldcoin/orb-software",
       "url": "https://github.com/worldcoin/orb-software",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "826c5372b70bcf32"
     },
     "worldcoin/orb-secure-element": {
@@ -589,8 +589,8 @@
       "fullName": "worldcoin/orb-secure-element",
       "url": "https://github.com/worldcoin/orb-secure-element",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e4aa3c75fba8665c"
     },
     "worldcoin/orb-core": {
@@ -599,8 +599,8 @@
       "fullName": "worldcoin/orb-core",
       "url": "https://github.com/worldcoin/orb-core",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "66b0d82bbc3338e0"
     },
     "worldcoin/orb-messages": {
@@ -609,8 +609,8 @@
       "fullName": "worldcoin/orb-messages",
       "url": "https://github.com/worldcoin/orb-messages",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "0cdaec92c98e0c3b"
     },
     "circlefin/stablecoin-near": {
@@ -619,8 +619,8 @@
       "fullName": "circlefin/stablecoin-near",
       "url": "https://github.com/circlefin/stablecoin-near",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "86f527e07ae55d7b"
     },
     "circlefin/buidl-wallet-contracts": {
@@ -629,129 +629,1415 @@
       "fullName": "circlefin/buidl-wallet-contracts",
       "url": "https://github.com/circlefin/buidl-wallet-contracts",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e039e15ca94101cf"
     },
     "circlefin/evm-cpn-contracts": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/evm-cpn-contracts",
       "url": "https://github.com/circlefin/evm-cpn-contracts",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "8fe8f13e65d03e74"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2025-09-24T11:38:42Z",
+      "pushedAt": "2026-06-25T01:13:37Z",
+      "ageY": 0.9,
+      "stars": 3,
+      "forks": 9,
+      "contributorsCount": 12,
+      "releases": 2,
+      "defaultBranch": "main",
+      "archived": false,
+      "languages": {
+        "solidity": 348150
+      },
+      "treeTop2": [
+        ".github",
+        ".github/actions",
+        ".github/workflows",
+        ".gitignore",
+        ".gitmodules",
+        ".licenseignore",
+        ".solhint-script.json",
+        ".solhint-src.json",
+        ".solhint-test.json",
+        ".solhintignore",
+        "LICENSE",
+        "NOTICES",
+        "README.md",
+        "SECURITY.md",
+        "foundry.toml",
+        "lib",
+        "lib/.gitkeep",
+        "package.json",
+        "remappings.txt",
+        "src",
+        "src/PaymentSettlement.sol",
+        "src/PaymentSettlementV2.sol",
+        "src/factory",
+        "src/interfaces",
+        "src/utils",
+        "test",
+        "test/PaymentSettlement.t.sol",
+        "test/PaymentSettlementV2.t.sol",
+        "test/factory",
+        "test/utils",
+        "tsconfig.json",
+        "yarn.lock"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 15,
+      "filesTouched90d": 8,
+      "filesAdded90d": 3,
+      "filesAdded90dList": [
+        ".licenseignore",
+        "src/PaymentSettlementV2.sol",
+        "test/PaymentSettlementV2.t.sol"
+      ],
+      "files90dTruncated": false,
+      "mergedPrs90d": 3,
+      "maxMergedPrAdditions90d": 6387,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 26,
+        "selected": 26,
+        "filesRead": 26,
+        "selectedBytes": 367907,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ci.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/arc-remote-signer": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/arc-remote-signer",
       "url": "https://github.com/circlefin/arc-remote-signer",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "e697d0d9ccda5651"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2026-03-24T05:16:46Z",
+      "pushedAt": "2026-09-01T15:45:31Z",
+      "ageY": 0.4,
+      "stars": 8,
+      "forks": 12,
+      "contributorsCount": 3,
+      "releases": 3,
+      "defaultBranch": "main",
+      "archived": false,
+      "languages": {
+        "go": 383616,
+        "shell": 22382,
+        "dockerfile": 3509,
+        "makefile": 2875,
+        "hcl": 1684
+      },
+      "treeTop2": [
+        ".dockerignore",
+        ".github",
+        ".github/workflows",
+        ".gitignore",
+        ".licenseignore",
+        ".pre-commit-config.yaml",
+        "LICENSE",
+        "Makefile",
+        "README.md",
+        "SECURITY.md",
+        "build",
+        "build/golangci.yaml",
+        "cmd",
+        "cmd/cmd.go",
+        "cmd/run.go",
+        "cmd/run_enclave.go",
+        "configs",
+        "configs/.env.dev",
+        "configs/app.yaml",
+        "configs/enclave.yaml",
+        "deployments",
+        "deployments/docker-compose.yaml",
+        "deployments/localstack_scripts",
+        "docker",
+        "docker-bake.hcl",
+        "docker/Dockerfile",
+        "docker/Dockerfile.enclave",
+        "docker/certs",
+        "docker/gitconfig",
+        "docker/run.sh",
+        "docker/run_enclave.dev.sh",
+        "docker/run_enclave.sh",
+        "docker/run_proxy.sh",
+        "docs",
+        "docs/architecture.md",
+        "docs/development.md",
+        "docs/testing.md",
+        "go.mod",
+        "go.sum",
+        "internal",
+        "internal/app",
+        "internal/common",
+        "internal/enclave",
+        "internal/smoke",
+        "main.go",
+        "proto",
+        "proto/Makefile",
+        "proto/arc",
+        "proto/buf.gen.yaml",
+        "proto/buf.lock",
+        "proto/buf.yaml",
+        "scripts",
+        "scripts/build.sh",
+        "scripts/check-copyright-header.sh",
+        "scripts/common.sh",
+        "scripts/dev.sh",
+        "scripts/down.sh",
+        "scripts/export-container-logs.sh",
+        "scripts/smoke-eif.sh",
+        "scripts/smoke.sh",
+        "scripts/test-build-enclave.sh",
+        "scripts/test.sh",
+        "scripts/up.sh"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 2,
+      "filesTouched90d": 24,
+      "filesAdded90d": 6,
+      "filesAdded90dList": [
+        ".dockerignore",
+        "internal/app/metrics/server.go",
+        "internal/app/metrics/server_test.go",
+        "internal/app/provider/awskms/awskms_test.go",
+        "internal/common/metric/prometheus.go",
+        "internal/common/metric/prometheus_test.go"
+      ],
+      "files90dTruncated": false,
+      "mergedPrs90d": 2,
+      "maxMergedPrAdditions90d": 1147,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 158,
+        "selected": 158,
+        "filesRead": 158,
+        "selectedBytes": 507650,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/pipeline-ci.yaml",
+        ".github/workflows/pipeline-common-ci.yaml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/stablecoin-sui": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/stablecoin-sui",
       "url": "https://github.com/circlefin/stablecoin-sui",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "d29c0b0406928633"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2024-08-12T23:09:54Z",
+      "pushedAt": "2026-06-18T21:29:56Z",
+      "ageY": 2.1,
+      "stars": 11,
+      "forks": 31,
+      "contributorsCount": 5,
+      "releases": 3,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "move": 188176,
+        "shell": 6461
+      },
+      "treeTop2": [
+        ".github",
+        ".github/pull_request_template.md",
+        ".github/workflows",
+        ".gitignore",
+        ".vscode",
+        ".vscode/extensions.json",
+        ".vscode/settings.json",
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "SECURITY.md",
+        "packages",
+        "packages/stablecoin",
+        "packages/sui_extensions",
+        "packages/usdc",
+        "run.sh",
+        "setup.sh"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 1,
+      "filesTouched90d": 1,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 2,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 32,
+        "selected": 32,
+        "filesRead": 32,
+        "selectedBytes": 213398,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ci.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/starknet-cctp": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/starknet-cctp",
       "url": "https://github.com/circlefin/starknet-cctp",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "352cf5f3ac967903"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2025-11-05T20:13:10Z",
+      "pushedAt": "2026-06-18T21:34:04Z",
+      "ageY": 0.8,
+      "stars": 1,
+      "forks": 11,
+      "contributorsCount": 7,
+      "releases": 2,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "cairo": 487199,
+        "typescript": 151900,
+        "shell": 6817,
+        "javascript": 2817
+      },
+      "treeTop2": [
+        ".cairo-coverage-ignore",
+        ".editorconfig",
+        ".gitattributes",
+        ".githooks",
+        ".githooks/pre-commit",
+        ".github",
+        ".github/pull_request_template.md",
+        ".github/workflows",
+        ".gitignore",
+        ".gitmodules",
+        ".licenseignore",
+        ".prettierignore",
+        ".prettierrc.json",
+        ".tool-versions",
+        ".vscode",
+        ".vscode/settings.json",
+        ".yarnrc.yml",
+        "LICENSE",
+        "README.md",
+        "SECURITY.md",
+        "Scarb.lock",
+        "Scarb.toml",
+        "coverage.sh",
+        "e2e",
+        "e2e/cmd",
+        "e2e/message_transmitter.test.ts",
+        "e2e/resources",
+        "e2e/token_messenger_minter.test.ts",
+        "e2e/utils.ts",
+        "eslint.config.mjs",
+        "examples",
+        "examples/.env.example",
+        "examples/README.md",
+        "examples/config.ts",
+        "examples/evm.ts",
+        "examples/main.ts",
+        "examples/package-lock.json",
+        "examples/package.json",
+        "examples/starknet.ts",
+        "jest.config.js",
+        "package.json",
+        "packages",
+        "packages/components",
+        "packages/interfaces",
+        "packages/message",
+        "packages/message_transmitter",
+        "packages/test_utils",
+        "packages/token_messenger_minter",
+        "packages/utils",
+        "scripts",
+        "scripts/README.md",
+        "scripts/commands",
+        "scripts/config.ts",
+        "scripts/constants.ts",
+        "scripts/index.ts",
+        "scripts/resources",
+        "scripts/utils.ts",
+        "setup.sh",
+        "tsconfig.json",
+        "yarn.lock"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 2,
+      "filesTouched90d": 1,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 1,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 62,
+        "selected": 62,
+        "filesRead": 62,
+        "selectedBytes": 370776,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ci.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/noble-fiattokenfactory": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/noble-fiattokenfactory",
       "url": "https://github.com/circlefin/noble-fiattokenfactory",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "0ec64fcbcc011d33"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2023-09-25T19:09:21Z",
+      "pushedAt": "2026-06-18T21:37:50Z",
+      "ageY": 2.9,
+      "stars": 9,
+      "forks": 29,
+      "contributorsCount": 9,
+      "releases": 8,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "go": 446712,
+        "makefile": 3825,
+        "shell": 843
+      },
+      "treeTop2": [
+        ".changelog",
+        ".changelog/config.toml",
+        ".changelog/unreleased",
+        ".covignore",
+        ".github",
+        ".github/pull_request_template.md",
+        ".github/workflows",
+        ".gitignore",
+        ".licenseignore",
+        "CHANGELOG.md",
+        "LICENSE",
+        "Makefile",
+        "README.md",
+        "SECURITY.md",
+        "api",
+        "api/circle",
+        "buf.work.yaml",
+        "chains.yaml",
+        "e2e",
+        "e2e/genesis_test.go",
+        "e2e/go.mod",
+        "e2e/go.sum",
+        "e2e/noble_test.go",
+        "go.mod",
+        "go.sum",
+        "go.work",
+        "go.work.sum",
+        "proto",
+        "proto/buf.gen.gogo.yaml",
+        "proto/buf.gen.pulsar.yaml",
+        "proto/buf.lock",
+        "proto/buf.yaml",
+        "proto/circle",
+        "proto/generate.sh",
+        "simapp",
+        "simapp/Makefile",
+        "simapp/README.md",
+        "simapp/ante.go",
+        "simapp/app.go",
+        "simapp/app.yaml",
+        "simapp/export.go",
+        "simapp/go.mod",
+        "simapp/go.sum",
+        "simapp/ibc.go",
+        "simapp/simd",
+        "testutil",
+        "testutil/keeper",
+        "testutil/nullify",
+        "testutil/sample",
+        "tools",
+        "tools/tools.go",
+        "x",
+        "x/blockibc",
+        "x/fiattokenfactory"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 2,
+      "filesTouched90d": 2,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 4,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 214,
+        "selected": 214,
+        "filesRead": 214,
+        "selectedBytes": 1741183,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/e2e-tests.yaml",
+        ".github/workflows/unit-tests.yaml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/noble-cctp": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/noble-cctp",
       "url": "https://github.com/circlefin/noble-cctp",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "9052227270877f71"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2023-11-09T20:02:28Z",
+      "pushedAt": "2026-06-18T21:34:55Z",
+      "ageY": 2.8,
+      "stars": 23,
+      "forks": 39,
+      "contributorsCount": 17,
+      "releases": 11,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "go": 484615,
+        "makefile": 2399,
+        "shell": 831
+      },
+      "treeTop2": [
+        ".changelog",
+        ".changelog/config.toml",
+        ".changelog/unreleased",
+        ".covignore",
+        ".github",
+        ".github/workflows",
+        ".gitignore",
+        ".licenseignore",
+        "CHANGELOG.md",
+        "LICENSE",
+        "Makefile",
+        "README.md",
+        "SECURITY.md",
+        "api",
+        "api/circle",
+        "api/go.mod",
+        "api/go.sum",
+        "buf.work.yaml",
+        "examples",
+        "examples/.env.example",
+        "examples/README.md",
+        "examples/depositForBurn.ts",
+        "examples/generated",
+        "examples/package-lock.json",
+        "examples/package.json",
+        "examples/receiveMessage.ts",
+        "go.mod",
+        "go.sum",
+        "go.work",
+        "go.work.sum",
+        "proto",
+        "proto/buf.gen.gogo.yaml",
+        "proto/buf.gen.pulsar.yaml",
+        "proto/buf.lock",
+        "proto/buf.yaml",
+        "proto/circle",
+        "proto/generate.sh",
+        "testutil",
+        "testutil/keeper",
+        "testutil/nullify",
+        "testutil/sample",
+        "tools",
+        "tools/tools.go",
+        "x",
+        "x/cctp"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 1,
+      "filesTouched90d": 1,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 2,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 240,
+        "selected": 240,
+        "filesRead": 240,
+        "selectedBytes": 2544163,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/unit-tests.yaml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/stablecoin-starknet": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/stablecoin-starknet",
       "url": "https://github.com/circlefin/stablecoin-starknet",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "8664234541dfc9d1"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2025-10-11T01:39:37Z",
+      "pushedAt": "2025-10-30T17:46:18Z",
+      "ageY": 0.9,
+      "stars": 3,
+      "forks": 9,
+      "contributorsCount": 2,
+      "releases": 2,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "cairo": 500929,
+        "shell": 8090,
+        "makefile": 1194
+      },
+      "treeTop2": [
+        ".gitattributes",
+        ".github",
+        ".github/pull_request_template.md",
+        ".github/workflows",
+        ".gitignore",
+        ".tool-versions",
+        ".vscode",
+        ".vscode/extensions.json",
+        ".vscode/settings.json",
+        "CHANGELOG.md",
+        "LICENSE",
+        "Makefile",
+        "README.md",
+        "SECURITY.md",
+        "Scarb.lock",
+        "Scarb.toml",
+        "packages",
+        "packages/components",
+        "packages/mock_contracts",
+        "packages/stablecoin",
+        "scripts",
+        "scripts/shell",
+        "snfoundry.toml"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 0,
+      "filesTouched90d": 0,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 0,
+      "maxMergedPrAdditions90d": 0,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 28,
+        "selected": 28,
+        "filesRead": 28,
+        "selectedBytes": 51137,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ci.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/sui-cctp": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/sui-cctp",
       "url": "https://github.com/circlefin/sui-cctp",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "484cfe28308dd1c2"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2024-09-30T19:35:57Z",
+      "pushedAt": "2026-04-08T10:19:01Z",
+      "ageY": 1.9,
+      "stars": 16,
+      "forks": 33,
+      "contributorsCount": 3,
+      "releases": 0,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "move": 395295,
+        "typescript": 56050,
+        "shell": 15475,
+        "solidity": 9440,
+        "javascript": 1725
+      },
+      "treeTop2": [
+        ".github",
+        ".github/workflows",
+        ".gitignore",
+        ".gitmodules",
+        ".licenseignore",
+        "LICENSE",
+        "README.md",
+        "SECURITY.md",
+        "configure_manifest.sh",
+        "docker-delete-containers.sh",
+        "evm-cctp-contracts",
+        "packages",
+        "packages/message_transmitter",
+        "packages/token_messenger_minter",
+        "run.sh",
+        "scripts",
+        "scripts/.env.example",
+        "scripts/.nvmrc",
+        "scripts/.yarn",
+        "scripts/.yarnrc.yml",
+        "scripts/eslint.config.mjs",
+        "scripts/evm-scripts",
+        "scripts/jest.config.js",
+        "scripts/package.json",
+        "scripts/sui-scripts",
+        "scripts/test",
+        "scripts/test_config.env.example",
+        "scripts/tsconfig.json",
+        "scripts/yarn.lock",
+        "setup-evm-contracts.sh",
+        "setup.sh",
+        "stablecoin-sui",
+        "test_and_cov.sh",
+        "utils.sh",
+        "versions.sh",
+        "yarn.lock"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 0,
+      "filesTouched90d": 0,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 0,
+      "maxMergedPrAdditions90d": 0,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 61,
+        "selected": 61,
+        "filesRead": 61,
+        "selectedBytes": 505546,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ci.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/evm-xreserve-contracts": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/evm-xreserve-contracts",
       "url": "https://github.com/circlefin/evm-xreserve-contracts",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "7fbbf65864917667"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2025-11-14T14:01:38Z",
+      "pushedAt": "2026-06-18T21:31:03Z",
+      "ageY": 0.8,
+      "stars": 2,
+      "forks": 15,
+      "contributorsCount": 5,
+      "releases": 1,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "solidity": 819313,
+        "shell": 29982,
+        "typescript": 16400
+      },
+      "treeTop2": [
+        ".github",
+        ".github/actions",
+        ".github/pull_request_template.md",
+        ".github/workflows",
+        ".gitignore",
+        ".gitmodules",
+        ".solhint-src.json",
+        ".solhint-test.json",
+        ".vscode",
+        ".vscode/extensions.json",
+        ".vscode/settings.json",
+        ".yarn",
+        ".yarn/releases",
+        ".yarnrc.yml",
+        "LICENSE",
+        "README.md",
+        "SECURITY.md",
+        "deploy-contracts",
+        "deploy-contracts/000_Constants.sol",
+        "deploy-contracts/001_DeployXReserve.sol",
+        "deploy-contracts/002_DeployedContractBytecodeValidation.s.sol",
+        "deploy-contracts/003_DeployedContractStateValidation.s.sol",
+        "deploy-contracts/004_VerifyXReserveDeploymentEvents.ts",
+        "deploy-contracts/005_OnboardRemoteDomains.s.sol",
+        "deploy-contracts/BaseBytecodeDeployScript.sol",
+        "deploy-contracts/GenerateDepositIntentAttestation.s.sol",
+        "deploy-contracts/PredictRemoteDomainDepositorAddress.s.sol",
+        "deploy-contracts/README.md",
+        "deploy-contracts/compiled-contract-artifacts",
+        "env.example",
+        "foundry.toml",
+        "lib",
+        "lib/evm-cctp-contracts",
+        "lib/evm-gateway-contracts",
+        "lib/forge-std",
+        "lib/memview-sol",
+        "lib/openzeppelin-contracts",
+        "lib/openzeppelin-contracts-upgradeable",
+        "package.json",
+        "remappings.txt",
+        "scripts",
+        "scripts/compile_artifacts.sh",
+        "scripts/contract_sizes.sh",
+        "scripts/coverage.sh",
+        "scripts/fix_submodule_compatibility.sh",
+        "scripts/integration_verify_xreserve_events.sh",
+        "scripts/mine_deployment_salts.sh",
+        "scripts/test_all_forks.sh",
+        "scripts/update_block_numbers.sh",
+        "scripts/update_submodules.sh",
+        "src",
+        "src/RemoteDomainDepositor.sol",
+        "src/UpgradeablePlaceholder.sol",
+        "src/common",
+        "src/examples",
+        "src/interfaces",
+        "src/lib",
+        "src/modules",
+        "src/xReserve.sol",
+        "test",
+        "test/RemoteDomainDepositor.t.sol",
+        "test/UpgradeablePlaceholder.t.sol",
+        "test/deploy-contracts",
+        "test/examples",
+        "test/integration",
+        "test/lib",
+        "test/mocks",
+        "test/modules",
+        "test/reserve",
+        "test/script",
+        "test/utils",
+        "yarn.lock"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 2,
+      "filesTouched90d": 1,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 1,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 112,
+        "selected": 112,
+        "filesRead": 112,
+        "selectedBytes": 1397129,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ai-pr.yml",
+        ".github/workflows/ci-olympix.yml",
+        ".github/workflows/pipeline.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/evm-gateway-contracts": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/evm-gateway-contracts",
       "url": "https://github.com/circlefin/evm-gateway-contracts",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "b08dfdb50f1211c4"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2025-05-07T20:59:41Z",
+      "pushedAt": "2026-09-02T19:49:34Z",
+      "ageY": 1.3,
+      "stars": 10,
+      "forks": 21,
+      "contributorsCount": 13,
+      "releases": 0,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "solidity": 1124921,
+        "javascript": 28894,
+        "shell": 11420,
+        "ruby": 666
+      },
+      "treeTop2": [
+        ".env.example",
+        ".github",
+        ".github/pull_request_template.md",
+        ".github/workflows",
+        ".gitignore",
+        ".gitmodules",
+        ".solhint-script.json",
+        ".solhint-src.json",
+        ".solhint-test.json",
+        ".solhintignore",
+        ".yarn",
+        ".yarn/releases",
+        ".yarnrc.yml",
+        "CHANGELOG.md",
+        "CODEOWNERS",
+        "COMPILATION.md",
+        "LICENSE",
+        "README.md",
+        "foundry.toml",
+        "lib",
+        "lib/forge-std",
+        "lib/memview-sol",
+        "lib/openzeppelin-contracts",
+        "lib/openzeppelin-contracts-upgradeable",
+        "package.json",
+        "quickstart",
+        "quickstart/.gitignore",
+        "quickstart/.prettierrc",
+        "quickstart/README.md",
+        "quickstart/abis.js",
+        "quickstart/deposit.js",
+        "quickstart/gateway-client.js",
+        "quickstart/package-lock.json",
+        "quickstart/package.json",
+        "quickstart/setup.js",
+        "quickstart/transfer.js",
+        "quickstart/typed-data.js",
+        "remappings.txt",
+        "script",
+        "script/000_Constants.sol",
+        "script/001_DeployGatewayWallet.sol",
+        "script/002_DeployGatewayMinter.sol",
+        "script/003_DeployedContractValidation.s.sol",
+        "script/004_UpgradeGatewayWallet.sol",
+        "script/BaseBytecodeDeployScript.sol",
+        "script/ComputeProxyAddress.sol",
+        "script/Create2Factory.sol",
+        "script/compiled-contract-artifacts",
+        "script/interface",
+        "scripts",
+        "scripts/compile-artifacts.sh",
+        "scripts/contract_sizes.sh",
+        "scripts/coverage.sh",
+        "scripts/header.rb",
+        "scripts/header.txt",
+        "scripts/mine_deployment_salts.sh",
+        "scripts/test_all_forks.sh",
+        "scripts/test_js.sh",
+        "scripts/update_block_numbers.sh",
+        "scripts/verify-contracts.sh",
+        "src",
+        "src/GatewayCommon.sol",
+        "src/GatewayMinter.sol",
+        "src/GatewayWallet.sol",
+        "src/UpgradeablePlaceholder.sol",
+        "src/interfaces",
+        "src/lib",
+        "src/modules",
+        "test",
+        "test/BytecodeMatch.t.sol",
+        "test/FoundryVersion.t.sol",
+        "test/MagicValues.t.sol",
+        "test/common",
+        "test/integration",
+        "test/js",
+        "test/lib",
+        "test/minter",
+        "test/mock_fiattoken",
+        "test/placeholder",
+        "test/script",
+        "test/util",
+        "test/wallet",
+        "yarn.lock"
+      ],
+      "treeTruncated": false,
+      "commits7d": 2,
+      "commits30d": 3,
+      "commits90d": 3,
+      "filesTouched90d": 40,
+      "filesAdded90d": 6,
+      "filesAdded90dList": [
+        "COMPILATION.md",
+        "script/ComputeProxyAddress.sol",
+        "src/modules/wallet/ContractSignatureSigners.sol",
+        "test/integration/BurnWithTEESignature.t.sol",
+        "test/wallet/BurnsWithTEESignature.t.sol",
+        "test/wallet/ContractSignatureSigners.t.sol"
+      ],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 2507,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 182,
+        "selected": 182,
+        "filesRead": 182,
+        "selectedBytes": 1817916,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": false,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/pipeline.yml"
+      ],
+      "secTooling": false,
+      "trapHits": [
+        {
+          "type": "disabled-security-flag",
+          "path": "test/mock_fiattoken/contracts/v2/FiatTokenV2_2.sol",
+          "line": 165,
+          "match": "if false"
+        }
+      ],
+      "trapTags": [
+        "DEV_KNOWN"
+      ],
+      "devKnown": true,
+      "securityFixGated": true
     },
     "circlefin/stellar-cctp": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/stellar-cctp",
       "url": "https://github.com/circlefin/stellar-cctp",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "026ff2b94e6b4513"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2026-04-29T20:07:43Z",
+      "pushedAt": "2026-07-31T12:14:41Z",
+      "ageY": 0.3,
+      "stars": 6,
+      "forks": 8,
+      "contributorsCount": 5,
+      "releases": 2,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "rust": 872617,
+        "typescript": 245889,
+        "shell": 2519
+      },
+      "treeTop2": [
+        ".cargo",
+        ".cargo/config.toml",
+        ".githooks",
+        ".githooks/README.md",
+        ".githooks/pre-commit",
+        ".github",
+        ".github/pull_request_template.md",
+        ".github/workflows",
+        ".gitignore",
+        ".gitmodules",
+        ".licenseignore",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "COPYRIGHT",
+        "Cargo.lock",
+        "Cargo.toml",
+        "LICENSE",
+        "README.md",
+        "SECURITY.md",
+        "contracts",
+        "contracts/cctp-forwarder",
+        "contracts/message-transmitter-v2",
+        "contracts/token-messenger-minter-v2",
+        "examples",
+        "examples/.env.example",
+        "examples/README.md",
+        "examples/biome.json",
+        "examples/config.ts",
+        "examples/evm.ts",
+        "examples/main.ts",
+        "examples/package-lock.json",
+        "examples/package.json",
+        "examples/stellar-utils.ts",
+        "examples/stellar.ts",
+        "examples/tsconfig.json",
+        "packages",
+        "packages/cctp-interfaces",
+        "packages/cctp-roles",
+        "packages/cctp-utils",
+        "packages/test-contracts",
+        "rust-toolchain.toml",
+        "scripts",
+        "scripts/.env.example",
+        "scripts/.gitignore",
+        "scripts/.yarnrc.yml",
+        "scripts/README.md",
+        "scripts/biome.json",
+        "scripts/cli",
+        "scripts/clients",
+        "scripts/deploy",
+        "scripts/package.json",
+        "scripts/sac",
+        "scripts/setup",
+        "scripts/setup-rust.sh",
+        "scripts/stablecoin-xlm",
+        "scripts/tsconfig.json",
+        "scripts/yarn.lock",
+        "testdata",
+        "testdata/upgrade_v2.wasm",
+        "testdata/upgrade_v2_migratable.wasm"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 2,
+      "filesTouched90d": 2,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 8,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 119,
+        "selected": 119,
+        "filesRead": 119,
+        "selectedBytes": 1297384,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/coverage.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/evm-cctp-contracts": {
-      "status": "pending",
+      "status": "ok",
       "provider": "github",
       "fullName": "circlefin/evm-cctp-contracts",
       "url": "https://github.com/circlefin/evm-cctp-contracts",
-      "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
-      "cacheKey": "9ccdcc190852e70a"
+      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "createdAt": "2022-12-15T15:31:03Z",
+      "pushedAt": "2026-06-18T21:33:08Z",
+      "ageY": 3.7,
+      "stars": 227,
+      "forks": 144,
+      "contributorsCount": 16,
+      "releases": 14,
+      "defaultBranch": "master",
+      "archived": false,
+      "languages": {
+        "solidity": 716175,
+        "python": 43405,
+        "makefile": 5418,
+        "dockerfile": 264
+      },
+      "treeTop2": [
+        ".github",
+        ".github/workflows",
+        ".gitignore",
+        ".gitmodules",
+        ".licenseignore",
+        ".solhint.json",
+        ".solhintignore",
+        ".vscode",
+        ".vscode/settings.json",
+        "Dockerfile",
+        "LICENSE",
+        "Makefile",
+        "NOTICES",
+        "README.md",
+        "SECURITY.md",
+        "anvil",
+        "anvil/crosschainTransferIT.py",
+        "anvil/crosschainTransferITV2.py",
+        "docs",
+        "docs/README.md",
+        "docs/abis",
+        "docs/index.js",
+        "docs/package-lock.json",
+        "docs/package.json",
+        "foundry.toml",
+        "lib",
+        "lib/centre-tokens.git",
+        "lib/ds-test",
+        "lib/forge-std",
+        "lib/memview-sol",
+        "lib/openzeppelin-contracts",
+        "mythril.config.json",
+        "package.json",
+        "pictures",
+        "pictures/Solidity-Change-Compiler.png",
+        "pictures/Solidity-Compiler-Version.png",
+        "remappings.txt",
+        "requirements.txt",
+        "scripts",
+        "scripts/DeployCreate2Factory.s.sol",
+        "scripts/precomputeRemoteMessengerAddress.py",
+        "scripts/v1",
+        "scripts/v2",
+        "src",
+        "src/MessageTransmitter.sol",
+        "src/TokenMessenger.sol",
+        "src/TokenMinter.sol",
+        "src/examples",
+        "src/interfaces",
+        "src/messages",
+        "src/proxy",
+        "src/roles",
+        "src/v2",
+        "test",
+        "test/MessageTransmitter.t.sol",
+        "test/TestUtils.sol",
+        "test/TokenMessenger.t.sol",
+        "test/TokenMinter.t.sol",
+        "test/examples",
+        "test/messages",
+        "test/mocks",
+        "test/roles",
+        "test/scripts",
+        "test/v2",
+        "test/v2.1",
+        "whitepaper",
+        "whitepaper/CCTPV2_White_Paper.pdf",
+        "yarn.lock"
+      ],
+      "treeTruncated": false,
+      "commits7d": 0,
+      "commits30d": 0,
+      "commits90d": 2,
+      "filesTouched90d": 1,
+      "filesAdded90d": 0,
+      "filesAdded90dList": [],
+      "files90dTruncated": false,
+      "mergedPrs90d": 1,
+      "maxMergedPrAdditions90d": 9,
+      "mergedPrs90dTruncated": false,
+      "advisories": {
+        "open": 0,
+        "resolved": 0,
+        "total": 0
+      },
+      "openRecentAdvisoryPathMatch": false,
+      "advisoryCoverage": "repository-advisories",
+      "scanCoverage": {
+        "eligible": 140,
+        "selected": 140,
+        "filesRead": 140,
+        "selectedBytes": 1131618,
+        "complete": true,
+        "failures": 0
+      },
+      "trapScanStatus": "complete",
+      "scanErrors": [],
+      "securityMd": true,
+      "fuzzPath": false,
+      "fuzzFunction": false,
+      "securityWorkflows": [],
+      "workflowPaths": [
+        ".github/workflows/ci-olympix.yml",
+        ".github/workflows/ci.yml"
+      ],
+      "secTooling": true,
+      "trapHits": [],
+      "trapTags": [],
+      "devKnown": false,
+      "securityFixGated": false
     },
     "circlefin/malachite": {
       "status": "pending",
@@ -759,8 +2045,8 @@
       "fullName": "circlefin/malachite",
       "url": "https://github.com/circlefin/malachite",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "15cb4065de1e150b"
     },
     "circlefin/arc-node": {
@@ -769,8 +2055,8 @@
       "fullName": "circlefin/arc-node",
       "url": "https://github.com/circlefin/arc-node",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "f53dc00131cfdaa4"
     },
     "circlefin/stablecoin-xlm": {
@@ -779,8 +2065,8 @@
       "fullName": "circlefin/stablecoin-xlm",
       "url": "https://github.com/circlefin/stablecoin-xlm",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e432d601c683d552"
     },
     "circlefin/solana-cctp-contracts": {
@@ -789,8 +2075,8 @@
       "fullName": "circlefin/solana-cctp-contracts",
       "url": "https://github.com/circlefin/solana-cctp-contracts",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "552d56ecd0d0cbec"
     },
     "circlefin/solana-gateway-contracts": {
@@ -799,8 +2085,8 @@
       "fullName": "circlefin/solana-gateway-contracts",
       "url": "https://github.com/circlefin/solana-gateway-contracts",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e4781dc6fe9e3d6e"
     },
     "circlefin/stablecoin-aptos": {
@@ -809,8 +2095,8 @@
       "fullName": "circlefin/stablecoin-aptos",
       "url": "https://github.com/circlefin/stablecoin-aptos",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1efd863d25f08e32"
     },
     "circlefin/aptos-cctp": {
@@ -819,8 +2105,8 @@
       "fullName": "circlefin/aptos-cctp",
       "url": "https://github.com/circlefin/aptos-cctp",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "359abacb07d617ba"
     },
     "circlefin/stablecoin-evm": {
@@ -829,8 +2115,8 @@
       "fullName": "circlefin/stablecoin-evm",
       "url": "https://github.com/circlefin/stablecoin-evm",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a8653979faf8a7df"
     },
     "cloudflare/workerd": {
@@ -839,8 +2125,8 @@
       "fullName": "cloudflare/workerd",
       "url": "https://github.com/cloudflare/workerd",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e466fd3df048c89f"
     },
     "cloudflare/vinext": {
@@ -849,8 +2135,8 @@
       "fullName": "cloudflare/vinext",
       "url": "https://github.com/cloudflare/vinext",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "eb108f4c5267c435"
     },
     "kubernetes/apimachinery": {
@@ -859,8 +2145,8 @@
       "fullName": "kubernetes/apimachinery",
       "url": "https://github.com/kubernetes/apimachinery",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "db19bbd25c85a405"
     },
     "kubernetes/k8s.io": {
@@ -869,8 +2155,8 @@
       "fullName": "kubernetes/k8s.io",
       "url": "https://github.com/kubernetes/k8s.io",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "24f9ddc6066e6ae2"
     },
     "kubernetes/test-infra": {
@@ -879,8 +2165,8 @@
       "fullName": "kubernetes/test-infra",
       "url": "https://github.com/kubernetes/test-infra",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a2f89943c3ad3b15"
     },
     "kubernetes/node-problem-detector": {
@@ -889,8 +2175,8 @@
       "fullName": "kubernetes/node-problem-detector",
       "url": "https://github.com/kubernetes/node-problem-detector",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "7854d3ab8d0e5f54"
     },
     "kubernetes/kube-aggregator": {
@@ -899,8 +2185,8 @@
       "fullName": "kubernetes/kube-aggregator",
       "url": "https://github.com/kubernetes/kube-aggregator",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ec575e1e93e8199f"
     },
     "kubernetes/autoscaler": {
@@ -909,8 +2195,8 @@
       "fullName": "kubernetes/autoscaler",
       "url": "https://github.com/kubernetes/autoscaler",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5c778578adb42f26"
     },
     "kubernetes/metrics": {
@@ -919,8 +2205,8 @@
       "fullName": "kubernetes/metrics",
       "url": "https://github.com/kubernetes/metrics",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "6ad14a3c7a90f2e2"
     },
     "kubernetes/klog": {
@@ -929,8 +2215,8 @@
       "fullName": "kubernetes/klog",
       "url": "https://github.com/kubernetes/klog",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "670473658f8baafe"
     },
     "kubernetes/publishing-bot": {
@@ -939,8 +2225,8 @@
       "fullName": "kubernetes/publishing-bot",
       "url": "https://github.com/kubernetes/publishing-bot",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "8f837cabf412f47c"
     },
     "kubernetes/kube-openapi": {
@@ -949,8 +2235,8 @@
       "fullName": "kubernetes/kube-openapi",
       "url": "https://github.com/kubernetes/kube-openapi",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "3c2338805236c4dd"
     },
     "kubernetes/cri-api": {
@@ -959,8 +2245,8 @@
       "fullName": "kubernetes/cri-api",
       "url": "https://github.com/kubernetes/cri-api",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c3176d60d2ea5842"
     },
     "kubernetes/cluster-bootstrap": {
@@ -969,8 +2255,8 @@
       "fullName": "kubernetes/cluster-bootstrap",
       "url": "https://github.com/kubernetes/cluster-bootstrap",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c30f8777584f2947"
     },
     "kubernetes/kube-scheduler": {
@@ -979,8 +2265,8 @@
       "fullName": "kubernetes/kube-scheduler",
       "url": "https://github.com/kubernetes/kube-scheduler",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "f38ee0cc93a8289a"
     },
     "kubernetes/kube-controller-manager": {
@@ -989,8 +2275,8 @@
       "fullName": "kubernetes/kube-controller-manager",
       "url": "https://github.com/kubernetes/kube-controller-manager",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "fcf2d5717c66d7ca"
     },
     "kubernetes/org": {
@@ -999,8 +2285,8 @@
       "fullName": "kubernetes/org",
       "url": "https://github.com/kubernetes/org",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "fccdd6dfb5df49aa"
     },
     "kubernetes/kube-state-metrics": {
@@ -1009,8 +2295,8 @@
       "fullName": "kubernetes/kube-state-metrics",
       "url": "https://github.com/kubernetes/kube-state-metrics",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "770329a70350e8f3"
     },
     "kubernetes/kubelet": {
@@ -1019,8 +2305,8 @@
       "fullName": "kubernetes/kubelet",
       "url": "https://github.com/kubernetes/kubelet",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ff844fe73b1ebd7f"
     },
     "kubernetes/api": {
@@ -1029,8 +2315,8 @@
       "fullName": "kubernetes/api",
       "url": "https://github.com/kubernetes/api",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "bacdec1f592eaff5"
     },
     "kubernetes/kops": {
@@ -1039,8 +2325,8 @@
       "fullName": "kubernetes/kops",
       "url": "https://github.com/kubernetes/kops",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "fadc20bd9387b65f"
     },
     "kubernetes/kubeadm": {
@@ -1049,8 +2335,8 @@
       "fullName": "kubernetes/kubeadm",
       "url": "https://github.com/kubernetes/kubeadm",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "47a0038161e7f931"
     },
     "kubernetes/csi-api": {
@@ -1059,8 +2345,8 @@
       "fullName": "kubernetes/csi-api",
       "url": "https://github.com/kubernetes/csi-api",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "98180568c06e16eb"
     },
     "kubernetes/sig-release": {
@@ -1069,8 +2355,8 @@
       "fullName": "kubernetes/sig-release",
       "url": "https://github.com/kubernetes/sig-release",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1d12ea9de502a43f"
     },
     "kubernetes/client-go": {
@@ -1079,8 +2365,8 @@
       "fullName": "kubernetes/client-go",
       "url": "https://github.com/kubernetes/client-go",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "0ef8452192078048"
     },
     "kubernetes/repo-infra": {
@@ -1089,8 +2375,8 @@
       "fullName": "kubernetes/repo-infra",
       "url": "https://github.com/kubernetes/repo-infra",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5582039786ca2605"
     },
     "kubernetes/dns": {
@@ -1099,8 +2385,8 @@
       "fullName": "kubernetes/dns",
       "url": "https://github.com/kubernetes/dns",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "12e5a6203063bbdb"
     },
     "kubernetes/apiextensions-apiserver": {
@@ -1109,8 +2395,8 @@
       "fullName": "kubernetes/apiextensions-apiserver",
       "url": "https://github.com/kubernetes/apiextensions-apiserver",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1419b867bda82e32"
     },
     "kubernetes/utils": {
@@ -1119,8 +2405,8 @@
       "fullName": "kubernetes/utils",
       "url": "https://github.com/kubernetes/utils",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "18884a97450cabef"
     },
     "kubernetes/git-sync": {
@@ -1129,8 +2415,8 @@
       "fullName": "kubernetes/git-sync",
       "url": "https://github.com/kubernetes/git-sync",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "2097460e13a072af"
     },
     "kubernetes/cloud-provider": {
@@ -1139,8 +2425,8 @@
       "fullName": "kubernetes/cloud-provider",
       "url": "https://github.com/kubernetes/cloud-provider",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "4aca81c83cdf6592"
     },
     "kubernetes/website": {
@@ -1149,8 +2435,8 @@
       "fullName": "kubernetes/website",
       "url": "https://github.com/kubernetes/website",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c43834e4d9edb4fc"
     },
     "kubernetes/gengo": {
@@ -1159,8 +2445,8 @@
       "fullName": "kubernetes/gengo",
       "url": "https://github.com/kubernetes/gengo",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "8cb6e3c9af68b0d0"
     },
     "kubernetes/apiserver": {
@@ -1169,8 +2455,8 @@
       "fullName": "kubernetes/apiserver",
       "url": "https://github.com/kubernetes/apiserver",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "facf9da9795ba20e"
     },
     "kubernetes/component-base": {
@@ -1179,8 +2465,8 @@
       "fullName": "kubernetes/component-base",
       "url": "https://github.com/kubernetes/component-base",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a1cea28fe254b080"
     },
     "kubernetes/code-generator": {
@@ -1189,8 +2475,8 @@
       "fullName": "kubernetes/code-generator",
       "url": "https://github.com/kubernetes/code-generator",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "cf2121a6c22c9ed6"
     },
     "kubernetes/kube-deploy": {
@@ -1199,8 +2485,8 @@
       "fullName": "kubernetes/kube-deploy",
       "url": "https://github.com/kubernetes/kube-deploy",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "15d7b8861bf935cb"
     },
     "kubernetes/minikube": {
@@ -1209,8 +2495,8 @@
       "fullName": "kubernetes/minikube",
       "url": "https://github.com/kubernetes/minikube",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c846a99ee48f2208"
     },
     "kubernetes/node-api": {
@@ -1219,8 +2505,8 @@
       "fullName": "kubernetes/node-api",
       "url": "https://github.com/kubernetes/node-api",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "fd9cdac11072baed"
     },
     "kubernetes/kubernetes": {
@@ -1229,8 +2515,8 @@
       "fullName": "kubernetes/kubernetes",
       "url": "https://github.com/kubernetes/kubernetes",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ad2a39cb3d2a9fce"
     },
     "kubernetes/release": {
@@ -1239,8 +2525,8 @@
       "fullName": "kubernetes/release",
       "url": "https://github.com/kubernetes/release",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "71473157d45848fe"
     },
     "kubernetes/kube-proxy": {
@@ -1249,8 +2535,8 @@
       "fullName": "kubernetes/kube-proxy",
       "url": "https://github.com/kubernetes/kube-proxy",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "3233f0d70a2b4dd6"
     },
     "kubernetes/cli-runtime": {
@@ -1259,8 +2545,8 @@
       "fullName": "kubernetes/cli-runtime",
       "url": "https://github.com/kubernetes/cli-runtime",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e1b29143dceb1d28"
     },
     "kubernetes/kubectl": {
@@ -1269,8 +2555,8 @@
       "fullName": "kubernetes/kubectl",
       "url": "https://github.com/kubernetes/kubectl",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "9c90167c98143d79"
     },
     "kubernetes/csi-translation-lib": {
@@ -1279,8 +2565,8 @@
       "fullName": "kubernetes/csi-translation-lib",
       "url": "https://github.com/kubernetes/csi-translation-lib",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "fab6b772097ea207"
     },
     "kubernetes/kompose": {
@@ -1289,8 +2575,8 @@
       "fullName": "kubernetes/kompose",
       "url": "https://github.com/kubernetes/kompose",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a1e5064ce176e1d4"
     },
     "kubernetes/cluster-registry": {
@@ -1299,8 +2585,8 @@
       "fullName": "kubernetes/cluster-registry",
       "url": "https://github.com/kubernetes/cluster-registry",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "7908466eb5deb53b"
     },
     "matomo-org/matomo": {
@@ -1309,8 +2595,8 @@
       "fullName": "matomo-org/matomo",
       "url": "https://github.com/matomo-org/matomo",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "2ac64bae28107a68"
     },
     "matomo-org/developer-documentation": {
@@ -1319,8 +2605,8 @@
       "fullName": "matomo-org/developer-documentation",
       "url": "https://github.com/matomo-org/developer-documentation",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "7d871832cb3a8bc5"
     },
     "matomo-org/tracker-proxy": {
@@ -1329,8 +2615,8 @@
       "fullName": "matomo-org/tracker-proxy",
       "url": "https://github.com/matomo-org/tracker-proxy",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "b21fb4af6bf4ed06"
     },
     "matomo-org/docker": {
@@ -1339,8 +2625,8 @@
       "fullName": "matomo-org/docker",
       "url": "https://github.com/matomo-org/docker",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "6fcb4fa9f717a490"
     },
     "backstage/backstage": {
@@ -1349,8 +2635,8 @@
       "fullName": "backstage/backstage",
       "url": "https://github.com/backstage/backstage",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "21b9935474e6409e"
     },
     "dopplerhq/cli": {
@@ -1359,8 +2645,8 @@
       "fullName": "DopplerHQ/cli",
       "url": "https://github.com/DopplerHQ/cli",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a7a5cb52f27aecf5"
     },
     "plaid/plaid-ruby": {
@@ -1369,8 +2655,8 @@
       "fullName": "plaid/plaid-ruby",
       "url": "https://github.com/plaid/plaid-ruby",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "a2e1be7d92ccd2a8"
     },
     "plaid/react-plaid-link": {
@@ -1379,8 +2665,8 @@
       "fullName": "plaid/react-plaid-link",
       "url": "https://github.com/plaid/react-plaid-link",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5a5ad15018551697"
     },
     "plaid/plaid-link-ios": {
@@ -1389,8 +2675,8 @@
       "fullName": "plaid/plaid-link-ios",
       "url": "https://github.com/plaid/plaid-link-ios",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "68c9c143b48ce77e"
     },
     "plaid/react-native-plaid-link-sdk": {
@@ -1399,8 +2685,8 @@
       "fullName": "plaid/react-native-plaid-link-sdk",
       "url": "https://github.com/plaid/react-native-plaid-link-sdk",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1fe0b0627c057446"
     },
     "plaid/plaid-link-android": {
@@ -1409,8 +2695,8 @@
       "fullName": "plaid/plaid-link-android",
       "url": "https://github.com/plaid/plaid-link-android",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1069444b4e824a77"
     },
     "tronprotocol/java-tron": {
@@ -1419,8 +2705,8 @@
       "fullName": "tronprotocol/java-tron",
       "url": "https://github.com/tronprotocol/java-tron",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "de5427ba5f23a13b"
     },
     "nuxt/nuxt": {
@@ -1429,8 +2715,8 @@
       "fullName": "nuxt/nuxt",
       "url": "https://github.com/nuxt/nuxt",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "e94024c28f2f7948"
     },
     "sveltejs/svelte": {
@@ -1439,8 +2725,8 @@
       "fullName": "sveltejs/svelte",
       "url": "https://github.com/sveltejs/svelte",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "2ad0ca58a33bb448"
     },
     "vercel/swr": {
@@ -1449,8 +2735,8 @@
       "fullName": "vercel/swr",
       "url": "https://github.com/vercel/swr",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "abbd3861b8e92b9e"
     },
     "vercel-labs/skills": {
@@ -1459,8 +2745,8 @@
       "fullName": "vercel-labs/skills",
       "url": "https://github.com/vercel-labs/skills",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ac98481e7252896c"
     },
     "vercel/ms": {
@@ -1469,8 +2755,8 @@
       "fullName": "vercel/ms",
       "url": "https://github.com/vercel/ms",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "3b9214fccbabcd7e"
     },
     "vercel/async-sema": {
@@ -1479,8 +2765,8 @@
       "fullName": "vercel/async-sema",
       "url": "https://github.com/vercel/async-sema",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "b30e40ce3982b422"
     },
     "vercel/vercel": {
@@ -1489,8 +2775,8 @@
       "fullName": "vercel/vercel",
       "url": "https://github.com/vercel/vercel",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ac818c143a381c84"
     },
     "vercel/turborepo": {
@@ -1499,8 +2785,8 @@
       "fullName": "vercel/turborepo",
       "url": "https://github.com/vercel/turborepo",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "990aa69eda5bd29e"
     },
     "vercel-labs/agent-skills": {
@@ -1509,8 +2795,8 @@
       "fullName": "vercel-labs/agent-skills",
       "url": "https://github.com/vercel-labs/agent-skills",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "7327b3821ba34d6b"
     },
     "vercel/eve": {
@@ -1519,8 +2805,8 @@
       "fullName": "vercel/eve",
       "url": "https://github.com/vercel/eve",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "1a9fe1effebe5dc5"
     },
     "vercel/next.js": {
@@ -1529,8 +2815,8 @@
       "fullName": "vercel/next.js",
       "url": "https://github.com/vercel/next.js",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "079c03199beebe9b"
     },
     "vercel/workflow": {
@@ -1539,8 +2825,8 @@
       "fullName": "vercel/workflow",
       "url": "https://github.com/vercel/workflow",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "15ef94736e075e3b"
     },
     "vercel/ai": {
@@ -1549,8 +2835,8 @@
       "fullName": "vercel/ai",
       "url": "https://github.com/vercel/ai",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "2d283dc7a0e8a47a"
     },
     "nitrojs/nitro": {
@@ -1559,8 +2845,8 @@
       "fullName": "nitrojs/nitro",
       "url": "https://github.com/nitrojs/nitro",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "784f9d6debf0c9d2"
     },
     "vercel/flags": {
@@ -1569,8 +2855,8 @@
       "fullName": "vercel/flags",
       "url": "https://github.com/vercel/flags",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "168fa4ae925f3d84"
     },
     "vercel/chat": {
@@ -1579,8 +2865,8 @@
       "fullName": "vercel/chat",
       "url": "https://github.com/vercel/chat",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "d8c2e1ae770736f4"
     },
     "coinbase/cb-mpc": {
@@ -1589,8 +2875,8 @@
       "fullName": "coinbase/cb-mpc",
       "url": "https://github.com/coinbase/cb-mpc",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "10ae280a037cd155"
     },
     "discourse/discourse": {
@@ -1599,8 +2885,8 @@
       "fullName": "discourse/discourse",
       "url": "https://github.com/discourse/discourse",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "66c031d7e1a25038"
     },
     "kiwicom/kiwi-cache": {
@@ -1609,8 +2895,8 @@
       "fullName": "kiwicom/kiwi-cache",
       "url": "https://github.com/kiwicom/kiwi-cache",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "20715f48ea18296a"
     },
     "kiwicom/pg2avro": {
@@ -1619,8 +2905,8 @@
       "fullName": "kiwicom/pg2avro",
       "url": "https://github.com/kiwicom/pg2avro",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "34d19168b5f96e64"
     },
     "kiwicom/request-session": {
@@ -1629,8 +2915,8 @@
       "fullName": "kiwicom/request-session",
       "url": "https://github.com/kiwicom/request-session",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "846eab5cf80c405a"
     },
     "kiwicom/konfetti": {
@@ -1639,8 +2925,8 @@
       "fullName": "kiwicom/konfetti",
       "url": "https://github.com/kiwicom/konfetti",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "c94e8520f35c7cd0"
     },
     "kiwicom/kiwi-structlog-config": {
@@ -1649,8 +2935,8 @@
       "fullName": "kiwicom/kiwi-structlog-config",
       "url": "https://github.com/kiwicom/kiwi-structlog-config",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "2ff5c17da4c51030"
     },
     "kiwicom/navigation-compose-typed": {
@@ -1659,8 +2945,8 @@
       "fullName": "kiwicom/navigation-compose-typed",
       "url": "https://github.com/kiwicom/navigation-compose-typed",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "41fabd835354bd42"
     },
     "kiwicom/k8s-vault-operator": {
@@ -1669,8 +2955,8 @@
       "fullName": "kiwicom/k8s-vault-operator",
       "url": "https://github.com/kiwicom/k8s-vault-operator",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "b920cb12cb47bfbb"
     },
     "kiwicom/orbit": {
@@ -1679,8 +2965,8 @@
       "fullName": "kiwicom/orbit",
       "url": "https://github.com/kiwicom/orbit",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "5b924895a0d3b035"
     },
     "kiwicom/js-iam-middleware": {
@@ -1689,8 +2975,8 @@
       "fullName": "kiwicom/js-iam-middleware",
       "url": "https://github.com/kiwicom/js-iam-middleware",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "62e459ff9c7508a8"
     },
     "kiwicom/kiwi-json": {
@@ -1699,8 +2985,8 @@
       "fullName": "kiwicom/kiwi-json",
       "url": "https://github.com/kiwicom/kiwi-json",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "465ccd583acf5ed4"
     },
     "nodejs/node": {
@@ -1709,8 +2995,8 @@
       "fullName": "nodejs/node",
       "url": "https://github.com/nodejs/node",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "107c59ea99edb84c"
     },
     "slackhq/nebula": {
@@ -1719,8 +3005,8 @@
       "fullName": "slackhq/nebula",
       "url": "https://github.com/slackhq/nebula",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "4d6bc16ba1380aea"
     },
     "exodusoss/crypto": {
@@ -1729,8 +3015,8 @@
       "fullName": "ExodusOSS/crypto",
       "url": "https://github.com/ExodusOSS/crypto",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "ae6649fbcd4eb3ae"
     },
     "exodusoss/hydra": {
@@ -1739,8 +3025,8 @@
       "fullName": "ExodusOSS/hydra",
       "url": "https://github.com/ExodusOSS/hydra",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "501d9d8de2836b70"
     },
     "exodusoss/bytes": {
@@ -1749,8 +3035,8 @@
       "fullName": "ExodusOSS/bytes",
       "url": "https://github.com/ExodusOSS/bytes",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "8e528e3839f0b231"
     },
     "okx/go-wallet-sdk": {
@@ -1759,8 +3045,8 @@
       "fullName": "okx/go-wallet-sdk",
       "url": "https://github.com/okx/go-wallet-sdk",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-03T19:53:57.133Z",
-      "lastError": "504 We couldn't respond to your request in time. Sorry about that. Please try resubmitting your request and contact us if the problem persists.",
+      "lastErrorAt": "2026-09-03T19:59:40.593Z",
+      "lastError": "502 <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
       "cacheKey": "d815b715171668d3"
     },
     "gitlab.com/gitlab-org/gitlab": {
