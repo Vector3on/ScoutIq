@@ -13,6 +13,7 @@ import {
   buildGithubMetadataQuery,
   detectRepositorySignals,
   enrichRepositoryCache,
+  githubGraphqlBatchResilient,
   parseRepositoryTarget,
   repositoryCoverageGate,
   resolveGithubAuth,
@@ -212,6 +213,27 @@ test("GitHub metadata query batches exactly 100 repositories", () => {
   const query = buildGithubMetadataQuery(refs, now).query;
   assert.equal((query.match(/repository\(owner:/g) ?? []).length, 100);
   assert.throws(() => buildGithubMetadataQuery([...refs, { owner: "overflow", name: "repo" }], now), /exceeds 100/);
+});
+
+test("GitHub metadata batches bisect on transient gateway failures", async () => {
+  const refs = Array.from({ length: 20 }, (_, index) => ({
+    key: `example/repo-${index}`,
+    owner: "example",
+    name: `repo-${index}`,
+  }));
+  let calls = 0;
+  const warnings = [];
+  const result = await githubGraphqlBatchResilient(refs, "token", now, async (_url, init) => {
+    calls += 1;
+    if (calls === 1) return new Response("Gateway Timeout", { status: 504 });
+    const aliases = [...String(init.body).matchAll(/r(\d+): repository/g)].map((match) => `r${match[1]}`);
+    return new Response(JSON.stringify({ data: Object.fromEntries(aliases.map((alias) => [alias, null])) }), { status: 200 });
+  }, { warn(message) { warnings.push(message); }, error() {} });
+  assert.equal(calls, 3);
+  assert.equal(result.requests, 3);
+  assert.equal(result.fallbacks, 1);
+  assert.equal(result.values.size, 20);
+  assert.match(warnings[0], /retrying as 10\+10/);
 });
 
 test("repository enrichment backfills every source target in bounded 250-repo runs", async () => {

@@ -176,7 +176,7 @@ export type RadarMeta = {
   rankedProgramCount?: number;
   excludedProgramCount?: number;
   enrichmentMode?: string;
-  repoEnrichment?: { discovered: number; stale?: number; scheduled?: number; deferred?: number; maxPerRun?: number; attempted: number; updated: number; failed: number; pending: number; rateLimited?: boolean; authenticated?: boolean; githubAuthSource?: string; github?: number; gitlab?: number; batchedQueries?: number; startingRateLimit?: { coreRemaining: number | null; coreLimit: number | null; graphqlRemaining: number | null; graphqlLimit: number | null } | null };
+  repoEnrichment?: { discovered: number; stale?: number; scheduled?: number; deferred?: number; maxPerRun?: number; attempted: number; updated: number; failed: number; pending: number; rateLimited?: boolean; authenticated?: boolean; githubAuthSource?: string; github?: number; gitlab?: number; batchedQueries?: number; metadataBatchFallbacks?: number; startingRateLimit?: { coreRemaining: number | null; coreLimit: number | null; graphqlRemaining: number | null; graphqlLimit: number | null } | null };
   repositoryCoverage?: { discoveredTargets: number; numericHardeningTargets: number; requiredHardeningTargets: number; ratio: number; ready: boolean };
   trapVerification?: { electroneumTargets: number; electroneumDevKnown: boolean; managedDosTargets: number; dosCeilingConsistent: boolean; ready: boolean };
   policyEnrichment?: { discovered: number; attempted: number; updated: number; failed: number; pending: number };

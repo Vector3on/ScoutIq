@@ -166,6 +166,45 @@ async function githubGraphqlBatch(refs, token, now, fetchImpl) {
   return values;
 }
 
+function transientGithubGatewayError(error) {
+  const status = Number(error?.status);
+  return status >= 500
+    || error?.name === "TimeoutError"
+    || /gateway|timeout|timed out|fetch failed|econnreset|socket hang up/i.test(String(error?.message ?? error));
+}
+
+export async function githubGraphqlBatchResilient(refs, token, now, fetchImpl, logger = console, minimumBatchSize = 10) {
+  try {
+    return {
+      values: await githubGraphqlBatch(refs, token, now, fetchImpl),
+      requests: 1,
+      fallbacks: 0,
+    };
+  } catch (error) {
+    if (!transientGithubGatewayError(error)) throw error;
+    if (refs.length <= minimumBatchSize) {
+      const message = String(error?.message ?? error).slice(0, 240);
+      logger.error?.(`[repo-enrichment] GitHub metadata batch terminal failure (${refs.length} repos): ${message}`);
+      return {
+        values: new Map(refs.map((ref) => [ref.key, { status: "error", error: message }])),
+        requests: 1,
+        fallbacks: 0,
+      };
+    }
+    const midpoint = Math.ceil(refs.length / 2);
+    const leftRefs = refs.slice(0, midpoint);
+    const rightRefs = refs.slice(midpoint);
+    logger.warn?.(`[repo-enrichment] GitHub metadata batch failed (${refs.length} repos): ${String(error?.message ?? error).slice(0, 160)}; retrying as ${leftRefs.length}+${rightRefs.length}`);
+    const left = await githubGraphqlBatchResilient(leftRefs, token, now, fetchImpl, logger, minimumBatchSize);
+    const right = await githubGraphqlBatchResilient(rightRefs, token, now, fetchImpl, logger, minimumBatchSize);
+    return {
+      values: new Map([...left.values, ...right.values]),
+      requests: 1 + left.requests + right.requests,
+      fallbacks: 1 + left.fallbacks + right.fallbacks,
+    };
+  }
+}
+
 async function githubRest(path, token, fetchImpl, query = "") {
   return requestJson(`https://api.github.com${path}${query}`, {
     headers: githubHeaders(token),
@@ -588,6 +627,7 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
   let failed = 0;
   let rateLimited = false;
   let batchedQueries = 0;
+  let metadataBatchFallbacks = 0;
   let startingRateLimit = null;
 
   if (refs.some((ref) => ref.provider === "github") && githubToken) {
@@ -615,15 +655,17 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
     for (const ref of githubRefs) errors.set(ref.key, message);
   } else {
     for (const batch of chunks(githubRefs, GITHUB_METADATA_BATCH_SIZE)) {
-      batchedQueries += 1;
       try {
-        const values = await githubGraphqlBatch(batch, githubToken, now, options.fetchImpl);
+        const result = await githubGraphqlBatchResilient(batch, githubToken, now, options.fetchImpl, logger);
+        batchedQueries += result.requests;
+        metadataBatchFallbacks += result.fallbacks;
         for (const ref of batch) {
-          const value = values.get(ref.key);
+          const value = result.values.get(ref.key);
           if (value?.status === "ok") metadata.set(ref.key, value);
           else errors.set(ref.key, value?.error ?? "GitHub metadata unresolved");
         }
       } catch (error) {
+        batchedQueries += 1;
         const message = String(error?.message ?? error).slice(0, 240);
         if (error?.status === 403 || error?.status === 429 || error?.remaining === 0) rateLimited = true;
         for (const ref of batch) errors.set(ref.key, message);
@@ -697,6 +739,7 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
       github: githubRefs.length,
       gitlab: gitlabRefs.length,
       batchedQueries,
+      metadataBatchFallbacks,
     },
   };
 }
