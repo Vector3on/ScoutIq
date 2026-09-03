@@ -10,6 +10,7 @@ import {
 import { evaluateProgram } from "./ev-core.mjs";
 import {
   enrichRepositoryCache,
+  repositoryCoverageGate,
   repositorySignalsFor,
 } from "./repo-enrichment.mjs";
 import {
@@ -167,6 +168,7 @@ const repoEnrichment = await enrichRepositoryCache(reconciliation.programs, prio
   ttlHours: 24 * 7,
   forceRefresh: enrichmentMode === "weekly",
   concurrency: numericEnv("REPO_ENRICH_CONCURRENCY", 4),
+  maxPerRun: numericEnv("REPO_ENRICH_MAX_PER_RUN", 250),
 });
 const policyEnrichment = await enrichPolicyCache(reconciliation.programs, priorPolicyCache, {
   now,
@@ -222,6 +224,25 @@ const recentEvents = [...reconciliation.events, ...(prior.events ?? [])]
 
 const statePrograms = evaluatedPrograms.map((program) => publicProgram(program, Number.MAX_SAFE_INTEGER));
 const publicPrograms = evaluatedPrograms.map((program) => publicProgram(program));
+const evaluatedTargets = evaluatedPrograms.flatMap((program) => program.targets);
+const configuredCoverageFloor = Math.max(1, numericEnv("MIN_NUMERIC_HARDENING_TARGETS", 400));
+const coverageRatio = Math.min(1, Math.max(0.1, numericEnv("MIN_REPO_ENRICHMENT_RATIO", 0.8)));
+const coverage = repositoryCoverageGate(evaluatedTargets, {
+  configuredFloor: configuredCoverageFloor,
+  ratio: coverageRatio,
+});
+const {
+  discoveredTargets: repositoryTargetCount,
+  numericHardeningTargets,
+  requiredHardeningTargets,
+  ready: coverageReady,
+} = coverage;
+const electroneumTargets = evaluatedTargets.filter((target) => String(target.repoSignals?.fullName ?? "").toLowerCase() === "electroneum/electroneum-sc");
+const electroneumDevKnown = electroneumTargets.some((target) => target.repoSignals?.status === "ok" && target.traps?.includes("DEV_KNOWN"));
+const aboveLowSeverities = new Set(["MEDIUM", "HIGH", "CRITICAL"]);
+const managedDosTargets = evaluatedTargets.filter((target) => target.findableClass === "managed-parser-dos" && aboveLowSeverities.has(target.programFloorSeverity));
+const dosCeilingConsistent = managedDosTargets.every((target) => target.traps?.includes("DOS_CEILING"));
+const trapChecksReady = (electroneumTargets.length === 0 || electroneumDevKnown) && dosCeilingConsistent;
 const structural = {
   snapshots: nextSnapshots,
   health: publicHealth(health),
@@ -234,7 +255,11 @@ const priorStructural = {
   programs: prior.programs,
   events: prior.events,
 };
-const changed = baseline || datasetSignature(structural) !== datasetSignature(priorStructural);
+const datasetChanged = baseline || datasetSignature(structural) !== datasetSignature(priorStructural);
+const healthy = health.filter((source) => source.status === "ok").length;
+const publishReady = coverageReady && trapChecksReady && healthy > 0;
+const changed = publishReady && datasetChanged;
+const repoCacheChanged = datasetSignature(repoEnrichment.cache) !== datasetSignature(priorRepoCache);
 const generatedAt = changed ? now : prior.generatedAt ?? now;
 
 const state = {
@@ -257,6 +282,20 @@ const payload = {
     rankedProgramCount: publicPrograms.filter((program) => !program.excludeReason && program.evScore > 0).length,
     excludedProgramCount: publicPrograms.filter((program) => Boolean(program.excludeReason)).length,
     repoEnrichment: repoEnrichment.stats,
+    repositoryCoverage: {
+      discoveredTargets: repositoryTargetCount,
+      numericHardeningTargets,
+      requiredHardeningTargets,
+      ratio: Math.round(coverage.ratio * 1_000) / 1_000,
+      ready: coverageReady,
+    },
+    trapVerification: {
+      electroneumTargets: electroneumTargets.length,
+      electroneumDevKnown,
+      managedDosTargets: managedDosTargets.length,
+      dosCeilingConsistent,
+      ready: trapChecksReady,
+    },
     policyEnrichment: policyEnrichment.stats,
     liveEnrichment: liveEnrichment.stats,
     enrichmentMode,
@@ -266,12 +305,27 @@ const payload = {
   preferences,
 };
 const eventPayload = { generatedAt, events: recentEvents };
-const runPayload = { changed, baseline, generatedAt: now, events: reconciliation.events, health: publicHealth(health) };
+const runPayload = {
+  changed,
+  cacheChanged: repoCacheChanged,
+  publishReady,
+  baseline,
+  generatedAt: now,
+  events: reconciliation.events,
+  health: publicHealth(health),
+  repositoryCoverage: payload.meta.repositoryCoverage,
+};
 
+if (repoCacheChanged) {
+  await Promise.all([
+    writeJsonAtomic(paths.repoCache, repoEnrichment.cache),
+    writeJsonAtomic(paths.policyCache, policyEnrichment.cache),
+    writeJsonAtomic(paths.liveCache, liveEnrichment.cache),
+  ]);
+}
 if (changed) {
   await Promise.all([
     writeJsonAtomic(paths.state, state),
-    writeJsonAtomic(paths.repoCache, repoEnrichment.cache),
     writeJsonAtomic(paths.policyCache, policyEnrichment.cache),
     writeJsonAtomic(paths.liveCache, liveEnrichment.cache),
     writeJsonAtomic(paths.output, payload),
@@ -281,10 +335,13 @@ if (changed) {
 await writeJsonAtomic(paths.run, runPayload);
 
 if (process.env.GITHUB_OUTPUT) {
-  await appendFile(process.env.GITHUB_OUTPUT, `changed=${changed}\nevent_count=${reconciliation.events.length}\nranked_count=${payload.meta.rankedProgramCount}\nexcluded_count=${payload.meta.excludedProgramCount}\n`);
+  await appendFile(process.env.GITHUB_OUTPUT, `changed=${changed}\ncache_changed=${repoCacheChanged}\npublish_ready=${publishReady}\nmeasured_hardening=${numericHardeningTargets}\nrequired_hardening=${requiredHardeningTargets}\ntrap_checks_ready=${trapChecksReady}\nelectroneum_dev_known=${electroneumDevKnown}\ndos_ceiling_consistent=${dosCeilingConsistent}\nevent_count=${reconciliation.events.length}\nranked_count=${payload.meta.rankedProgramCount}\nexcluded_count=${payload.meta.excludedProgramCount}\n`);
 }
 
-const healthy = health.filter((source) => source.status === "ok").length;
 console.log(`ScoutIQ v2: ${payload.meta.rankedProgramCount}/${publicPrograms.length} payable candidates, ${payload.meta.excludedProgramCount} hard-excluded, ${repoEnrichment.stats.updated} repos enriched, ${healthy}/${health.length} sources healthy${changed ? "." : "; no dataset change."}`);
+console.log(`[coverage-gate] numeric hardening=${numericHardeningTargets}/${repositoryTargetCount}; required=${requiredHardeningTargets}; publish_ready=${publishReady}`);
+console.log(`[trap-check] electroneum DEV_KNOWN=${electroneumDevKnown}; managed DOS targets=${managedDosTargets.length}; DOS_CEILING consistent=${dosCeilingConsistent}`);
+if (!coverageReady) console.error(`[coverage-gate] REFUSING TO PUBLISH: only ${numericHardeningTargets} repository targets have numeric hardeningIndex; need ${requiredHardeningTargets}. Previous programs.json preserved.`);
+if (!trapChecksReady) console.error("[trap-check] REFUSING TO PUBLISH: runtime trap verification failed. Previous programs.json preserved.");
 
-if (healthy === 0) process.exitCode = 1;
+if (!process.env.GITHUB_ACTIONS && !publishReady) process.exitCode = 1;

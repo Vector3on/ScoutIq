@@ -53,25 +53,35 @@ jobs:
       - name: Collect, enrich, and rank payable candidates
         id: collect
         env:
-          SCOUTIQ_GITHUB_TOKEN: ${{ secrets.SCOUTIQ_GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.SCOUTIQ_GITHUB_TOKEN || github.token }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ github.token }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          REPO_ENRICH_MAX_PER_RUN: "250"
+          MIN_NUMERIC_HARDENING_TARGETS: "400"
+          MIN_REPO_ENRICHMENT_RATIO: "0.8"
         run: node scripts/collect.mjs
 
       - name: Commit changed radar data and caches
-        if: steps.collect.outputs.changed == 'true'
+        if: always() && (steps.collect.outputs.changed == 'true' || steps.collect.outputs.cache_changed == 'true')
         run: |
           git config user.name "scoutiq-bot"
           git config user.email "scoutiq-bot@users.noreply.github.com"
           git add data public/data
+          if git diff --cached --quiet; then exit 0; fi
           git commit -m "data: refresh ScoutIQ v2"
           git push
 
       - name: Send optional Discord alert
-        if: steps.collect.outputs.event_count != '0'
+        if: steps.collect.outputs.publish_ready == 'true' && steps.collect.outputs.event_count != '0'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: node scripts/notify.mjs
+
+      - name: Assert publishable repository coverage
+        if: always() && steps.collect.outputs.publish_ready != 'true'
+        run: |
+          echo "::error::Publish gate failed: ${{ steps.collect.outputs.measured_hardening }} numeric hardening targets; ${{ steps.collect.outputs.required_hardening }} required; Electroneum DEV_KNOWN=${{ steps.collect.outputs.electroneum_dev_known }}; DOS_CEILING consistent=${{ steps.collect.outputs.dos_ceiling_consistent }}. Previous programs.json was preserved."
+          exit 1
 
   verify-source-change:
     if: github.event_name != 'schedule'

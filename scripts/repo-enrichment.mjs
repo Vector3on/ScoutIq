@@ -63,6 +63,8 @@ export function parseRepositoryTarget(value) {
   if (parts.length < 2) return null;
   if (host === "github.com") parts = parts.slice(0, 2);
   parts[parts.length - 1] = parts.at(-1).replace(/\.git$/i, "");
+  const validPart = /^(?=.*[a-z0-9])[a-z0-9._-]+$/i;
+  if (parts.some((part) => !validPart.test(part))) return null;
   const fullName = parts.join("/");
   return {
     provider: host === "github.com" ? "github" : "gitlab",
@@ -70,7 +72,7 @@ export function parseRepositoryTarget(value) {
     owner: host === "github.com" ? parts[0] : parts.slice(0, -1).join("/"),
     name: parts.at(-1),
     fullName,
-    key: `${host === "github.com" ? "github" : "gitlab"}:${fullName.toLowerCase()}`,
+    key: host === "github.com" ? fullName.toLowerCase() : `gitlab.com/${fullName.toLowerCase()}`,
     url: `https://${host}/${fullName}`,
   };
 }
@@ -302,7 +304,7 @@ function advisorySignals(advisories, treePaths, now) {
 
 export async function enrichGithubRepository(ref, options = {}) {
   const now = options.now ?? new Date().toISOString();
-  const token = options.token ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
+  const token = options.token ?? process.env.GH_PAT ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
   const fetchImpl = options.fetchImpl;
   const metadata = options.metadata ?? (await githubGraphqlBatch([ref], token, now, fetchImpl)).get(ref.key);
   if (metadata?.status !== "ok") throw new Error(metadata?.error ?? "repository not found or inaccessible");
@@ -542,18 +544,38 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
   const ttlHours = Math.max(1, number(options.ttlHours, 24 * 7));
   const forceRefresh = options.forceRefresh === true;
   const concurrency = Math.max(1, number(options.concurrency, 4));
-  const githubToken = options.githubToken ?? options.token ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
+  const maxPerRun = Math.max(1, number(options.maxPerRun, 250));
+  const githubToken = options.githubToken ?? options.token ?? process.env.GH_PAT ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
+  const githubAuthSource = !githubToken
+    ? "missing"
+    : options.githubToken || options.token
+      ? "option"
+      : process.env.GH_PAT
+        ? "GH_PAT"
+        : process.env.SCOUTIQ_GITHUB_TOKEN
+          ? "SCOUTIQ_GITHUB_TOKEN"
+          : "GITHUB_TOKEN";
   const gitlabToken = options.gitlabToken ?? process.env.GITLAB_TOKEN ?? "";
   const logger = options.logger ?? console;
   const cacheVersion = number(priorCache.version, 0);
-  const repositories = { ...(priorCache.repositories ?? {}) };
+  const priorRepositories = priorCache.repositories ?? {};
+  const priorRepositoryFor = (ref) => priorRepositories[ref.key]
+    ?? priorRepositories[`${ref.provider}:${ref.fullName.toLowerCase()}`]
+    ?? null;
   const refs = refsFromPrograms(programs).sort((a, b) => {
-    const aFresh = cacheVersion >= 3 && cacheFresh(repositories[a.key], now, ttlHours);
-    const bFresh = cacheVersion >= 3 && cacheFresh(repositories[b.key], now, ttlHours);
+    const aEntry = priorRepositoryFor(a);
+    const bEntry = priorRepositoryFor(b);
+    const aFresh = cacheVersion >= 4 && cacheFresh(aEntry, now, ttlHours);
+    const bFresh = cacheVersion >= 4 && cacheFresh(bEntry, now, ttlHours);
     if (aFresh !== bFresh) return aFresh ? 1 : -1;
-    return b.priority - a.priority || (repositories[a.key]?.fetchedAt ?? "").localeCompare(repositories[b.key]?.fetchedAt ?? "");
+    return b.priority - a.priority || (aEntry?.fetchedAt ?? "").localeCompare(bEntry?.fetchedAt ?? "");
   });
-  const scheduled = refs.filter((ref) => forceRefresh || cacheVersion < 3 || !cacheFresh(repositories[ref.key], now, ttlHours));
+  const repositories = Object.fromEntries(refs.flatMap((ref) => {
+    const entry = priorRepositoryFor(ref);
+    return entry ? [[ref.key, entry]] : [];
+  }));
+  const stale = refs.filter((ref) => forceRefresh || cacheVersion < 4 || !cacheFresh(repositories[ref.key], now, ttlHours));
+  const scheduled = stale.slice(0, maxPerRun);
   const githubRefs = scheduled.filter((ref) => ref.provider === "github");
   const gitlabRefs = scheduled.filter((ref) => ref.provider === "gitlab");
   const metadata = new Map();
@@ -563,9 +585,29 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
   let failed = 0;
   let rateLimited = false;
   let batchedQueries = 0;
+  let startingRateLimit = null;
+
+  if (refs.some((ref) => ref.provider === "github") && githubToken) {
+    try {
+      const response = await githubRest("/rate_limit", githubToken, options.fetchImpl);
+      const core = response.payload?.resources?.core ?? {};
+      const graphql = response.payload?.resources?.graphql ?? {};
+      startingRateLimit = {
+        coreRemaining: number(core.remaining, null),
+        coreLimit: number(core.limit, null),
+        graphqlRemaining: number(graphql.remaining, null),
+        graphqlLimit: number(graphql.limit, null),
+      };
+      logger.info?.(`[repo-enrichment] GitHub auth=${githubAuthSource}; core remaining=${core.remaining ?? "unknown"}/${core.limit ?? "unknown"}; graphql remaining=${graphql.remaining ?? "unknown"}/${graphql.limit ?? "unknown"}`);
+    } catch (error) {
+      logger.error?.(`[repo-enrichment] GitHub auth=${githubAuthSource}; rate-limit probe failed: ${String(error?.message ?? error).slice(0, 180)}`);
+    }
+  } else if (refs.some((ref) => ref.provider === "github")) {
+    logger.error?.("[repo-enrichment] GitHub auth=missing; no unauthenticated requests will be sent");
+  }
 
   if (githubRefs.length && !githubToken) {
-    const message = "authenticated GitHub enrichment skipped: SCOUTIQ_GITHUB_TOKEN/GITHUB_TOKEN is missing";
+    const message = "authenticated GitHub enrichment skipped: GH_PAT/GITHUB_TOKEN is missing";
     logger.error?.(`[repo-enrichment] ${message}`);
     for (const ref of githubRefs) errors.set(ref.key, message);
   } else {
@@ -597,7 +639,7 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
       if (error?.status === 403 || error?.status === 429 || error?.remaining === 0) rateLimited = true;
       const message = String(error?.message ?? error).slice(0, 240);
       logger.error?.(`[repo-enrichment] ${ref.key} failed: ${message}`);
-      const previous = cacheVersion >= 3 ? repositories[ref.key] : null;
+      const previous = repositories[ref.key];
       repositories[ref.key] = previous?.status === "ok"
         ? { ...previous, lastErrorAt: now, lastError: String(error.message).slice(0, 180) }
         : pendingRepository(ref, now, message);
@@ -612,7 +654,7 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
       failed += 1;
       const message = String(error?.message ?? error).slice(0, 240);
       logger.error?.(`[repo-enrichment] ${ref.key} failed: ${message}`);
-      const previous = cacheVersion >= 3 ? repositories[ref.key] : null;
+      const previous = repositories[ref.key];
       repositories[ref.key] = previous?.status === "ok"
         ? { ...previous, lastErrorAt: now, lastError: message }
         : pendingRepository(ref, now, message);
@@ -623,7 +665,7 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
     failed += 1;
     const message = errors.get(ref.key);
     logger.error?.(`[repo-enrichment] ${ref.key} unresolved: ${message}`);
-    const previous = cacheVersion >= 3 ? repositories[ref.key] : null;
+    const previous = repositories[ref.key];
     repositories[ref.key] = previous?.status === "ok"
       ? { ...previous, lastErrorAt: now, lastError: message }
       : pendingRepository(ref, now, message);
@@ -634,16 +676,21 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
   }
 
   return {
-    cache: { version: 3, generatedAt: now, ttlHours, repositories },
+    cache: { version: 4, generatedAt: scheduled.length ? now : priorCache.generatedAt ?? now, ttlHours, repositories },
     stats: {
       discovered: refs.length,
+      stale: stale.length,
       scheduled: scheduled.length,
+      deferred: Math.max(0, stale.length - scheduled.length),
+      maxPerRun,
       attempted,
       updated,
       failed,
       pending: refs.filter((ref) => repositories[ref.key]?.status !== "ok").length,
       rateLimited,
       authenticated: Boolean(githubToken),
+      githubAuthSource,
+      startingRateLimit,
       github: githubRefs.length,
       gitlab: gitlabRefs.length,
       batchedQueries,
@@ -654,4 +701,19 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
 export function repositorySignalsFor(target, cache) {
   const ref = parseRepositoryTarget(target?.value);
   return ref ? cache?.repositories?.[ref.key] ?? { status: "pending", provider: ref.provider, fullName: ref.fullName, url: ref.url } : null;
+}
+
+export function repositoryCoverageGate(targets, options = {}) {
+  const repositoryTargets = targets.filter((target) => target.repoSignals != null);
+  const numericHardeningTargets = repositoryTargets.filter((target) => Number.isFinite(target.hardeningIndex)).length;
+  const configuredFloor = Math.max(1, number(options.configuredFloor, 400));
+  const ratio = Math.min(1, Math.max(0.1, number(options.ratio, 0.8)));
+  const requiredHardeningTargets = Math.min(configuredFloor, Math.ceil(repositoryTargets.length * ratio));
+  return {
+    discoveredTargets: repositoryTargets.length,
+    numericHardeningTargets,
+    requiredHardeningTargets,
+    ratio: repositoryTargets.length ? numericHardeningTargets / repositoryTargets.length : 1,
+    ready: numericHardeningTargets >= requiredHardeningTargets,
+  };
 }

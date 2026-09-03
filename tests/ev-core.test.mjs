@@ -14,6 +14,7 @@ import {
   detectRepositorySignals,
   enrichRepositoryCache,
   parseRepositoryTarget,
+  repositoryCoverageGate,
   selectScanBlobs,
 } from "../scripts/repo-enrichment.mjs";
 import { shortlist } from "../scripts/query.mjs";
@@ -195,12 +196,14 @@ test("policy parser derives the user's payable severity floor and restrictions",
 });
 
 test("parses GitHub and nested GitLab repository targets", () => {
-  assert.equal(parseRepositoryTarget("https://github.com/vercel/eve/tree/main").key, "github:vercel/eve");
+  assert.equal(parseRepositoryTarget("https://github.com/vercel/eve/tree/main").key, "vercel/eve");
   assert.equal(
     parseRepositoryTarget("https://github.com/immutable/ts-immutable-sdk/tree/main/packages/passport/#readme").key,
-    "github:immutable/ts-immutable-sdk",
+    "immutable/ts-immutable-sdk",
   );
-  assert.equal(parseRepositoryTarget("https://gitlab.com/group/subgroup/project/-/tree/main").key, "gitlab:group/subgroup/project");
+  assert.equal(parseRepositoryTarget("https://gitlab.com/group/subgroup/project/-/tree/main").key, "gitlab.com/group/subgroup/project");
+  assert.equal(parseRepositoryTarget("https://github.com/uphold/*"), null);
+  assert.equal(parseRepositoryTarget("https://github.com/brave/*,%20https:"), null);
 });
 
 test("GitHub metadata query batches exactly 100 repositories", () => {
@@ -210,8 +213,8 @@ test("GitHub metadata query batches exactly 100 repositories", () => {
   assert.throws(() => buildGithubMetadataQuery([...refs, { owner: "overflow", name: "repo" }], now), /exceeds 100/);
 });
 
-test("repository enrichment schedules every source target without a sample budget", async () => {
-  const targets = Array.from({ length: 101 }, (_, index) => target({
+test("repository enrichment backfills every source target in bounded 250-repo runs", async () => {
+  const targets = Array.from({ length: 301 }, (_, index) => target({
     key: `repo:${index}`,
     type: "source-code",
     value: `https://github.com/example/repo-${index}`,
@@ -221,11 +224,77 @@ test("repository enrichment schedules every source target without a sample budge
     githubToken: "",
     logger: { error() {} },
   });
-  assert.equal(result.stats.discovered, 101);
-  assert.equal(result.stats.attempted, 101);
-  assert.equal(result.stats.pending, 101);
-  assert.equal(Object.keys(result.cache.repositories).length, 101);
-  assert.equal(result.cache.repositories["github:example/repo-0"].stars, undefined);
+  assert.equal(result.stats.discovered, 301);
+  assert.equal(result.stats.attempted, 250);
+  assert.equal(result.stats.deferred, 51);
+  assert.equal(result.stats.pending, 301);
+  assert.equal(Object.keys(result.cache.repositories).length, 301);
+  assert.equal(result.cache.repositories["example/repo-0"].stars, undefined);
+});
+
+test("a failed refresh never overwrites a good cached repository", async () => {
+  const input = program({ targets: [target({ key: "repo", type: "source-code", value: "https://github.com/example/good" })] });
+  const cached = {
+    version: 3,
+    generatedAt: "2026-09-01T00:00:00.000Z",
+    repositories: {
+      "github:example/good": { status: "ok", fullName: "example/good", fetchedAt: "2026-09-01T00:00:00.000Z", stars: 123, commits90d: 9 },
+    },
+  };
+  const result = await enrichRepositoryCache([input], cached, {
+    now,
+    forceRefresh: true,
+    githubToken: "",
+    logger: { error() {} },
+  });
+  assert.equal(result.cache.repositories["example/good"].status, "ok");
+  assert.equal(result.cache.repositories["example/good"].stars, 123);
+  assert.match(result.cache.repositories["example/good"].lastError, /GH_PAT/);
+});
+
+test("GitHub PAT is sent as Bearer auth and startup rate limit is logged", async () => {
+  const input = program({ targets: [target({ key: "repo", type: "source-code", value: "https://github.com/example/good" })] });
+  const cached = {
+    version: 4,
+    generatedAt: now,
+    repositories: {
+      "example/good": { status: "ok", fullName: "example/good", fetchedAt: now, stars: 123, commits90d: 9 },
+    },
+  };
+  const calls = [];
+  const logs = [];
+  const result = await enrichRepositoryCache([input], cached, {
+    now,
+    githubToken: "secret-test-token",
+    fetchImpl: async (url, init) => {
+      calls.push({ url, authorization: init.headers.authorization });
+      return new Response(JSON.stringify({ resources: { core: { remaining: 4_999, limit: 5_000 }, graphql: { remaining: 4_998, limit: 5_000 } } }), { status: 200 });
+    },
+    logger: { info(message) { logs.push(message); }, error() {} },
+  });
+  assert.deepEqual(calls, [{ url: "https://api.github.com/rate_limit", authorization: "Bearer secret-test-token" }]);
+  assert.equal(result.stats.startingRateLimit.coreRemaining, 4_999);
+  assert.match(logs[0], /core remaining=4999\/5000/);
+  assert.doesNotMatch(logs[0], /secret-test-token/);
+});
+
+test("coverage gate fails loudly at five repos and scales to the real denominator", () => {
+  const targets = Array.from({ length: 190 }, (_, index) => ({
+    repoSignals: { status: index < 5 ? "ok" : "pending" },
+    hardeningIndex: index < 5 ? 20 : null,
+  }));
+  const partial = repositoryCoverageGate(targets, { configuredFloor: 400, ratio: 0.8 });
+  assert.deepEqual(partial, {
+    discoveredTargets: 190,
+    numericHardeningTargets: 5,
+    requiredHardeningTargets: 152,
+    ratio: 5 / 190,
+    ready: false,
+  });
+  targets.slice(5, 152).forEach((item) => { item.hardeningIndex = 20; });
+  assert.equal(repositoryCoverageGate(targets, { configuredFloor: 400, ratio: 0.8 }).ready, true);
+  const thousand = Array.from({ length: 1_000 }, () => ({ repoSignals: {}, hardeningIndex: null }));
+  assert.equal(repositoryCoverageGate(thousand, { configuredFloor: 400, ratio: 0.8 }).requiredHardeningTargets, 400);
 });
 
 test("headline rewards above $50k have identical EV influence", () => {

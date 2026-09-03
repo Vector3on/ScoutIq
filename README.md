@@ -113,13 +113,13 @@ npm ci
 npm test
 ```
 
-Run a complete collection of every stale or unresolved repository:
+Run the next incremental batch of up to 250 stale or unresolved repositories:
 
 ```bash
 npm run collect
 ```
 
-Force the weekly repository refresh:
+Force a weekly refresh batch:
 
 ```bash
 npm run collect:weekly
@@ -197,11 +197,13 @@ npm run shortlist -- --lane live --format json
 
 ## GitHub Actions
 
-`.github/workflows/radar.yml` runs at minute 17 each hour to discover changes and at 02:41 UTC each Sunday to force-refresh every repository. GitHub metadata is fetched in GraphQL batches of 100 repositories; tree, history, advisory, and source-scan evidence is cached for seven days. There is no repository sample budget.
+`.github/workflows/radar.yml` runs at minute 17 each hour to discover changes and at 02:41 UTC each Sunday to force a refresh pass. Each run processes at most 250 missing or seven-day-stale repositories, so cache coverage accumulates instead of restarting. GitHub metadata is fetched in GraphQL batches of 100 repositories.
 
-Add an Actions secret named `SCOUTIQ_GITHUB_TOKEN` containing a read-only fine-grained PAT for public repositories. Every GitHub REST and GraphQL request uses it. The workflow falls back to the authenticated per-run `github.token` so a missing PAT never causes anonymous 60-request/hour calls. Add `GITLAB_TOKEN` only if public GitLab rate limits become a problem. Never commit either token.
+Add an Actions secret named `GH_PAT` containing a read-only fine-grained PAT for public repositories. Every GitHub REST and GraphQL request prefers it and sends `Authorization: Bearer`. The run starts by logging the authenticated REST and GraphQL rate-limit balance without exposing the token. The workflow falls back to the authenticated per-run `github.token`; if neither token exists, enrichment refuses to send anonymous requests. Add `GITLAB_TOKEN` only if public GitLab rate limits become a problem. Never commit either token.
 
-Repository failures are emitted as `[repo-enrichment]` log lines and stored as explicit pending records with `lastError`; failed lookups do not write zero-valued evidence. DEV_KNOWN detection scans prioritized test and source blobs for suspicious test filenames, known-vulnerability comments, and disabled security/fork gates. DOS_CEILING and DORMANT are computed as hard exclusion traps during EV evaluation.
+Repository failures are emitted as `[repo-enrichment]` log lines and stored as explicit pending records with `lastError`; a failed refresh never overwrites a good cache entry and never writes zero-valued evidence. The public dataset is withheld unless at least 80% of discovered repository targets have numeric hardening evidence, capped at a 400-target absolute requirement. Cache progress is still committed on a failed coverage run, while the prior `programs.json` remains untouched.
+
+DEV_KNOWN detection scans prioritized test and source blobs for suspicious test filenames, known-vulnerability comments, and disabled security/fork gates. DOS_CEILING and DORMANT are computed as hard exclusion traps during EV evaluation. Regression fixtures cover Electroneum's public `priority_sig_binding_test.go` and `FutureForkBlock: math.MaxInt64`, plus a managed TON/RLP parser ceiling.
 
 Scheduled runs do not install frontend dependencies. Source-change and manual runs execute the complete build and test suite. This keeps private-repository Actions usage low while still validating code changes.
 
