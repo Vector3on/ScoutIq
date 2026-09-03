@@ -12,8 +12,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: scopepulse-radar
@@ -22,9 +20,6 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Check out repository
@@ -36,7 +31,6 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
 
       - name: Collect and diff public programs
         id: collect
@@ -57,30 +51,10 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: node scripts/notify.mjs
 
-      - name: Install dependencies
-        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
+      - name: Install dependencies for source changes
+        if: github.event_name != 'schedule'
         run: npm ci
 
-      - name: Build dashboard
-        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
-        run: npm run build
-
-      - name: Configure GitHub Pages
-        continue-on-error: true
-        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - name: Upload Pages artifact
-        continue-on-error: true
-        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist/client
-
-      - name: Deploy GitHub Pages
-        continue-on-error: true
-        if: steps.collect.outputs.changed == 'true' || github.event_name != 'schedule'
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Validate dashboard source changes
+        if: github.event_name != 'schedule'
+        run: npm test && npm run build
