@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-03T07:40:37.681Z",
+  "generatedAt": "2026-09-03T07:44:36.058Z",
   "sourceSnapshots": {
     "hackerone": [
       {
@@ -98083,124 +98083,6 @@
         "Inspectable source-code scope",
         "Confirmed reward ceiling clears $1,000",
         "Small scope with 2 tracked targets",
-        "Safe-harbor field is present, verify the official wording"
-      ],
-      "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:opensea-managed-bug-bounty-program",
-      "name": "OpenSea Managed Bug Bounty Program",
-      "platform": "Bugcrowd",
-      "url": "https://bugcrowd.com/engagements/opensea",
-      "status": "stale",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": 3000000,
-      "safeHarbor": "full",
-      "disclosureAllowed": true,
-      "sourceIds": [
-        "bugcrowd"
-      ],
-      "sourceCode": true,
-      "repositoryCount": 1,
-      "targetCount": 11,
-      "tags": [
-        "mobile",
-        "other",
-        "source-code",
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "0c3544d3f2ca7181",
-          "type": "web",
-          "value": "https://opensea.io/",
-          "eligible": true
-        },
-        {
-          "key": "0da6585017969862",
-          "type": "other",
-          "value": "OpenSea Solana Marketplace Program",
-          "eligible": true
-        },
-        {
-          "key": "14ece6674bf2bf4b",
-          "type": "mobile",
-          "value": "https://apps.apple.com/us/app/opensea-nft-marketplace/id1582861796",
-          "eligible": true
-        },
-        {
-          "key": "22abb4f64b5484a1",
-          "type": "web",
-          "value": "http://wallet.opensea.io/",
-          "eligible": true
-        },
-        {
-          "key": "2dd18684db68d61f",
-          "type": "web",
-          "value": "Broken Link",
-          "eligible": true
-        },
-        {
-          "key": "5da5b77777bcfe74",
-          "type": "other",
-          "value": "https://etherscan.io/address/0x0000a26b00c1F0DF003000390027140000fAa719",
-          "eligible": true
-        },
-        {
-          "key": "65b5785372ad10cf",
-          "type": "other",
-          "value": "Agent SDKs",
-          "eligible": true
-        },
-        {
-          "key": "80f5097944ca609d",
-          "type": "other",
-          "value": "https://mcp.opensea.io",
-          "eligible": true
-        },
-        {
-          "key": "837bda781bccac39",
-          "type": "other",
-          "value": "https://etherscan.io/address/0x00005EA00Ac477B1030CE78506496e8C2dE24bf5",
-          "eligible": true
-        },
-        {
-          "key": "85a0d257079f7987",
-          "type": "mobile",
-          "value": "https://play.google.com/store/apps/details?id=io.opensea&hl=en_US&gl=US",
-          "eligible": true
-        },
-        {
-          "key": "f682a474dd6c217b",
-          "type": "other",
-          "value": "https://github.com/ProjectOpenSea/seaport#deployments",
-          "eligible": true
-        }
-      ],
-      "localTestingHint": false,
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastChangedAt": "2026-09-02T23:02:43.170Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-02T23:02:43.170Z"
-      },
-      "missingCount": 1,
-      "score": 57,
-      "scoreBreakdown": {
-        "freshness": 5,
-        "reward": 22,
-        "inspectability": 16,
-        "authorization": 10,
-        "friction": 4
-      },
-      "reasons": [
-        "Inspectable source-code scope",
-        "Confirmed reward ceiling clears $1,000",
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
