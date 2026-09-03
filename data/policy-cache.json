@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "generatedAt": "2026-09-03T14:56:58.433Z",
+  "policies": {
+    "program:auth0-by-okta:42a03b5a0dcc855e127a": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 78,
+      "useful": false
+    },
+    "program:aiven-managed-bug-bounty:3fdbea615f6309f59430": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 89,
+      "useful": false
+    },
+    "program:fireblocks-mpc-managed-bug-bounty-engagement:bce5cf8477e65834f1c1": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 109,
+      "useful": false
+    },
+    "program:opensea-managed-bug-bounty-program:8aad9224e529fec9e3e9": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 99,
+      "useful": false
+    }
+  }
+}
