@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix .. ci && npm --prefix .. run build && node build.mjs"
+  }
+}
