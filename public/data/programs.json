@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-09-03T07:44:36.058Z",
+    "generatedAt": "2026-09-03T11:22:17.903Z",
     "mode": "live",
     "sourceCount": 6,
     "healthySourceCount": 6,
-    "programCount": 1011,
-    "targetCount": 10679,
-    "eventCount": 10,
+    "programCount": 1013,
+    "targetCount": 10704,
+    "eventCount": 13,
     "sources": [
       {
         "id": "hackerone",
@@ -24,13 +24,13 @@
         "id": "intigriti",
         "label": "Intigriti",
         "status": "ok",
-        "count": 73
+        "count": 74
       },
       {
         "id": "yeswehack",
         "label": "YesWeHack",
         "status": "ok",
-        "count": 59
+        "count": 58
       },
       {
         "id": "federacy",
@@ -47,6 +47,298 @@
     ]
   },
   "programs": [
+    {
+      "id": "program:opensea-managed-bug-bounty-program",
+      "name": "OpenSea Managed Bug Bounty Program",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/opensea",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 3000000,
+      "safeHarbor": "full",
+      "disclosureAllowed": true,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": true,
+      "repositoryCount": 1,
+      "targetCount": 11,
+      "tags": [
+        "mobile",
+        "other",
+        "source-code",
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "0c3544d3f2ca7181",
+          "type": "web",
+          "value": "https://opensea.io/",
+          "eligible": true
+        },
+        {
+          "key": "0da6585017969862",
+          "type": "other",
+          "value": "OpenSea Solana Marketplace Program",
+          "eligible": true
+        },
+        {
+          "key": "14ece6674bf2bf4b",
+          "type": "mobile",
+          "value": "https://apps.apple.com/us/app/opensea-nft-marketplace/id1582861796",
+          "eligible": true
+        },
+        {
+          "key": "22abb4f64b5484a1",
+          "type": "web",
+          "value": "http://wallet.opensea.io/",
+          "eligible": true
+        },
+        {
+          "key": "2dd18684db68d61f",
+          "type": "web",
+          "value": "Broken Link",
+          "eligible": true
+        },
+        {
+          "key": "5da5b77777bcfe74",
+          "type": "other",
+          "value": "https://etherscan.io/address/0x0000a26b00c1F0DF003000390027140000fAa719",
+          "eligible": true
+        },
+        {
+          "key": "65b5785372ad10cf",
+          "type": "other",
+          "value": "Agent SDKs",
+          "eligible": true
+        },
+        {
+          "key": "80f5097944ca609d",
+          "type": "other",
+          "value": "https://mcp.opensea.io",
+          "eligible": true
+        },
+        {
+          "key": "837bda781bccac39",
+          "type": "other",
+          "value": "https://etherscan.io/address/0x00005EA00Ac477B1030CE78506496e8C2dE24bf5",
+          "eligible": true
+        },
+        {
+          "key": "85a0d257079f7987",
+          "type": "mobile",
+          "value": "https://play.google.com/store/apps/details?id=io.opensea&hl=en_US&gl=US",
+          "eligible": true
+        },
+        {
+          "key": "f682a474dd6c217b",
+          "type": "other",
+          "value": "https://github.com/ProjectOpenSea/seaport#deployments",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-03T11:22:17.903Z",
+      "lastSeenAt": "2026-09-03T11:22:17.903Z",
+      "lastChangedAt": "2026-09-03T11:22:17.903Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T11:22:17.903Z"
+      },
+      "score": 83,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 22,
+        "inspectability": 16,
+        "authorization": 14,
+        "friction": 4
+      },
+      "reasons": [
+        "New program",
+        "Inspectable source-code scope",
+        "Confirmed reward ceiling clears $1,000",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
+    },
+    {
+      "id": "program:adobe-public",
+      "name": "Adobe Public",
+      "platform": "Intigriti",
+      "url": "https://www.intigriti.com/programs/adobe/adobepublic/detail",
+      "status": "open",
+      "paid": true,
+      "currency": "USD",
+      "minReward": 75,
+      "maxReward": 15000,
+      "safeHarbor": null,
+      "disclosureAllowed": null,
+      "sourceIds": [
+        "intigriti"
+      ],
+      "sourceCode": true,
+      "repositoryCount": 0,
+      "targetCount": 39,
+      "tags": [
+        "ai/ml",
+        "api",
+        "mobile",
+        "other",
+        "source-code",
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "0892a68a0bf6e15d",
+          "type": "mobile",
+          "value": "Adobe Photoshop Express Mobile App (iOS)",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "0aded05b9ee85e51",
+          "type": "mobile",
+          "value": "Acrobat Reader Mobile App (Android)",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "0de10610cedaacdf",
+          "type": "other",
+          "value": "Acrobat Create Podcast",
+          "eligible": true,
+          "description": "Relevant features include:\n\n* Acrobat Create Podcast\n\nThese features are enabled on [acrobat.adobe.com](https://acrobat.adobe.com).\n\nTesting should focus on AI vulnerabilities with clear security impact, including prompt injection leading to sensitive content disclosure, unauthorized access to documents, unauthorized actions, cross-account access, data exfiltration, privilege escalation, or bypass of enforced backend security controls.",
+          "impact": "Tier 1"
+        },
+        {
+          "key": "1ba3e25a6f330163",
+          "type": "web",
+          "value": "firefly.adobe.com",
+          "eligible": true,
+          "description": "Type: Web\nAsset: firefly.adobe.com\nTesting plan: Yes\nCredentials / subscription: Not provided; self-signup; free trial for premium features\n\n---\n\nAdobe Firefly is in scope.\n\nTesting should focus on authentication, authorization, generated content workflows, user content access, sensitive data exposure, cross-account access, business logic flaws, and security issues affecting approved Firefly functionality.\n\nRelevant Tier 1 AI bonus features available through this asset include:\n\n* Firefly Image Models\n* Firefly Video Model\n* Firefly AI Specific Findings\n* Firefly Custom Models\n\nFirefly backend",
+          "impact": "Tier 2"
+        },
+        {
+          "key": "1cd7c4d8f639402a",
+          "type": "other",
+          "value": "Adobe Commerce, Adobe Commerce B2B and Magento Open Source",
+          "eligible": true,
+          "description": "Type: Web\nTesting plan: Yes\nCredentials / subscription: Not provided; Magento Open Source option available\n\n---\n\nThis asset covers Adobe Commerce, Adobe Commerce B2B, Magento Open Source, core software in Magento 2 Commerce, Commerce B2B and Open Source default configuration, and bundled extensions.\n\nTesting should focus on server-side code execution, authentication and authorization issues, injection vulnerabilities, directory traversal, sensitive information disclosure, significant security misconfiguration, access control issues, and vulnerabilities affecting default configuration or bundle",
+          "impact": "Tier 2"
+        },
+        {
+          "key": "254c29641b1cb8ec",
+          "type": "web",
+          "value": "adobeid-na1.services.adobe.com",
+          "eligible": true,
+          "impact": "Tier 3"
+        },
+        {
+          "key": "2ec2a474a9a504d5",
+          "type": "other",
+          "value": "Adobe Firefly AI Features",
+          "eligible": true,
+          "description": "Relevant features include:\n\n* Firefly Image Models\n* Firefly Video Model\n* Firefly Custom Models\n\nEnabled on:\n\n[firefly.adobe.com\n](https://firefly.adobe.com)\n\nTesting should focus on AI vulnerabilities with practical security impact, including unauthorized access, data exposure, model or training-data security issues, prompt injection with backend impact, unauthorized actions, and cross-account or cross-tenant access.",
+          "impact": "Tier 1"
+        },
+        {
+          "key": "2fc8a2ed2071ed00",
+          "type": "web",
+          "value": "federatedid-na1.services.adobe.com",
+          "eligible": true,
+          "impact": "Tier 3"
+        },
+        {
+          "key": "3d3e46c99e350b8f",
+          "type": "mobile",
+          "value": "Adobe Scan Mobile App (Android)",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "3d8c265dc8246501",
+          "type": "mobile",
+          "value": "Adobe Fresco (iOS)",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "40fb86debfef40fc",
+          "type": "web",
+          "value": "learningmanagerstage4.adobe.com",
+          "eligible": true,
+          "description": "Type: Web\nAsset: learningmanagerstage4.adobe.com\nTesting plan: Yes\nCredentials / subscription: Self-signup; free account covering all features\n\n---\n\nAdobe Learning Manager is in scope.\n\nTesting should focus on authentication, authorization, learning content workflows, role boundaries, sensitive data exposure, account access, and business logic flaws affecting approved learning workflows.\n\n> Testing must be performed against the provided stage environment. Production testing is out of scope.\n> Please carefully review the ALM-specific out-of-scope vulnerabilities listed in the testing plan attac",
+          "impact": "Tier 3"
+        },
+        {
+          "key": "4d8ca885f75ab7cb",
+          "type": "web",
+          "value": "fonts.adobe.com",
+          "eligible": true,
+          "description": "Type: Web\nAsset: fonts.adobe.com\nTesting plan: Yes\nCredentials / subscription: Self-signup; free account covering all features\n\n---\n\nAdobe Fonts is in scope.\n\nTesting should focus on authentication, authorization, account security, font access workflows, sensitive data exposure, and business logic flaws affecting Adobe Fonts functionality.\n\n> Digital Rights Management findings related to licensing bypasses are out of scope.",
+          "impact": "Tier 3"
+        },
+        {
+          "key": "5301cc117300090c",
+          "type": "mobile",
+          "value": "Frame.io iOS Application",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "542377a13068e1b2",
+          "type": "other",
+          "value": "Acrobat AI Assistant",
+          "eligible": true,
+          "description": "Relevant features include:\n\n* Acrobat AI Assistant\n* Acrobat PDF Spaces\n* Acrobat Create Presentations\n* Acrobat Create Podcast\n\nThese features are enabled on [acrobat.adobe.com](https://acrobat.adobe.com).\n\nTesting should focus on AI vulnerabilities with clear security impact, including prompt injection leading to sensitive content disclosure, unauthorized access to documents, unauthorized actions, cross-account access, data exfiltration, privilege escalation, or bypass of enforced backend security controls.",
+          "impact": "Tier 1"
+        },
+        {
+          "key": "560e150dc446b0c0",
+          "type": "web",
+          "value": "account.adobe.com",
+          "eligible": true,
+          "description": "Type: Web\n\nAssets:\n\n* ims-na1.adobelogin.com\n* adobeid-na1.services.adobe.com\n* auth.services.adobe.com\n* federatedid-na1.services.adobe.com\n* account.adobe.com\n\nTesting plan: Yes\nCredentials / subscription: Self-signup; free account covering all features\n\n---\n\nAdobe IMS and Adobe account security functionality are in scope.\n\nTesting should focus on identity flows, authentication, authorization, session handling, account security, security profile functionality, and identity-related vulnerabilities affecting approved IMS assets.\n\n> IMS-specific out-of-scope items apply, including denial-of-ser",
+          "impact": "Tier 3"
+        },
+        {
+          "key": "60f6a184e20636e1",
+          "type": "other",
+          "value": "Adobe Stock AI Studio",
+          "eligible": true,
+          "description": "Relevant feature:\n\n* Stock AI Studio\n\nEnabled on:\n\n[stock.adobe.com](https://stock.adobe.com)\n\nTesting should focus on AI-assisted Stock workflows, unauthorized access to assets, sensitive data exposure, cross-account access, and AI workflow manipulation with security impact.",
+          "impact": "Tier 1"
+        }
+      ],
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-03T11:22:17.903Z",
+      "lastChangedAt": "2026-09-03T11:22:17.903Z",
+      "change": {
+        "type": "new_target",
+        "label": "1 target added",
+        "at": "2026-09-03T11:22:17.903Z",
+        "addedTargets": 1,
+        "removedTargets": 2
+      },
+      "score": 78,
+      "scoreBreakdown": {
+        "freshness": 32,
+        "reward": 15,
+        "inspectability": 18,
+        "authorization": 10,
+        "friction": 3
+      },
+      "reasons": [
+        "1 target added",
+        "Inspectable source-code scope",
+        "Confirmed reward ceiling clears $1,000"
+      ],
+      "attentionPressure": "medium"
+    },
     {
       "id": "program:auth0-by-okta",
       "name": "Auth0 by Okta",
@@ -1958,6 +2250,160 @@
       "attentionPressure": "medium"
     },
     {
+      "id": "program:datacamp",
+      "name": "DataCamp",
+      "platform": "Intigriti",
+      "url": "https://www.intigriti.com/programs/datacamp/datacamp/detail",
+      "status": "open",
+      "paid": true,
+      "currency": "EUR",
+      "minReward": 25,
+      "maxReward": 1500,
+      "safeHarbor": null,
+      "disclosureAllowed": null,
+      "sourceIds": [
+        "intigriti"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 15,
+      "tags": [
+        "api",
+        "mobile",
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "2be98e401cb66367",
+          "type": "web",
+          "value": "practice.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "3c0518038c85bb67",
+          "type": "web",
+          "value": "app.datacamp.com/certification",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "3c2807510dace253",
+          "type": "web",
+          "value": "assessment.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "4522dc96fe9aae31",
+          "type": "web",
+          "value": "projects.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "65313452bc5a10e1",
+          "type": "web",
+          "value": "www.datacamp.com/datalab",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "7097f76719aa1211",
+          "type": "web",
+          "value": "www.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "8cd243eb5f23ca3a",
+          "type": "web",
+          "value": "assessment-api.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "af3345629aa6e539",
+          "type": "web",
+          "value": "app.datacamp.com/groups",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "b5090789914b5858",
+          "type": "mobile",
+          "value": "com.datacamp",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "b535648528376f01",
+          "type": "web",
+          "value": "profiles-api.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "b7eb52a74905fe44",
+          "type": "web",
+          "value": "app.datacamp.com/learn",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "bcced62f50cc775f",
+          "type": "web",
+          "value": "*.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 3"
+        },
+        {
+          "key": "e676773a8e81eb02",
+          "type": "web",
+          "value": "assessment-v2.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "fce16e48b01909e6",
+          "type": "web",
+          "value": "campus.datacamp.com",
+          "eligible": true,
+          "impact": "Tier 2"
+        },
+        {
+          "key": "ffb4d48d59aa1429",
+          "type": "mobile",
+          "value": "https://apps.apple.com/au/app/datacamp-learn-data-science/id1263413087",
+          "eligible": true,
+          "impact": "Tier 2"
+        }
+      ],
+      "firstSeenAt": "2026-09-03T11:22:17.903Z",
+      "lastSeenAt": "2026-09-03T11:22:17.903Z",
+      "lastChangedAt": "2026-09-03T11:22:17.903Z",
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T11:22:17.903Z"
+      },
+      "score": 53,
+      "scoreBreakdown": {
+        "freshness": 27,
+        "reward": 8,
+        "inspectability": 4,
+        "authorization": 10,
+        "friction": 4
+      },
+      "reasons": [
+        "New program",
+        "Structured API surface",
+        "Confirmed reward ceiling clears $1,000"
+      ],
+      "attentionPressure": "medium"
+    },
+    {
       "id": "program:nvidia-public-bug-bounty",
       "name": "NVIDIA Public Bug Bounty",
       "platform": "Intigriti",
@@ -2195,231 +2641,6 @@
         "Local, sandbox, or testnet testing language detected",
         "Confirmed reward ceiling clears $1,000",
         "Safe-harbor field is present, verify the official wording"
-      ],
-      "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:adobe-public",
-      "name": "Adobe Public",
-      "platform": "Intigriti",
-      "url": "https://www.intigriti.com/programs/adobe/adobepublic/detail",
-      "status": "open",
-      "paid": true,
-      "currency": "USD",
-      "minReward": 75,
-      "maxReward": 15000,
-      "safeHarbor": null,
-      "disclosureAllowed": null,
-      "sourceIds": [
-        "intigriti"
-      ],
-      "sourceCode": true,
-      "repositoryCount": 0,
-      "targetCount": 40,
-      "tags": [
-        "ai/ml",
-        "api",
-        "mobile",
-        "other",
-        "source-code",
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "0892a68a0bf6e15d",
-          "type": "mobile",
-          "value": "Adobe Photoshop Express Mobile App (iOS)",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "0aded05b9ee85e51",
-          "type": "mobile",
-          "value": "Acrobat Reader Mobile App (Android)",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "0de10610cedaacdf",
-          "type": "other",
-          "value": "Acrobat Create Podcast",
-          "eligible": true,
-          "description": "Relevant features include:\n\n* Acrobat Create Podcast\n\nThese features are enabled on [acrobat.adobe.com](https://acrobat.adobe.com).\n\nTesting should focus on AI vulnerabilities with clear security impact, including prompt injection leading to sensitive content disclosure, unauthorized access to documents, unauthorized actions, cross-account access, data exfiltration, privilege escalation, or bypass of enforced backend security controls.",
-          "impact": "Tier 1"
-        },
-        {
-          "key": "1ba3e25a6f330163",
-          "type": "web",
-          "value": "firefly.adobe.com",
-          "eligible": true,
-          "description": "Type: Web\nAsset: firefly.adobe.com\nTesting plan: Yes\nCredentials / subscription: Not provided; self-signup; free trial for premium features\n\n---\n\nAdobe Firefly is in scope.\n\nTesting should focus on authentication, authorization, generated content workflows, user content access, sensitive data exposure, cross-account access, business logic flaws, and security issues affecting approved Firefly functionality.\n\nRelevant Tier 1 AI bonus features available through this asset include:\n\n* Firefly Image Models\n* Firefly Video Model\n* Firefly AI Specific Findings\n* Firefly Custom Models\n\nFirefly backend",
-          "impact": "Tier 2"
-        },
-        {
-          "key": "1cd7c4d8f639402a",
-          "type": "other",
-          "value": "Adobe Commerce, Adobe Commerce B2B and Magento Open Source",
-          "eligible": true,
-          "description": "Type: Web\nTesting plan: Yes\nCredentials / subscription: Not provided; Magento Open Source option available\n\n---\n\nThis asset covers Adobe Commerce, Adobe Commerce B2B, Magento Open Source, core software in Magento 2 Commerce, Commerce B2B and Open Source default configuration, and bundled extensions.\n\nTesting should focus on server-side code execution, authentication and authorization issues, injection vulnerabilities, directory traversal, sensitive information disclosure, significant security misconfiguration, access control issues, and vulnerabilities affecting default configuration or bundle",
-          "impact": "Tier 2"
-        },
-        {
-          "key": "254c29641b1cb8ec",
-          "type": "web",
-          "value": "adobeid-na1.services.adobe.com",
-          "eligible": true,
-          "impact": "Tier 3"
-        },
-        {
-          "key": "2ec2a474a9a504d5",
-          "type": "other",
-          "value": "Adobe Firefly AI Features",
-          "eligible": true,
-          "description": "Relevant features include:\n\n* Firefly Image Models\n* Firefly Video Model\n* Firefly Custom Models\n\nEnabled on:\n\n[firefly.adobe.com\n](https://firefly.adobe.com)\n\nTesting should focus on AI vulnerabilities with practical security impact, including unauthorized access, data exposure, model or training-data security issues, prompt injection with backend impact, unauthorized actions, and cross-account or cross-tenant access.",
-          "impact": "Tier 1"
-        },
-        {
-          "key": "2fc8a2ed2071ed00",
-          "type": "web",
-          "value": "federatedid-na1.services.adobe.com",
-          "eligible": true,
-          "impact": "Tier 3"
-        },
-        {
-          "key": "3d3e46c99e350b8f",
-          "type": "mobile",
-          "value": "Adobe Scan Mobile App (Android)",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "3d8c265dc8246501",
-          "type": "mobile",
-          "value": "Adobe Fresco (iOS)",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "40fb86debfef40fc",
-          "type": "web",
-          "value": "learningmanagerstage4.adobe.com",
-          "eligible": true,
-          "description": "Type: Web\nAsset: learningmanagerstage4.adobe.com\nTesting plan: Yes\nCredentials / subscription: Self-signup; free account covering all features\n\n---\n\nAdobe Learning Manager is in scope.\n\nTesting should focus on authentication, authorization, learning content workflows, role boundaries, sensitive data exposure, account access, and business logic flaws affecting approved learning workflows.\n\n> Testing must be performed against the provided stage environment. Production testing is out of scope.\n> Please carefully review the ALM-specific out-of-scope vulnerabilities listed in the testing plan attac",
-          "impact": "Tier 3"
-        },
-        {
-          "key": "4d8ca885f75ab7cb",
-          "type": "web",
-          "value": "fonts.adobe.com",
-          "eligible": true,
-          "description": "Type: Web\nAsset: fonts.adobe.com\nTesting plan: Yes\nCredentials / subscription: Self-signup; free account covering all features\n\n---\n\nAdobe Fonts is in scope.\n\nTesting should focus on authentication, authorization, account security, font access workflows, sensitive data exposure, and business logic flaws affecting Adobe Fonts functionality.\n\n> Digital Rights Management findings related to licensing bypasses are out of scope.",
-          "impact": "Tier 3"
-        },
-        {
-          "key": "5301cc117300090c",
-          "type": "mobile",
-          "value": "Frame.io iOS Application",
-          "eligible": true,
-          "impact": "Tier 2"
-        },
-        {
-          "key": "542377a13068e1b2",
-          "type": "other",
-          "value": "Acrobat AI Assistant",
-          "eligible": true,
-          "description": "Relevant features include:\n\n* Acrobat AI Assistant\n* Acrobat PDF Spaces\n* Acrobat Create Presentations\n* Acrobat Create Podcast\n\nThese features are enabled on [acrobat.adobe.com](https://acrobat.adobe.com).\n\nTesting should focus on AI vulnerabilities with clear security impact, including prompt injection leading to sensitive content disclosure, unauthorized access to documents, unauthorized actions, cross-account access, data exfiltration, privilege escalation, or bypass of enforced backend security controls.",
-          "impact": "Tier 1"
-        },
-        {
-          "key": "560e150dc446b0c0",
-          "type": "web",
-          "value": "account.adobe.com",
-          "eligible": true,
-          "description": "Type: Web\n\nAssets:\n\n* ims-na1.adobelogin.com\n* adobeid-na1.services.adobe.com\n* auth.services.adobe.com\n* federatedid-na1.services.adobe.com\n* account.adobe.com\n\nTesting plan: Yes\nCredentials / subscription: Self-signup; free account covering all features\n\n---\n\nAdobe IMS and Adobe account security functionality are in scope.\n\nTesting should focus on identity flows, authentication, authorization, session handling, account security, security profile functionality, and identity-related vulnerabilities affecting approved IMS assets.\n\n> IMS-specific out-of-scope items apply, including denial-of-ser",
-          "impact": "Tier 3"
-        },
-        {
-          "key": "60f6a184e20636e1",
-          "type": "other",
-          "value": "Adobe Stock AI Studio",
-          "eligible": true,
-          "description": "Relevant feature:\n\n* Stock AI Studio\n\nEnabled on:\n\n[stock.adobe.com](https://stock.adobe.com)\n\nTesting should focus on AI-assisted Stock workflows, unauthorized access to assets, sensitive data exposure, cross-account access, and AI workflow manipulation with security impact.",
-          "impact": "Tier 1"
-        }
-      ],
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastChangedAt": "2026-09-02T23:02:43.170Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-02T23:02:43.170Z"
-      },
-      "score": 51,
-      "scoreBreakdown": {
-        "freshness": 5,
-        "reward": 15,
-        "inspectability": 18,
-        "authorization": 10,
-        "friction": 3
-      },
-      "reasons": [
-        "Inspectable source-code scope",
-        "Confirmed reward ceiling clears $1,000"
-      ],
-      "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:dovecot",
-      "name": "Dovecot",
-      "platform": "YesWeHack",
-      "url": "https://yeswehack.com/programs/dovecot",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": 100,
-      "maxReward": 5000,
-      "safeHarbor": null,
-      "disclosureAllowed": null,
-      "sourceIds": [
-        "yeswehack"
-      ],
-      "sourceCode": true,
-      "repositoryCount": 1,
-      "targetCount": 1,
-      "tags": [
-        "source-code"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "8a6769c089fb4654",
-          "type": "source-code",
-          "value": "Dovecot IMAP Server and Pigeonhole SIEVE (see \"Software packages\" and \"Source code\")",
-          "eligible": true
-        }
-      ],
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastChangedAt": "2026-09-02T23:02:43.170Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-02T23:02:43.170Z"
-      },
-      "score": 51,
-      "scoreBreakdown": {
-        "freshness": 5,
-        "reward": 12,
-        "inspectability": 16,
-        "authorization": 10,
-        "friction": 8
-      },
-      "reasons": [
-        "Inspectable source-code scope",
-        "Confirmed reward ceiling clears $1,000",
-        "Small scope with 1 tracked target"
       ],
       "attentionPressure": "unknown"
     },
@@ -4177,6 +4398,59 @@
         "Confirmed reward ceiling clears $1,000"
       ],
       "attentionPressure": "medium"
+    },
+    {
+      "id": "program:dovecot",
+      "name": "Dovecot",
+      "platform": "YesWeHack",
+      "url": "https://yeswehack.com/programs/dovecot",
+      "status": "stale",
+      "paid": true,
+      "currency": null,
+      "minReward": 100,
+      "maxReward": 5000,
+      "safeHarbor": null,
+      "disclosureAllowed": null,
+      "sourceIds": [
+        "yeswehack"
+      ],
+      "sourceCode": true,
+      "repositoryCount": 1,
+      "targetCount": 1,
+      "tags": [
+        "source-code"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "8a6769c089fb4654",
+          "type": "source-code",
+          "value": "Dovecot IMAP Server and Pigeonhole SIEVE (see \"Software packages\" and \"Source code\")",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastChangedAt": "2026-09-02T23:02:43.170Z",
+      "change": {
+        "type": "baseline",
+        "label": "Baseline import",
+        "at": "2026-09-02T23:02:43.170Z"
+      },
+      "score": 47,
+      "scoreBreakdown": {
+        "freshness": 5,
+        "reward": 12,
+        "inspectability": 16,
+        "authorization": 6,
+        "friction": 8
+      },
+      "reasons": [
+        "Inspectable source-code scope",
+        "Confirmed reward ceiling clears $1,000",
+        "Small scope with 1 tracked target"
+      ],
+      "attentionPressure": "unknown"
     },
     {
       "id": "program:ripe-ncc",

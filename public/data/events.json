@@ -1,6 +1,47 @@
 {
-  "generatedAt": "2026-09-03T07:44:36.058Z",
+  "generatedAt": "2026-09-03T11:22:17.903Z",
   "events": [
+    {
+      "id": "2026-09-03T11:22:17.903Z:program:opensea-managed-bug-bounty-program:new_program",
+      "programId": "program:opensea-managed-bug-bounty-program",
+      "programName": "OpenSea Managed Bug Bounty Program",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/opensea",
+      "score": 83,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T11:22:17.903Z"
+      }
+    },
+    {
+      "id": "2026-09-03T11:22:17.903Z:program:adobe-public:new_target",
+      "programId": "program:adobe-public",
+      "programName": "Adobe Public",
+      "platform": "Intigriti",
+      "url": "https://www.intigriti.com/programs/adobe/adobepublic/detail",
+      "score": 78,
+      "change": {
+        "type": "new_target",
+        "label": "1 target added",
+        "at": "2026-09-03T11:22:17.903Z",
+        "addedTargets": 1,
+        "removedTargets": 2
+      }
+    },
+    {
+      "id": "2026-09-03T11:22:17.903Z:program:datacamp:new_program",
+      "programId": "program:datacamp",
+      "programName": "DataCamp",
+      "platform": "Intigriti",
+      "url": "https://www.intigriti.com/programs/datacamp/datacamp/detail",
+      "score": 53,
+      "change": {
+        "type": "new_program",
+        "label": "New program",
+        "at": "2026-09-03T11:22:17.903Z"
+      }
+    },
     {
       "id": "2026-09-03T07:40:37.681Z:program:intercom:new_target",
       "programId": "program:intercom",
