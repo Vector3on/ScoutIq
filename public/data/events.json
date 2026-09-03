@@ -1,6 +1,20 @@
 {
-  "generatedAt": "2026-09-03T07:24:00.737Z",
+  "generatedAt": "2026-09-03T07:40:37.681Z",
   "events": [
+    {
+      "id": "2026-09-03T07:40:37.681Z:program:intercom:new_target",
+      "programId": "program:intercom",
+      "programName": "Intercom",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/intercom",
+      "score": 66,
+      "change": {
+        "type": "new_target",
+        "label": "12 targets added",
+        "at": "2026-09-03T07:40:37.681Z",
+        "addedTargets": 12
+      }
+    },
     {
       "id": "2026-09-03T07:24:00.737Z:program:intercom:scope_updated",
       "programId": "program:intercom",

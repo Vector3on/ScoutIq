@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-03T07:24:00.737Z",
+  "generatedAt": "2026-09-03T07:40:37.681Z",
   "sourceSnapshots": {
     "hackerone": [
       {
@@ -41663,6 +41663,208 @@
         "sourcePriority": 20
       },
       {
+        "mergeKey": "intercom",
+        "name": "Intercom",
+        "platform": "Bugcrowd",
+        "url": "https://bugcrowd.com/engagements/intercom",
+        "status": "open",
+        "paid": true,
+        "currency": null,
+        "maxReward": 6000,
+        "safeHarbor": "partial",
+        "disclosureAllowed": true,
+        "sourceIds": [
+          "bugcrowd"
+        ],
+        "sourceCode": false,
+        "repositoryCount": 0,
+        "targetCount": 12,
+        "tags": [
+          "ai/ml",
+          "api",
+          "mobile",
+          "web"
+        ],
+        "languages": [],
+        "targets": [
+          {
+            "key": "0b9d50558fa11417",
+            "type": "api",
+            "value": "https://*.mobile-messenger.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "21dec38537abfa68",
+            "type": "web",
+            "value": "https://app.fin.ai/",
+            "eligible": true
+          },
+          {
+            "key": "2a212440013e19a0",
+            "type": "mobile",
+            "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-android",
+            "eligible": true
+          },
+          {
+            "key": "341be95086808969",
+            "type": "web",
+            "value": "https://app.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "545ddd4cb10115d4",
+            "type": "web",
+            "value": "https://app.intercom.io/",
+            "eligible": true
+          },
+          {
+            "key": "9282d89e63063e5d",
+            "type": "web",
+            "value": "*.intercomassets.com / *.intercomcdn.com",
+            "eligible": true
+          },
+          {
+            "key": "ae9386d0862d0120",
+            "type": "api",
+            "value": "https://api-iam.intercom.io",
+            "eligible": true
+          },
+          {
+            "key": "af2f0636a01023af",
+            "type": "web",
+            "value": "https://www.intercom.com/",
+            "eligible": true
+          },
+          {
+            "key": "c42d76565236d1d6",
+            "type": "api",
+            "value": "https://api.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "d63994fca3163213",
+            "type": "mobile",
+            "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-ios",
+            "eligible": true
+          },
+          {
+            "key": "da459cd2a912161a",
+            "type": "web",
+            "value": "http://mcp.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "f30687eab03b2210",
+            "type": "web",
+            "value": "https://fin.ai/",
+            "eligible": true
+          }
+        ],
+        "localTestingHint": false,
+        "sourcePriority": 20
+      },
+      {
+        "mergeKey": "intercom",
+        "name": "Intercom",
+        "platform": "Bugcrowd",
+        "url": "https://bugcrowd.com/engagements/intercom",
+        "status": "open",
+        "paid": true,
+        "currency": null,
+        "maxReward": 6000,
+        "safeHarbor": "partial",
+        "disclosureAllowed": true,
+        "sourceIds": [
+          "bugcrowd"
+        ],
+        "sourceCode": false,
+        "repositoryCount": 0,
+        "targetCount": 12,
+        "tags": [
+          "ai/ml",
+          "api",
+          "mobile",
+          "web"
+        ],
+        "languages": [],
+        "targets": [
+          {
+            "key": "0b9d50558fa11417",
+            "type": "api",
+            "value": "https://*.mobile-messenger.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "21dec38537abfa68",
+            "type": "web",
+            "value": "https://app.fin.ai/",
+            "eligible": true
+          },
+          {
+            "key": "2a212440013e19a0",
+            "type": "mobile",
+            "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-android",
+            "eligible": true
+          },
+          {
+            "key": "341be95086808969",
+            "type": "web",
+            "value": "https://app.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "545ddd4cb10115d4",
+            "type": "web",
+            "value": "https://app.intercom.io/",
+            "eligible": true
+          },
+          {
+            "key": "9282d89e63063e5d",
+            "type": "web",
+            "value": "*.intercomassets.com / *.intercomcdn.com",
+            "eligible": true
+          },
+          {
+            "key": "ae9386d0862d0120",
+            "type": "api",
+            "value": "https://api-iam.intercom.io",
+            "eligible": true
+          },
+          {
+            "key": "af2f0636a01023af",
+            "type": "web",
+            "value": "https://www.intercom.com/",
+            "eligible": true
+          },
+          {
+            "key": "c42d76565236d1d6",
+            "type": "api",
+            "value": "https://api.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "d63994fca3163213",
+            "type": "mobile",
+            "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-ios",
+            "eligible": true
+          },
+          {
+            "key": "da459cd2a912161a",
+            "type": "web",
+            "value": "http://mcp.intercom.com",
+            "eligible": true
+          },
+          {
+            "key": "f30687eab03b2210",
+            "type": "web",
+            "value": "https://fin.ai/",
+            "eligible": true
+          }
+        ],
+        "localTestingHint": false,
+        "sourcePriority": 20
+      },
+      {
         "mergeKey": "internet-brands-public",
         "name": "Internet Brands Public",
         "platform": "Bugcrowd",
@@ -47401,196 +47603,6 @@
             "key": "db82154802463908",
             "type": "other",
             "value": "Other",
-            "eligible": true
-          }
-        ],
-        "localTestingHint": false,
-        "sourcePriority": 20
-      },
-      {
-        "mergeKey": "opensea-managed-bug-bounty-program",
-        "name": "OpenSea Managed Bug Bounty Program",
-        "platform": "Bugcrowd",
-        "url": "https://bugcrowd.com/engagements/opensea",
-        "status": "open",
-        "paid": true,
-        "currency": null,
-        "maxReward": 3000000,
-        "safeHarbor": "full",
-        "disclosureAllowed": true,
-        "sourceIds": [
-          "bugcrowd"
-        ],
-        "sourceCode": true,
-        "repositoryCount": 1,
-        "targetCount": 11,
-        "tags": [
-          "mobile",
-          "other",
-          "source-code",
-          "web"
-        ],
-        "languages": [],
-        "targets": [
-          {
-            "key": "0c3544d3f2ca7181",
-            "type": "web",
-            "value": "https://opensea.io/",
-            "eligible": true
-          },
-          {
-            "key": "0da6585017969862",
-            "type": "other",
-            "value": "OpenSea Solana Marketplace Program",
-            "eligible": true
-          },
-          {
-            "key": "14ece6674bf2bf4b",
-            "type": "mobile",
-            "value": "https://apps.apple.com/us/app/opensea-nft-marketplace/id1582861796",
-            "eligible": true
-          },
-          {
-            "key": "22abb4f64b5484a1",
-            "type": "web",
-            "value": "http://wallet.opensea.io/",
-            "eligible": true
-          },
-          {
-            "key": "2dd18684db68d61f",
-            "type": "web",
-            "value": "Broken Link",
-            "eligible": true
-          },
-          {
-            "key": "5da5b77777bcfe74",
-            "type": "other",
-            "value": "https://etherscan.io/address/0x0000a26b00c1F0DF003000390027140000fAa719",
-            "eligible": true
-          },
-          {
-            "key": "65b5785372ad10cf",
-            "type": "other",
-            "value": "Agent SDKs",
-            "eligible": true
-          },
-          {
-            "key": "80f5097944ca609d",
-            "type": "other",
-            "value": "https://mcp.opensea.io",
-            "eligible": true
-          },
-          {
-            "key": "837bda781bccac39",
-            "type": "other",
-            "value": "https://etherscan.io/address/0x00005EA00Ac477B1030CE78506496e8C2dE24bf5",
-            "eligible": true
-          },
-          {
-            "key": "85a0d257079f7987",
-            "type": "mobile",
-            "value": "https://play.google.com/store/apps/details?id=io.opensea&hl=en_US&gl=US",
-            "eligible": true
-          },
-          {
-            "key": "f682a474dd6c217b",
-            "type": "other",
-            "value": "https://github.com/ProjectOpenSea/seaport#deployments",
-            "eligible": true
-          }
-        ],
-        "localTestingHint": false,
-        "sourcePriority": 20
-      },
-      {
-        "mergeKey": "opensea-managed-bug-bounty-program",
-        "name": "OpenSea Managed Bug Bounty Program",
-        "platform": "Bugcrowd",
-        "url": "https://bugcrowd.com/engagements/opensea",
-        "status": "open",
-        "paid": true,
-        "currency": null,
-        "maxReward": 3000000,
-        "safeHarbor": "full",
-        "disclosureAllowed": true,
-        "sourceIds": [
-          "bugcrowd"
-        ],
-        "sourceCode": true,
-        "repositoryCount": 1,
-        "targetCount": 11,
-        "tags": [
-          "mobile",
-          "other",
-          "source-code",
-          "web"
-        ],
-        "languages": [],
-        "targets": [
-          {
-            "key": "0c3544d3f2ca7181",
-            "type": "web",
-            "value": "https://opensea.io/",
-            "eligible": true
-          },
-          {
-            "key": "0da6585017969862",
-            "type": "other",
-            "value": "OpenSea Solana Marketplace Program",
-            "eligible": true
-          },
-          {
-            "key": "14ece6674bf2bf4b",
-            "type": "mobile",
-            "value": "https://apps.apple.com/us/app/opensea-nft-marketplace/id1582861796",
-            "eligible": true
-          },
-          {
-            "key": "22abb4f64b5484a1",
-            "type": "web",
-            "value": "http://wallet.opensea.io/",
-            "eligible": true
-          },
-          {
-            "key": "2dd18684db68d61f",
-            "type": "web",
-            "value": "Broken Link",
-            "eligible": true
-          },
-          {
-            "key": "5da5b77777bcfe74",
-            "type": "other",
-            "value": "https://etherscan.io/address/0x0000a26b00c1F0DF003000390027140000fAa719",
-            "eligible": true
-          },
-          {
-            "key": "65b5785372ad10cf",
-            "type": "other",
-            "value": "Agent SDKs",
-            "eligible": true
-          },
-          {
-            "key": "80f5097944ca609d",
-            "type": "other",
-            "value": "https://mcp.opensea.io",
-            "eligible": true
-          },
-          {
-            "key": "837bda781bccac39",
-            "type": "other",
-            "value": "https://etherscan.io/address/0x00005EA00Ac477B1030CE78506496e8C2dE24bf5",
-            "eligible": true
-          },
-          {
-            "key": "85a0d257079f7987",
-            "type": "mobile",
-            "value": "https://play.google.com/store/apps/details?id=io.opensea&hl=en_US&gl=US",
-            "eligible": true
-          },
-          {
-            "key": "f682a474dd6c217b",
-            "type": "other",
-            "value": "https://github.com/ProjectOpenSea/seaport#deployments",
             "eligible": true
           }
         ],
@@ -96960,6 +96972,139 @@
       "attentionPressure": "unknown"
     },
     {
+      "id": "program:intercom",
+      "name": "Intercom",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/intercom",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 6000,
+      "safeHarbor": "partial",
+      "disclosureAllowed": true,
+      "sourceIds": [
+        "bugcrowd",
+        "projectdiscovery"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 13,
+      "tags": [
+        "ai/ml",
+        "api",
+        "mobile",
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "0b9d50558fa11417",
+          "type": "api",
+          "value": "https://*.mobile-messenger.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "21dec38537abfa68",
+          "type": "web",
+          "value": "https://app.fin.ai/",
+          "eligible": true
+        },
+        {
+          "key": "2a212440013e19a0",
+          "type": "mobile",
+          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-android",
+          "eligible": true
+        },
+        {
+          "key": "341be95086808969",
+          "type": "web",
+          "value": "https://app.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "545ddd4cb10115d4",
+          "type": "web",
+          "value": "https://app.intercom.io/",
+          "eligible": true
+        },
+        {
+          "key": "9282d89e63063e5d",
+          "type": "web",
+          "value": "*.intercomassets.com / *.intercomcdn.com",
+          "eligible": true
+        },
+        {
+          "key": "ae9386d0862d0120",
+          "type": "api",
+          "value": "https://api-iam.intercom.io",
+          "eligible": true
+        },
+        {
+          "key": "af2f0636a01023af",
+          "type": "web",
+          "value": "https://www.intercom.com/",
+          "eligible": true
+        },
+        {
+          "key": "b933d137ce4de6fc",
+          "type": "web",
+          "value": "intercom.io",
+          "eligible": true
+        },
+        {
+          "key": "c42d76565236d1d6",
+          "type": "api",
+          "value": "https://api.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "d63994fca3163213",
+          "type": "mobile",
+          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-ios",
+          "eligible": true
+        },
+        {
+          "key": "da459cd2a912161a",
+          "type": "web",
+          "value": "http://mcp.intercom.com",
+          "eligible": true
+        },
+        {
+          "key": "f30687eab03b2210",
+          "type": "web",
+          "value": "https://fin.ai/",
+          "eligible": true
+        }
+      ],
+      "localTestingHint": false,
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-03T07:40:37.681Z",
+      "lastChangedAt": "2026-09-03T07:40:37.681Z",
+      "change": {
+        "type": "new_target",
+        "label": "12 targets added",
+        "at": "2026-09-03T07:40:37.681Z",
+        "addedTargets": 12
+      },
+      "missingCount": 0,
+      "score": 66,
+      "scoreBreakdown": {
+        "freshness": 32,
+        "reward": 12,
+        "inspectability": 4,
+        "authorization": 14,
+        "friction": 4
+      },
+      "reasons": [
+        "12 targets added",
+        "Structured API surface",
+        "Confirmed reward ceiling clears $1,000",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "medium"
+    },
+    {
       "id": "program:aiven-managed-bug-bounty",
       "name": "Aiven Managed Bug Bounty",
       "platform": "Bugcrowd",
@@ -97162,124 +97307,6 @@
         "Inspectable source-code scope",
         "Confirmed reward ceiling clears $1,000",
         "Small scope with 1 tracked target",
-        "Safe-harbor field is present, verify the official wording"
-      ],
-      "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:opensea-managed-bug-bounty-program",
-      "name": "OpenSea Managed Bug Bounty Program",
-      "platform": "Bugcrowd",
-      "url": "https://bugcrowd.com/engagements/opensea",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": 3000000,
-      "safeHarbor": "full",
-      "disclosureAllowed": true,
-      "sourceIds": [
-        "bugcrowd"
-      ],
-      "sourceCode": true,
-      "repositoryCount": 1,
-      "targetCount": 11,
-      "tags": [
-        "mobile",
-        "other",
-        "source-code",
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "0c3544d3f2ca7181",
-          "type": "web",
-          "value": "https://opensea.io/",
-          "eligible": true
-        },
-        {
-          "key": "0da6585017969862",
-          "type": "other",
-          "value": "OpenSea Solana Marketplace Program",
-          "eligible": true
-        },
-        {
-          "key": "14ece6674bf2bf4b",
-          "type": "mobile",
-          "value": "https://apps.apple.com/us/app/opensea-nft-marketplace/id1582861796",
-          "eligible": true
-        },
-        {
-          "key": "22abb4f64b5484a1",
-          "type": "web",
-          "value": "http://wallet.opensea.io/",
-          "eligible": true
-        },
-        {
-          "key": "2dd18684db68d61f",
-          "type": "web",
-          "value": "Broken Link",
-          "eligible": true
-        },
-        {
-          "key": "5da5b77777bcfe74",
-          "type": "other",
-          "value": "https://etherscan.io/address/0x0000a26b00c1F0DF003000390027140000fAa719",
-          "eligible": true
-        },
-        {
-          "key": "65b5785372ad10cf",
-          "type": "other",
-          "value": "Agent SDKs",
-          "eligible": true
-        },
-        {
-          "key": "80f5097944ca609d",
-          "type": "other",
-          "value": "https://mcp.opensea.io",
-          "eligible": true
-        },
-        {
-          "key": "837bda781bccac39",
-          "type": "other",
-          "value": "https://etherscan.io/address/0x00005EA00Ac477B1030CE78506496e8C2dE24bf5",
-          "eligible": true
-        },
-        {
-          "key": "85a0d257079f7987",
-          "type": "mobile",
-          "value": "https://play.google.com/store/apps/details?id=io.opensea&hl=en_US&gl=US",
-          "eligible": true
-        },
-        {
-          "key": "f682a474dd6c217b",
-          "type": "other",
-          "value": "https://github.com/ProjectOpenSea/seaport#deployments",
-          "eligible": true
-        }
-      ],
-      "localTestingHint": false,
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastChangedAt": "2026-09-02T23:02:43.170Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-02T23:02:43.170Z"
-      },
-      "missingCount": 0,
-      "score": 61,
-      "scoreBreakdown": {
-        "freshness": 5,
-        "reward": 22,
-        "inspectability": 16,
-        "authorization": 14,
-        "friction": 4
-      },
-      "reasons": [
-        "Inspectable source-code scope",
-        "Confirmed reward ceiling clears $1,000",
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
@@ -98056,6 +98083,124 @@
         "Inspectable source-code scope",
         "Confirmed reward ceiling clears $1,000",
         "Small scope with 2 tracked targets",
+        "Safe-harbor field is present, verify the official wording"
+      ],
+      "attentionPressure": "unknown"
+    },
+    {
+      "id": "program:opensea-managed-bug-bounty-program",
+      "name": "OpenSea Managed Bug Bounty Program",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/opensea",
+      "status": "stale",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 3000000,
+      "safeHarbor": "full",
+      "disclosureAllowed": true,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": true,
+      "repositoryCount": 1,
+      "targetCount": 11,
+      "tags": [
+        "mobile",
+        "other",
+        "source-code",
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "0c3544d3f2ca7181",
+          "type": "web",
+          "value": "https://opensea.io/",
+          "eligible": true
+        },
+        {
+          "key": "0da6585017969862",
+          "type": "other",
+          "value": "OpenSea Solana Marketplace Program",
+          "eligible": true
+        },
+        {
+          "key": "14ece6674bf2bf4b",
+          "type": "mobile",
+          "value": "https://apps.apple.com/us/app/opensea-nft-marketplace/id1582861796",
+          "eligible": true
+        },
+        {
+          "key": "22abb4f64b5484a1",
+          "type": "web",
+          "value": "http://wallet.opensea.io/",
+          "eligible": true
+        },
+        {
+          "key": "2dd18684db68d61f",
+          "type": "web",
+          "value": "Broken Link",
+          "eligible": true
+        },
+        {
+          "key": "5da5b77777bcfe74",
+          "type": "other",
+          "value": "https://etherscan.io/address/0x0000a26b00c1F0DF003000390027140000fAa719",
+          "eligible": true
+        },
+        {
+          "key": "65b5785372ad10cf",
+          "type": "other",
+          "value": "Agent SDKs",
+          "eligible": true
+        },
+        {
+          "key": "80f5097944ca609d",
+          "type": "other",
+          "value": "https://mcp.opensea.io",
+          "eligible": true
+        },
+        {
+          "key": "837bda781bccac39",
+          "type": "other",
+          "value": "https://etherscan.io/address/0x00005EA00Ac477B1030CE78506496e8C2dE24bf5",
+          "eligible": true
+        },
+        {
+          "key": "85a0d257079f7987",
+          "type": "mobile",
+          "value": "https://play.google.com/store/apps/details?id=io.opensea&hl=en_US&gl=US",
+          "eligible": true
+        },
+        {
+          "key": "f682a474dd6c217b",
+          "type": "other",
+          "value": "https://github.com/ProjectOpenSea/seaport#deployments",
+          "eligible": true
+        }
+      ],
+      "localTestingHint": false,
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastChangedAt": "2026-09-02T23:02:43.170Z",
+      "change": {
+        "type": "baseline",
+        "label": "Baseline import",
+        "at": "2026-09-02T23:02:43.170Z"
+      },
+      "missingCount": 1,
+      "score": 57,
+      "scoreBreakdown": {
+        "freshness": 5,
+        "reward": 22,
+        "inspectability": 16,
+        "authorization": 10,
+        "friction": 4
+      },
+      "reasons": [
+        "Inspectable source-code scope",
+        "Confirmed reward ceiling clears $1,000",
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
@@ -134891,61 +135036,6 @@
         "Confirmed reward ceiling clears $1,000"
       ],
       "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:intercom",
-      "name": "Intercom",
-      "platform": "Self-hosted",
-      "url": "https://bugcrowd.com/intercom",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": null,
-      "safeHarbor": null,
-      "disclosureAllowed": null,
-      "sourceIds": [
-        "projectdiscovery"
-      ],
-      "sourceCode": false,
-      "repositoryCount": 0,
-      "targetCount": 1,
-      "tags": [
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "b933d137ce4de6fc",
-          "type": "web",
-          "value": "intercom.io",
-          "eligible": true
-        }
-      ],
-      "localTestingHint": false,
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-03T07:24:00.737Z",
-      "lastChangedAt": "2026-09-03T07:24:00.737Z",
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-03T07:24:00.737Z",
-        "removedTargets": 12
-      },
-      "missingCount": 0,
-      "score": 33,
-      "scoreBreakdown": {
-        "freshness": 18,
-        "reward": 0,
-        "inspectability": 0,
-        "authorization": 10,
-        "friction": 5
-      },
-      "reasons": [
-        "Scope or policy changed",
-        "Small scope with 1 tracked target"
-      ],
-      "attentionPressure": "medium"
     },
     {
       "id": "program:klaviyo-managed-bug-bounty",
@@ -211920,6 +212010,20 @@
     }
   ],
   "events": [
+    {
+      "id": "2026-09-03T07:40:37.681Z:program:intercom:new_target",
+      "programId": "program:intercom",
+      "programName": "Intercom",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/intercom",
+      "score": 66,
+      "change": {
+        "type": "new_target",
+        "label": "12 targets added",
+        "at": "2026-09-03T07:40:37.681Z",
+        "addedTargets": 12
+      }
+    },
     {
       "id": "2026-09-03T07:24:00.737Z:program:intercom:scope_updated",
       "programId": "program:intercom",
