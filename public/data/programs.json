@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-09-03T05:53:04.962Z",
+    "generatedAt": "2026-09-03T07:24:00.737Z",
     "mode": "live",
     "sourceCount": 6,
     "healthySourceCount": 6,
     "programCount": 1012,
-    "targetCount": 10690,
-    "eventCount": 8,
+    "targetCount": 10678,
+    "eventCount": 9,
     "sources": [
       {
         "id": "hackerone",
@@ -197,137 +197,6 @@
         "Safe-harbor field is present, verify the official wording"
       ],
       "attentionPressure": "unknown"
-    },
-    {
-      "id": "program:intercom",
-      "name": "Intercom",
-      "platform": "Bugcrowd",
-      "url": "https://bugcrowd.com/engagements/intercom",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": 6000,
-      "safeHarbor": "partial",
-      "disclosureAllowed": true,
-      "sourceIds": [
-        "bugcrowd",
-        "projectdiscovery"
-      ],
-      "sourceCode": false,
-      "repositoryCount": 0,
-      "targetCount": 13,
-      "tags": [
-        "ai/ml",
-        "api",
-        "mobile",
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "0b9d50558fa11417",
-          "type": "api",
-          "value": "https://*.mobile-messenger.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "21dec38537abfa68",
-          "type": "web",
-          "value": "https://app.fin.ai/",
-          "eligible": true
-        },
-        {
-          "key": "2a212440013e19a0",
-          "type": "mobile",
-          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-android",
-          "eligible": true
-        },
-        {
-          "key": "341be95086808969",
-          "type": "web",
-          "value": "https://app.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "545ddd4cb10115d4",
-          "type": "web",
-          "value": "https://app.intercom.io/",
-          "eligible": true
-        },
-        {
-          "key": "9282d89e63063e5d",
-          "type": "web",
-          "value": "*.intercomassets.com / *.intercomcdn.com",
-          "eligible": true
-        },
-        {
-          "key": "ae9386d0862d0120",
-          "type": "api",
-          "value": "https://api-iam.intercom.io",
-          "eligible": true
-        },
-        {
-          "key": "af2f0636a01023af",
-          "type": "web",
-          "value": "https://www.intercom.com/",
-          "eligible": true
-        },
-        {
-          "key": "b933d137ce4de6fc",
-          "type": "web",
-          "value": "intercom.io",
-          "eligible": true
-        },
-        {
-          "key": "c42d76565236d1d6",
-          "type": "api",
-          "value": "https://api.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "d63994fca3163213",
-          "type": "mobile",
-          "value": "https://developers.intercom.com/installing-intercom/docs/about-the-sdk-ios",
-          "eligible": true
-        },
-        {
-          "key": "da459cd2a912161a",
-          "type": "web",
-          "value": "http://mcp.intercom.com",
-          "eligible": true
-        },
-        {
-          "key": "f30687eab03b2210",
-          "type": "web",
-          "value": "https://fin.ai/",
-          "eligible": true
-        }
-      ],
-      "firstSeenAt": "2026-09-02T23:02:43.170Z",
-      "lastSeenAt": "2026-09-03T01:09:24.996Z",
-      "lastChangedAt": "2026-09-03T01:09:24.996Z",
-      "change": {
-        "type": "new_target",
-        "label": "12 targets added",
-        "at": "2026-09-03T01:09:24.996Z",
-        "addedTargets": 12
-      },
-      "score": 66,
-      "scoreBreakdown": {
-        "freshness": 32,
-        "reward": 12,
-        "inspectability": 4,
-        "authorization": 14,
-        "friction": 4
-      },
-      "reasons": [
-        "12 targets added",
-        "Structured API surface",
-        "Confirmed reward ceiling clears $1,000",
-        "Safe-harbor field is present, verify the official wording"
-      ],
-      "attentionPressure": "medium"
     },
     {
       "id": "program:aiven-managed-bug-bounty",
@@ -27922,6 +27791,59 @@
         "Confirmed reward ceiling clears $1,000"
       ],
       "attentionPressure": "unknown"
+    },
+    {
+      "id": "program:intercom",
+      "name": "Intercom",
+      "platform": "Self-hosted",
+      "url": "https://bugcrowd.com/intercom",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": null,
+      "safeHarbor": null,
+      "disclosureAllowed": null,
+      "sourceIds": [
+        "projectdiscovery"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "b933d137ce4de6fc",
+          "type": "web",
+          "value": "intercom.io",
+          "eligible": true
+        }
+      ],
+      "firstSeenAt": "2026-09-02T23:02:43.170Z",
+      "lastSeenAt": "2026-09-03T07:24:00.737Z",
+      "lastChangedAt": "2026-09-03T07:24:00.737Z",
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T07:24:00.737Z",
+        "removedTargets": 12
+      },
+      "score": 33,
+      "scoreBreakdown": {
+        "freshness": 18,
+        "reward": 0,
+        "inspectability": 0,
+        "authorization": 10,
+        "friction": 5
+      },
+      "reasons": [
+        "Scope or policy changed",
+        "Small scope with 1 tracked target"
+      ],
+      "attentionPressure": "medium"
     },
     {
       "id": "program:klaviyo-managed-bug-bounty",

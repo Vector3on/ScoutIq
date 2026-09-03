@@ -1,6 +1,20 @@
 {
-  "generatedAt": "2026-09-03T05:53:04.962Z",
+  "generatedAt": "2026-09-03T07:24:00.737Z",
   "events": [
+    {
+      "id": "2026-09-03T07:24:00.737Z:program:intercom:scope_updated",
+      "programId": "program:intercom",
+      "programName": "Intercom",
+      "platform": "Self-hosted",
+      "url": "https://bugcrowd.com/intercom",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T07:24:00.737Z",
+        "removedTargets": 12
+      }
+    },
     {
       "id": "2026-09-03T01:09:24.996Z:program:intercom:new_target",
       "programId": "program:intercom",
