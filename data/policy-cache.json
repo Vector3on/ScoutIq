@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-03T19:50:55.535Z",
+  "generatedAt": "2026-09-03T19:53:57.133Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -4212,6 +4212,80 @@
       "resolvedReports": null,
       "textBytes": 73,
       "useful": false
+    },
+    "program:majid-al-futtaim-customer-solutions:5be877d1d2b3dfa77c23": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T19:53:57.133Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 100,
+      "useful": false
+    },
+    "program:marionnaud:547b96654cf63d56425f": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T19:53:57.133Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {
+        "CRITICAL": 100
+      },
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 19158,
+      "useful": true
+    },
+    "program:mon-espace-sante-mes:1b19827995159c157354": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T19:53:57.133Z",
+      "source": "official-policy",
+      "programFloorSeverity": "LOW",
+      "floorSource": "scraped-reward-table",
+      "rewardsBySeverity": {
+        "LOW": 4000000,
+        "MEDIUM": 8000,
+        "HIGH": 8000,
+        "CRITICAL": 4000000
+      },
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 14585,
+      "useful": true
+    },
+    "program:monzo-public-bug-bounty-program:a3393921c8b7df1a26a6": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T19:53:57.133Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {
+        "LOW": 50,
+        "CRITICAL": 200
+      },
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 20416,
+      "useful": true
     }
   }
 }
