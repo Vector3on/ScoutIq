@@ -3,10 +3,12 @@
 ScoutIQ ranks public bug bounty targets by estimated payable value, not by how interesting a repository looks.
 
 ```text
-EV = max reward × P(findable by us) × P(payable) × P(first)
+EV = min(max reward, $50k) × P(findable by us) × P(payable) × P(first)
 ```
 
 The collector runs on GitHub Actions, writes static JSON, and serves a public dashboard. It uses no LLM and no paid backend. The official program policy always controls authorization.
+
+ScoutIQ is public open-source software under the MIT License. All pipeline logic, scoring rules, trap evidence, tests, workflows, and generated public datasets are auditable in this repository. Credentials are never committed.
 
 ## What changed in v2
 
@@ -72,7 +74,7 @@ min(35, commits_90d / 2)
 P_findable = clamp(
   0.15
   + 0.45 × FreshCodeIndex / 100
-  + 0.30 × (100 - HardeningIndex) / 100
+  + 0.30 × (100 - HardeningIndex) / 100  [measured repositories only]
   + 0.10 × proficiency_fit
 )
 
@@ -100,7 +102,7 @@ A target is removed before ranking when any of these is true:
 - It is closed, unpaid, target-ineligible, invite-only, KYC-required, explicitly unavailable to Indian researchers, or explicitly lacks required safe harbor.
 - It is a deployed contract with an explicit `tx30d == 0` or `tvl == 0` signal.
 
-Unknown is not silently converted to evidence. Unparsed policy floors use the configurable conservative default and are labeled `conservative-default`. Chain dormancy only fires on configured explorer/RPC evidence.
+Unknown is not silently converted to evidence. An unresolved repository has `hardeningIndex: null`, its hardening term is omitted from `P(findable)`, and its repository metrics remain `null`, never zero. Unparsed policy floors use the configurable conservative default and are labeled `conservative-default`. Chain dormancy only fires on configured explorer/RPC evidence.
 
 ## Run locally
 
@@ -111,16 +113,16 @@ npm ci
 npm test
 ```
 
-Run the normal incremental collection:
+Run a complete collection of every stale or unresolved repository:
 
 ```bash
 npm run collect
 ```
 
-Run the larger nightly backfill budget:
+Force the weekly repository refresh:
 
 ```bash
-npm run collect:nightly
+npm run collect:weekly
 ```
 
 Query the default top 25:
@@ -195,7 +197,11 @@ npm run shortlist -- --lane live --format json
 
 ## GitHub Actions
 
-`.github/workflows/radar.yml` runs at minute 17 each hour with a small enrichment budget and at 02:41 UTC with a larger nightly backfill. The workflow uses the repository-provided `GITHUB_TOKEN`. Add `GITLAB_TOKEN` only if public GitLab rate limits become a problem. Optional EVM and Discord secrets are referenced only when configured.
+`.github/workflows/radar.yml` runs at minute 17 each hour to discover changes and at 02:41 UTC each Sunday to force-refresh every repository. GitHub metadata is fetched in GraphQL batches of 100 repositories; tree, history, advisory, and source-scan evidence is cached for seven days. There is no repository sample budget.
+
+Add an Actions secret named `SCOUTIQ_GITHUB_TOKEN` containing a read-only fine-grained PAT for public repositories. Every GitHub REST and GraphQL request uses it. The workflow falls back to the authenticated per-run `github.token` so a missing PAT never causes anonymous 60-request/hour calls. Add `GITLAB_TOKEN` only if public GitLab rate limits become a problem. Never commit either token.
+
+Repository failures are emitted as `[repo-enrichment]` log lines and stored as explicit pending records with `lastError`; failed lookups do not write zero-valued evidence. DEV_KNOWN detection scans prioritized test and source blobs for suspicious test filenames, known-vulnerability comments, and disabled security/fork gates. DOS_CEILING and DORMANT are computed as hard exclusion traps during EV evaluation.
 
 Scheduled runs do not install frontend dependencies. Source-change and manual runs execute the complete build and test suite. This keeps private-repository Actions usage low while still validating code changes.
 
@@ -206,11 +212,11 @@ Scheduled runs do not install frontend dependencies. Source-change and manual ru
 ```text
 hardeningIndex, freshCodeIndex, knownIssueRisk,
 payableSeverityCeiling, programFloorSeverity, workflow,
-pFindable, pPayable, pFirst, evScore, traps,
+pFindable, pPayable, pFirst, effectiveReward, rewardCap, evScore, traps,
 repoSignals, liveState, excludeReason, honestReason
 ```
 
-The same decision fields are attached to each public target. Full repository trees remain in `data/repo-cache.json`; public JSON carries only the lean evidence needed to explain a rank.
+The same decision fields are attached to each public target. Full enrichment evidence remains in `data/repo_cache.json`; public JSON carries only the lean evidence needed to explain a rank.
 
 ## Files
 

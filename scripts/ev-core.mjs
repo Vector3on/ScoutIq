@@ -68,7 +68,7 @@ function targetText(program, target, repoSignals) {
 }
 
 export function calculateHardeningIndex(repoSignals, text = "") {
-  if (!repoSignals || repoSignals.status === "pending") return 0;
+  if (!repoSignals || repoSignals.status !== "ok") return null;
   const ageY = Number(repoSignals.ageY ?? 0);
   const advisories = repoSignals.advisories ?? {};
   let score = Math.min(30, Math.max(0, Number(repoSignals.stars ?? 0)) / 300);
@@ -277,10 +277,11 @@ export function evaluateTarget(program, target, context = {}) {
   let workflow = classification.workflow;
   if (workflow === "static-source" && hardeningIndex >= 55 && freshCodeIndex < 40) workflow = "static-source-hardened";
 
+  const measuredHardeningTerm = hardeningIndex == null ? 0 : 0.30 * ((100 - hardeningIndex) / 100);
   let pFindable = clamp(
     0.15
       + 0.45 * (freshCodeIndex / 100)
-      + 0.30 * ((100 - hardeningIndex) / 100)
+      + measuredHardeningTerm
       + 0.10 * classification.proficiencyFit,
   );
   if (classification.tinyFindable) pFindable *= 0.2;
@@ -315,7 +316,10 @@ export function evaluateTarget(program, target, context = {}) {
   const auditJump = audit ? freshCodeIndex - Number(audit.freshCodeIndexAtAudit ?? 0) : 0;
   if (audit && auditJump <= 40) exclude.push(`audited ${audit.verdict} target: ${audit.key}`);
 
-  const rawEv = Math.max(0, Number(program.maxReward ?? 0)) * pFindable * pPayable * first.value;
+  const maxReward = Math.max(0, Number(program.maxReward ?? 0));
+  const rewardCap = Math.max(1, Number(settings.rewardCap ?? 50_000));
+  const effectiveReward = Math.min(maxReward, rewardCap);
+  const rawEv = effectiveReward * pFindable * pPayable * first.value;
   const candidate = {
     ...target,
     repoSignals,
@@ -332,6 +336,9 @@ export function evaluateTarget(program, target, context = {}) {
     pFindable,
     pPayable,
     pFirst: first.value,
+    effectiveReward,
+    rewardCap,
+    rewardCapped: maxReward > rewardCap,
     evScore: exclude.length ? 0 : round(rawEv, 2),
     traps: [...new Set(traps)],
     excludeReason: exclude.length ? [...new Set(exclude)].join("; ") : null,
@@ -383,8 +390,11 @@ export function evaluateProgram(program, context = {}) {
     pFindable: best.pFindable,
     pPayable: best.pPayable,
     pFirst: best.pFirst,
+    effectiveReward: best.effectiveReward,
+    rewardCap: best.rewardCap,
+    rewardCapped: best.rewardCapped,
     evScore: excludeReason ? 0 : best.evScore,
-    traps: best.traps,
+    traps: [...new Set(candidates.flatMap((candidate) => candidate.traps ?? []))],
     repoSignals: best.repoSignals,
     liveState: best.liveState,
     excludeReason,

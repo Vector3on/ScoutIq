@@ -1,13 +1,19 @@
 import { createHash } from "node:crypto";
 
 const DAY = 86_400_000;
+const GITHUB_METADATA_BATCH_SIZE = 100;
+const GITHUB_BLOB_BATCH_SIZE = 75;
+const MAX_SCAN_FILES = 400;
+const MAX_SCAN_BYTES = 8_000_000;
 const FUZZ_PATH = /(^|\/)(oss-fuzz[^/]*|fuzz(?:ing|ers?)?)(\/|$)|(^|\/)[^/]*(?:_fuzz\.|fuzz[^/]*\.)/i;
 const FUZZ_FUNCTION = /\b(?:func\s+Fuzz[A-Za-z0-9_]*|Fuzz[A-Za-z0-9_]*\s*\(|LLVMFuzzerTestOneInput\s*\()/;
-const TEST_PATH = /(^|\/)(?:test|tests|spec|specs)(?:\/|_|\.)/i;
+const TEST_PATH = /(^|\/)(?:test|tests|spec|specs)(?:\/|_|\.)|(?:^|\/)[^/]+(?:_test\.[^/]+|\.(?:test|spec)\.[^/]+)$/i;
 const DEV_KNOWN_FILENAME = /(replay|exploit|poc|vuln|security[_-]?test)/i;
-const DEV_KNOWN_COMMENT = /(documents? the vulnerability|known issue|do not use in production|not.{0,10}secure)/i;
+const DEV_KNOWN_COMMENT = /(?:\/\/|#|\/\*|\*|<!--|--)\s*.{0,160}?(documents? the vulnerability|known issue|do not use in production|not.{0,10}secure)/i;
 const DISABLED_FLAG = /(if\s*\(?\s*false\b|math\.MaxInt64|max_int64|feature.{0,40}(?:disabled|false)|fork.{0,40}(?:never|disabled|max))/i;
 const SECURITY_CONTEXT = /(security|secure|replay|exploit|vuln|attack|signature|auth)/i;
+const TEXT_FILE = /(?:^|\/)(?:[^/.]+|[^/]+\.(?:md|txt|rst|adoc|go|rs|c|cc|cpp|cxx|h|hh|hpp|hxx|js|jsx|mjs|cjs|ts|tsx|py|rb|php|java|kt|kts|scala|swift|sol|move|vy|sh|bash|zsh|fish|ps1|json|jsonc|toml|ya?ml|xml|ini|cfg|conf|properties|gradle|proto|graphql|gql|sql|dockerfile|mk|cmake))$/i;
+const HIGH_VALUE_SOURCE = /(priority|signature|signer|security|auth|replay|exploit|vuln|attack|fork|feature|config|transactor|nonce)/i;
 
 function number(value, fallback = 0) {
   const parsed = Number(value);
@@ -22,10 +28,6 @@ function isoBefore(now, days) {
   return new Date(new Date(now).getTime() - days * DAY).toISOString();
 }
 
-function encodePath(path) {
-  return path.split("/").map(encodeURIComponent).join("/");
-}
-
 function parseLastPage(link) {
   if (!link) return null;
   const match = String(link).match(/[?&]page=(\d+)[^>]*>;\s*rel="last"/i);
@@ -33,7 +35,7 @@ function parseLastPage(link) {
 }
 
 export function parseRepositoryTarget(value) {
-  const raw = String(value ?? "").trim();
+  const raw = String(value ?? "").trim().replace(/[?#].*$/, "").replace(/\/+$/, "");
   if (!raw) return null;
   const scp = raw.match(/^git@(github\.com|gitlab\.com):(.+?)(?:\.git)?$/i);
   let host;
@@ -56,7 +58,7 @@ export function parseRepositoryTarget(value) {
   let parts = path.split("/").filter(Boolean);
   const marker = parts.indexOf("-");
   if (marker >= 0) parts = parts.slice(0, marker);
-  const stop = parts.findIndex((part) => ["tree", "blob", "commit", "issues", "pull", "releases"].includes(part));
+  const stop = parts.findIndex((part) => ["tree", "blob", "commit", "commits", "issues", "pull", "pulls", "releases", "tags"].includes(part.toLowerCase()));
   if (stop >= 0) parts = parts.slice(0, stop);
   if (parts.length < 2) return null;
   if (host === "github.com") parts = parts.slice(0, 2);
@@ -94,7 +96,8 @@ async function requestJson(url, options = {}) {
     const message = typeof payload === "object" ? payload?.message : payload;
     const error = new Error(`${response.status} ${message ?? response.statusText}`.slice(0, 240));
     error.status = response.status;
-    error.remaining = number(response.headers.get("x-ratelimit-remaining"), null);
+    const remaining = response.headers.get("x-ratelimit-remaining");
+    error.remaining = remaining == null ? null : number(remaining, null);
     throw error;
   }
   return { payload, headers: response.headers, status: response.status };
@@ -108,38 +111,45 @@ function githubHeaders(token) {
   };
 }
 
-async function githubGraphql(ref, token, now, fetchImpl) {
-  const query = `query ScoutRepo($owner: String!, $name: String!, $since7: GitTimestamp!, $since30: GitTimestamp!, $since90: GitTimestamp!, $prQuery: String!) {
-    repository(owner: $owner, name: $name) {
-      nameWithOwner createdAt pushedAt stargazerCount forkCount isArchived
-      defaultBranchRef { name target { ... on Commit {
-        commits7: history(since: $since7) { totalCount }
-        commits30: history(since: $since30) { totalCount }
-        commits90: history(since: $since90) { totalCount }
-      } } }
-      releases { totalCount }
-      languages(first: 20, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } }
+export function buildGithubMetadataQuery(refs, now = new Date().toISOString()) {
+  if (refs.length > GITHUB_METADATA_BATCH_SIZE) throw new Error(`GitHub metadata batch exceeds ${GITHUB_METADATA_BATCH_SIZE} repositories`);
+  const repositories = refs.map((ref, index) => `r${index}: repository(owner: ${JSON.stringify(ref.owner)}, name: ${JSON.stringify(ref.name)}) {
+    nameWithOwner createdAt pushedAt stargazerCount forkCount isArchived
+    defaultBranchRef { name target { ... on Commit {
+      commits7: history(since: $since7) { totalCount }
+      commits30: history(since: $since30) { totalCount }
+      commits90: history(since: $since90) { totalCount }
+    } } }
+    releases { totalCount }
+    languages(first: 20, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } }
+    pullRequests(first: 100, states: MERGED, orderBy: {field: UPDATED_AT, direction: DESC}) {
+      nodes { additions mergedAt }
     }
-    merged: search(type: ISSUE, query: $prQuery, first: 100) {
-      issueCount nodes { ... on PullRequest { additions mergedAt } }
-    }
-  }`;
-  const variables = {
-    owner: ref.owner,
-    name: ref.name,
-    since7: isoBefore(now, 7),
-    since30: isoBefore(now, 30),
-    since90: isoBefore(now, 90),
-    prQuery: `repo:${ref.fullName} is:pr is:merged merged:>=${isoBefore(now, 90).slice(0, 10)}`,
+  }`).join("\n");
+  return {
+    query: `query ScoutRepoBatch($since7: GitTimestamp!, $since30: GitTimestamp!, $since90: GitTimestamp!) {\n${repositories}\n}`,
+    variables: { since7: isoBefore(now, 7), since30: isoBefore(now, 30), since90: isoBefore(now, 90) },
   };
+}
+
+async function githubGraphqlBatch(refs, token, now, fetchImpl) {
+  const { query, variables } = buildGithubMetadataQuery(refs, now);
   const response = await requestJson("https://api.github.com/graphql", {
     method: "POST",
     headers: { ...githubHeaders(token), "content-type": "application/json" },
     body: JSON.stringify({ query, variables }),
     fetchImpl,
   });
-  if (response.payload?.errors?.length) throw new Error(response.payload.errors.map((item) => item.message).join("; ").slice(0, 240));
-  return response.payload?.data ?? {};
+  const errors = response.payload?.errors ?? [];
+  const values = new Map();
+  refs.forEach((ref, index) => {
+    const repo = response.payload?.data?.[`r${index}`] ?? null;
+    const aliasErrors = errors.filter((error) => error.path?.[0] === `r${index}`).map((error) => error.message);
+    values.set(ref.key, repo
+      ? { status: "ok", repo }
+      : { status: "error", error: (aliasErrors.join("; ") || "repository not found or inaccessible").slice(0, 240) });
+  });
+  return values;
 }
 
 async function githubRest(path, token, fetchImpl, query = "") {
@@ -157,18 +167,30 @@ function topTwoTree(tree) {
   return { paths: paths.slice(0, 2000), truncated: paths.length > 2000 };
 }
 
-function candidatePaths(tree) {
-  const preferred = tree
-    .filter((item) => item.type === "blob" && number(item.size) <= 250_000)
-    .map((item) => String(item.path))
-    .filter((path) =>
-      /(^|\/)security\.md$/i.test(path)
-      || /^\.github\/workflows\/.*\.ya?ml$/i.test(path)
-      || FUZZ_PATH.test(path)
-      || TEST_PATH.test(path) && DEV_KNOWN_FILENAME.test(path)
-      || /(feature|fork|security|replay).{0,30}\.(go|rs|c|cc|cpp|h|hpp|js|ts|py|java|kt|toml|ya?ml)$/i.test(path),
-    );
-  return [...new Set(preferred)].slice(0, 24);
+function scanPriority(path) {
+  if (TEST_PATH.test(path) && DEV_KNOWN_FILENAME.test(path.split("/").at(-1))) return 0;
+  if (/^\.github\/workflows\/.*\.ya?ml$/i.test(path) || /(^|\/)security\.md$/i.test(path) || FUZZ_PATH.test(path)) return 0;
+  if (HIGH_VALUE_SOURCE.test(path)) return 1;
+  if (TEST_PATH.test(path)) return 2;
+  return 4;
+}
+
+export function selectScanBlobs(tree, options = {}) {
+  const maxFiles = Math.max(1, number(options.maxFiles, MAX_SCAN_FILES));
+  const maxBytes = Math.max(1, number(options.maxBytes, MAX_SCAN_BYTES));
+  const eligible = tree
+    .filter((item) => item.type === "blob" && item.sha && number(item.size, maxBytes + 1) <= 500_000)
+    .filter((item) => TEXT_FILE.test(String(item.path ?? "")))
+    .sort((a, b) => scanPriority(String(a.path)) - scanPriority(String(b.path)) || number(a.size) - number(b.size) || String(a.path).localeCompare(String(b.path)));
+  const selected = [];
+  let bytes = 0;
+  for (const item of eligible) {
+    const size = number(item.size);
+    if (selected.length >= maxFiles || bytes + size > maxBytes) continue;
+    selected.push({ path: String(item.path), sha: String(item.sha), size });
+    bytes += size;
+  }
+  return { selected, eligibleCount: eligible.length, selectedBytes: bytes, complete: selected.length === eligible.length };
 }
 
 export function detectRepositorySignals(tree = [], scannedFiles = []) {
@@ -176,25 +198,45 @@ export function detectRepositorySignals(tree = [], scannedFiles = []) {
   const securityMd = paths.some((path) => /(^|\/)security\.md$/i.test(path));
   const fuzzPath = paths.some((path) => FUZZ_PATH.test(path));
   const workflowPaths = paths.filter((path) => /^\.github\/workflows\/.*\.ya?ml$/i.test(path));
-  const suspiciousTestFiles = paths.filter((path) => TEST_PATH.test(path) && DEV_KNOWN_FILENAME.test(path));
+  const suspiciousTestFiles = paths.filter((path) => TEST_PATH.test(path) && DEV_KNOWN_FILENAME.test(path.split("/").at(-1)));
   const tooling = new Set();
   const trapHits = [];
   let fuzzFunction = false;
   let securityFixGated = false;
+
+  for (const path of workflowPaths) {
+    for (const match of path.matchAll(/codeql|semgrep|snyk|trivy/gi)) tooling.add(match[0].toLowerCase());
+  }
 
   for (const file of scannedFiles) {
     const path = String(file.path ?? "");
     const text = String(file.text ?? "").slice(0, 500_000);
     for (const match of text.matchAll(/codeql|semgrep|snyk|trivy/gi)) tooling.add(match[0].toLowerCase());
     if (FUZZ_FUNCTION.test(text)) fuzzFunction = true;
-    if (TEST_PATH.test(path) && DEV_KNOWN_FILENAME.test(path)) trapHits.push({ type: "test-filename", path });
-    if (DEV_KNOWN_COMMENT.test(text)) trapHits.push({ type: "known-comment", path });
-    if (DISABLED_FLAG.test(text) && SECURITY_CONTEXT.test(text)) {
-      trapHits.push({ type: "disabled-security-flag", path });
+    if (TEST_PATH.test(path) && DEV_KNOWN_FILENAME.test(path.split("/").at(-1))) {
+      trapHits.push({ type: "test-filename", path, match: path.split("/").at(-1) });
+    }
+    const commentMatch = DEV_KNOWN_COMMENT.exec(text);
+    if (commentMatch) {
+      trapHits.push({
+        type: "known-comment",
+        path,
+        line: text.slice(0, commentMatch.index).split("\n").length,
+        match: commentMatch[0].replace(/\s+/g, " ").trim().slice(0, 180),
+      });
+    }
+    const disabledMatch = DISABLED_FLAG.exec(text);
+    if (disabledMatch && SECURITY_CONTEXT.test(text)) {
+      trapHits.push({
+        type: "disabled-security-flag",
+        path,
+        line: text.slice(0, disabledMatch.index).split("\n").length,
+        match: disabledMatch[0].replace(/\s+/g, " ").trim().slice(0, 180),
+      });
       securityFixGated = true;
     }
   }
-  for (const path of suspiciousTestFiles) trapHits.push({ type: "test-filename", path });
+  for (const path of suspiciousTestFiles) trapHits.push({ type: "test-filename", path, match: path.split("/").at(-1) });
 
   const uniqueTraps = [...new Map(trapHits.map((item) => [`${item.type}:${item.path}`, item])).values()].slice(0, 20);
   return {
@@ -211,25 +253,35 @@ export function detectRepositorySignals(tree = [], scannedFiles = []) {
   };
 }
 
-async function scanGithubFiles(ref, branch, paths, token, fetchImpl) {
+async function scanGithubFiles(ref, blobs, token, fetchImpl, logger = console) {
   const results = [];
-  for (const path of paths) {
+  const failures = [];
+  for (let offset = 0; offset < blobs.length; offset += GITHUB_BLOB_BATCH_SIZE) {
+    const batch = blobs.slice(offset, offset + GITHUB_BLOB_BATCH_SIZE);
+    const fields = batch.map((blob, index) => `b${index}: object(oid: ${JSON.stringify(blob.sha)}) { ... on Blob { text byteSize isBinary } }`).join("\n");
+    const query = `query ScoutBlobBatch { repository(owner: ${JSON.stringify(ref.owner)}, name: ${JSON.stringify(ref.name)}) { ${fields} } }`;
     try {
-      const response = await (fetchImpl ?? fetch)(
-        `https://raw.githubusercontent.com/${encodePath(ref.fullName)}/${encodeURIComponent(branch)}/${encodePath(path)}`,
-        {
-          headers: { "user-agent": "ScoutIQ/2.0 repo-enrichment", ...(token ? { authorization: `Bearer ${token}` } : {}) },
-          signal: AbortSignal.timeout(12_000),
-        },
-      );
-      if (!response.ok) continue;
-      const text = await response.text();
-      if (Buffer.byteLength(text) <= 500_000) results.push({ path, text });
-    } catch {
-      // Individual source files are optional; the tree and API data still remain useful.
+      const response = await requestJson("https://api.github.com/graphql", {
+        method: "POST",
+        headers: { ...githubHeaders(token), "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+        fetchImpl,
+        timeoutMs: 45_000,
+      });
+      const repository = response.payload?.data?.repository;
+      batch.forEach((blob, index) => {
+        const value = repository?.[`b${index}`];
+        if (value && !value.isBinary && typeof value.text === "string" && number(value.byteSize) <= 500_000) {
+          results.push({ path: blob.path, text: value.text });
+        }
+      });
+    } catch (error) {
+      const message = `blob scan failed for ${ref.fullName} at batch ${offset / GITHUB_BLOB_BATCH_SIZE + 1}: ${error.message}`;
+      failures.push(message.slice(0, 240));
+      logger.error?.(`[repo-enrichment] ${message}`);
     }
   }
-  return results;
+  return { files: results, failures };
 }
 
 function advisorySignals(advisories, treePaths, now) {
@@ -250,10 +302,11 @@ function advisorySignals(advisories, treePaths, now) {
 
 export async function enrichGithubRepository(ref, options = {}) {
   const now = options.now ?? new Date().toISOString();
-  const token = options.token ?? process.env.GITHUB_TOKEN ?? "";
+  const token = options.token ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
   const fetchImpl = options.fetchImpl;
-  const graph = await githubGraphql(ref, token, now, fetchImpl);
-  const repo = graph.repository;
+  const metadata = options.metadata ?? (await githubGraphqlBatch([ref], token, now, fetchImpl)).get(ref.key);
+  if (metadata?.status !== "ok") throw new Error(metadata?.error ?? "repository not found or inaccessible");
+  const repo = metadata.repo;
   if (!repo) throw new Error("repository not found or inaccessible");
   const branch = repo.defaultBranchRef?.name;
   if (!branch) throw new Error("repository has no default branch");
@@ -277,9 +330,9 @@ export async function enrichGithubRepository(ref, options = {}) {
       "?per_page=100",
     ).then((result) => result.payload).catch(() => null);
   }
-  const scanPaths = candidatePaths(tree);
-  const scannedFiles = await scanGithubFiles(ref, branch, scanPaths, token, fetchImpl);
-  const detected = detectRepositorySignals(tree, scannedFiles);
+  const scanPlan = selectScanBlobs(tree, options.scanOptions);
+  const scan = await scanGithubFiles(ref, scanPlan.selected, token, fetchImpl, options.logger ?? console);
+  const detected = detectRepositorySignals(tree, scan.files);
   const top = topTwoTree(tree);
   const files = Array.isArray(compare?.files) ? compare.files : [];
   const filesAdded = files.filter((file) => file.status === "added").map((file) => file.filename).sort();
@@ -287,7 +340,8 @@ export async function enrichGithubRepository(ref, options = {}) {
   const advisory = advisorySignals(advisories, tree.map((item) => item.path), now);
   const contributors = parseLastPage(contributorsResponse.headers?.get("link"))
     ?? (Array.isArray(contributorsResponse.payload) ? contributorsResponse.payload.length : 0);
-  const pulls = graph.merged?.nodes ?? [];
+  const cutoff90 = new Date(isoBefore(now, 90)).getTime();
+  const pulls = (repo.pullRequests?.nodes ?? []).filter((pull) => new Date(pull.mergedAt).getTime() >= cutoff90);
   const ageY = Math.max(0, (new Date(now).getTime() - new Date(repo.createdAt).getTime()) / (365.25 * DAY));
   const languages = Object.fromEntries((repo.languages?.edges ?? []).map((edge) => [edge.node.name.toLowerCase(), edge.size]));
 
@@ -316,13 +370,24 @@ export async function enrichGithubRepository(ref, options = {}) {
     filesAdded90d: filesAdded.length,
     filesAdded90dList: filesAdded.slice(0, 300),
     files90dTruncated: files.length >= 300 || number(compare?.total_commits) > 250,
-    mergedPrs90d: graph.merged?.issueCount ?? pulls.length,
+    mergedPrs90d: pulls.length,
     maxMergedPrAdditions90d: pulls.reduce((max, pull) => Math.max(max, number(pull.additions)), 0),
-    advisories: { open: advisory.open, resolved: advisory.resolved, total: advisory.total },
-    openRecentAdvisoryPathMatch: advisory.pathMatch,
+    mergedPrs90dTruncated: pulls.length === 100,
+    advisories: advisoriesResponse.advisoryError ? null : { open: advisory.open, resolved: advisory.resolved, total: advisory.total },
+    openRecentAdvisoryPathMatch: advisoriesResponse.advisoryError ? null : advisory.pathMatch,
     advisoryCoverage: advisoriesResponse.advisoryError ? "unavailable" : "repository-advisories",
-    scanCoverage: { candidates: scanPaths.length, filesRead: scannedFiles.length },
+    scanCoverage: {
+      eligible: scanPlan.eligibleCount,
+      selected: scanPlan.selected.length,
+      filesRead: scan.files.length,
+      selectedBytes: scanPlan.selectedBytes,
+      complete: scanPlan.complete && scan.files.length === scanPlan.selected.length && scan.failures.length === 0,
+      failures: scan.failures.length,
+    },
+    trapScanStatus: scan.failures.length ? "partial" : scanPlan.complete ? "complete" : "bounded",
+    scanErrors: scan.failures.slice(0, 5),
     ...detected,
+    secTooling: detected.secTooling ? true : scan.failures.length ? null : false,
   };
 }
 
@@ -340,7 +405,7 @@ async function gitlabGet(ref, suffix, token, fetchImpl, query = "") {
 
 async function scanGitlabFiles(ref, branch, paths, token, fetchImpl) {
   const results = [];
-  for (const path of paths.slice(0, 20)) {
+  for (const path of paths.slice(0, 100)) {
     try {
       const response = await gitlabGet(ref, `/repository/files/${encodeURIComponent(path)}/raw`, token, fetchImpl, `?ref=${encodeURIComponent(branch)}`);
       if (typeof response.payload === "string") results.push({ path, text: response.payload });
@@ -369,7 +434,7 @@ export async function enrichGitlabRepository(ref, options = {}) {
   const repo = metadata.payload;
   const branch = repo.default_branch;
   const rawTree = Array.isArray(treeResponse.payload) ? treeResponse.payload : [];
-  const tree = rawTree.map((item) => ({ path: item.path, type: item.type === "blob" ? "blob" : "tree", size: 0 }));
+  const tree = rawTree.map((item) => ({ path: item.path, type: item.type === "blob" ? "blob" : "tree", sha: item.id, size: 1 }));
   const recentCommits = Array.isArray(commits90.payload) ? commits90.payload.slice(0, 25) : [];
   const diffs = [];
   for (const commit of recentCommits) {
@@ -380,8 +445,8 @@ export async function enrichGitlabRepository(ref, options = {}) {
       break;
     }
   }
-  const scanPaths = candidatePaths(tree);
-  const scannedFiles = await scanGitlabFiles(ref, branch, scanPaths, token, fetchImpl);
+  const scanPlan = selectScanBlobs(tree, { maxFiles: 100, maxBytes: 2_000_000 });
+  const scannedFiles = await scanGitlabFiles(ref, branch, scanPlan.selected.map((item) => item.path), token, fetchImpl);
   const detected = detectRepositorySignals(tree, scannedFiles);
   const top = topTwoTree(tree);
   const added = [...new Set(diffs.filter((item) => item.new_file).map((item) => item.new_path))].sort();
@@ -417,10 +482,10 @@ export async function enrichGitlabRepository(ref, options = {}) {
     files90dTruncated: total(commits90) > recentCommits.length,
     mergedPrs90d: total(mergeRequests),
     maxMergedPrAdditions90d: mr.reduce((max, item) => Math.max(max, number(item.changes_count)), 0),
-    advisories: { open: 0, resolved: 0, total: 0 },
+    advisories: null,
     advisoryCoverage: "unavailable",
-    openRecentAdvisoryPathMatch: false,
-    scanCoverage: { candidates: scanPaths.length, filesRead: scannedFiles.length },
+    openRecentAdvisoryPathMatch: null,
+    scanCoverage: { eligible: scanPlan.eligibleCount, selected: scanPlan.selected.length, filesRead: scannedFiles.length, complete: scanPlan.complete && scannedFiles.length === scanPlan.selected.length },
     ...detected,
   };
 }
@@ -445,67 +510,144 @@ function cacheFresh(entry, now, ttlHours) {
   return Number.isFinite(age) && age < ttlHours * 3_600_000;
 }
 
+function chunks(values, size) {
+  const result = [];
+  for (let offset = 0; offset < values.length; offset += size) result.push(values.slice(offset, offset + size));
+  return result;
+}
+
+async function mapLimit(values, limit, worker) {
+  const queue = [...values];
+  const runners = Array.from({ length: Math.min(Math.max(1, limit), queue.length) }, async () => {
+    while (queue.length) await worker(queue.shift());
+  });
+  await Promise.all(runners);
+}
+
+function pendingRepository(ref, now, message) {
+  return {
+    status: "pending",
+    provider: ref.provider,
+    fullName: ref.fullName,
+    url: ref.url,
+    fetchedAt: null,
+    lastErrorAt: message ? now : null,
+    lastError: message ? String(message).slice(0, 240) : null,
+    cacheKey: hash(ref.key),
+  };
+}
+
 export async function enrichRepositoryCache(programs, priorCache = {}, options = {}) {
   const now = options.now ?? new Date().toISOString();
-  const budget = Math.max(0, number(options.budget, 10));
-  const ttlHours = Math.max(1, number(options.ttlHours, 72));
+  const ttlHours = Math.max(1, number(options.ttlHours, 24 * 7));
+  const forceRefresh = options.forceRefresh === true;
+  const concurrency = Math.max(1, number(options.concurrency, 4));
+  const githubToken = options.githubToken ?? options.token ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
+  const gitlabToken = options.gitlabToken ?? process.env.GITLAB_TOKEN ?? "";
+  const logger = options.logger ?? console;
+  const cacheVersion = number(priorCache.version, 0);
   const repositories = { ...(priorCache.repositories ?? {}) };
   const refs = refsFromPrograms(programs).sort((a, b) => {
-    const aFresh = cacheFresh(repositories[a.key], now, ttlHours);
-    const bFresh = cacheFresh(repositories[b.key], now, ttlHours);
+    const aFresh = cacheVersion >= 3 && cacheFresh(repositories[a.key], now, ttlHours);
+    const bFresh = cacheVersion >= 3 && cacheFresh(repositories[b.key], now, ttlHours);
     if (aFresh !== bFresh) return aFresh ? 1 : -1;
     return b.priority - a.priority || (repositories[a.key]?.fetchedAt ?? "").localeCompare(repositories[b.key]?.fetchedAt ?? "");
   });
-  let attempted = 0;
+  const scheduled = refs.filter((ref) => forceRefresh || cacheVersion < 3 || !cacheFresh(repositories[ref.key], now, ttlHours));
+  const githubRefs = scheduled.filter((ref) => ref.provider === "github");
+  const gitlabRefs = scheduled.filter((ref) => ref.provider === "gitlab");
+  const metadata = new Map();
+  const errors = new Map();
+  let attempted = scheduled.length;
   let updated = 0;
   let failed = 0;
   let rateLimited = false;
+  let batchedQueries = 0;
 
-  for (const ref of refs) {
-    if (attempted >= budget || rateLimited) break;
-    if (cacheFresh(repositories[ref.key], now, ttlHours)) continue;
-    attempted += 1;
+  if (githubRefs.length && !githubToken) {
+    const message = "authenticated GitHub enrichment skipped: SCOUTIQ_GITHUB_TOKEN/GITHUB_TOKEN is missing";
+    logger.error?.(`[repo-enrichment] ${message}`);
+    for (const ref of githubRefs) errors.set(ref.key, message);
+  } else {
+    for (const batch of chunks(githubRefs, GITHUB_METADATA_BATCH_SIZE)) {
+      batchedQueries += 1;
+      try {
+        const values = await githubGraphqlBatch(batch, githubToken, now, options.fetchImpl);
+        for (const ref of batch) {
+          const value = values.get(ref.key);
+          if (value?.status === "ok") metadata.set(ref.key, value);
+          else errors.set(ref.key, value?.error ?? "GitHub metadata unresolved");
+        }
+      } catch (error) {
+        const message = String(error?.message ?? error).slice(0, 240);
+        if (error?.status === 403 || error?.status === 429 || error?.remaining === 0) rateLimited = true;
+        for (const ref of batch) errors.set(ref.key, message);
+        logger.error?.(`[repo-enrichment] GitHub metadata batch failed (${batch.length} repos): ${message}`);
+      }
+    }
+  }
+
+  await mapLimit(githubRefs.filter((ref) => metadata.has(ref.key)), concurrency, async (ref) => {
     try {
-      const value = ref.provider === "github"
-        ? await enrichGithubRepository(ref, options)
-        : await enrichGitlabRepository(ref, options);
+      const value = await enrichGithubRepository(ref, { ...options, token: githubToken, metadata: metadata.get(ref.key) });
       repositories[ref.key] = value;
       updated += 1;
     } catch (error) {
       failed += 1;
       if (error?.status === 403 || error?.status === 429 || error?.remaining === 0) rateLimited = true;
-      const previous = repositories[ref.key];
+      const message = String(error?.message ?? error).slice(0, 240);
+      logger.error?.(`[repo-enrichment] ${ref.key} failed: ${message}`);
+      const previous = cacheVersion >= 3 ? repositories[ref.key] : null;
       repositories[ref.key] = previous?.status === "ok"
         ? { ...previous, lastErrorAt: now, lastError: String(error.message).slice(0, 180) }
-        : {
-          status: "pending",
-          provider: ref.provider,
-          fullName: ref.fullName,
-          url: ref.url,
-          fetchedAt: null,
-          lastErrorAt: now,
-          lastError: String(error.message).slice(0, 180),
-          cacheKey: hash(ref.key),
-        };
+        : pendingRepository(ref, now, message);
     }
+  });
+
+  await mapLimit(gitlabRefs, Math.min(concurrency, 3), async (ref) => {
+    try {
+      repositories[ref.key] = await enrichGitlabRepository(ref, { ...options, token: gitlabToken });
+      updated += 1;
+    } catch (error) {
+      failed += 1;
+      const message = String(error?.message ?? error).slice(0, 240);
+      logger.error?.(`[repo-enrichment] ${ref.key} failed: ${message}`);
+      const previous = cacheVersion >= 3 ? repositories[ref.key] : null;
+      repositories[ref.key] = previous?.status === "ok"
+        ? { ...previous, lastErrorAt: now, lastError: message }
+        : pendingRepository(ref, now, message);
+    }
+  });
+
+  for (const ref of githubRefs.filter((item) => errors.has(item.key))) {
+    failed += 1;
+    const message = errors.get(ref.key);
+    logger.error?.(`[repo-enrichment] ${ref.key} unresolved: ${message}`);
+    const previous = cacheVersion >= 3 ? repositories[ref.key] : null;
+    repositories[ref.key] = previous?.status === "ok"
+      ? { ...previous, lastErrorAt: now, lastError: message }
+      : pendingRepository(ref, now, message);
   }
 
   for (const ref of refs) {
-    if (!repositories[ref.key]) {
-      repositories[ref.key] = {
-        status: "pending",
-        provider: ref.provider,
-        fullName: ref.fullName,
-        url: ref.url,
-        fetchedAt: null,
-        cacheKey: hash(ref.key),
-      };
-    }
+    if (!repositories[ref.key]) repositories[ref.key] = pendingRepository(ref, now);
   }
 
   return {
-    cache: { version: 2, generatedAt: now, repositories },
-    stats: { discovered: refs.length, attempted, updated, failed, pending: refs.filter((ref) => repositories[ref.key]?.status !== "ok").length, rateLimited },
+    cache: { version: 3, generatedAt: now, ttlHours, repositories },
+    stats: {
+      discovered: refs.length,
+      scheduled: scheduled.length,
+      attempted,
+      updated,
+      failed,
+      pending: refs.filter((ref) => repositories[ref.key]?.status !== "ok").length,
+      rateLimited,
+      authenticated: Boolean(githubToken),
+      github: githubRefs.length,
+      gitlab: gitlabRefs.length,
+      batchedQueries,
+    },
   };
 }
 

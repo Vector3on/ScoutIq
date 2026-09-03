@@ -6,9 +6,9 @@ on:
       mode:
         description: Enrichment depth
         required: false
-        default: hourly
+        default: full
         type: choice
-        options: [hourly, nightly]
+        options: [full, incremental, weekly]
   push:
     branches: [master]
     paths-ignore:
@@ -16,7 +16,7 @@ on:
       - "public/data/**"
   schedule:
     - cron: "17 * * * *"
-    - cron: "41 2 * * *"
+    - cron: "41 2 * * 0"
 
 permissions:
   contents: write
@@ -39,19 +39,22 @@ jobs:
         with:
           node-version: 22
 
-      - name: Select enrichment budget
+      - name: Select enrichment mode
         shell: bash
         run: |
-          if [ "${{ github.event.schedule }}" = "41 2 * * *" ] || [ "${{ inputs.mode }}" = "nightly" ]; then
-            echo "ENRICH_MODE=nightly" >> "$GITHUB_ENV"
+          if [ "${{ github.event.schedule }}" = "41 2 * * 0" ] || [ "${{ inputs.mode }}" = "weekly" ]; then
+            echo "ENRICH_MODE=weekly" >> "$GITHUB_ENV"
+          elif [ "${{ github.event.schedule }}" = "17 * * * *" ] || [ "${{ inputs.mode }}" = "incremental" ]; then
+            echo "ENRICH_MODE=incremental" >> "$GITHUB_ENV"
           else
-            echo "ENRICH_MODE=hourly" >> "$GITHUB_ENV"
+            echo "ENRICH_MODE=full" >> "$GITHUB_ENV"
           fi
 
       - name: Collect, enrich, and rank payable candidates
         id: collect
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          SCOUTIQ_GITHUB_TOKEN: ${{ secrets.SCOUTIQ_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SCOUTIQ_GITHUB_TOKEN || github.token }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: node scripts/collect.mjs
 

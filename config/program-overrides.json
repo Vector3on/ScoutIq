@@ -2,6 +2,7 @@
   "defaults": {
     "researcherCountry": "IN",
     "minimumPayableReward": 1000,
+    "rewardCap": 50000,
     "unknownProgramFloor": "MEDIUM",
     "unknownResolvedReports": 25
   },

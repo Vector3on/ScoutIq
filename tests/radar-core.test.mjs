@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   mergePrograms,
   normalizeSource,
+  publicProgram,
   reconcilePrograms,
   scoreProgram,
 } from "../scripts/radar-core.mjs";
@@ -41,6 +42,20 @@ test("normalizes a paid program and its inspectable targets", () => {
   assert.equal(programs[0].sourceCode, true);
   assert.deepEqual(programs[0].tags, ["api", "source-code"]);
   assert.equal(programs[0].url, "https://yeswehack.com/programs/small-open-source-program");
+});
+
+test("public unresolved repository evidence stays null instead of becoming zero", () => {
+  const repoSignals = { status: "pending", provider: "github", fullName: "example/missing", lastError: "not found" };
+  const value = publicProgram({
+    name: "Missing",
+    bestTargetKey: "repo",
+    repoSignals,
+    targets: [{ key: "repo", evScore: 0, repoSignals }],
+  });
+  assert.equal(value.repoSignals.stars, null);
+  assert.equal(value.repoSignals.commits90d, null);
+  assert.equal(value.repoSignals.secTooling, null);
+  assert.equal(value.targets[0].repoSignals.stars, null);
 });
 
 test("detects an added target without treating the baseline as news", () => {

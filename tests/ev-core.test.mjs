@@ -9,7 +9,13 @@ import {
   evaluateTarget,
 } from "../scripts/ev-core.mjs";
 import { extractPolicySignals } from "../scripts/policy-enrichment.mjs";
-import { detectRepositorySignals, parseRepositoryTarget } from "../scripts/repo-enrichment.mjs";
+import {
+  buildGithubMetadataQuery,
+  detectRepositorySignals,
+  enrichRepositoryCache,
+  parseRepositoryTarget,
+  selectScanBlobs,
+} from "../scripts/repo-enrichment.mjs";
 import { shortlist } from "../scripts/query.mjs";
 
 const now = "2026-09-03T00:00:00.000Z";
@@ -57,6 +63,18 @@ test("implements the hardening and fresh-code formulas", () => {
   assert.equal(calculateFreshCodeIndex(repo, { recentScope: true }), 100);
 });
 
+test("unresolved repository hardening is null and adds no un-hardened bonus", () => {
+  const unresolved = { status: "pending", fullName: "example/unresolved" };
+  assert.equal(calculateHardeningIndex(unresolved), null);
+  const result = evaluateTarget(
+    program(),
+    target({ type: "source-code", value: "https://github.com/example/unresolved" }),
+    { now, repoSignals: unresolved, settings: { unknownProgramFloor: "MEDIUM" } },
+  );
+  assert.equal(result.hardeningIndex, null);
+  assert.equal(result.pFindable, 0.056);
+});
+
 test("managed-language parser DoS is hard-excluded below a medium floor", () => {
   const result = evaluateTarget(
     program({ languages: ["go"] }),
@@ -86,13 +104,27 @@ test("live auth routes to ATO with a critical ceiling and nonzero EV", () => {
   assert.ok(result.evScore > 0);
 });
 
-test("developer-known and gated security behavior reaches the hard risk cutoff", () => {
-  const detected = detectRepositorySignals(
-    [{ path: "tests/security_replay_test.go", type: "blob" }],
-    [{ path: "tests/security_replay_test.go", text: "// known issue: security replay fix\nif false { enableFix() }" }],
-  );
+test("Electroneum replay fixture trips DEV_KNOWN and its dormant fork gate", () => {
+  const tree = [
+    { path: "core/types/priority_sig_binding_test.go", type: "blob", sha: "a", size: 3_000 },
+    { path: "params/config.go", type: "blob", sha: "b", size: 8_000 },
+  ];
+  const scanPlan = selectScanBlobs(tree);
+  assert.deepEqual(scanPlan.selected.map((item) => item.path).sort(), tree.map((item) => item.path).sort());
+  const detected = detectRepositorySignals(tree, [
+    {
+      path: "core/types/priority_sig_binding_test.go",
+      text: "// an attacker can replay a priority signature. This documents the vulnerability.",
+    },
+    {
+      path: "params/config.go",
+      text: "FutureForkBlock: big.NewInt(math.MaxInt64) // signature replay protection fork",
+    },
+  ]);
   assert.equal(detected.devKnown, true);
   assert.equal(detected.securityFixGated, true);
+  assert.ok(detected.trapTags.includes("DEV_KNOWN"));
+  assert.ok(detected.trapHits.some((hit) => hit.path === "core/types/priority_sig_binding_test.go"));
   assert.equal(calculateKnownIssueRisk(detected), 70);
 });
 
@@ -164,7 +196,45 @@ test("policy parser derives the user's payable severity floor and restrictions",
 
 test("parses GitHub and nested GitLab repository targets", () => {
   assert.equal(parseRepositoryTarget("https://github.com/vercel/eve/tree/main").key, "github:vercel/eve");
+  assert.equal(
+    parseRepositoryTarget("https://github.com/immutable/ts-immutable-sdk/tree/main/packages/passport/#readme").key,
+    "github:immutable/ts-immutable-sdk",
+  );
   assert.equal(parseRepositoryTarget("https://gitlab.com/group/subgroup/project/-/tree/main").key, "gitlab:group/subgroup/project");
+});
+
+test("GitHub metadata query batches exactly 100 repositories", () => {
+  const refs = Array.from({ length: 100 }, (_, index) => ({ owner: `owner${index}`, name: `repo${index}` }));
+  const query = buildGithubMetadataQuery(refs, now).query;
+  assert.equal((query.match(/repository\(owner:/g) ?? []).length, 100);
+  assert.throws(() => buildGithubMetadataQuery([...refs, { owner: "overflow", name: "repo" }], now), /exceeds 100/);
+});
+
+test("repository enrichment schedules every source target without a sample budget", async () => {
+  const targets = Array.from({ length: 101 }, (_, index) => target({
+    key: `repo:${index}`,
+    type: "source-code",
+    value: `https://github.com/example/repo-${index}`,
+  }));
+  const result = await enrichRepositoryCache([program({ targets })], { version: 3, repositories: {} }, {
+    now,
+    githubToken: "",
+    logger: { error() {} },
+  });
+  assert.equal(result.stats.discovered, 101);
+  assert.equal(result.stats.attempted, 101);
+  assert.equal(result.stats.pending, 101);
+  assert.equal(Object.keys(result.cache.repositories).length, 101);
+  assert.equal(result.cache.repositories["github:example/repo-0"].stars, undefined);
+});
+
+test("headline rewards above $50k have identical EV influence", () => {
+  const context = { now, settings: { unknownProgramFloor: "MEDIUM", rewardCap: 50_000 } };
+  const high = evaluateTarget(program({ maxReward: 3_000_000 }), target(), context);
+  const capped = evaluateTarget(program({ maxReward: 50_000 }), target(), context);
+  assert.equal(high.effectiveReward, 50_000);
+  assert.equal(high.rewardCapped, true);
+  assert.equal(high.evScore, capped.evScore);
 });
 
 test("default, live, and fresh-source shortlists route honestly", () => {

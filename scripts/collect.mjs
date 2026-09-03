@@ -27,7 +27,8 @@ const paths = {
   liveConfig: resolve(root, "config/live-targets.json"),
   audited: resolve(root, "data/audited.json"),
   state: resolve(root, "data/state.json"),
-  repoCache: resolve(root, "data/repo-cache.json"),
+  repoCache: resolve(root, "data/repo_cache.json"),
+  legacyRepoCache: resolve(root, "data/repo-cache.json"),
   policyCache: resolve(root, "data/policy-cache.json"),
   liveCache: resolve(root, "data/live-cache.json"),
   output: resolve(root, "public/data/programs.json"),
@@ -109,7 +110,8 @@ const prior = await readJson(paths.state, {
   programs: publicPrior.programs ?? [],
   events: [],
 });
-const priorRepoCache = await readJson(paths.repoCache, { version: 2, repositories: {} });
+const legacyRepoCache = await readJson(paths.legacyRepoCache, { version: 0, repositories: {} });
+const priorRepoCache = await readJson(paths.repoCache, legacyRepoCache);
 const priorPolicyCache = await readJson(paths.policyCache, { version: 2, policies: {} });
 const priorLiveCache = await readJson(paths.liveCache, { version: 2, states: {} });
 
@@ -153,17 +155,18 @@ const migratingToV2 = Number(prior.version ?? 0) < 2;
 const previousPrograms = migratingToV2 ? [] : prior.programs;
 const baseline = previousPrograms.length === 0;
 const reconciliation = reconcilePrograms(merged, previousPrograms, now, { baseline });
-const enrichmentMode = process.env.ENRICH_MODE ?? (process.argv.includes("--nightly") ? "nightly" : "hourly");
+const enrichmentMode = process.env.ENRICH_MODE
+  ?? (process.argv.includes("--weekly") ? "weekly" : process.argv.includes("--nightly") ? "weekly" : "full");
 const numericEnv = (name, fallback) => {
   const value = Number(process.env[name]);
   return Number.isFinite(value) ? value : fallback;
 };
-const repoBudget = numericEnv("REPO_ENRICH_BUDGET", enrichmentMode === "nightly" ? 120 : 8);
-const policyBudget = numericEnv("POLICY_ENRICH_BUDGET", enrichmentMode === "nightly" ? 80 : 4);
+const policyBudget = numericEnv("POLICY_ENRICH_BUDGET", enrichmentMode === "weekly" || enrichmentMode === "full" ? 80 : 4);
 const repoEnrichment = await enrichRepositoryCache(reconciliation.programs, priorRepoCache, {
   now,
-  budget: repoBudget,
-  ttlHours: enrichmentMode === "nightly" ? 24 * 7 : 24 * 3,
+  ttlHours: 24 * 7,
+  forceRefresh: enrichmentMode === "weekly",
+  concurrency: numericEnv("REPO_ENRICH_CONCURRENCY", 4),
 });
 const policyEnrichment = await enrichPolicyCache(reconciliation.programs, priorPolicyCache, {
   now,

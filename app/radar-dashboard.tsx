@@ -131,6 +131,7 @@ Program: ${program.name}
 Official policy: ${program.url}
 Workflow: ${workflowLabels[workflowOf(program)]}
 Reward ceiling: ${rewardLabel(program)}
+Reward used for EV: ${compactMoney(program.effectiveReward ?? program.maxReward ?? 0, program.currency)}${program.rewardCapped ? " (capped)" : ""}
 Payable severity ceiling: ${program.payableSeverityCeiling ?? "unknown"}
 Program floor: ${program.programFloorSeverity ?? "unknown"} (${program.programFloorSource ?? "unknown source"})
 EV estimate: ${evLabel(program)}
@@ -166,23 +167,26 @@ function downloadText(filename: string, text: string, type: string) {
 }
 
 function programsToCsv(programs: RadarProgram[]) {
-  const fields = ["ev_score", "name", "platform", "workflow", "ceiling", "program_floor", "p_findable", "p_payable", "p_first", "hardening", "fresh_code", "known_issue_risk", "max_reward", "reason", "url"];
+  const fields = ["ev_score", "name", "platform", "workflow", "ceiling", "program_floor", "p_findable", "p_payable", "p_first", "hardening", "fresh_code", "known_issue_risk", "effective_reward", "max_reward", "reward_capped", "reason", "url"];
   const escape = (value: unknown) => `"${String(value ?? "").replaceAll('"', '""')}"`;
   return [fields.join(","), ...programs.map((program) => [
     program.evScore, program.name, program.platform, workflowOf(program), program.payableSeverityCeiling,
     program.programFloorSeverity, program.pFindable, program.pPayable, program.pFirst, program.hardeningIndex,
-    program.freshCodeIndex, program.knownIssueRisk, program.maxReward, honestReason(program), program.url,
+    program.freshCodeIndex, program.knownIssueRisk, program.effectiveReward, program.maxReward, program.rewardCapped, honestReason(program), program.url,
   ].map(escape).join(","))].join("\n");
 }
 
-function Meter({ label, value, tone = "good" }: { label: string; value: number; tone?: "good" | "risk" }) {
+function Meter({ label, value, tone = "good" }: { label: string; value: number | null; tone?: "good" | "risk" }) {
+  const measured = value != null;
+  const display = measured ? Math.round(value) : "Unknown";
+  const width = measured ? Math.max(0, Math.min(100, value)) : 0;
   return (
     <div className="score-row">
       <div className="flex items-center justify-between gap-4 text-sm">
         <span>{label}</span>
-        <span className={`font-mono text-[13px] ${tone === "risk" ? "text-[var(--hot)]" : "text-[var(--signal)]"}`}>{Math.round(value)}</span>
+        <span className={`font-mono text-[13px] ${measured ? tone === "risk" ? "text-[var(--hot)]" : "text-[var(--signal)]" : "text-[var(--muted-foreground)]"}`}>{display}</span>
       </div>
-      <div className={`score-track ${tone === "risk" ? "score-track-risk" : ""}`} aria-hidden="true"><span style={{ width: `${Math.max(0, Math.min(100, value))}%` }} /></div>
+      <div className={`score-track ${tone === "risk" ? "score-track-risk" : ""}`} aria-hidden="true"><span style={{ width: `${width}%` }} /></div>
     </div>
   );
 }
@@ -223,7 +227,7 @@ function ProgramCard({ program, watched, onWatch, onOpen }: { program: RadarProg
       </div>
 
       <div className="mt-4 flex min-h-7 flex-wrap gap-1.5">
-        <span className="data-chip">H {Math.round(program.hardeningIndex ?? 0)}</span>
+        <span className="data-chip">H {program.hardeningIndex == null ? "?" : Math.round(program.hardeningIndex)}</span>
         <span className="data-chip">F {Math.round(program.freshCodeIndex ?? 0)}</span>
         <span className={(program.knownIssueRisk ?? 0) > 0 ? "risk-chip" : "data-chip"}>K {Math.round(program.knownIssueRisk ?? 0)}</span>
         {program.repoSignals?.fullName ? <span className="language-chip">{program.repoSignals.fullName}</span> : null}
@@ -426,12 +430,12 @@ export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayloa
               <SheetDescription>{rewardLabel(selected)} · ceiling {selected.payableSeverityCeiling ?? "unknown"} · floor {selected.programFloorSeverity ?? "unknown"}</SheetDescription>
             </SheetHeader>
             <div className="space-y-7 px-6 pb-8">
-              <section className="detail-score"><div><span>EXPECTED VALUE</span><strong>{evLabel(selected)}</strong></div><p>Reward ceiling multiplied by the estimated chances we can find it, it is payable, and we are first.</p></section>
+              <section className="detail-score"><div><span>EXPECTED VALUE</span><strong>{evLabel(selected)}</strong></div><p>{selected.rewardCapped ? `The ${compactMoney(selected.maxReward ?? 0, selected.currency)} headline reward is capped at ${compactMoney(selected.effectiveReward ?? 50_000, selected.currency)} for ranking` : "Reward basis multiplied by the estimated chances we can find it, it is payable, and we are first"}.</p></section>
               <section><h3 className="detail-heading">Probability chain</h3><div className="probability-grid"><Probability label="P(findable)" value={selected.pFindable ?? 0} /><Probability label="P(payable)" value={selected.pPayable ?? 0} /><Probability label="P(first)" value={selected.pFirst ?? 0} /></div></section>
               <section><h3 className="detail-heading">Why it surfaced</h3><ul className="reason-list"><li><Zap />{honestReason(selected)}</li></ul></section>
-              <section><h3 className="detail-heading">Anti-waste indices</h3><div className="space-y-3"><Meter label="Fresh code" value={selected.freshCodeIndex ?? 0} /><Meter label="Hardening" value={selected.hardeningIndex ?? 0} tone="risk" /><Meter label="Known-issue risk" value={selected.knownIssueRisk ?? 0} tone="risk" /></div></section>
+              <section><h3 className="detail-heading">Anti-waste indices</h3><div className="space-y-3"><Meter label="Fresh code" value={selected.freshCodeIndex ?? 0} /><Meter label="Hardening" value={selected.hardeningIndex ?? null} tone="risk" /><Meter label="Known-issue risk" value={selected.knownIssueRisk ?? 0} tone="risk" /></div></section>
 
-              {selected.repoSignals ? <section><h3 className="detail-heading">Repository evidence</h3><div className="signal-grid"><div><span>Repository</span><strong>{selected.repoSignals.fullName ?? "Pending"}</strong></div><div><span>Stars</span><strong>{(selected.repoSignals.stars ?? 0).toLocaleString()}</strong></div><div><span>Commits / 90d</span><strong>{selected.repoSignals.commits90d ?? 0}</strong></div><div><span>Files added / 90d</span><strong>{selected.repoSignals.filesAdded90d ?? 0}</strong></div><div><span>Security tooling</span><strong>{selected.repoSignals.secTooling ? "Present" : "Not detected"}</strong></div><div><span>GHSA</span><strong>{selected.repoSignals.advisories?.open ?? 0} open · {selected.repoSignals.advisories?.resolved ?? 0} resolved</strong></div></div></section> : null}
+              {selected.repoSignals ? <section><h3 className="detail-heading">Repository evidence</h3><div className="signal-grid"><div><span>Repository</span><strong>{selected.repoSignals.fullName ?? "Pending"}</strong></div><div><span>Stars</span><strong>{selected.repoSignals.stars == null ? "Unknown" : selected.repoSignals.stars.toLocaleString()}</strong></div><div><span>Commits / 90d</span><strong>{selected.repoSignals.commits90d ?? "Unknown"}</strong></div><div><span>Files added / 90d</span><strong>{selected.repoSignals.filesAdded90d ?? "Unknown"}</strong></div><div><span>Security tooling</span><strong>{selected.repoSignals.secTooling == null ? "Unknown" : selected.repoSignals.secTooling ? "Present" : "Not detected"}</strong></div><div><span>GHSA</span><strong>{selected.repoSignals.advisories ? `${selected.repoSignals.advisories.open} open · ${selected.repoSignals.advisories.resolved} resolved` : "Unknown"}</strong></div><div><span>Trap scan</span><strong>{selected.repoSignals.trapScanStatus ?? "Unknown"}</strong></div></div>{selected.repoSignals.lastError ? <p className="mt-3 text-xs text-[var(--hot)]">Enrichment error: {selected.repoSignals.lastError}</p> : null}</section> : null}
 
               {selected.traps?.length ? <section className="exclusion-box"><TriangleAlert /><div><strong>Trap signals</strong><p>{selected.traps.join(", ")}</p></div></section> : null}
 
@@ -448,9 +452,9 @@ export function RadarDashboard({ initialPayload }: { initialPayload: RadarPayloa
         <SheetContent className="detail-sheet w-[92vw] overflow-y-auto sm:max-w-[590px]">
           <SheetHeader className="border-b border-white/[0.08] px-6 py-6"><SheetTitle className="text-2xl tracking-[-0.04em] text-white">How ScoutIQ v2 ranks work</SheetTitle><SheetDescription>The score estimates a payable first finding, not how interesting a repository looks.</SheetDescription></SheetHeader>
           <div className="space-y-6 px-6 pb-8">
-            <section className="formula-box"><span>EV</span><strong>reward × P(findable) × P(payable) × P(first)</strong><p>Each probability is visible in the record. Unknown policy and chain evidence stays marked unknown.</p></section>
+            <section className="formula-box"><span>EV</span><strong>min(reward, $50k) × P(findable) × P(payable) × P(first)</strong><p>Unmeasured repository hardening stays unknown and contributes no anti-hardening bonus. Each probability remains visible in the record.</p></section>
             <section><h3 className="detail-heading">Hard filters</h3><div className="method-grid"><div><strong>01</strong><span>Severity floor</span><p>Drop classes whose best plausible impact is below the program&apos;s payable floor.</p></div><div><strong>02</strong><span>Mature static trap</span><p>Drop hardening above 70 when fresh code remains below 25.</p></div><div><strong>03</strong><span>Known or dormant</span><p>Drop known-issue risk at 60+, audited targets without a 40-point fresh jump, and deployed contracts with zero use or value.</p></div><div><strong>04</strong><span>Eligibility</span><p>Drop invite-only, KYC-blocked, India-ineligible, closed, unpaid, and explicitly unsafe routes.</p></div></div></section>
-            <section className="verification-box"><CircleHelp /><div><strong>Conservative defaults are labeled</strong><p>If a reward table cannot be parsed yet, the configured MEDIUM payable floor is used. A nightly backfill keeps trying official policy and repository sources.</p></div></section>
+            <section className="verification-box"><CircleHelp /><div><strong>Conservative defaults are labeled</strong><p>If a reward table cannot be parsed yet, the configured MEDIUM payable floor is used. Repository evidence is cached for seven days and fully refreshed every week.</p></div></section>
           </div>
         </SheetContent>
       </Sheet>
