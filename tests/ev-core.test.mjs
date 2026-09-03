@@ -15,6 +15,7 @@ import {
   enrichRepositoryCache,
   parseRepositoryTarget,
   repositoryCoverageGate,
+  resolveGithubAuth,
   selectScanBlobs,
 } from "../scripts/repo-enrichment.mjs";
 import { shortlist } from "../scripts/query.mjs";
@@ -276,6 +277,14 @@ test("GitHub PAT is sent as Bearer auth and startup rate limit is logged", async
   assert.equal(result.stats.startingRateLimit.coreRemaining, 4_999);
   assert.match(logs[0], /core remaining=4999\/5000/);
   assert.doesNotMatch(logs[0], /secret-test-token/);
+});
+
+test("an unset GH_PAT falls back to the authenticated Actions token", () => {
+  assert.deepEqual(resolveGithubAuth({}, {
+    GH_PAT: "",
+    SCOUTIQ_GITHUB_TOKEN: "",
+    GITHUB_TOKEN: "actions-token",
+  }), { source: "GITHUB_TOKEN", token: "actions-token" });
 });
 
 test("coverage gate fails loudly at five repos and scales to the real denominator", () => {

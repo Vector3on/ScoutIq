@@ -77,6 +77,18 @@ export function parseRepositoryTarget(value) {
   };
 }
 
+export function resolveGithubAuth(options = {}, env = process.env) {
+  const candidates = [
+    ["option", options.githubToken],
+    ["option", options.token],
+    ["GH_PAT", env.GH_PAT],
+    ["SCOUTIQ_GITHUB_TOKEN", env.SCOUTIQ_GITHUB_TOKEN],
+    ["GITHUB_TOKEN", env.GITHUB_TOKEN],
+  ];
+  const match = candidates.find(([, value]) => typeof value === "string" && value.trim().length > 0);
+  return match ? { source: match[0], token: match[1].trim() } : { source: "missing", token: "" };
+}
+
 async function requestJson(url, options = {}) {
   const headers = {
     accept: "application/json",
@@ -304,7 +316,7 @@ function advisorySignals(advisories, treePaths, now) {
 
 export async function enrichGithubRepository(ref, options = {}) {
   const now = options.now ?? new Date().toISOString();
-  const token = options.token ?? process.env.GH_PAT ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
+  const { token } = resolveGithubAuth(options);
   const fetchImpl = options.fetchImpl;
   const metadata = options.metadata ?? (await githubGraphqlBatch([ref], token, now, fetchImpl)).get(ref.key);
   if (metadata?.status !== "ok") throw new Error(metadata?.error ?? "repository not found or inaccessible");
@@ -545,16 +557,7 @@ export async function enrichRepositoryCache(programs, priorCache = {}, options =
   const forceRefresh = options.forceRefresh === true;
   const concurrency = Math.max(1, number(options.concurrency, 4));
   const maxPerRun = Math.max(1, number(options.maxPerRun, 250));
-  const githubToken = options.githubToken ?? options.token ?? process.env.GH_PAT ?? process.env.SCOUTIQ_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN ?? "";
-  const githubAuthSource = !githubToken
-    ? "missing"
-    : options.githubToken || options.token
-      ? "option"
-      : process.env.GH_PAT
-        ? "GH_PAT"
-        : process.env.SCOUTIQ_GITHUB_TOKEN
-          ? "SCOUTIQ_GITHUB_TOKEN"
-          : "GITHUB_TOKEN";
+  const { token: githubToken, source: githubAuthSource } = resolveGithubAuth(options);
   const gitlabToken = options.gitlabToken ?? process.env.GITLAB_TOKEN ?? "";
   const logger = options.logger ?? console;
   const cacheVersion = number(priorCache.version, 0);
