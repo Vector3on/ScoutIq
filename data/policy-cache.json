@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-03T16:03:00.527Z",
+  "generatedAt": "2026-09-03T16:30:24.733Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -1480,6 +1480,75 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 117,
+      "useful": false
+    },
+    "program:fivetran:04c136f0fed35c864d3d": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 73,
+      "useful": false
+    },
+    "program:orderly-network-bug-bounty-program:0f2855e69aa69153c6c1": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 100,
+      "useful": false
+    },
+    "program:ovhcloud:10b3ab12479db2311cd0": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "source": "official-policy",
+      "programFloorSeverity": "LOW",
+      "floorSource": "scraped-reward-table",
+      "rewardsBySeverity": {
+        "LOW": 12500,
+        "MEDIUM": 300,
+        "HIGH": 12500,
+        "CRITICAL": 12500
+      },
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 8402,
+      "useful": true
+    },
+    "program:sophos:eb62f872e2df22016797": {
+      "status": "ok",
+      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 71,
       "useful": false
     }
   }

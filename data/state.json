@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-03T16:03:00.527Z",
+  "generatedAt": "2026-09-03T16:30:24.733Z",
   "sourceSnapshots": {
     "hackerone": [
       {
@@ -42222,7 +42222,7 @@
         "currency": null,
         "maxReward": 15000,
         "safeHarbor": "full",
-        "disclosureAllowed": false,
+        "disclosureAllowed": true,
         "sourceIds": [
           "bugcrowd"
         ],
@@ -112244,6 +112244,110 @@
       "bestTargetKey": "9acebaffdf36b4a5"
     },
     {
+      "id": "program:fivetran",
+      "name": "Fivetran",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/fivetran-mbb-og",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 15000,
+      "safeHarbor": "full",
+      "disclosureAllowed": true,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "09cd2dfebe7128dc",
+          "type": "web",
+          "value": "https://fivetran.com/login",
+          "eligible": true,
+          "firstSeenAt": "2026-09-03T16:03:00.527Z",
+          "repoSignals": null,
+          "liveState": null,
+          "hardeningIndex": null,
+          "freshCodeIndex": 20,
+          "knownIssueRisk": 0,
+          "payableSeverityCeiling": "CRITICAL",
+          "programFloorSeverity": "MEDIUM",
+          "programFloorSource": "conservative-default",
+          "workflow": "live-web",
+          "findableClass": "account-takeover",
+          "classificationLabel": "ATO",
+          "pFindable": 0.335,
+          "pPayable": 1,
+          "pFirst": 0.292,
+          "effectiveReward": 15000,
+          "rewardCap": 50000,
+          "rewardCapped": false,
+          "evScore": 1467.3,
+          "traps": [],
+          "excludeReason": null,
+          "recentScope": true,
+          "programAgeDays": null,
+          "resolvedReports": 25,
+          "resolvedReportsEstimated": true,
+          "audit": null,
+          "reason": "fresh scope + live web + ATO ceiling CRITICAL"
+        }
+      ],
+      "launchedAt": null,
+      "resolvedReports": null,
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "firstSeenAt": "2026-09-03T14:56:58.433Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z"
+      },
+      "score": 53,
+      "scoreBreakdown": {
+        "freshness": 18,
+        "reward": 15,
+        "inspectability": 0,
+        "authorization": 14,
+        "friction": 6
+      },
+      "reasons": [
+        "fresh scope + live web + ATO ceiling CRITICAL"
+      ],
+      "attentionPressure": "medium",
+      "hardeningIndex": null,
+      "freshCodeIndex": 20,
+      "knownIssueRisk": 0,
+      "payableSeverityCeiling": "CRITICAL",
+      "programFloorSeverity": "MEDIUM",
+      "programFloorSource": "conservative-default",
+      "workflow": "live-web",
+      "findableClass": "account-takeover",
+      "pFindable": 0.335,
+      "pPayable": 1,
+      "pFirst": 0.292,
+      "effectiveReward": 15000,
+      "rewardCap": 50000,
+      "rewardCapped": false,
+      "evScore": 1467.3,
+      "traps": [],
+      "repoSignals": null,
+      "liveState": null,
+      "excludeReason": null,
+      "honestReason": "fresh scope + live web + ATO ceiling CRITICAL",
+      "bestTargetKey": "09cd2dfebe7128dc"
+    },
+    {
       "id": "program:chime-managed-bug-bounty-engagement",
       "name": "Chime Managed Bug Bounty Engagement",
       "platform": "Bugcrowd",
@@ -115766,110 +115870,6 @@
       "excludeReason": null,
       "honestReason": "live web + ATO ceiling CRITICAL",
       "bestTargetKey": "07a159dc48eadb03"
-    },
-    {
-      "id": "program:fivetran",
-      "name": "Fivetran",
-      "platform": "Bugcrowd",
-      "url": "https://bugcrowd.com/engagements/fivetran-mbb-og",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": 15000,
-      "safeHarbor": "full",
-      "disclosureAllowed": false,
-      "sourceIds": [
-        "bugcrowd"
-      ],
-      "sourceCode": false,
-      "repositoryCount": 0,
-      "targetCount": 1,
-      "tags": [
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "09cd2dfebe7128dc",
-          "type": "web",
-          "value": "https://fivetran.com/login",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "CRITICAL",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "live-web",
-          "findableClass": "account-takeover",
-          "classificationLabel": "ATO",
-          "pFindable": 0.245,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 15000,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 1073.1,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "live web + ATO ceiling CRITICAL"
-        }
-      ],
-      "launchedAt": null,
-      "resolvedReports": null,
-      "inviteOnly": false,
-      "kycRequired": false,
-      "excludedCountries": [],
-      "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastChangedAt": "2026-09-03T14:56:58.433Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-03T14:56:58.433Z"
-      },
-      "score": 39,
-      "scoreBreakdown": {
-        "freshness": 5,
-        "reward": 15,
-        "inspectability": 0,
-        "authorization": 13,
-        "friction": 6
-      },
-      "reasons": [
-        "live web + ATO ceiling CRITICAL"
-      ],
-      "attentionPressure": "unknown",
-      "hardeningIndex": null,
-      "freshCodeIndex": 0,
-      "knownIssueRisk": 0,
-      "payableSeverityCeiling": "CRITICAL",
-      "programFloorSeverity": "MEDIUM",
-      "programFloorSource": "conservative-default",
-      "workflow": "live-web",
-      "findableClass": "account-takeover",
-      "pFindable": 0.245,
-      "pPayable": 1,
-      "pFirst": 0.292,
-      "effectiveReward": 15000,
-      "rewardCap": 50000,
-      "rewardCapped": false,
-      "evScore": 1073.1,
-      "traps": [],
-      "repoSignals": null,
-      "liveState": null,
-      "excludeReason": null,
-      "honestReason": "live web + ATO ceiling CRITICAL",
-      "bestTargetKey": "09cd2dfebe7128dc"
     },
     {
       "id": "program:bitpanda-ongoing-bug-bounty",
@@ -124715,8 +124715,8 @@
           "freshCodeIndex": 0,
           "knownIssueRisk": 0,
           "payableSeverityCeiling": "HIGH",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
+          "programFloorSeverity": "LOW",
+          "programFloorSource": "scraped-reward-table",
           "workflow": "live-api",
           "findableClass": "api-authz",
           "classificationLabel": "API authz",
@@ -124748,8 +124748,8 @@
           "freshCodeIndex": 0,
           "knownIssueRisk": 0,
           "payableSeverityCeiling": "HIGH",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
+          "programFloorSeverity": "LOW",
+          "programFloorSource": "scraped-reward-table",
           "workflow": "live-web",
           "findableClass": "web-business-logic",
           "classificationLabel": "web authz",
@@ -124781,8 +124781,8 @@
           "freshCodeIndex": 0,
           "knownIssueRisk": 0,
           "payableSeverityCeiling": "HIGH",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
+          "programFloorSeverity": "LOW",
+          "programFloorSource": "scraped-reward-table",
           "workflow": "live-web",
           "findableClass": "web-business-logic",
           "classificationLabel": "web authz",
@@ -124832,8 +124832,8 @@
       "freshCodeIndex": 0,
       "knownIssueRisk": 0,
       "payableSeverityCeiling": "HIGH",
-      "programFloorSeverity": "MEDIUM",
-      "programFloorSource": "conservative-default",
+      "programFloorSeverity": "LOW",
+      "programFloorSource": "scraped-reward-table",
       "workflow": "live-api",
       "findableClass": "api-authz",
       "pFindable": 0.232,
@@ -451154,12 +451154,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -453757,12 +453757,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -455272,12 +455272,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -459999,12 +459999,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -460898,12 +460898,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -461302,12 +461302,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -472835,12 +472835,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -473457,12 +473457,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -476350,12 +476350,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -484300,12 +484300,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -492193,12 +492193,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -494389,12 +494389,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -499312,12 +499312,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -501560,12 +501560,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -502007,12 +502007,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -504418,12 +504418,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -506144,12 +506144,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -507276,12 +507276,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -510942,12 +510942,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -530881,12 +530881,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -531842,12 +531842,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -536948,12 +536948,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537050,12 +537050,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537152,12 +537152,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537254,12 +537254,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537356,12 +537356,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537458,12 +537458,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537560,12 +537560,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537662,12 +537662,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537764,12 +537764,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T16:03:00.527Z",
-      "lastChangedAt": "2026-09-03T16:03:00.527Z",
+      "lastSeenAt": "2026-09-03T16:30:24.733Z",
+      "lastChangedAt": "2026-09-03T16:30:24.733Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-03T16:03:00.527Z",
+        "at": "2026-09-03T16:30:24.733Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -538445,6 +538445,532 @@
     }
   ],
   "events": [
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:fivetran:scope_updated",
+      "programId": "program:fivetran",
+      "programName": "Fivetran",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/fivetran-mbb-og",
+      "score": 53,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z"
+      },
+      "evScore": 1467.3,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:1inch:scope_updated",
+      "programId": "program:1inch",
+      "programName": "1inch",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/1inch/1inch-smart-contract",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:assetmantle:scope_updated",
+      "programId": "program:assetmantle",
+      "programName": "AssetMantle",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/assetmantle/assetmantle",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:blueberry-protocol-foundation:scope_updated",
+      "programId": "program:blueberry-protocol-foundation",
+      "programName": "Blueberry Protocol Foundation",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/blueberry-protocol-foundation/blueberry-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:civic:scope_updated",
+      "programId": "program:civic",
+      "programName": "Civic",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/civic/civic-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:coinmate-io:scope_updated",
+      "programId": "program:coinmate-io",
+      "programName": "CoinMate.io",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/coinmate",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:deltaprime:scope_updated",
+      "programId": "program:deltaprime",
+      "programName": "DeltaPrime",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/deltaprime/deltaprime-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:dexe-protocol:scope_updated",
+      "programId": "program:dexe-protocol",
+      "programName": "DeXe Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dexe-protocol/dexe-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:django:scope_updated",
+      "programId": "program:django",
+      "programName": "Django",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/django",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:dodoex:scope_updated",
+      "programId": "program:dodoex",
+      "programName": "DODOEX",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dodoex",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:envelop:scope_updated",
+      "programId": "program:envelop",
+      "programName": "ENVELOP",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/envelop/envelop-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:fastex:scope_updated",
+      "programId": "program:fastex",
+      "programName": "Fastex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/fastex/fastex-web",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor; KYC required"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:grafana-labs:scope_updated",
+      "programId": "program:grafana-labs",
+      "programName": "Grafana Labs",
+      "platform": "Self-hosted",
+      "url": "https://github.com/grafana/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:horizon-protocol:scope_updated",
+      "programId": "program:horizon-protocol",
+      "programName": "Horizon Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/horizon-protocol/horizon-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:impermax-finance:scope_updated",
+      "programId": "program:impermax-finance",
+      "programName": "Impermax Finance",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/impermax-finance/impermax-finance-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:kinza:scope_updated",
+      "programId": "program:kinza",
+      "programName": "KINZA",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kinza/kinza-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:kolibrio:scope_updated",
+      "programId": "program:kolibrio",
+      "programName": "Kolibrio",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kolibrio/alfred-telegram-trading-bot",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:metis:scope_updated",
+      "programId": "program:metis",
+      "programName": "Metis",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/metis/metis-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:mysten-labs:scope_updated",
+      "programId": "program:mysten-labs",
+      "programName": "Mysten Labs",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/mysten-labs/sui-wallet",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:owncloud:scope_updated",
+      "programId": "program:owncloud",
+      "programName": "OwnCloud",
+      "platform": "Self-hosted",
+      "url": "https://hackerone.com/owncloud",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:phabricator:scope_updated",
+      "programId": "program:phabricator",
+      "programName": "Phabricator",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/phabricator",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:ruby:scope_updated",
+      "programId": "program:ruby",
+      "programName": "Ruby",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/ruby",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:shido:scope_updated",
+      "programId": "program:shido",
+      "programName": "Shido",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/shido/shido-network-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:smardex:scope_updated",
+      "programId": "program:smardex",
+      "programName": "SmarDex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smardex/smardex-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:smilee:scope_updated",
+      "programId": "program:smilee",
+      "programName": "Smilee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smilee/smilee-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:sui:scope_updated",
+      "programId": "program:sui",
+      "programName": "Sui",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/sui/sui-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:superfluid:scope_updated",
+      "programId": "program:superfluid",
+      "programName": "Superfluid",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/superfluid/superfluid-super-token-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:swisscom:scope_updated",
+      "programId": "program:swisscom",
+      "programName": "Swisscom",
+      "platform": "Self-hosted",
+      "url": "https://github.com/swisscom/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:tetu:scope_updated",
+      "programId": "program:tetu",
+      "programName": "TETU",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/tetu/tetu-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:trustee:scope_updated",
+      "programId": "program:trustee",
+      "programName": "Trustee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/trustee/trustee-plus-mobile",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-03T16:30:24.733Z:program:vaultka:scope_updated",
+      "programId": "program:vaultka",
+      "programName": "Vaultka",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/vaultka/vaultka-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-03T16:30:24.733Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
     {
       "id": "2026-09-03T16:03:00.527Z:program:1inch:scope_updated",
       "programId": "program:1inch",
