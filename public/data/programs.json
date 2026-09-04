@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-04T16:26:37.750Z",
+    "generatedAt": "2026-09-04T19:40:09.341Z",
     "mode": "live",
     "sourceCount": 6,
     "healthySourceCount": 6,
@@ -52,7 +52,7 @@
       "attempted": 4,
       "updated": 4,
       "failed": 0,
-      "pending": 499
+      "pending": 495
     },
     "liveEnrichment": {
       "configured": 0,
@@ -7026,9 +7026,9 @@
         "label": "Scope or policy changed",
         "at": "2026-09-03T16:30:24.733Z"
       },
-      "score": 53,
+      "score": 50,
       "scoreBreakdown": {
-        "freshness": 18,
+        "freshness": 15,
         "reward": 15,
         "inspectability": 0,
         "authorization": 14,
@@ -7037,7 +7037,7 @@
       "reasons": [
         "fresh scope + live web + ATO ceiling CRITICAL"
       ],
-      "attentionPressure": "medium",
+      "attentionPressure": "unknown",
       "hardeningIndex": null,
       "freshCodeIndex": 20,
       "knownIssueRisk": 0,
@@ -231226,12 +231226,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -233289,12 +233289,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -234804,12 +234804,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -239531,12 +239531,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -240252,12 +240252,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -240656,12 +240656,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -249879,12 +249879,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -250501,12 +250501,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -253394,12 +253394,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -256959,12 +256959,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -264360,12 +264360,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -266556,12 +266556,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -270808,12 +270808,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -272924,12 +272924,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -273371,12 +273371,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -275419,12 +275419,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -277145,12 +277145,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -278277,12 +278277,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -281943,12 +281943,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -294496,12 +294496,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -295273,12 +295273,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -297716,12 +297716,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z"
+        "at": "2026-09-04T19:40:09.341Z"
       },
       "score": 47,
       "scoreBreakdown": {
@@ -301458,12 +301458,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -301560,12 +301560,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -301662,12 +301662,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -301764,12 +301764,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -301866,12 +301866,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -301968,12 +301968,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -302070,12 +302070,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -302172,12 +302172,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -302274,12 +302274,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-04T16:26:37.750Z",
-      "lastChangedAt": "2026-09-04T16:26:37.750Z",
+      "lastSeenAt": "2026-09-04T19:40:09.341Z",
+      "lastChangedAt": "2026-09-04T19:40:09.341Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
+        "at": "2026-09-04T19:40:09.341Z",
         "removedTargets": 1
       },
       "score": 33,
