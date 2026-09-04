@@ -213,3 +213,55 @@ What is enforced versus trusted: everything above is enforced. Two things are tr
 - **Vector clock compaction** and ledger segment rotation for long-lived deployments.
 - **Cross-domain memory**: entities that appear in several domains (a paper's authors and a repo's maintainers) are deliberately kept apart today.
 - **Learned value functions**: today judgments override and affinely calibrate; a small Bayesian logistic model over the plug-in's feature vector is the obvious next step and fits the same log.
+
+---
+
+# 9. v3 — where the ceiling is, and what moved it
+
+v3 is additive (new event kinds, new projections, new modules; DECISIONS D14–D23). With every flag off the worker emits the v2 event stream, the 45 v2 tests pass unchanged, and v2 folds produce identical state on old logs (`tests/v3.test.mjs`). All numbers below are hidden-truth value on the toy world, deduplicated across runs, 30 heartbeats of 8 s, novelty window ≥ the experiment length, 5 world seeds (7, 11, 23, 31, 41); where noted, 3 independent random streams per configuration (D23). Late = mean of the last 10 runs; cum = 30-run cumulative.
+
+## 9.1 The plateau, quantified (v2)
+
+Over 40 runs the v2 substrate peaks in runs 10–20 and settles 15–30 % lower: true value per run 5.7 → 4.7, 5.4 → 3.9, 5.0 → 3.1 on three seeds; its own novel-value estimate decays monotonically (6.5 → 4.4, 7.3 → 4.0, 6.5 → 3.7) while mean novelty stays 0.74–0.82; fixed-grid coverage saturates at 0.12–0.16 with illumination stalling (26–34 cells). Part of the run-30+ decline was a measurement artifact (the 30-day novelty window re-admits early entities the harness had already counted); with a consistent window the plateau is real but milder (5.7 → 5.1, 5.4 → 4.3, 5.0 → 3.5).
+
+## 9.2 Where the gap is: the ceiling decomposition
+
+For each run the harness computes the best 20 hidden-truth values among everything that exists (*world*), among what memory holds (*memory*), among what the strategies surfaced (*pool*), and what was delivered; plus a hindsight ridge model over the current feature set trained on the truth of every past candidate (*linear*), i.e. what an unlimited judgment budget could reach with this model class.
+
+| late-run, seed 7 (seed 11) | world | memory | pool | delivered | linear (hindsight) |
+|---|---|---|---|---|---|
+| v2 | 12.4 (13.7) | 12.1 (13.0) | 8.8 (6.4) | 5.0 (3.0) | 4.96 |
+
+Reading: **polls are not the bottleneck** (memory ≈ world); search surfaces 50–75 % of what memory holds; **scoring delivers roughly half of what the pool contains**, and a linear model over these features would reach only ≈ 5.0 with unlimited labels. The floor is the observables, not the label budget or the allocation. This inverted the plan: the diversity mechanisms (1, 2, 6) attack a gap that is second-order; the value mechanisms (3) attack the first-order gap and are themselves bounded.
+
+## 9.3 What each mechanism did (metric it should move → what happened)
+
+| mechanism | metric it should move | isolated result | verdict |
+|---|---|---|---|
+| **1. Learned behavior space** (`descriptor: 'both'`) | illumination, productive strategies, pool width, at no value cost | ≈ 52 learned cells vs ≈ 27 illuminated fixed cells; productive strategies +35 %; pool 190 vs 95 candidates; late value 0.99× | **ships on** — diversity moved, value did not |
+| **2. Frontier (POET)** | transfer elites, sustained novel value | 0 transfer elites in the fixed grid; late value 1.04× alone, **0.92× under the value model** | **ships off** |
+| **3. Learned value model + EI judgments** | calibration error, late true value at equal judgment budget | first version −20 % (under-regularized); regularized + neighbour features: calibration 0.19 → 0.14; with 10 judgments/run **+6 % cum, +9–10 % late, +11 % hits** over v2-without-judgments, every stream above every baseline stream; v2's own judgment path (affine) is **−12 %** | **ships on** |
+| **4. Delayed credit** | true hits from groundwork | −4 %; premise (poll allocation limits value) false here | **ships off** |
+| **5. External embeddings** | soft-novelty discrimination | plumbing + tests; synthetic texts make quality unmeasurable here | shipped, unmeasured |
+| **6. Plateau sentinel** | post-intervention slope | diagnosis correct; interventions neutral (they target search) | **observe-only by default** |
+
+## 9.4 The judgment mechanism, pushed until it stopped responding
+
+Judgment budget per heartbeat (v3 shipping configuration, proxy search): 0 → 117.9 (v2), 5 → 116, **10 → 124.9** (3 streams × 5 seeds: 126.8 / 121.0 / 127.0), 20 → 122 (3 seeds), 40 → 96 with late-run value collapsing to ≈ 1.0. Mechanism, in order of discovery: judging *delivered* items informs nothing (they are already delivered) — spend the budget on undelivered candidates; ranking by information gain picks curiosities — Expected Improvement over the delivery cutoff picks decisions (+5 % vs top-k); treating judgments as truth delivers the winner's curse at scale — precision-weighted combination and a knowledge-gradient variance fix the 20-budget dip; and beyond ≈ 20 per run the system enters an **exploitation trap**: hundreds of judged entities of known value flood the delivery pool and out-compete unjudged discoveries whatever scale search uses (D20). Ten per heartbeat is the sweet spot on the toy; nobody will judge forty every six hours anyway.
+
+Three search modes were measured at 10/run (3 streams × 5 seeds): `proxy` 124.9, `override` 124.8, `posterior` 121.5. `proxy` ships: it is the mode that keeps discovery and confirmation separate.
+
+## 9.5 Noise
+
+Identical configurations under three random streams: v2 117.0 / 118.0 / 118.8; v3 126.8 / 121.0 / 127.0. Per-seed values vary by ±10 %, five-seed means by ±2 %. Every claim above is at the five-seed-mean level.
+
+## 9.6 Where the ceiling is now
+
+Late-run true value moved from ≈ 4.45 (v2) to ≈ 4.86 (v3), against a candidate pool that contains ≈ 8.2 and a hindsight-linear ceiling of ≈ 4.96: **v3 is within 2 % of what any linear model over the current observables could deliver with unlimited labels.** The plateau that remains is an information plateau, not an allocation or search plateau: the features the core can compute from memory (structure, timing, vocabulary, neighbour signals) do not separate a pre-rise bridge from a habitual pair with less than ≈ 0.14 mean error, and no amount of attention, diversity or judgment-selection cleverness can beat the observables. The mechanism that plateaued is therefore the **value model**, and it plateaued because its features did. The next ceiling move has to come from better observables — real embeddings of real text (mechanism 5, unmeasured here), richer sensors, or interaction features the operator can name — and from judgments that carry *reasons* the model can generalize (the bundle already asks for them).
+
+## 9.7 Honest caveats
+
+- The toy world was designed with memory-dependent value; the ceiling decomposition is toy-specific. Real domains will place the gaps differently (a rate-limited source can make polls the bottleneck, which is where D17's credit would matter).
+- The value model costs 3–5× run time on the toy; on a 240 s real-domain budget this is negligible, on an 8 s toy budget it is not.
+- The oracle operator is unbiased noise (σ = 0.15). Real operators are biased; the knowledge-gradient discount assumes the noise level.
+- Mechanisms 2, 4 and 6 are shipped off with one world's evidence against them, not a proof that they cannot help elsewhere.

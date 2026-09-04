@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { openStore } from '../core/store.mjs';
 import { runOnce } from '../core/worker.mjs';
 import { loadPlugin } from '../core/plugins.mjs';
-import { runExperiment } from '../core/experiment.mjs';
+import { runExperiment, v3Verdicts, VARIANT_CONFIGS } from '../core/experiment.mjs';
 import { runSeries, liveVerdict, formatSeries } from '../core/metrics.mjs';
 import { buildBundle, parseJudgments, ingestJudgments } from '../core/bundle.mjs';
 import { project } from '../core/projections.mjs';
@@ -19,6 +19,12 @@ import { Ledger } from '../core/ledger.mjs';
 import { Policy } from '../policy/policy.mjs';
 import { sync, exportLedger, importLedger } from '../core/sync.mjs';
 import { validateManifest } from '../policy/manifest.mjs';
+import { memoryProjection } from '../core/memory.mjs';
+import { exportTexts, importVectors, readJsonl } from '../core/embedio.mjs';
+import { makeVqProjection, vqOccupied } from '../core/vq.mjs';
+import { makeFrontierProjection, activeChallenges } from '../core/frontier.mjs';
+import { makeValueModelProjection, calibrationMae } from '../core/valuemodel.mjs';
+import { makeSentinelProjection, diagnose, interventionEffects } from '../core/sentinel.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -105,7 +111,7 @@ async function cmdRun(args, cfg) {
   const plugin = await loadPlugin(d.plugin, d.options ?? {}, { baseDir: ROOT, env: process.env });
   plugin.sinks = [...(plugin.sinks ?? []), digestSink(cfg, domain)];
   const { local, hub, ledgerDir } = await openStores(cfg, domain, args);
-  const config = { ...(cfg.planner ?? {}), ...(cfg.qd ?? {}), ...(cfg.output ?? {}), budgetSeconds: Number(args.budget ?? d.budgetSeconds ?? cfg.budgetSeconds ?? 60) };
+  const config = { ...(cfg.planner ?? {}), ...(cfg.qd ?? {}), ...(cfg.output ?? {}), ...(cfg.v3 ?? {}), ...(d.config ?? {}), budgetSeconds: Number(args.budget ?? d.budgetSeconds ?? cfg.budgetSeconds ?? 60) };
   const policyConfig = { ...cfg.policy, authorizedTokens: { ...(cfg.policy.authorizedTokens ?? {}), ...(d.authorizedTokens ?? {}) } };
   log(`run domain=${domain} node=${nodeId(role)} store=${hub ? hub.label : ledgerDir ? 'ledger:' + ledgerDir : 'local'} budget=${config.budgetSeconds}s`);
   const res = await runOnce({ store: local, hub, ledgerDir, plugin, domain, node: nodeId(role), role, config, policyConfig, log, now: args.now ? Number(args.now) : undefined, seed: args.seed, outDir: path.join(ROOT, 'out', domain) });
@@ -121,14 +127,19 @@ async function cmdExperiment(args) {
   const runs = Number(args.runs ?? 10), budget = Number(args.budget ?? 8);
   const seeds = String(args.seeds ?? '7,11,23').split(',').map(Number);
   const variants = String(args.variants ?? 'memory,memoryless,single-cell').split(',');
+  for (const v of variants) if (!(v in VARIANT_CONFIGS)) throw new Error(`unknown variant ${v}; known: ${Object.keys(VARIANT_CONFIGS).join(', ')}`);
+  const judgmentsPerRun = Number(args.judgments ?? 0);
+  const config = { ...(args.window ? { windowDays: Number(args.window) } : {}), ...(args.config ? JSON.parse(args.config) : {}) };
   const all = [];
   for (const seed of seeds) {
-    const r = await runExperiment({ runs, budgetSeconds: budget, seed, variants, log: args.verbose ? log : () => {} });
+    const r = await runExperiment({ runs, budgetSeconds: budget, seed, variants, log: args.verbose ? log : () => {}, judgmentsPerRun, config });
+    r.v3 = v3Verdicts(r.results, runs);
     all.push({ seed, ...r });
     if (!args.json) {
       console.log(`\n== seed ${seed}`);
-      for (const v of variants) console.log(`${v.padEnd(12)} trueValue/run: ${r.results[v].map((x) => x.trueValue.toFixed(2)).join(' ')}   coverage→${r.results[v][runs - 1].coverage}  entropy→${r.results[v][runs - 1].entropy}`);
+      for (const v of variants) console.log(`${v.padEnd(16)} trueValue/run: ${r.results[v].map((x) => x.trueValue.toFixed(2)).join(' ')}   cum→${r.results[v][runs - 1].cumTrue}  coverage→${r.results[v][runs - 1].coverage}  entropy→${r.results[v][runs - 1].entropy}${r.results[v][runs - 1].vqCells !== null ? `  learnedCells→${r.results[v][runs - 1].vqCells}` : ''}`);
       console.log('verdicts:', JSON.stringify(r.verdicts));
+      if (Object.keys(r.v3.ceiling ?? {}).length || Object.keys(r.v3.ablations ?? {}).length || r.v3.isolated) console.log('v3:', JSON.stringify(r.v3));
     }
   }
   const agg = aggregate(all, variants, runs);
@@ -159,6 +170,40 @@ async function cmdReport(args, cfg) {
   const last = Number(args.last ?? 30);
   console.log(formatSeries(series.slice(-last)));
   console.log('\nverdict:', JSON.stringify(liveVerdict(series), null, 2));
+  // v3 projections (present only if the addons ran)
+  const [vq, fr, vm, se] = await Promise.all([
+    project(local, makeVqProjection(), { domain, saveSnapshot: false }), project(local, makeFrontierProjection(), { domain, saveSnapshot: false }),
+    project(local, makeValueModelProjection(), { domain, saveSnapshot: false }), project(local, makeSentinelProjection(), { domain, saveSnapshot: false }),
+  ]);
+  const v3 = {};
+  if (vq.state.evaluations) v3.learnedArchive = { cells: vqOccupied(vq.state), centroids: vq.state.centroids.length, tau: Number(vq.state.tau.toFixed(3)), evaluations: vq.state.evaluations };
+  if (fr.state.created) v3.frontier = { active: activeChallenges(fr.state).length, created: fr.state.created, solved: fr.state.solved, retired: fr.state.retired, transfers: fr.state.transfers };
+  if (vm.state.trained) v3.valueModel = { judgments: vm.state.trained, calibrationMae: Number((calibrationMae(vm.state) ?? 0).toFixed(4)) };
+  if (se.state.runs.length) v3.sentinel = { diagnosis: diagnose(se.state), interventions: interventionEffects(se.state) };
+  if (Object.keys(v3).length) console.log('\nv3:', JSON.stringify(v3, null, 2));
+  await local.close();
+}
+
+async function cmdEmbed(args, cfg, direction) {
+  const domain = args.domain ?? 'toy';
+  const { local, hub, ledgerDir } = await openStores(cfg, domain, args);
+  if (hub) await sync(local, hub, { log });
+  if (ledgerDir) await importLedger(local, ledgerDir);
+  const mem = (await project(local, memoryProjection, { domain, saveSnapshot: false })).state;
+  if (direction === 'export') {
+    const rows = exportTexts(mem, { embedder: args.embedder ?? null, limit: Number(args.limit ?? 5000) });
+    const text = rows.map((r) => JSON.stringify(r)).join('\n') + (rows.length ? '\n' : '');
+    if (args.out) { fs.writeFileSync(args.out, text); log(`wrote ${rows.length} texts to ${args.out}`); } else process.stdout.write(text);
+  } else {
+    const file = args._[1];
+    if (!file || !args.embedder) throw new Error('usage: loam embed <vectors.jsonl> --embedder <name> --domain <d>');
+    const policy = new Policy(cfg.policy, { env: process.env });
+    const ledger = await new Ledger({ store: local, node: nodeId('embedder'), policy, domain }).init();
+    const r = await importVectors(ledger, readJsonl(file), { embedder: args.embedder, memory: mem });
+    if (hub) await sync(local, hub, { log });
+    if (ledgerDir) await exportLedger(local, ledgerDir);
+    log(`imported ${r.imported} vectors (dim ${r.dim}), skipped ${r.skipped}, bad ${r.bad}`);
+  }
   await local.close();
 }
 
@@ -270,7 +315,8 @@ async function cmdLedger(args, cfg, direction) {
 const HELP = `loam — compounding intelligence substrate
 
   loam run --domain <d> [--budget sec] [--role r] [--mode auto|local|ledger] [--json]
-  loam experiment [--runs 10] [--seeds 7,11,23] [--budget 8] [--variants memory,memoryless,single-cell] [--json]
+  loam experiment [--runs 10] [--seeds 7,11,23] [--budget 8] [--variants memory,memoryless,single-cell] [--judgments 0] [--window 30] [--json]
+                  v3 variants: v3 (shipping defaults), v3-all, v3-descriptor, v3-learned, v3-frontier, v3-value, v3-credit, v3-sentinel, v3-no-<addon>
   loam report --domain <d> [--last 30]
   loam bundle --domain <d> [--out file.md] [--top 15] [--uncertain 6] [--runs 3]
   loam ingest-judgment <reply.md> --domain <d> [--by name]
@@ -278,6 +324,8 @@ const HELP = `loam — compounding intelligence substrate
   loam sync --domain <d>
   loam export-ledger / import-ledger --domain <d>
   loam doctor
+  loam embed-export --domain <d> [--out texts.jsonl]      texts lacking an external vector (for a Colab/local encoder)
+  loam embed <vectors.jsonl> --embedder <name> --domain <d>
 
 env: LOAM_DB_URL, LOAM_DB_TOKEN (Turso hub) · LOAM_PSEUDONYM_SALT · LOAM_NODE_NAME · LOAM_LOCAL_DB
 `;
@@ -297,6 +345,8 @@ async function main() {
     case 'export-ledger': return cmdLedger(args, cfg, 'export');
     case 'import-ledger': return cmdLedger(args, cfg, 'import');
     case 'doctor': return cmdDoctor(args, cfg);
+    case 'embed': return cmdEmbed(args, cfg, 'import');
+    case 'embed-export': return cmdEmbed(args, cfg, 'export');
     default: console.log(HELP); return cmd ? process.exit(1) : undefined;
   }
 }

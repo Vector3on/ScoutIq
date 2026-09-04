@@ -109,3 +109,25 @@ Execution is a separate, explicit, non-autonomous path (`ActionGate.executeAppro
 ## 11. Costs
 
 GitHub Actions: ~1–5 min per heartbeat × 4/day. Turso free tier: hundreds of MB and ~10⁹ row reads/month; a domain generates ~1–3 MB/month of events at 100 observations/day. Colab: free tier sessions. No paid API anywhere in the loop.
+
+## 12. v3 addons (DESIGN.md §9)
+
+Everything below is off unless enabled; the v2 event stream is unchanged when it is off.
+
+| flag (per-domain `options` are plug-in options; these go in the domain's `config` block or `loam.config.json` → `planner`/`qd`/`output`-style top level) | what it does | default |
+|---|---|---|
+| `descriptor: "both"` | parents come from the learned behavior space (VQ archive over strategy phenotypes) **and** the fixed grid | `"fixed"` (v2) — the toy cron uses `"both"` |
+| `valueModel: true` | learned, calibrated value model over generic entity features; judgments are evidence, not overrides; the bundle asks for the judgments with the highest expected improvement | off — the toy cron uses it |
+| `judgmentsPerRun` | how many judgments the bundle asks for per heartbeat | 10 |
+| `judgmentSd` | assumed noise of an operator judgment (0.15 ≈ "usually right, sometimes off by a lot") | 0.15 |
+| `vmSearch` | what strategies see once the model is trained: `proxy` (search discovers, judgments confirm), `override` (a judgment wins rankings), `posterior` (learned model everywhere) | `proxy` (DESIGN §9.4) |
+| `affineCalibration: false` | turn off the v2 affine fit on judgments (it compresses scores and hurts selection; DESIGN §9.2) | on in v2; automatically off when `valueModel` is on |
+| `sentinel: "observe"` | plateau diagnosis in `loam report` (no interventions); `true` also intervenes | off — the toy cron observes |
+| `frontier: true` | POET-style challenges and transfers | off (did not move value; §9) |
+| `credit: true` | delayed credit to the polls that enabled a finding | off (hurt in the toy; §9) |
+
+**The judgment loop, v3.** `loam bundle` now opens with *Please judge these first*: the items whose judgment is expected to change what the substrate delivers next (Expected Improvement over the delivery cutoff, discounted for judgment noise). Answer those before anything else; ten per heartbeat is the measured sweet spot on the toy world — more is not better (DESIGN §9.4).
+
+**External embeddings.** `loam embed-export --domain <d> --out texts.jsonl` lists entities with text but no external vector; encode them anywhere (the Colab notebook's cell 7 uses a free open model) and hand back `loam embed vectors.jsonl --embedder <name> --domain <d>`. Once at least half the text-bearing entities have vectors from one embedder, that space is used exclusively (vectors from different embedders are never compared).
+
+**Reading the report.** `loam report` prints the v3 projections when present: learned-archive cells and codebook size, value-model judgments and prequential calibration error, frontier status, and the sentinel's diagnosis plus the before/after effect of every intervention.

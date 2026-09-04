@@ -66,3 +66,53 @@ Listed in DESIGN §8. Each fits the log without changing invariants I1–I4: com
 - **Budget accounting is wall-clock**: a slow host (arXiv at 3 s/request) makes polls expensive; the planner learns actual costs but the first run over-plans.
 - **Public-ledger mode leaks state**: see D3.
 - **Snapshots on a hub are per node**: a fresh Actions runner without the cache replays the whole log from the hub; at ~10⁵ events this is seconds, at 10⁷ it is not (D12).
+
+---
+
+# v3 — pushing the ceiling (additive)
+
+Everything below is additive: new event kinds, new projections, new modules, config flags that default to v2 behaviour. Invariants I1–I4 and the four policy gates are untouched; `tests/v3.test.mjs` asserts that default flags emit no v3 events and that v2 folds ignore the v3 kinds. Numbers are in DESIGN.md §9.
+
+## D14 — Measure the plateau before touching mechanisms; instrument the ceiling, not just the score
+**Choice.** Extend the harness with three hindsight ceilings per run — the best 20 hidden-truth values among everything that exists (*world*), among what memory holds (*memory*), among what the strategies surfaced (*pool*) — next to what was delivered, plus a hindsight ridge model over the current feature set trained on the truth of every past candidate (*linear*).
+**Why.** "Where does it plateau, and why" is a question about gaps: world→memory is polls, memory→pool is search, pool→delivered is scoring. Without the decomposition every addon looks like a coin flip.
+**Cost.** Toy-only (needs hidden truth); ~2× harness time. It changed the whole plan: polls were never the bottleneck, scoring was.
+
+## D15 — Learned behavior space as a second archive, never a replacement
+**Choice.** Phenotype vectors (~30–40 dims) per evaluation as `strategy.phenotype` events; a vector-quantized archive (`core/vq.mjs`) with on-demand cells, slow centroid drift, widening `tau` at capacity and periodic re-encoding; `descriptor: 'both'` interleaves parents from the learned and the fixed grid.
+**Why.** AURORA/VQ-Elites: let the archive's cells follow the phenotypes actually produced instead of a hand-picked 6³ grid. It moved its metric (≈50 learned cells vs ≈27 illuminated fixed cells; +35 % productive strategies; a wider candidate pool) at no cost in hidden-truth value.
+**Cost.** ≈ +40 % run time; more parents means the planner's per-cell curiosity is spread thinner. Diversity did not raise value on its own (D18).
+
+## D16 — Frontier challenges: built, measured, shipped off
+**Choice.** POET-style challenges (`core/frontier.mjs`): a value bar and a memory region, a minimal criterion, transfers in both directions. Off by default.
+**Why.** Neutral in isolation and −8 % under the value model on the toy: transfers never displaced main-archive elites (a strategy tuned to find two great items and eight duds loses on mean novel value), and search was not the bottleneck. Kept because a domain whose value is regional (old entities, a rare type) is exactly where it should pay; the harness will show it.
+**Cost.** Code and tests carried for an unproven mechanism; ~1 KB of events per heartbeat when on.
+
+## D17 — Delayed credit: built, measured, shipped off
+**Choice.** Provenance projection, credit assignment with neighbour and recency weights, a planner variant that folds `credit.assigned` with its own running scale. Off by default.
+**Why.** The premise — poll allocation limits value — is false in the toy (memory ceiling ≈ world ceiling), and the extra observations perturbed a planner that was already fine (−4 %). Untested where the premise might hold (rate-limited real sources).
+**Cost.** As D16.
+
+## D18 — The value model: residual, regularized, features not tokens, a two-stage design
+**Choice.** Bayesian linear model of the residual *judgment − plug-in score* over generic bucketed entity features, prior variance 0.005, no token features, active only after 10 judgments; search sees the model's posterior (one scale for everyone) and delivery ranks by it; the v2 affine calibration is disabled when the model is on.
+**Why.** The first version (prior 0.25, tokens) was under-regularized and cost 20 %; regularization and neighbour-signal features brought calibration error from 0.19 to 0.14. The affine calibration turned out to be net harmful on its own (it compresses scores; disabling it restored the no-judgment baseline). A hindsight ridge over the same features with unlimited labels reaches only ≈5.0 late true value versus 4.4–4.6 for the raw proxy: the feature set is the information floor, so a better model class without better observables cannot move far.
+**Cost.** 3–5× run time (feature extraction per candidate); the model's gains are bounded by the features.
+
+## D19 — Judgments are evidence, and they are spent where they change a decision
+**Choice.** Expected Improvement over the delivery cutoff with a knowledge-gradient variance (a noisier judgment is worth less) selects which *undelivered* candidates to ask about; a received judgment is combined with the model by precision (`posteriorValue`), never treated as truth; judged, still-novel entities enter the delivery pool by right.
+**Why.** Judging the top-k delivered items (v2) informs nothing — they are already delivered. Judging by information gain alone picks curiosities, not decisions. Trusting judgments as truth delivers the winner's curse once the budget is large (20–40 per run): noisy marginal items get picked. The measured sweet spot is ≈10 judgments per heartbeat.
+**Cost.** Assumes a judgment noise level (`judgmentSd`, default 0.15); large budgets still degrade (D20).
+
+## D20 — The exploitation trap at large judgment budgets
+**Observation.** With 40 judgments per heartbeat the candidate pool collapses (pool ceiling 8 → 3): once hundreds of entities are judged, strategies that surface *known* value out-compete strategies that discover unjudged value, whatever scale search uses. The fix that keeps discovery alive is to not let known value count as strategy fitness (search discovers, judgments confirm) — shipped as `vmSearch: 'proxy'`; DESIGN §9 reports what each mode costs.
+
+## D21 — The sentinel diagnoses; intervening is opt-in
+**Choice.** `sentinel: 'observe'` folds run metrics and reports stagnation (flat value per second, saturated archive, decaying novel value) and the before/after effect of interventions; `sentinel: true` also rotates temperature → frontier → descriptor interventions.
+**Why.** Interventions target search diversity, which the ceiling analysis shows is not what limits value on the toy; they were neutral. The diagnosis is what an operator needs.
+
+## D22 — External embeddings: plumbing shipped, quality unmeasured
+**Choice.** `entity.embedded` events from any encoder via `loam embed`; the memory's vector space switches wholesale to an external embedder once it covers half the text-bearing entities.
+**Why.** Hashed n-grams are the weakest link in soft novelty and phenotype spread; a real encoder is free on Colab. The toy's texts are synthetic tokens, so no quality claim is made here.
+
+## D23 — Random streams are part of the experiment
+**Observation.** Identical configurations under different random streams differ by ≈ ±10 % in cumulative hidden-truth value over 30 runs — comparable to the effects under test. Every v3 claim in DESIGN §9 is therefore reported over 5 world seeds × 3 random streams, with the spread.

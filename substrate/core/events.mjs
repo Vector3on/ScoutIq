@@ -113,6 +113,12 @@ export const KINDS = Object.freeze([
   'judgment.recorded', 'note.recorded',
   'proposal.created', 'proposal.approved', 'proposal.rejected', 'proposal.executed',
   'plugin.loaded',
+  // v3 additive kinds (DESIGN.md §9): none of the v2 projections fold these.
+  'strategy.phenotype',
+  'challenge.created', 'challenge.evaluated', 'challenge.retired',
+  'value.features', 'judgment.requested',
+  'credit.assigned',
+  'sentinel.intervened',
 ]);
 const KIND_SET = new Set(KINDS);
 

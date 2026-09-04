@@ -238,24 +238,38 @@ export function burstScore(terms, text, now, { window = 3, minDf = 5 } = {}) {
   return best;
 }
 
-/** Per-run embedding cache over the memory (hash embedder + corpus IDF). */
+/**
+ * Per-run embedding cache over the memory (hash embedder + corpus IDF).
+ * v3: if external vectors (`entity.embedded` events) cover at least half of the
+ * entities that carry text, the external space becomes the ONLY space used —
+ * vectors from different embedders are never compared. Old logs have no external
+ * vectors, so their behaviour is unchanged.
+ */
 export class MemoryVectors {
-  constructor(state, embedder = new HashEmbedder()) {
+  constructor(state, embedder = new HashEmbedder(), { externalThreshold = 0.5 } = {}) {
     this.state = state;
     this.embedder = embedder;
     this.cache = new Map();
     this.idf = (tok) => Math.max(0.2, idfOf(state.terms, tok));
+    let withText = 0;
+    for (const e of state.entities.values()) if (e.text) withText++;
+    const byEmbedder = new Map();
+    for (const v of state.extVecs.values()) byEmbedder.set(v.embedder, (byEmbedder.get(v.embedder) ?? 0) + 1);
+    let best = null, bestN = 0;
+    for (const [name, n] of byEmbedder) if (n > bestN) { best = name; bestN = n; }
+    this.space = best && withText && bestN >= externalThreshold * withText ? best : 'hash';
+    this.dim = this.space === 'hash' ? embedder.dim : [...state.extVecs.values()].find((v) => v.embedder === best).vec.length;
   }
   get(id) {
-    const ext = this.state.extVecs.get(id);
-    if (ext) return ext.vec;
+    if (this.space !== 'hash') { const ext = this.state.extVecs.get(id); return ext && ext.embedder === this.space ? ext.vec : null; }
     if (this.cache.has(id)) return this.cache.get(id);
     const e = this.state.entities.get(id);
     const v = e && e.text ? this.embedder.embed(e.text, this.idf) : null;
     this.cache.set(id, v);
     return v;
   }
-  embedText(text) { return this.embedder.embed(text, this.idf); }
+  /** Embed free text — only meaningful in the hash space; null in an external space. */
+  embedText(text) { return this.space === 'hash' ? this.embedder.embed(text, this.idf) : null; }
 }
 
 // ---------------------------------------------------------------------------

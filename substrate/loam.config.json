@@ -10,6 +10,14 @@
         "world": {
           "horizon": 365
         }
+      },
+      "config": {
+        "descriptor": "both",
+        "valueModel": true,
+        "judgmentsPerRun": 10,
+        "sentinel": "observe",
+        "frontier": false,
+        "credit": false
       }
     },
     "arxiv-lit": {
@@ -32,6 +40,12 @@
           "privacy"
         ],
         "maxResults": 100
+      },
+      "config": {
+        "descriptor": "both",
+        "valueModel": true,
+        "judgmentsPerRun": 10,
+        "sentinel": "observe"
       }
     },
     "oss-health": {
@@ -52,6 +66,12 @@
       },
       "authorizedTokens": {
         "github-repos": "GH_PAT"
+      },
+      "config": {
+        "descriptor": "both",
+        "valueModel": true,
+        "judgmentsPerRun": 10,
+        "sentinel": "observe"
       }
     }
   },

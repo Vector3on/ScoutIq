@@ -70,11 +70,18 @@ Requires Node ≥ 22.13. No dependencies.
 
 `loam experiment` runs the toy world under three variants on identical days and scores outputs against hidden truth, deduplicated across runs. Over 4 seeds × 10 runs: persistent state delivers **1.35×** the late-run true value of the same code with memory wiped every run (188 vs 132 true hits), quality-diversity costs nothing in value (1.03×) while illuminating ~70 % more of behavior space, and every seed stays open-ended (findings every run, novelty ≈ 0.8, ~3 bits of strategy entropy). DESIGN.md §6 has the table, the criteria that would falsify the thesis, and the caveats.
 
+## v3: where the ceiling is, and what moved it
+
+v3 asked one question — *where does the substrate plateau, and why* — and answered it with instruments before mechanisms. On the toy world the plateau is not in polling (memory holds almost everything valuable) and only partly in search (strategies surface 50–75 % of what memory holds); it is in **scoring**: the value model delivers about half of what its own candidate pool contains, and a hindsight model over the same features with unlimited labels barely does better. That fixed the priorities.
+
+Six additive mechanisms were built, each behind a flag, each with tests and its own falsification metric wired into `loam experiment`: a learned behavior space (vector-quantized elites over strategy phenotypes), POET-style frontier challenges, a Bayesian value model with Expected-Improvement judgment selection, delayed credit for polls, an external-embedding path, and a plateau sentinel. The ones that moved their metric without costing hidden-truth value ship on by default for the toy cron; the ones that did not are shipped off with the numbers that say so. DESIGN.md §9 has the ceiling decomposition, the judgment-budget curve (more judgments are not monotonically better: at large budgets search collapses onto known value), the noise study, and the honest verdict per mechanism.
+
 ## Layout
 
 ```
 bin/loam.mjs          CLI: run · experiment · report · bundle · ingest-judgment · proposals · sync · doctor
 core/                 events · store · sync · projections · memory · archive · embed · strategy · qd · attention · planner · worker · bundle · metrics · experiment
+                      v3: phenotype · vq · frontier · features · valuemodel · credit · sentinel · embedio
 policy/               data gate · manifest gate · network gate · action gate
 plugins/              toy · arxiv-lit · oss-health
 tests/                45 tests (core loop, CRDT convergence, policy layer, plug-ins, falsification)

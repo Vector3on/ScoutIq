@@ -64,6 +64,12 @@ export async function buildBundle(store, { domain, top = 15, uncertain = 6, runs
     if (elite) L.push(`- found by strategy \`${f.strategyId}\` (cell ${f.cell}): ${genomeOneLiner(elite.genome)}`);
     L.push('');
   }
+  const requested = (await store.readAll({ domain, kinds: ['judgment.requested'] })).filter((e) => recentRuns.has(e.body.runId)).at(-1);
+  if (requested && requested.body.items?.length) {
+    L.push('## Please judge these first', '', `The substrate asked for these (${requested.body.items[0].reason}); each answer is expected to change what it delivers next.`, '');
+    for (const it of requested.body.items) L.push(`- ${it.findingId ? `[${it.findingId}] ` : `entity \`${it.entityId}\` `}${it.title} — estimated ${fmt(it.score)}${it.priority !== undefined ? `, priority ${fmt(it.priority)}` : ''}`);
+    L.push('');
+  }
   if (unsure.length) {
     L.push('## Where the substrate is least sure', '', 'Mid-range value estimates; a rating here is worth the most.', '');
     for (const f of unsure) L.push(`- [${f.findingId}] ${f.title || f.entityId} — value ${fmt(f.value)}, novelty ${fmt(f.novelty)}`);

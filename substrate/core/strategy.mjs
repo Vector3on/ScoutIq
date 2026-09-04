@@ -325,7 +325,7 @@ export function runStrategy(genome, ctx) {
       }
       case 'outlier': {
         const vecs = set.map((id) => [id, vectors.get(id)]).filter((x) => x[1]);
-        const c = centroid(vecs.map((x) => x[1]), vectors.embedder.dim);
+        const c = centroid(vecs.map((x) => x[1]), vectors.dim ?? vectors.embedder.dim);
         if (!c) { set = []; break; }
         const vals = vecs.map(([id, v]) => [id, 1 - cosine(v, c)]);
         const thr = quantile(vals.map((x) => x[1]), op.q);
@@ -351,6 +351,7 @@ export function runStrategy(genome, ctx) {
   }
   // rank — only entities the archive does not already consider delivered compete for the k slots
   if (ctx.isNovel) set = set.filter((id) => ctx.isNovel(id));
+  if (ctx.accept) set = set.filter((id) => ctx.accept(id)); // v3: optional region filter (frontier challenges)
   const scoreOf = (id) => {
     const e = mem.entities.get(id);
     switch (g.rank.by) {
@@ -430,4 +431,11 @@ export function canonicalGenomes(schema) {
   const rel = schema.relations.find((r) => r.from === T);
   if (rel) out.push({ seed: { op: 'recent', type: T, days: 7 }, pipe: [{ op: 'bridge', rel: rel.rel, dir: 'out', mode: 'emerging', days: 7, q: 0.5 }], rank: { by: 'value' } });
   return out.map(normalizeGenome);
+}
+
+/** v3: apply `strength` independent mutations (temperature interventions). */
+export function mutateStrong(genome, schema, rng, strength = 1) {
+  let g = genome;
+  for (let i = 0; i < Math.max(1, strength); i++) g = mutate(g, schema, rng);
+  return g;
 }
