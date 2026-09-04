@@ -100,7 +100,24 @@ export class LinearModel {
       for (const [j, vj] of phi) this.L[i * d + j] += vi * vj * inv;
     }
     this.n++;
-    this._post = null;
+    if (this._post) {
+      // Rank-one (Sherman–Morrison) update of the cached posterior: identical to recomputing
+      // Σ = Λ⁻¹, μ = Σb from the sufficient statistics, but O(d²) instead of O(d³).
+      //   K = Σφ / (σn² + φᵀΣφ),  μ' = μ + K (y − φᵀμ),  Σ' = Σ − K (Σφ)ᵀ
+      const { mu, Sigma } = this._post;
+      const s = new Float64Array(d);
+      for (const [i, vi] of phi) for (let r = 0; r < d; r++) s[r] += Sigma[r * d + i] * vi;
+      let q = 0, phiMu = 0;
+      for (const [i, vi] of phi) { q += vi * s[i]; phiMu += vi * mu[i]; }
+      const denom = this.noiseVar + q;
+      const g = (y - phiMu) / denom;
+      for (let r = 0; r < d; r++) {
+        const sr = s[r];
+        if (sr !== 0) { const f = sr / denom; for (let c = 0; c < d; c++) Sigma[r * d + c] -= f * s[c]; }
+        mu[r] += sr * g;
+      }
+      this._post.cholSigma = null;
+    }
   }
   forget() {
     const g = this.forgetting, d = this.dim, p0 = 1 / this.priorVar;

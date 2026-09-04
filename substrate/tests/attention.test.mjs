@@ -84,3 +84,22 @@ test('planner projection folds outcomes with per-type scaling and forgets on run
   const again = proj.hydrate(JSON.parse(JSON.stringify(proj.dehydrate(state))));
   assert.equal(again.model.mean(featurize({ type: 'poll', sensor: 'x' }, again.model.dim)), state.model.mean(featurize({ type: 'poll', sensor: 'x' }, state.model.dim)));
 });
+
+test('rank-one posterior updates equal recomputation from sufficient statistics', () => {
+  const rng = makeRng(11);
+  const a = new LinearModel({ dim: 24, priorVar: 0.5, noiseVar: 0.1 }), b = new LinearModel({ dim: 24, priorVar: 0.5, noiseVar: 0.1 });
+  a.posterior(); // cache, so subsequent updates go through Sherman–Morrison
+  for (let i = 0; i < 60; i++) {
+    const phi = featurize({ type: 'x', k: `k${rng.int(6)}`, j: `j${rng.int(4)}` }, 24);
+    const y = rng();
+    a.update(phi, y); b.update(phi, y); // b recomputes lazily from (Λ, b)
+    if (i % 7 === 0) {
+      const test = featurize({ type: 'x', k: 'k1', j: 'j2' }, 24);
+      assert.ok(Math.abs(a.mean(test) - b.mean(test)) < 1e-9, `mean drift at ${i}: ${a.mean(test)} vs ${b.mean(test)}`);
+      assert.ok(Math.abs(a.variance(test) - b.variance(test)) < 1e-9, `variance drift at ${i}`);
+    }
+  }
+  a.forget(); b.forget();
+  const test = featurize({ type: 'x', k: 'k3', j: 'j0' }, 24);
+  assert.ok(Math.abs(a.mean(test) - b.mean(test)) < 1e-9);
+});
