@@ -4,15 +4,33 @@
       "plugin": "./plugins/toy/index.mjs",
       "enabled": true,
       "budgetSeconds": 20,
-      "options": { "seed": 7 }
+      "options": {
+        "seed": 7,
+        "epoch": 1788220800000,
+        "world": {
+          "horizon": 365
+        }
+      }
     },
     "arxiv-lit": {
       "plugin": "./plugins/arxiv-lit/index.mjs",
       "enabled": false,
       "budgetSeconds": 240,
       "options": {
-        "categories": ["cs.CR", "cs.LG", "cs.AI", "cs.SE"],
-        "interests": ["agent", "verification", "adversarial", "supply chain", "formal", "privacy"],
+        "categories": [
+          "cs.CR",
+          "cs.LG",
+          "cs.AI",
+          "cs.SE"
+        ],
+        "interests": [
+          "agent",
+          "verification",
+          "adversarial",
+          "supply chain",
+          "formal",
+          "privacy"
+        ],
         "maxResults": 100
       }
     },
@@ -21,14 +39,27 @@
       "enabled": false,
       "budgetSeconds": 240,
       "options": {
-        "packages": ["express", "koa", "fastify", "hono", "zod", "drizzle-orm"],
+        "packages": [
+          "express",
+          "koa",
+          "fastify",
+          "hono",
+          "zod",
+          "drizzle-orm"
+        ],
         "expandDependencies": true,
         "maxDependencyDepth": 1
       },
-      "authorizedTokens": { "github-repos": "GH_PAT" }
+      "authorizedTokens": {
+        "github-repos": "GH_PAT"
+      }
     }
   },
-  "store": { "mode": "auto", "localDir": ".loam", "ledgerDir": "ledger" },
+  "store": {
+    "mode": "auto",
+    "localDir": ".loam",
+    "ledgerDir": "ledger"
+  },
   "policy": {
     "userAgent": "loam-substrate/0.1 (+https://github.com/vector3on/scoutiq; observe-only research; contact via repository issues)",
     "productToken": "loam",
@@ -36,8 +67,19 @@
     "maxRequestsPerHostPerDay": 800,
     "localServices": []
   },
-  "planner": { "beta": 0.3, "forgetting": 0.98, "priorVar": 1.0, "noiseVar": 0.25 },
-  "qd": { "bins": 6, "k": 10, "windowDays": 30 },
-  "output": { "maxFindings": 20 },
+  "planner": {
+    "beta": 0.3,
+    "forgetting": 0.98,
+    "priorVar": 1.0,
+    "noiseVar": 0.25
+  },
+  "qd": {
+    "bins": 6,
+    "k": 10,
+    "windowDays": 30
+  },
+  "output": {
+    "maxFindings": 20
+  },
   "publishDigest": false
 }
