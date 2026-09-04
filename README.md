@@ -10,6 +10,10 @@ The collector runs on GitHub Actions, writes static JSON, and serves a public da
 
 ScoutIQ is public open-source software under the MIT License. All pipeline logic, scoring rules, trap evidence, tests, workflows, and generated public datasets are auditable in this repository. Credentials are never committed.
 
+## Loam: the compounding intelligence substrate
+
+`substrate/` contains **Loam**, a domain-agnostic, open-ended intelligence-and-automation substrate that runs unattended on free infrastructure: an event-sourced private memory, a quality-diversity archive of evolvable *ways of looking*, an active-inference attention planner, and an enforced policy layer (public data only, robots/ToS/rate limits, observe-only, no secrets or PII stored). Two example domains ship with it (arXiv literature monitoring and open-source ecosystem health) plus a synthetic toy world used to falsify its claims in CI. See [`substrate/README.md`](substrate/README.md), [`substrate/DESIGN.md`](substrate/DESIGN.md) and [`substrate/RUNBOOK.md`](substrate/RUNBOOK.md). Its heartbeat is `.github/workflows/loam.yml`.
+
 ## What changed in v2
 
 - Routes each target to `live-web`, `live-api`, `live-contract`, `ai-agent`, `static-source`, or `static-source-hardened`.

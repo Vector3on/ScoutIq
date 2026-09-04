@@ -1,0 +1,22 @@
+{
+ "id": 1,
+ "name": "hono",
+ "full_name": "honojs/hono",
+ "private": false,
+ "owner": {
+  "login": "honojs",
+  "email": "owner@example.com"
+ },
+ "description": "Web framework built on Web Standards",
+ "fork": false,
+ "stargazers_count": 26543,
+ "forks_count": 800,
+ "open_issues_count": 87,
+ "pushed_at": "2026-09-03T10:00:00Z",
+ "archived": false,
+ "default_branch": "main",
+ "license": {
+  "key": "mit",
+  "spdx_id": "MIT"
+ }
+}

@@ -1,0 +1,7 @@
+.loam/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+out/
+node_modules/

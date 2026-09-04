@@ -1,0 +1,24 @@
+{
+  "name": "loam",
+  "version": "0.1.0",
+  "description": "Loam: a compounding, open-ended intelligence substrate. Domain-agnostic core; domain plug-ins; $0 infrastructure.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "bin": {
+    "loam": "./bin/loam.mjs"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "test:fast": "node --test --test-concurrency=1 --test-name-pattern='^(?!.*slow)' tests/*.test.mjs",
+    "run:toy": "node bin/loam.mjs run --domain toy",
+    "report": "node bin/loam.mjs report",
+    "bundle": "node bin/loam.mjs bundle",
+    "doctor": "node bin/loam.mjs doctor"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

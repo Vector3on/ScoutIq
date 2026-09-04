@@ -1,0 +1,121 @@
+name: Loam heartbeat
+
+# The substrate's heartbeat: one observe-and-reason cycle per enabled domain.
+# $0: GitHub Actions cron; state lives in a Turso hub (secrets) or, with no
+# secrets at all, in the git ledger under substrate/ledger (committed).
+# It never acts on outside systems; it only reads public/authorized sources
+# through the policy layer and writes to its own store.
+
+on:
+  schedule:
+    - cron: "37 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: Domain to run (blank = every enabled domain)
+        required: false
+        default: ""
+      budget:
+        description: Budget in seconds for this heartbeat (blank = per-domain config)
+        required: false
+        default: ""
+  push:
+    branches: [master, main]
+    paths:
+      - "substrate/**"
+      - ".github/workflows/loam.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: loam-heartbeat
+  cancel-in-progress: false
+
+jobs:
+  heartbeat:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    env:
+      LOAM_NODE_NAME: gha
+      LOAM_DB_URL: ${{ secrets.LOAM_DB_URL }}
+      LOAM_DB_TOKEN: ${{ secrets.LOAM_DB_TOKEN }}
+      LOAM_PSEUDONYM_SALT: ${{ secrets.LOAM_PSEUDONYM_SALT }}
+      GH_PAT: ${{ secrets.GH_PAT }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Restore local replica (accelerates sync; correctness does not depend on it)
+        uses: actions/cache@v4
+        with:
+          path: substrate/.loam
+          key: loam-replica-${{ github.run_id }}
+          restore-keys: |
+            loam-replica-
+
+      - name: Doctor
+        working-directory: substrate
+        run: node bin/loam.mjs doctor
+
+      - name: Heartbeat
+        working-directory: substrate
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${{ inputs.domain }}" ]; then
+            domains="${{ inputs.domain }}"
+          else
+            domains=$(node -e "const c=require('./loam.config.json');console.log(Object.entries(c.domains).filter(([,v])=>v.enabled!==false).map(([k])=>k).join(' '))")
+          fi
+          budget=""
+          if [ -n "${{ inputs.budget }}" ]; then budget="--budget ${{ inputs.budget }}"; fi
+          status=0
+          for d in $domains; do
+            echo "::group::domain $d"
+            node bin/loam.mjs run --domain "$d" --role cron $budget || { echo "::warning::heartbeat failed for $d"; status=1; }
+            echo "::endgroup::"
+          done
+          exit $status
+
+      - name: Commit ledger (git-ledger mode only; no-op when a Turso hub is configured)
+        if: always()
+        shell: bash
+        run: |
+          if [ -n "$LOAM_DB_URL" ]; then echo "hub mode: nothing to commit"; exit 0; fi
+          if [ -z "$(git status --porcelain substrate/ledger substrate/digests 2>/dev/null)" ]; then echo "ledger unchanged"; exit 0; fi
+          git config user.name "loam-bot"
+          git config user.email "loam-bot@users.noreply.github.com"
+          git add substrate/ledger substrate/digests
+          git commit -m "loam: heartbeat ledger"
+          for i in 1 2 3; do
+            git pull --rebase origin "${{ github.ref_name }}" && git push && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
+
+      - name: Upload digest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: loam-digest-${{ github.run_number }}
+          path: substrate/out
+          retention-days: 30
+          if-no-files-found: ignore
+
+  verify:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Test the substrate (core loop, policy layer, falsification protocol)
+        working-directory: substrate
+        run: npm test

@@ -1,0 +1,32 @@
+{
+ "projectKey": {
+  "id": "github.com/honojs/hono"
+ },
+ "openIssuesCount": 87,
+ "starsCount": 26543,
+ "forksCount": 800,
+ "license": "MIT",
+ "description": "Web framework built on Web Standards",
+ "homepage": "https://hono.dev",
+ "scorecard": {
+  "date": "2026-09-01",
+  "repository": {
+   "name": "github.com/honojs/hono",
+   "commit": "abc"
+  },
+  "scorecard": {
+   "version": "v5.0.0"
+  },
+  "checks": [
+   {
+    "name": "Maintained",
+    "score": 10
+   },
+   {
+    "name": "Code-Review",
+    "score": 6
+   }
+  ],
+  "overallScore": 6.9
+ }
+}

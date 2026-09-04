@@ -1,0 +1,32 @@
+{
+ "versionKey": {
+  "system": "NPM",
+  "name": "hono",
+  "version": "4.13.7"
+ },
+ "publishedAt": "2026-09-04T19:18:07Z",
+ "isDefault": true,
+ "licenses": [
+  "MIT"
+ ],
+ "advisoryKeys": [
+  {
+   "id": "GHSA-xxxx-yyyy-zzzz"
+  }
+ ],
+ "links": [
+  {
+   "label": "SOURCE_REPO",
+   "url": "https://github.com/honojs/hono"
+  }
+ ],
+ "relatedProjects": [
+  {
+   "projectKey": {
+    "id": "github.com/honojs/hono"
+   },
+   "relationProvenance": "UNVERIFIED_METADATA",
+   "relationType": "SOURCE_REPO"
+  }
+ ]
+}
