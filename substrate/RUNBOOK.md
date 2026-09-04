@@ -126,7 +126,7 @@ Everything below is off unless enabled; the v2 event stream is unchanged when it
 | `frontier: true` | POET-style challenges and transfers | off (did not move value; §9) |
 | `credit: true` | delayed credit to the polls that enabled a finding | off (hurt in the toy; §9) |
 
-**The judgment loop, v3.** `loam bundle` now opens with *Please judge these first*: the items whose judgment is expected to change what the substrate delivers next (Expected Improvement over the delivery cutoff, discounted for judgment noise). Answer those before anything else; ten per heartbeat is the measured sweet spot on the toy world — more is not better (DESIGN §9.4).
+**The judgment loop, v3.** `loam bundle` now opens with *Please judge these first*: the items whose judgment is expected to change what the substrate delivers next (Expected Improvement over the delivery cutoff, discounted for judgment noise). Answer those before anything else; on the toy world every doubling of the judgment budget bought a few percent more hidden-truth value with diminishing returns (DESIGN §9.4), so ten per heartbeat is a reasonable operator budget, not a ceiling.
 
 **External embeddings.** `loam embed-export --domain <d> --out texts.jsonl` lists entities with text but no external vector; encode them anywhere (the Colab notebook's cell 7 uses a free open model) and hand back `loam embed vectors.jsonl --embedder <name> --domain <d>`. Once at least half the text-bearing entities have vectors from one embedder, that space is used exclusively (vectors from different embedders are never compared).
 
