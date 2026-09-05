@@ -1,6 +1,532 @@
 {
-  "generatedAt": "2026-09-05T13:53:43.537Z",
+  "generatedAt": "2026-09-05T16:51:37.788Z",
   "events": [
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:swiss-post:scope_updated",
+      "programId": "program:swiss-post",
+      "programName": "Swiss Post",
+      "platform": "YesWeHack",
+      "url": "https://yeswehack.com/programs/swiss-post",
+      "score": 47,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z"
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "invite-only program"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:1inch:scope_updated",
+      "programId": "program:1inch",
+      "programName": "1inch",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/1inch/1inch-smart-contract",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:assetmantle:scope_updated",
+      "programId": "program:assetmantle",
+      "programName": "AssetMantle",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/assetmantle/assetmantle",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:blueberry-protocol-foundation:scope_updated",
+      "programId": "program:blueberry-protocol-foundation",
+      "programName": "Blueberry Protocol Foundation",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/blueberry-protocol-foundation/blueberry-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:civic:scope_updated",
+      "programId": "program:civic",
+      "programName": "Civic",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/civic/civic-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:coinmate-io:scope_updated",
+      "programId": "program:coinmate-io",
+      "programName": "CoinMate.io",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/coinmate",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:deltaprime:scope_updated",
+      "programId": "program:deltaprime",
+      "programName": "DeltaPrime",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/deltaprime/deltaprime-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:dexe-protocol:scope_updated",
+      "programId": "program:dexe-protocol",
+      "programName": "DeXe Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dexe-protocol/dexe-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:django:scope_updated",
+      "programId": "program:django",
+      "programName": "Django",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/django",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:dodoex:scope_updated",
+      "programId": "program:dodoex",
+      "programName": "DODOEX",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dodoex",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:envelop:scope_updated",
+      "programId": "program:envelop",
+      "programName": "ENVELOP",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/envelop/envelop-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:fastex:scope_updated",
+      "programId": "program:fastex",
+      "programName": "Fastex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/fastex/fastex-web",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor; KYC required"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:grafana-labs:scope_updated",
+      "programId": "program:grafana-labs",
+      "programName": "Grafana Labs",
+      "platform": "Self-hosted",
+      "url": "https://github.com/grafana/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:horizon-protocol:scope_updated",
+      "programId": "program:horizon-protocol",
+      "programName": "Horizon Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/horizon-protocol/horizon-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:impermax-finance:scope_updated",
+      "programId": "program:impermax-finance",
+      "programName": "Impermax Finance",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/impermax-finance/impermax-finance-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:kinza:scope_updated",
+      "programId": "program:kinza",
+      "programName": "KINZA",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kinza/kinza-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:kolibrio:scope_updated",
+      "programId": "program:kolibrio",
+      "programName": "Kolibrio",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kolibrio/alfred-telegram-trading-bot",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:metis:scope_updated",
+      "programId": "program:metis",
+      "programName": "Metis",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/metis/metis-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:mysten-labs:scope_updated",
+      "programId": "program:mysten-labs",
+      "programName": "Mysten Labs",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/mysten-labs/sui-wallet",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:owncloud:scope_updated",
+      "programId": "program:owncloud",
+      "programName": "OwnCloud",
+      "platform": "Self-hosted",
+      "url": "https://hackerone.com/owncloud",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:phabricator:scope_updated",
+      "programId": "program:phabricator",
+      "programName": "Phabricator",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/phabricator",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:ruby:scope_updated",
+      "programId": "program:ruby",
+      "programName": "Ruby",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/ruby",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:shido:scope_updated",
+      "programId": "program:shido",
+      "programName": "Shido",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/shido/shido-network-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:smardex:scope_updated",
+      "programId": "program:smardex",
+      "programName": "SmarDex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smardex/smardex-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:smilee:scope_updated",
+      "programId": "program:smilee",
+      "programName": "Smilee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smilee/smilee-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:sui:scope_updated",
+      "programId": "program:sui",
+      "programName": "Sui",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/sui/sui-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:superfluid:scope_updated",
+      "programId": "program:superfluid",
+      "programName": "Superfluid",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/superfluid/superfluid-super-token-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:swisscom:scope_updated",
+      "programId": "program:swisscom",
+      "programName": "Swisscom",
+      "platform": "Self-hosted",
+      "url": "https://github.com/swisscom/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:tetu:scope_updated",
+      "programId": "program:tetu",
+      "programName": "TETU",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/tetu/tetu-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:trustee:scope_updated",
+      "programId": "program:trustee",
+      "programName": "Trustee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/trustee/trustee-plus-mobile",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T16:51:37.788Z:program:vaultka:scope_updated",
+      "programId": "program:vaultka",
+      "programName": "Vaultka",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/vaultka/vaultka-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T16:51:37.788Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
     {
       "id": "2026-09-05T13:53:43.537Z:program:swiss-post:scope_updated",
       "programId": "program:swiss-post",
@@ -2867,532 +3393,6 @@
       "evScore": 0,
       "workflow": "static-source",
       "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:horizon-protocol:scope_updated",
-      "programId": "program:horizon-protocol",
-      "programName": "Horizon Protocol",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/horizon-protocol/horizon-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:impermax-finance:scope_updated",
-      "programId": "program:impermax-finance",
-      "programName": "Impermax Finance",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/impermax-finance/impermax-finance-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:kinza:scope_updated",
-      "programId": "program:kinza",
-      "programName": "KINZA",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/kinza/kinza-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:kolibrio:scope_updated",
-      "programId": "program:kolibrio",
-      "programName": "Kolibrio",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/kolibrio/alfred-telegram-trading-bot",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:metis:scope_updated",
-      "programId": "program:metis",
-      "programName": "Metis",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/metis/metis-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:mysten-labs:scope_updated",
-      "programId": "program:mysten-labs",
-      "programName": "Mysten Labs",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/mysten-labs/sui-wallet",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:owncloud:scope_updated",
-      "programId": "program:owncloud",
-      "programName": "OwnCloud",
-      "platform": "Self-hosted",
-      "url": "https://hackerone.com/owncloud",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:phabricator:scope_updated",
-      "programId": "program:phabricator",
-      "programName": "Phabricator",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/phabricator",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:ruby:scope_updated",
-      "programId": "program:ruby",
-      "programName": "Ruby",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/ruby",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:shido:scope_updated",
-      "programId": "program:shido",
-      "programName": "Shido",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/shido/shido-network-protocol",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:smardex:scope_updated",
-      "programId": "program:smardex",
-      "programName": "SmarDex",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/smardex/smardex-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:smilee:scope_updated",
-      "programId": "program:smilee",
-      "programName": "Smilee",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/smilee/smilee-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:sui:scope_updated",
-      "programId": "program:sui",
-      "programName": "Sui",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/sui/sui-protocol",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:superfluid:scope_updated",
-      "programId": "program:superfluid",
-      "programName": "Superfluid",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/superfluid/superfluid-super-token-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:swisscom:scope_updated",
-      "programId": "program:swisscom",
-      "programName": "Swisscom",
-      "platform": "Self-hosted",
-      "url": "https://github.com/swisscom/bugbounty",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "static-source",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:tetu:scope_updated",
-      "programId": "program:tetu",
-      "programName": "TETU",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/tetu/tetu-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:trustee:scope_updated",
-      "programId": "program:trustee",
-      "programName": "Trustee",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/trustee/trustee-plus-mobile",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T19:40:09.341Z:program:vaultka:scope_updated",
-      "programId": "program:vaultka",
-      "programName": "Vaultka",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/vaultka/vaultka-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T19:40:09.341Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:swiss-post:scope_updated",
-      "programId": "program:swiss-post",
-      "programName": "Swiss Post",
-      "platform": "YesWeHack",
-      "url": "https://yeswehack.com/programs/swiss-post",
-      "score": 47,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z"
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "invite-only program"
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:metamask:scope_updated",
-      "programId": "program:metamask",
-      "programName": "MetaMask",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/metamask",
-      "score": 35,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 2
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:1inch:scope_updated",
-      "programId": "program:1inch",
-      "programName": "1inch",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/1inch/1inch-smart-contract",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:assetmantle:scope_updated",
-      "programId": "program:assetmantle",
-      "programName": "AssetMantle",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/assetmantle/assetmantle",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:blueberry-protocol-foundation:scope_updated",
-      "programId": "program:blueberry-protocol-foundation",
-      "programName": "Blueberry Protocol Foundation",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/blueberry-protocol-foundation/blueberry-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:civic:scope_updated",
-      "programId": "program:civic",
-      "programName": "Civic",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/civic/civic-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:coinmate-io:scope_updated",
-      "programId": "program:coinmate-io",
-      "programName": "CoinMate.io",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/coinmate",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:deltaprime:scope_updated",
-      "programId": "program:deltaprime",
-      "programName": "DeltaPrime",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/deltaprime/deltaprime-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:dexe-protocol:scope_updated",
-      "programId": "program:dexe-protocol",
-      "programName": "DeXe Protocol",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/dexe-protocol/dexe-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:django:scope_updated",
-      "programId": "program:django",
-      "programName": "Django",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/django",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:dodoex:scope_updated",
-      "programId": "program:dodoex",
-      "programName": "DODOEX",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/dodoex",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:envelop:scope_updated",
-      "programId": "program:envelop",
-      "programName": "ENVELOP",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/envelop/envelop-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T16:26:37.750Z:program:fastex:scope_updated",
-      "programId": "program:fastex",
-      "programName": "Fastex",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/fastex/fastex-web",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T16:26:37.750Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor; KYC required"
     }
   ]
 }
