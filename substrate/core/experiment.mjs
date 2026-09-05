@@ -47,9 +47,9 @@ export const VARIANT_CONFIGS = Object.freeze({
   v3: V3_DEFAULT, 'v3-all': V3_ALL,
   v4: V4_DEFAULT, 'v4-all': V4_ALL,
   'v4-hindsight': { ...V3_DEFAULT, hindsight: true }, 'v4-discovery': { ...V3_DEFAULT, hindsight: true, discovery: true }, 'v4-discovery-judgments': { ...V3_DEFAULT, discovery: true },
-  'v4-obsops': { ...V3_DEFAULT, hindsight: true, discovery: true, obsOps: true }, 'v4-curriculum': { ...V3_DEFAULT, hindsight: true, curriculum: true },
+  'v4-obsops': { ...V3_DEFAULT, hindsight: true, discovery: true, obsOps: true }, 'v4-obsops-judgments': { ...V3_DEFAULT, discovery: true, obsOps: true }, 'v4-curriculum': { ...V3_DEFAULT, hindsight: true, curriculum: true },
   'v4-no-discovery': { ...V4_ALL, discovery: false, obsOps: false }, 'v4-no-obsops': { ...V4_ALL, obsOps: false }, 'v4-no-curriculum': { ...V4_ALL, curriculum: false },
-  'v4-fixed': { ...V4_ALL, metaAttention: false }, 'v4-progress': { ...V4_ALL, progress: true },
+  'v4-fixed': { ...V4_ALL, metaAttention: false }, 'v4-progress': { ...V4_ALL, progress: true }, 'v4-nostack': { ...V4_ALL, vmStack: false },
   'v3-descriptor': { descriptor: 'both' }, 'v3-learned': { descriptor: 'learned' }, 'v3-frontier': { frontier: true },
   'v3-value': { valueModel: true }, 'v3-value-topk': { valueModel: true, activeJudgments: false }, 'v3-credit': { credit: true }, 'v3-sentinel': { sentinel: true },
   'v3-no-descriptor': { ...V3_ALL, descriptor: 'fixed' }, 'v3-no-frontier': { ...V3_ALL, frontier: false }, 'v3-no-value': { ...V3_ALL, valueModel: false },
@@ -86,7 +86,12 @@ export async function runVariant({ variant, runs, budgetSeconds, seed, epoch, lo
     if (variant === 'memoryless') store = await openStore(':memory:');
     const now = epoch + i * DAY + 12 * 3600 * 1000;
     const stream = extraConfig.rngTag ?? variant; // the random stream; pass rngTag to compare configurations under identical streams
-    const res = await runOnce({ store, plugin, domain: 'toy', node: `exp.${variant}`, role: 'experiment', env: { LOAM_AUTONOMOUS: '1' }, now, seed: `${seed}:${stream}:${i}`, config, log, policyConfig: {} });
+    // A logical wall clock (one millisecond per read) makes learned action costs, event times and time-travel cutoffs a
+    // function of the log alone, so an experiment is exactly reproducible whatever the machine is doing (v4; D23).
+    const t0 = Date.now();
+    const wall = extraConfig.realClock ? undefined : (() => { let t = now - 1; return () => ++t; })();
+    const res = await runOnce({ store, plugin, domain: 'toy', node: `exp.${variant}`, role: 'experiment', env: { LOAM_AUTONOMOUS: '1' }, now, wall, seed: `${seed}:${stream}:${i}`, config, log, policyConfig: {} });
+    const wallMs = Date.now() - t0;
     const papers = res.findings.filter((f) => !reported.has(f.entityId) && !f.entityId.startsWith('topic:'));
     for (const f of res.findings) reported.add(f.entityId);
     const trueValues = papers.map((f) => plugin.debug.trueValue(f.entityId, now));
@@ -107,7 +112,7 @@ export async function runVariant({ variant, runs, budgetSeconds, seed, epoch, lo
     series.push({
       run: i, findings: s.findings, papers: papers.length, trueValue: Number(trueValues.reduce((a, b) => a + b, 0).toFixed(4)), cumTrue: Number(cumTrue.toFixed(3)), meanTrue: Number(mean(trueValues).toFixed(4)), top5True: Number(mean(top5).toFixed(4)),
       hits: trueValues.filter((v) => v >= 0.35).length, novelValue: s.novelValue, meanNovelty: s.meanNovelty, coverage: s.coverage, cells: s.archiveCells,
-      qdScore: s.qdScore, entropy: s.strategyEntropy, distinct: s.distinctStrategies, evaluations: s.evaluations, newObs: s.newObservations, entities: s.entities, elapsedMs: s.elapsedMs,
+      qdScore: s.qdScore, entropy: s.strategyEntropy, distinct: s.distinctStrategies, evaluations: s.evaluations, newObs: s.newObservations, entities: s.entities, elapsedMs: wallMs,
       illuminated: illuminated.size, productiveStrategies: productive.size, byType: s.byType, calibMae: calibMae === null ? null : Number(calibMae.toFixed(4)), judged,
       vqCells: s.vq?.cells ?? null, vqK: s.vq?.centroids ?? null, challenges: s.frontier ? { active: s.frontier.active, solved: s.frontier.solved, retired: s.frontier.retired, transfers: s.frontier.transfers, transferElites: s.frontier.transferElites } : null,
       credited, interventions, vmTrained: s.valueModel?.trained ?? null, vmMae: s.valueModel?.mae ?? null, sentinel: s.sentinel ? { stagnant: s.sentinel.stagnant, intervention: s.sentinel.intervention } : null,
@@ -115,7 +120,7 @@ export async function runVariant({ variant, runs, budgetSeconds, seed, epoch, lo
       ...(v4 ? { v4 } : {}),
     });
   }
-  return { variant, series };
+  return { variant, series, ...(extraConfig.keepStore ? { store } : {}) };
 }
 
 /**

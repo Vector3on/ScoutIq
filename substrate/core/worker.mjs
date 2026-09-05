@@ -31,7 +31,7 @@ import { makeSentinelProjection, diagnose, nextIntervention, activeInterventions
 import { pastRuns, memoryAsOf } from './timetravel.mjs';
 import { hindsightComponents } from './hindsight.mjs';
 import { makeObsContext, evalAll, randomProgram, mutateProgram, observableId, candidateFitness, obsCorrelation, quantileEdges, describeProgram } from './observables.mjs';
-import { makeValueModelV4Projection, takeIg, hindsightMae, labelMae, residualRows, activeObservables } from './valuemodel-v4.mjs';
+import { makeValueModelV4Projection, takeIg, hindsightMae, labelMae, residualRows, activeObservables, labelsReady } from './valuemodel-v4.mjs';
 import { makeCurriculumProjection, retroSpec, retroId, harderRetro, retroCriterion, labelsForDay, retroFitness, activeRetro } from './curriculum.mjs';
 import { makeProgressProjection, diagnoseProgress, activeProgressInterventions } from './progress.mjs';
 
@@ -84,6 +84,7 @@ export const DEFAULTS = Object.freeze({
   progress: false,            // false | 'observe' | true (raise discovery temperature on a frontier stall)
   progressWindow: 8, progressMinRuns: 10, progressCooldown: 6,
   vmDim: 256, vmMaxRows: 3000, vmRebuildEvery: 25, vmMinHindRows: 100,
+  vmStack: true,              // a judgment-only head scores deliveries, with the hindsight model's prediction as a feature
 });
 const LEARN = new Set(['hindsight', 'discover', 'retro']);
 
@@ -120,7 +121,7 @@ export async function runOnce(opts) {
   const v4 = { hindsight: !!cfg.hindsight, discovery: !!cfg.discovery, curriculum: !!cfg.curriculum, progress: !!cfg.progress, obsOps: !!cfg.obsOps };
   const useV4 = v4.hindsight || v4.discovery;
   const valueModelProjection = v3.value
-    ? (useV4 ? makeValueModelV4Projection({ dim: cfg.vmDim, priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar, maxRows: cfg.vmMaxRows, rebuildEvery: cfg.vmRebuildEvery }) : makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }))
+    ? (useV4 ? makeValueModelV4Projection({ dim: cfg.vmDim, priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar, maxRows: cfg.vmMaxRows, rebuildEvery: cfg.vmRebuildEvery, stack: !!cfg.vmStack, stackMinTrained: cfg.vmMinTrained }) : makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }))
     : null;
   const sentinelProjection = v3.sentinel ? makeSentinelProjection() : null;
   const curriculumProjection = v4.curriculum ? makeCurriculumProjection() : null;
@@ -294,7 +295,7 @@ export async function runOnce(opts) {
     if (!Number.isFinite(v)) v = 0;
     return Math.max(0, Math.min(1, v));
   }
-  const learnedReady = () => !!(vmState && (vmState.trained >= cfg.vmMinTrained || (vmState.hindRows ?? 0) >= cfg.vmMinHindRows));
+  const learnedReady = () => !!(vmState && (vmState.trained >= cfg.vmMinTrained || (vmState.observables && labelsReady(vmState) && vmState.hindRows >= cfg.vmMinHindRows)));
   function valueOf(id) {
     if (valueCache.has(id)) return valueCache.get(id);
     const j = archive.judgments.get(id);
@@ -794,7 +795,7 @@ export async function runOnce(opts) {
     const v = {};
     if (vmState?.observables) {
       const usesObs = (g) => (g.pipe ?? []).some((op) => op.op === OBS_OP) || g.rank?.by === 'obs';
-      v.hindsight = { rows: vmState.hindRows, rowsThisRun: counters.hindRows, mae: round(hindsightMae(vmState) ?? 0, 4), labelPairs: vmState.labelPairs, labelMae: round(labelMae(vmState) ?? 0, 4), labelledDays: vmState.labelledDays.size, pending: pendingDays.length, ig: round(counters.hindIg, 4), rebuilds: vmState.rebuilds, ready: learnedReady() };
+      v.hindsight = { rows: vmState.hindRows, rowsThisRun: counters.hindRows, mae: round(hindsightMae(vmState) ?? 0, 4), labelPairs: vmState.labelPairs, labelsReady: labelsReady(vmState), labelMae: round(labelMae(vmState) ?? 0, 4), labelledDays: vmState.labelledDays.size, pending: pendingDays.length, ig: round(counters.hindIg, 4), rebuilds: vmState.rebuilds, ready: learnedReady(), stacked: !!(vmState.stack && vmState.trainedJ >= vmState.stackMinTrained) };
       v.observables = { adopted: vmState.observables.adopted.size, candidates: vmState.observables.candidates.size, rev: vmState.observables.rev, retired: vmState.observables.retired, adoptedThisRun: counters.adopted, newShapesThisRun: counters.newShapes, proposedThisRun: counters.proposed, shapes: vmState.observables.shapes.size, inGrammar: searchSchema.observables?.length ?? 0, elitesUsingObs: [...qdState.cells.values()].filter((c) => usesObs(c.genome)).length, names: [...vmState.observables.adopted.values()].map((o) => `${describeProgram(o.program)} (${round(o.fitness ?? 0, 3)})`).slice(0, 16) };
     }
     if (cuState) v.curriculum = { active: activeRetro(cuState).length, total: cuState.challenges.size, solved: cuState.solved, retired: cuState.retired, evaluations: cuState.evaluations, transfers: cuState.transfers, solvedThisRun, retroEvalsThisRun: counters.retroEvals, transferElites: [...qdState.cells.values()].filter((c) => c.kind === 'transfer').length };

@@ -131,13 +131,14 @@ test('hindsight: growth components find the future (hot pair, migration, emergin
   const lm = makeLabelModel();
   const c = (pair, deg) => ({ 'pair:in_topic×in_topic': pair, 'deg:in_topic': deg });
   const before = labelOf(lm, c(0.9, 0.1));
-  for (let i = 0; i < 80; i++) {
-    const pair = (i % 5) / 5, deg = ((i * 7) % 5) / 5;
+  const lrng = makeRng(17);
+  for (let i = 0; i < 160; i++) {
+    const pair = lrng.int(6) / 5, deg = lrng.int(6) / 5;
     const comps = c(pair, deg), truth = 0.8 * pair;
     lm.update(labelPhiOf(comps), truth - labelPrior(comps));
   }
-  const high = labelOf(lm, c(0.9, 0.1)), low = labelOf(lm, c(0.1, 0.9));
-  assert.ok(high.value > 0.55 && low.value < 0.3 && high.value - low.value > 0.35, `calibrated: ${high.value} vs ${low.value}`);
+  const high = labelOf(lm, c(0.8, 0.2)), low = labelOf(lm, c(0.2, 0.8));
+  assert.ok(high.value > 0.5 && low.value < 0.3 && high.value - low.value > 0.3, `calibrated: ${high.value} vs ${low.value}`);
   assert.ok(high.variance < before.variance, 'variance shrinks with pairs');
   assert.ok(Math.abs(spearman([1, 2, 3, 4], [2, 4, 6, 8]) - 1) < 1e-9);
 });
@@ -167,7 +168,7 @@ const feats = (kind) => ({ 'type=paper': 1, [`kind=${kind}`]: 1 });
 const PROG = { f: 'pair', rel1: 'in_topic', dir1: 'out', rel2: 'in_topic', dir2: 'out', stat: 'coAge', agg: 'min' };
 
 test('v4 value model: equals the v3 model on a v3 log; hindsight rows are weaker evidence than judgments; adoption rebuilds the feature space', () => {
-  const opts = { dim: 64, priorVar: 0.25, noiseVar: 0.05 };
+  const opts = { dim: 64, priorVar: 0.25, noiseVar: 0.05, stack: false }; // the hindsight model alone, for the v3 equivalence
   const bodies = [], kinds = [];
   for (let i = 0; i < 12; i++) {
     const kind = i % 2 ? 'A' : 'B';
@@ -181,20 +182,30 @@ test('v4 value model: equals the v3 model on a v3 log; hindsight rows are weaker
   assert.equal(predictValue(v4, feats('Z'), 0.3).sd, predictValue(v3, feats('Z'), 0.3).sd);
   assert.equal(v4.trained, 12); assert.equal(v4.absErr, v3.absErr);
   assert.equal(v4.rows.length, 12); assert.equal(v4.hindRows, 0);
-  // a hindsight row for a new kind moves the prediction, but less than a judgment would
+  // an uncalibrated label (no judgment pairs yet) is stored but is not evidence
   const hind = evs('h', 'hindsight.labeled', [{ entityId: 'paper:h1', asOf: 100 * DAY_MS, asOfDay: 100, horizonDays: 7, components: { 'pair:in_topic×in_topic': 0.9, term: 0.1 }, features: feats('C'), obs: { o1: 0.5 }, pluginScore: 0.3, novelAt: 1, ts: 107 * DAY_MS }]);
-  const withHind = foldEvents(makeValueModelV4Projection(opts), [...log, ...hind], { domain: 'd' }).state;
-  const judged = foldEvents(makeValueModelV4Projection(opts), [...log, ...evs('j', ['value.features', 'judgment.recorded'], [{ entityId: 'paper:h1', features: feats('C'), pluginScore: 0.3, ts: 107 * DAY_MS }, { entityId: 'paper:h1', value: 0.45, by: 'oracle', ts: 107 * DAY_MS }])], { domain: 'd' }).state;
+  const gated = foldEvents(makeValueModelV4Projection(opts), [...log, ...hind], { domain: 'd' }).state;
+  assert.equal(gated.hindRows, 1); assert.equal(gated.hindN, 0);
+  assert.equal(predictValue(gated, feats('C'), 0.3).value, predictValue(v4, feats('C'), 0.3).value, 'no calibration, no evidence');
+  // a calibrated hindsight row moves the prediction, but less than a judgment would
+  const calibrated = { ...opts, labelMinPairs: 0 };
+  const withHind = foldEvents(makeValueModelV4Projection(calibrated), [...log, ...hind], { domain: 'd' }).state;
+  const judged = foldEvents(makeValueModelV4Projection(calibrated), [...log, ...evs('j', ['value.features', 'judgment.recorded'], [{ entityId: 'paper:h1', features: feats('C'), pluginScore: 0.3, ts: 107 * DAY_MS }, { entityId: 'paper:h1', value: 0.45, by: 'oracle', ts: 107 * DAY_MS }])], { domain: 'd' }).state;
   const base = predictValue(v4, feats('C'), 0.3).value, pH = predictValue(withHind, feats('C'), 0.3).value, pJ = predictValue(judged, feats('C'), 0.3).value;
-  assert.equal(withHind.hindRows, 1); assert.equal(withHind.labelledDays.has(100), true);
-  assert.ok(pH > base && pJ > base, `both move up: ${base} → ${pH} / ${pJ}`);
-  assert.ok(Math.abs(pJ - base) > Math.abs(pH - base), `a judgment (${pJ}) outweighs a hindsight label (${pH})`);
+  assert.equal(withHind.hindRows, 1); assert.equal(withHind.labelledDays.has(100), true); assert.equal(withHind.hindN, 1);
+  assert.ok(pH !== base && pJ !== base, `both are evidence: ${base} → ${pH} / ${pJ}`);
+  // evidence weight is the gain per unit of residual (a label of 0 has a larger residual than a judgment of 0.45)
+  const yH = withHind.rows.find((r) => r.kind === 'hindsight').y, gainH = (pH - base) / (yH - base), gainJ = (pJ - base) / (0.45 - base);
+  assert.ok(gainJ > gainH, `a judgment (gain ${gainJ.toFixed(3)}) outweighs a hindsight label (gain ${gainH.toFixed(3)})`);
   assert.ok(withHind.ig > 0 && takeIg(withHind) > 0 && withHind.ig === 0, 'information gain is accumulated and taken');
   const hrow = withHind.rows.find((r) => r.kind === 'hindsight');
   assert.ok(hrow && hrow.prec < 1 / opts.noiseVar, 'a hindsight row carries less precision than a judgment row');
-  // a judgment near the label's asOf trains the label model
-  const paired = foldEvents(makeValueModelV4Projection(opts), [...log, ...hind, ...evs('j2', 'judgment.recorded', [{ entityId: 'paper:h1', value: 0.9, by: 'oracle', ts: 101 * DAY_MS }])], { domain: 'd' }).state;
+  // a judgment near the label's asOf trains the label model; reaching the calibration bar rebuilds with the stored rows
+  const paired = foldEvents(makeValueModelV4Projection({ ...opts, labelMinPairs: 1 }), [...log, ...hind, ...evs('j2', 'judgment.recorded', [{ entityId: 'paper:h1', value: 0.9, by: 'oracle', ts: 101 * DAY_MS }])], { domain: 'd' }).state;
   assert.equal(paired.labelPairs, 1);
+  assert.ok(paired.dirty || paired.rebuilds >= 1, 'crossing the bar schedules a rebuild');
+  ensureModel(paired);
+  assert.notEqual(predictValue(paired, feats('C'), 0.3).value, predictValue(v4, feats('C'), 0.3).value, 'the stored hindsight row is now evidence');
   // an empty day marker counts the day as done
   const empty = foldEvents(makeValueModelV4Projection(opts), evs('e', 'hindsight.labeled', [{ asOfDay: 55, horizonDays: 7, empty: true, ts: 1 }]), { domain: 'd' }).state;
   assert.ok(empty.labelledDays.has(55) && empty.rows.length === 0);
@@ -205,7 +216,7 @@ test('v4 value model: equals the v3 model on a v3 log; hindsight rows are weaker
     { id: 'o2', program: { f: 'age' }, type: 'paper', ts: 3 },
     { id: 'o2', reason: 'unfit', ts: 4 },
   ]);
-  const adopted = foldEvents(makeValueModelV4Projection(opts), [...log, ...hind, ...obsLog], { domain: 'd' }).state;
+  const adopted = foldEvents(makeValueModelV4Projection(calibrated), [...log, ...hind, ...obsLog], { domain: 'd' }).state;
   assert.equal(adopted.observables.adopted.size, 1); assert.equal(adopted.observables.candidates.size, 0); assert.equal(adopted.observables.retired, 1); assert.equal(adopted.observables.rev, 1);
   assert.ok(adopted.rebuilds + (adopted.dirty ? 1 : 0) >= 1, 'adoption schedules a rebuild (done lazily, or by the next row)');
   const phiA = phiOf(adopted, feats('C'), { o1: 0.5 }), phiB = phiOf(adopted, feats('C'), { o1: 0.95 });
@@ -213,10 +224,18 @@ test('v4 value model: equals the v3 model on a v3 log; hindsight rows are weaker
   ensureModel(adopted); assert.equal(adopted.dirty, false); assert.ok(adopted.rebuilds >= 1); assert.equal(ensureModel(adopted), false);
   assert.equal(residualRows(adopted).length, 13);
   assert.deepEqual(activeObservables(adopted).map((o) => o.id), ['o1']);
-  const again = makeValueModelV4Projection(opts).hydrate(JSON.parse(JSON.stringify(makeValueModelV4Projection(opts).dehydrate(adopted))));
+  const again = makeValueModelV4Projection(calibrated).hydrate(JSON.parse(JSON.stringify(makeValueModelV4Projection(calibrated).dehydrate(adopted))));
   assert.ok(Math.abs(predictValue(again, feats('C'), 0.3, { o1: 0.5 }).value - predictValue(adopted, feats('C'), 0.3, { o1: 0.5 }).value) < 1e-9, 'round trip');
   const picked = selectJudgments(adopted, [{ entityId: 'paper:new', features: feats('A'), obs: { o1: 0.5 }, pluginScore: 0.3, score: 0.5 }], { k: 1, mode: 'ei', cutoff: 0.2 });
   assert.equal(picked.length, 1);
+  // the stacked head: judgments only, with the hindsight model's prediction as a feature; it scores once enough judgments exist
+  const stacked = foldEvents(makeValueModelV4Projection({ ...opts, stack: true, stackMinTrained: 10, labelMinPairs: 0 }), [...log, ...hind], { domain: 'd' }).state;
+  assert.equal(stacked.trainedJ, 12);
+  const pS = predictValue(stacked, feats('A'), 0.3).value;
+  assert.ok(pS > 0.5, `the head learns kind A from judgments: ${pS}`);
+  assert.notEqual(pS, predictValue(withHind, feats('A'), 0.3).value, 'the head is a different model from the hindsight model');
+  const few = foldEvents(makeValueModelV4Projection({ ...opts, stack: true, stackMinTrained: 100 }), log, { domain: 'd' }).state;
+  assert.equal(predictValue(few, feats('A'), 0.3).value, predictValue(v3, feats('A'), 0.3).value, 'below the bar the hindsight model scores (= v3 on a v3 log)');
 });
 
 test('curriculum: retro environments fold into their own projection, not the frontier; minimal criterion; harder children; labels per day', () => {

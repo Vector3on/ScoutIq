@@ -25,6 +25,10 @@ import { makeVqProjection, vqOccupied } from '../core/vq.mjs';
 import { makeFrontierProjection, activeChallenges } from '../core/frontier.mjs';
 import { makeValueModelProjection, calibrationMae } from '../core/valuemodel.mjs';
 import { makeSentinelProjection, diagnose, interventionEffects } from '../core/sentinel.mjs';
+import { makeValueModelV4Projection, hindsightMae, labelMae } from '../core/valuemodel-v4.mjs';
+import { describeProgram } from '../core/observables.mjs';
+import { makeCurriculumProjection, activeRetro } from '../core/curriculum.mjs';
+import { makeProgressProjection, diagnoseProgress, progressEffects } from '../core/progress.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -183,6 +187,18 @@ async function cmdReport(args, cfg) {
   if (vm.state.trained) v3.valueModel = { judgments: vm.state.trained, calibrationMae: Number((calibrationMae(vm.state) ?? 0).toFixed(4)) };
   if (se.state.runs.length) v3.sentinel = { diagnosis: diagnose(se.state), interventions: interventionEffects(se.state) };
   if (Object.keys(v3).length) console.log('\nv3:', JSON.stringify(v3, null, 2));
+  // v4 projections (present only if the addons ran)
+  const [vm4, cu, pg] = await Promise.all([
+    project(local, makeValueModelV4Projection(), { domain, saveSnapshot: false }), project(local, makeCurriculumProjection(), { domain, saveSnapshot: false }), project(local, makeProgressProjection(), { domain, saveSnapshot: false }),
+  ]);
+  const v4 = {};
+  if (vm4.state.hindRows || vm4.state.observables.adopted.size) {
+    v4.hindsight = { rows: vm4.state.hindRows, labelledDays: vm4.state.labelledDays.size, labelPairs: vm4.state.labelPairs, labelMae: Number((labelMae(vm4.state) ?? 0).toFixed(4)), hindsightMae: Number((hindsightMae(vm4.state) ?? 0).toFixed(4)), rebuilds: vm4.state.rebuilds };
+    v4.observables = { adopted: [...vm4.state.observables.adopted.values()].map((o) => `${describeProgram(o.program)} (fitness ${Number(o.fitness ?? 0).toFixed(3)}, n ${o.n})`), candidates: vm4.state.observables.candidates.size, retired: vm4.state.observables.retired, kinds: vm4.state.observables.shapes.size };
+  }
+  if (cu.state.created) v4.curriculum = { active: activeRetro(cu.state).length, created: cu.state.created, solved: cu.state.solved, retired: cu.state.retired, evaluations: cu.state.evaluations, transfers: cu.state.transfers };
+  if (pg.state.runs.length) v4.progress = { diagnosis: diagnoseProgress(pg.state), interventions: progressEffects(pg.state) };
+  if (Object.keys(v4).length) console.log('\nv4:', JSON.stringify(v4, null, 2));
   await local.close();
 }
 

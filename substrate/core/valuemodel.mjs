@@ -24,6 +24,22 @@ export function phiFor(state, features, obs = null) {
   for (const [id, o] of adopted) f[`obs:${id}`] = bucketOf(obs ? obs[id] : null, o.edges);
   return featurize(f, state.model.dim);
 }
+const HIND_EDGES = [0.1, 0.2, 0.35, 0.5, 0.7];
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+/**
+ * The model that scores, and its feature vector. v3 states: the single model. v4 states with a trained stacked head
+ * (core/valuemodel-v4.mjs): the judgment-only head over base ⊕ observables ⊕ the hindsight model's prediction.
+ */
+export function scoringModel(state, features, obs = null, pluginScore = 0) {
+  const phi = phiFor(state, features, obs);
+  if (!(state.stack && state.modelJ && state.trainedJ >= state.stackMinTrained)) return { model: state.model, phi };
+  const h = clamp01(pluginScore + state.model.mean(phi));
+  const f = { ...features };
+  for (const [id, o] of state.observables?.adopted ?? []) f[`obs:${id}`] = bucketOf(obs ? obs[id] : null, o.edges);
+  f[`hind=${bucketOf(h, HIND_EDGES)}`] = 1;
+  f.hindLin = h;
+  return { model: state.modelJ, phi: featurize(f, state.model.dim), hind: h };
+}
 
 export function makeValueModelProjection({ dim = 256, priorVar = 0.25, noiseVar = 0.05, forgetting = 1.0 } = {}) {
   return new Projection({
@@ -64,9 +80,9 @@ function train(state, id, j) {
 
 /** Predict a calibrated value with uncertainty for an entity's features. */
 export function predictValue(state, features, pluginScore, obs = null) {
-  const phi = phiFor(state, features, obs);
-  const mu = state.model.mean(phi), v = state.model.variance(phi);
-  return { value: Math.max(0, Math.min(1, pluginScore + mu)), residual: mu, sd: Math.sqrt(v), ig: state.model.infoGain(phi) };
+  const { model, phi } = scoringModel(state, features, obs, pluginScore);
+  const mu = model.mean(phi), v = model.variance(phi);
+  return { value: Math.max(0, Math.min(1, pluginScore + mu)), residual: mu, sd: Math.sqrt(v), ig: model.infoGain(phi) };
 }
 
 /** Mean absolute calibration error so far (prequential). */
@@ -86,13 +102,13 @@ export function selectJudgments(state, candidates, { k = 5, mode = 'ei', cutoff 
   const floor = Math.max(0.05, calibrationMae(state) ?? 0.2);
   for (const c of candidates) {
     if (state.judged.has(c.entityId)) continue;
-    const phi = phiFor(state, c.features, c.obs ?? null);
-    const ig = state.model.infoGain(phi);
+    const { model, phi } = scoringModel(state, c.features, c.obs ?? null, c.pluginScore ?? 0);
+    const ig = model.infoGain(phi);
     let priority;
     if (mode === 'ei') {
-      const mu = Math.max(0, Math.min(1, (c.pluginScore ?? 0) + state.model.mean(phi)));
+      const mu = Math.max(0, Math.min(1, (c.pluginScore ?? 0) + model.mean(phi)));
       // knowledge-gradient variance: how much a NOISY judgment can move our estimate (Frazier et al. 2008)
-      const varM = state.model.variance(phi) + floor * floor;
+      const varM = model.variance(phi) + floor * floor;
       const sd = varM / Math.sqrt(varM + judgmentSd * judgmentSd);
       priority = expectedImprovement(mu, sd, cutoff);
     } else {

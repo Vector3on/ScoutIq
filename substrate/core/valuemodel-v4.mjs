@@ -26,10 +26,12 @@ import { bucketOf, programShape } from './observables.mjs';
 
 export const V4_KINDS = ['value.features', 'judgment.recorded', 'hindsight.labeled', 'observable.proposed', 'observable.adopted', 'observable.retired'];
 
-export function makeValueModelV4Projection({ dim = 256, priorVar = 0.005, noiseVar = 0.03, maxRows = 3000, rebuildEvery = 25, labelResidualFloor = 0.09, pairWindowDays = 2 } = {}) {
+export function makeValueModelV4Projection({ dim = 256, priorVar = 0.005, noiseVar = 0.03, maxRows = 3000, rebuildEvery = 25, labelResidualFloor = 0.09, pairWindowDays = 2, labelMinPairs = 20, stack = true, stackMinTrained = 10 } = {}) {
   const init = () => ({
-    version: 4, dim, priorVar, noiseVar, maxRows, rebuildEvery, labelResidualFloor, pairWindowDays,
+    version: 4, dim, priorVar, noiseVar, maxRows, rebuildEvery, labelResidualFloor, pairWindowDays, labelMinPairs, stack, stackMinTrained,
     model: new LinearModel({ dim, priorVar, noiseVar, forgetting: 1 }),
+    // the stacked head: judgments only, over the same features plus the hindsight model's prediction (weak labels inform, true labels decide)
+    modelJ: new LinearModel({ dim, priorVar, noiseVar, forgetting: 1 }), trainedJ: 0,
     features: new Map(), judged: new Map(), pending: new Map(), trained: 0, absErr: 0,
     rows: [], hindN: 0, hindAbsErr: 0, hindRows: 0,
     labelModel: makeLabelModel(), labelPairs: 0, labelAbsErr: 0, comps: new Map(),
@@ -102,8 +104,8 @@ export function makeValueModelV4Projection({ dim = 256, priorVar = 0.005, noiseV
       }
     },
     dehydrate: (s) => ({
-      version: s.version, dim: s.dim, priorVar: s.priorVar, noiseVar: s.noiseVar, maxRows: s.maxRows, rebuildEvery: s.rebuildEvery, labelResidualFloor: s.labelResidualFloor, pairWindowDays: s.pairWindowDays,
-      model: s.model.toState(), features: mapToArr(s.features), judged: mapToArr(s.judged), pending: mapToArr(s.pending), trained: s.trained, absErr: s.absErr,
+      version: s.version, dim: s.dim, priorVar: s.priorVar, noiseVar: s.noiseVar, maxRows: s.maxRows, rebuildEvery: s.rebuildEvery, labelResidualFloor: s.labelResidualFloor, pairWindowDays: s.pairWindowDays, labelMinPairs: s.labelMinPairs, stack: s.stack, stackMinTrained: s.stackMinTrained,
+      model: s.model.toState(), modelJ: s.modelJ.toState(), trainedJ: s.trainedJ, features: mapToArr(s.features), judged: mapToArr(s.judged), pending: mapToArr(s.pending), trained: s.trained, absErr: s.absErr,
       rows: s.rows, hindN: s.hindN, hindAbsErr: s.hindAbsErr, hindRows: s.hindRows,
       labelModel: s.labelModel.toState(), labelPairs: s.labelPairs, labelAbsErr: s.labelAbsErr, comps: mapToArr(s.comps),
       observables: { adopted: mapToArr(s.observables.adopted), candidates: mapToArr(s.observables.candidates), retired: s.observables.retired, rev: s.observables.rev, shapes: [...s.observables.shapes] },
@@ -111,7 +113,7 @@ export function makeValueModelV4Projection({ dim = 256, priorVar = 0.005, noiseV
     }),
     hydrate: (j) => ({
       ...j,
-      model: LinearModel.fromState(j.model), features: arrToMap(j.features), judged: arrToMap(j.judged), pending: arrToMap(j.pending),
+      model: LinearModel.fromState(j.model), modelJ: LinearModel.fromState(j.modelJ), features: arrToMap(j.features), judged: arrToMap(j.judged), pending: arrToMap(j.pending),
       labelModel: LinearModel.fromState(j.labelModel), comps: arrToMap(j.comps),
       observables: { adopted: arrToMap(j.observables.adopted), candidates: arrToMap(j.observables.candidates), retired: j.observables.retired, rev: j.observables.rev, shapes: new Set(j.observables.shapes) },
       labelledDays: new Set(j.labelledDays),
@@ -131,17 +133,33 @@ export function phiOf(state, features, obs = null) {
 }
 
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
+const HIND_EDGES = [0.1, 0.2, 0.35, 0.5, 0.7];
+
+/** Feature vector of the stacked head: base ⊕ observables ⊕ the hindsight model's prediction (bucketed and linear). */
+export function phiStacked(state, features, obs, pluginScore) {
+  const phi = phiOf(state, features, obs);
+  const h = clamp01(pluginScore + state.model.mean(phi));
+  const f = { ...features };
+  for (const [id, o] of state.observables?.adopted ?? []) f[`obs:${id}`] = bucketOf(obs ? obs[id] : null, o.edges);
+  f[`hind=${bucketOf(h, HIND_EDGES)}`] = 1;
+  f.hindLin = h;
+  return featurize(f, state.model.dim);
+}
+/** Is the stacked head the one that scores (enough judgments, stacking on)? */
+export const stackedReady = (state) => !!(state.stack && state.modelJ && state.trainedJ >= state.stackMinTrained);
 
 function trainJudgment(state, id, j) {
   const f = state.features.get(id);
   const row = { id, f: f.features, o: f.obs ?? null, ps: f.pluginScore, c: null, y: j.value, prec: 1 / state.noiseVar, kind: 'judgment', batch: Math.floor(j.ts / DAY_MS), ts: j.ts };
-  // prequential calibration error BEFORE the update (as in v3)
+  // prequential calibration error BEFORE the update (as in v3), under whichever model scores
   ensureModel(state);
   const phi = phiOf(state, row.f, row.o);
-  state.absErr += Math.abs(clamp01(row.ps + state.model.mean(phi)) - j.value);
+  const pred = stackedReady(state) ? row.ps + state.modelJ.mean(phiStacked(state, row.f, row.o, row.ps)) : row.ps + state.model.mean(phi);
+  state.absErr += Math.abs(clamp01(pred) - j.value);
   state.trained++;
   state.judged.set(id, { value: j.value, ts: j.ts });
   addRow(state, row, phi);
+  if (state.stack) { state.modelJ.update(phiStacked(state, row.f, row.o, row.ps), j.value - row.ps); state.trainedJ++; }
 }
 
 function trainLabel(state, comps, judgment) {
@@ -150,8 +168,12 @@ function trainLabel(state, comps, judgment) {
   state.labelAbsErr += Math.abs(clamp01(pred) - judgment);
   state.labelModel.update(phi, judgment - labelPrior(comps));
   state.labelPairs++;
-  if (++state.pairsSinceRebuild >= state.rebuildEvery) { state.pairsSinceRebuild = 0; state.dirty = true; }
+  // hindsight rows enter the model only once the label model is calibrated; crossing the bar rebuilds with all of them
+  if (state.labelPairs === state.labelMinPairs || ++state.pairsSinceRebuild >= state.rebuildEvery) { state.pairsSinceRebuild = 0; state.dirty = true; }
 }
+
+/** Are hindsight labels calibrated enough to be evidence? */
+export const labelsReady = (state) => state.labelPairs >= state.labelMinPairs;
 
 export const labelResidualVar = (state) => Math.max(state.labelResidualFloor, state.labelPairs ? (state.labelAbsErr / state.labelPairs) ** 2 : 0.09);
 
@@ -172,15 +194,17 @@ function updateWeighted(state, phi, target, prec) {
 
 function addRow(state, row, phi = null) {
   ensureModel(state);
-  phi = phi ?? phiOf(state, row.f, row.o);
-  if (row.kind === 'hindsight') {
-    state.hindAbsErr += Math.abs(clamp01(row.ps + state.model.mean(phi)) - row.y);
-    state.hindN++;
-    state.hindRows++;
-  }
-  state.ig += updateWeighted(state, phi, row.y - row.ps, row.prec);
   state.rows.push(row);
   if (state.rows.length > state.maxRows) state.rows.splice(0, state.rows.length - state.maxRows);
+  if (row.kind === 'hindsight') {
+    state.hindRows++;
+    if (!labelsReady(state)) return; // stored; folded into the model when the label model is calibrated (rebuild)
+    phi = phi ?? phiOf(state, row.f, row.o);
+    state.hindAbsErr += Math.abs(clamp01(row.ps + state.model.mean(phi)) - row.y);
+    state.hindN++;
+  }
+  phi = phi ?? phiOf(state, row.f, row.o);
+  state.ig += updateWeighted(state, phi, row.y - row.ps, row.prec);
 }
 
 /** Rebuild the model from the rows under the current feature space (exact; called lazily). */
@@ -189,9 +213,15 @@ export function ensureModel(state) {
   state.dirty = false;
   state.rebuilds++;
   state.model = new LinearModel({ dim: state.dim, priorVar: state.priorVar, noiseVar: state.noiseVar, forgetting: 1 });
+  const ready = labelsReady(state);
   for (const row of state.rows) {
-    if (row.kind === 'hindsight') setHindsightTarget(state, row);
+    if (row.kind === 'hindsight') { if (!ready) continue; setHindsightTarget(state, row); }
     updateWeighted(state, phiOf(state, row.f, row.o), row.y - row.ps, row.prec);
+  }
+  if (state.stack) {
+    state.modelJ = new LinearModel({ dim: state.dim, priorVar: state.priorVar, noiseVar: state.noiseVar, forgetting: 1 });
+    state.trainedJ = 0;
+    for (const row of state.rows) if (row.kind === 'judgment') { state.modelJ.update(phiStacked(state, row.f, row.o, row.ps), row.y - row.ps); state.trainedJ++; }
   }
   return true;
 }
@@ -206,7 +236,9 @@ export const labelMae = (state) => (state.labelPairs ? state.labelAbsErr / state
 export function residualRows(state) {
   ensureModel(state);
   const out = [];
+  const ready = labelsReady(state);
   for (const row of state.rows) {
+    if (row.kind === 'hindsight' && !ready) continue;
     const phi = phiOf(state, row.f, row.o);
     out.push({ obs: row.o, r: (row.y - row.ps) - state.model.mean(phi), batch: row.batch, kind: row.kind, id: row.id });
   }
