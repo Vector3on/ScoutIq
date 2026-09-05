@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-05T01:02:27.102Z",
+  "generatedAt": "2026-09-05T05:49:30.589Z",
   "sourceSnapshots": {
     "hackerone": [
       {
@@ -3192,71 +3192,6 @@
             "key": "fe587e84dcae00e4",
             "type": "other",
             "value": "Box Tools",
-            "eligible": true
-          }
-        ],
-        "localTestingHint": false,
-        "policyText": "",
-        "launchedAt": null,
-        "resolvedReports": null,
-        "inviteOnly": false,
-        "kycRequired": false,
-        "excludedCountries": [],
-        "sourcePriority": 10
-      },
-      {
-        "mergeKey": "brave-software",
-        "name": "Brave Software",
-        "platform": "HackerOne",
-        "url": "https://hackerone.com/brave",
-        "status": "open",
-        "paid": true,
-        "currency": null,
-        "safeHarbor": null,
-        "disclosureAllowed": null,
-        "sourceIds": [
-          "hackerone"
-        ],
-        "sourceCode": true,
-        "repositoryCount": 1,
-        "targetCount": 5,
-        "tags": [
-          "apple-store-app-id",
-          "executable",
-          "google-play-app-id",
-          "other",
-          "source-code"
-        ],
-        "languages": [],
-        "targets": [
-          {
-            "key": "0d42437850e0c798",
-            "type": "other",
-            "value": "Brave websites",
-            "eligible": true
-          },
-          {
-            "key": "34ce822e5618a875",
-            "type": "source-code",
-            "value": "https://github.com/brave/*, https://github.com/brave-intl/*",
-            "eligible": true
-          },
-          {
-            "key": "35aa0d4bc7691d18",
-            "type": "executable",
-            "value": "Brave Browser Desktop",
-            "eligible": true
-          },
-          {
-            "key": "bca4ce663c0ac3a1",
-            "type": "apple-store-app-id",
-            "value": "com.brave.ios.browser",
-            "eligible": true
-          },
-          {
-            "key": "caa5389314c45421",
-            "type": "google-play-app-id",
-            "value": "com.brave.browser",
             "eligible": true
           }
         ],
@@ -103019,7 +102954,7 @@
       "id": "hackerone",
       "label": "HackerOne",
       "status": "ok",
-      "count": 222
+      "count": 221
     },
     {
       "id": "bugcrowd",
@@ -320907,6 +320842,144 @@
       "bestTargetKey": "2c057d61505501a6"
     },
     {
+      "id": "program:brave-software",
+      "name": "Brave Software",
+      "platform": "Self-hosted",
+      "url": "https://hackerone.com/brave",
+      "status": "open",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": null,
+      "safeHarbor": null,
+      "disclosureAllowed": null,
+      "sourceIds": [
+        "projectdiscovery"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 2,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "a2889dadecc1b67a",
+          "type": "web",
+          "value": "brave.com",
+          "eligible": true,
+          "firstSeenAt": "2026-09-03T16:03:00.527Z",
+          "repoSignals": null,
+          "liveState": null,
+          "hardeningIndex": null,
+          "freshCodeIndex": 20,
+          "knownIssueRisk": 0,
+          "payableSeverityCeiling": "HIGH",
+          "programFloorSeverity": "MEDIUM",
+          "programFloorSource": "conservative-default",
+          "workflow": "live-web",
+          "findableClass": "web-business-logic",
+          "classificationLabel": "web authz",
+          "pFindable": 0.32,
+          "pPayable": 1,
+          "pFirst": 0.292,
+          "effectiveReward": 0,
+          "rewardCap": 50000,
+          "rewardCapped": false,
+          "evScore": 0,
+          "traps": [],
+          "excludeReason": null,
+          "recentScope": true,
+          "programAgeDays": null,
+          "resolvedReports": 25,
+          "resolvedReportsEstimated": true,
+          "audit": null,
+          "reason": "fresh scope + live web + web authz ceiling HIGH"
+        },
+        {
+          "key": "c0a8485a50545fe6",
+          "type": "web",
+          "value": "basicattentiontoken.org",
+          "eligible": true,
+          "firstSeenAt": "2026-09-03T16:03:00.527Z",
+          "repoSignals": null,
+          "liveState": null,
+          "hardeningIndex": null,
+          "freshCodeIndex": 20,
+          "knownIssueRisk": 0,
+          "payableSeverityCeiling": "HIGH",
+          "programFloorSeverity": "MEDIUM",
+          "programFloorSource": "conservative-default",
+          "workflow": "live-web",
+          "findableClass": "web-business-logic",
+          "classificationLabel": "web authz",
+          "pFindable": 0.32,
+          "pPayable": 1,
+          "pFirst": 0.292,
+          "effectiveReward": 0,
+          "rewardCap": 50000,
+          "rewardCapped": false,
+          "evScore": 0,
+          "traps": [],
+          "excludeReason": null,
+          "recentScope": true,
+          "programAgeDays": null,
+          "resolvedReports": 25,
+          "resolvedReportsEstimated": true,
+          "audit": null,
+          "reason": "fresh scope + live web + web authz ceiling HIGH"
+        }
+      ],
+      "launchedAt": null,
+      "resolvedReports": null,
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "firstSeenAt": "2026-09-03T14:56:58.433Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 5
+      },
+      "score": 33,
+      "scoreBreakdown": {
+        "freshness": 18,
+        "reward": 0,
+        "inspectability": 0,
+        "authorization": 10,
+        "friction": 5
+      },
+      "reasons": [
+        "fresh scope + live web + web authz ceiling HIGH"
+      ],
+      "attentionPressure": "medium",
+      "hardeningIndex": null,
+      "freshCodeIndex": 20,
+      "knownIssueRisk": 0,
+      "payableSeverityCeiling": "HIGH",
+      "programFloorSeverity": "MEDIUM",
+      "programFloorSource": "conservative-default",
+      "workflow": "live-web",
+      "findableClass": "web-business-logic",
+      "pFindable": 0.32,
+      "pPayable": 1,
+      "pFirst": 0.292,
+      "effectiveReward": 0,
+      "rewardCap": 50000,
+      "rewardCapped": false,
+      "evScore": 0,
+      "traps": [],
+      "repoSignals": null,
+      "liveState": null,
+      "excludeReason": null,
+      "honestReason": "fresh scope + live web + web authz ceiling HIGH",
+      "bestTargetKey": "a2889dadecc1b67a"
+    },
+    {
       "id": "program:qwant",
       "name": "Qwant",
       "platform": "Self-hosted",
@@ -382786,314 +382859,6 @@
       "excludeReason": null,
       "honestReason": "live web + price/authz ceiling CRITICAL",
       "bestTargetKey": "2d5383334a54b0bb"
-    },
-    {
-      "id": "program:brave-software",
-      "name": "Brave Software",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/brave",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": null,
-      "safeHarbor": null,
-      "disclosureAllowed": null,
-      "sourceIds": [
-        "hackerone",
-        "projectdiscovery"
-      ],
-      "sourceCode": true,
-      "repositoryCount": 1,
-      "targetCount": 7,
-      "tags": [
-        "apple-store-app-id",
-        "executable",
-        "google-play-app-id",
-        "other",
-        "source-code",
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "a2889dadecc1b67a",
-          "type": "web",
-          "value": "brave.com",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "CRITICAL",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "live-web",
-          "findableClass": "business-logic",
-          "classificationLabel": "price/authz",
-          "pFindable": 0.235,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 0,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "live web + price/authz ceiling CRITICAL"
-        },
-        {
-          "key": "0d42437850e0c798",
-          "type": "other",
-          "value": "Brave websites",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "MEDIUM",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "static-source",
-          "findableClass": "source-review",
-          "classificationLabel": "source flaw",
-          "pFindable": 0.056,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 0,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "static source + source flaw ceiling MEDIUM"
-        },
-        {
-          "key": "34ce822e5618a875",
-          "type": "source-code",
-          "value": "https://github.com/brave/*, https://github.com/brave-intl/*",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "MEDIUM",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "static-source",
-          "findableClass": "source-review",
-          "classificationLabel": "source flaw",
-          "pFindable": 0.056,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 0,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "static source + source flaw ceiling MEDIUM"
-        },
-        {
-          "key": "35aa0d4bc7691d18",
-          "type": "executable",
-          "value": "Brave Browser Desktop",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "MEDIUM",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "static-source",
-          "findableClass": "source-review",
-          "classificationLabel": "source flaw",
-          "pFindable": 0.056,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 0,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "static source + source flaw ceiling MEDIUM"
-        },
-        {
-          "key": "bca4ce663c0ac3a1",
-          "type": "apple-store-app-id",
-          "value": "com.brave.ios.browser",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "CRITICAL",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "live-web",
-          "findableClass": "business-logic",
-          "classificationLabel": "price/authz",
-          "pFindable": 0.235,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 0,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "live web + price/authz ceiling CRITICAL"
-        },
-        {
-          "key": "c0a8485a50545fe6",
-          "type": "web",
-          "value": "basicattentiontoken.org",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "CRITICAL",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "live-web",
-          "findableClass": "business-logic",
-          "classificationLabel": "price/authz",
-          "pFindable": 0.235,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 0,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "live web + price/authz ceiling CRITICAL"
-        },
-        {
-          "key": "caa5389314c45421",
-          "type": "google-play-app-id",
-          "value": "com.brave.browser",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "CRITICAL",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "live-web",
-          "findableClass": "business-logic",
-          "classificationLabel": "price/authz",
-          "pFindable": 0.235,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 0,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "live web + price/authz ceiling CRITICAL"
-        }
-      ],
-      "launchedAt": null,
-      "resolvedReports": null,
-      "inviteOnly": false,
-      "kycRequired": false,
-      "excludedCountries": [],
-      "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastChangedAt": "2026-09-03T14:56:58.433Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-03T14:56:58.433Z"
-      },
-      "score": 33,
-      "scoreBreakdown": {
-        "freshness": 2,
-        "reward": 0,
-        "inspectability": 16,
-        "authorization": 10,
-        "friction": 5
-      },
-      "reasons": [
-        "live web + price/authz ceiling CRITICAL"
-      ],
-      "attentionPressure": "unknown",
-      "hardeningIndex": null,
-      "freshCodeIndex": 0,
-      "knownIssueRisk": 0,
-      "payableSeverityCeiling": "CRITICAL",
-      "programFloorSeverity": "MEDIUM",
-      "programFloorSource": "conservative-default",
-      "workflow": "live-web",
-      "findableClass": "business-logic",
-      "pFindable": 0.235,
-      "pPayable": 1,
-      "pFirst": 0.292,
-      "effectiveReward": 0,
-      "rewardCap": 50000,
-      "rewardCapped": false,
-      "evScore": 0,
-      "traps": [],
-      "repoSignals": null,
-      "liveState": null,
-      "excludeReason": null,
-      "honestReason": "live web + price/authz ceiling CRITICAL",
-      "bestTargetKey": "a2889dadecc1b67a"
     },
     {
       "id": "program:bumble",
@@ -470047,12 +469812,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -472110,12 +471875,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -473625,12 +473390,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -478352,12 +478117,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -479073,12 +478838,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -479477,12 +479242,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -491010,12 +490775,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -491632,12 +491397,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -494525,12 +494290,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -498090,12 +497855,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -506019,12 +505784,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -508215,12 +507980,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -512467,12 +512232,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -514715,12 +514480,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -515162,12 +514927,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -517573,12 +517338,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -519299,12 +519064,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -520431,12 +520196,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -524097,12 +523862,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537607,12 +537372,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -538384,12 +538149,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -541182,12 +540947,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z"
+        "at": "2026-09-05T05:49:30.589Z"
       },
       "score": 47,
       "scoreBreakdown": {
@@ -546276,12 +546041,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546378,12 +546143,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546480,12 +546245,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546582,12 +546347,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546684,12 +546449,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546786,12 +546551,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546888,12 +546653,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546990,12 +546755,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -547092,12 +546857,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-05T01:02:27.102Z",
-      "lastChangedAt": "2026-09-05T01:02:27.102Z",
+      "lastSeenAt": "2026-09-05T05:49:30.589Z",
+      "lastChangedAt": "2026-09-05T05:49:30.589Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-05T01:02:27.102Z",
+        "at": "2026-09-05T05:49:30.589Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -548180,6 +547945,549 @@
     }
   ],
   "events": [
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:swiss-post:scope_updated",
+      "programId": "program:swiss-post",
+      "programName": "Swiss Post",
+      "platform": "YesWeHack",
+      "url": "https://yeswehack.com/programs/swiss-post",
+      "score": 47,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z"
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "invite-only program"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:1inch:scope_updated",
+      "programId": "program:1inch",
+      "programName": "1inch",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/1inch/1inch-smart-contract",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:assetmantle:scope_updated",
+      "programId": "program:assetmantle",
+      "programName": "AssetMantle",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/assetmantle/assetmantle",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:blueberry-protocol-foundation:scope_updated",
+      "programId": "program:blueberry-protocol-foundation",
+      "programName": "Blueberry Protocol Foundation",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/blueberry-protocol-foundation/blueberry-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:brave-software:scope_updated",
+      "programId": "program:brave-software",
+      "programName": "Brave Software",
+      "platform": "Self-hosted",
+      "url": "https://hackerone.com/brave",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 5
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:civic:scope_updated",
+      "programId": "program:civic",
+      "programName": "Civic",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/civic/civic-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:coinmate-io:scope_updated",
+      "programId": "program:coinmate-io",
+      "programName": "CoinMate.io",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/coinmate",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:deltaprime:scope_updated",
+      "programId": "program:deltaprime",
+      "programName": "DeltaPrime",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/deltaprime/deltaprime-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:dexe-protocol:scope_updated",
+      "programId": "program:dexe-protocol",
+      "programName": "DeXe Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dexe-protocol/dexe-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:django:scope_updated",
+      "programId": "program:django",
+      "programName": "Django",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/django",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:dodoex:scope_updated",
+      "programId": "program:dodoex",
+      "programName": "DODOEX",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dodoex",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:envelop:scope_updated",
+      "programId": "program:envelop",
+      "programName": "ENVELOP",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/envelop/envelop-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:fastex:scope_updated",
+      "programId": "program:fastex",
+      "programName": "Fastex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/fastex/fastex-web",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor; KYC required"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:grafana-labs:scope_updated",
+      "programId": "program:grafana-labs",
+      "programName": "Grafana Labs",
+      "platform": "Self-hosted",
+      "url": "https://github.com/grafana/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:horizon-protocol:scope_updated",
+      "programId": "program:horizon-protocol",
+      "programName": "Horizon Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/horizon-protocol/horizon-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:impermax-finance:scope_updated",
+      "programId": "program:impermax-finance",
+      "programName": "Impermax Finance",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/impermax-finance/impermax-finance-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:kinza:scope_updated",
+      "programId": "program:kinza",
+      "programName": "KINZA",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kinza/kinza-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:kolibrio:scope_updated",
+      "programId": "program:kolibrio",
+      "programName": "Kolibrio",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kolibrio/alfred-telegram-trading-bot",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:metis:scope_updated",
+      "programId": "program:metis",
+      "programName": "Metis",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/metis/metis-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:mysten-labs:scope_updated",
+      "programId": "program:mysten-labs",
+      "programName": "Mysten Labs",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/mysten-labs/sui-wallet",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:owncloud:scope_updated",
+      "programId": "program:owncloud",
+      "programName": "OwnCloud",
+      "platform": "Self-hosted",
+      "url": "https://hackerone.com/owncloud",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:phabricator:scope_updated",
+      "programId": "program:phabricator",
+      "programName": "Phabricator",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/phabricator",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:ruby:scope_updated",
+      "programId": "program:ruby",
+      "programName": "Ruby",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/ruby",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:shido:scope_updated",
+      "programId": "program:shido",
+      "programName": "Shido",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/shido/shido-network-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:smardex:scope_updated",
+      "programId": "program:smardex",
+      "programName": "SmarDex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smardex/smardex-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:smilee:scope_updated",
+      "programId": "program:smilee",
+      "programName": "Smilee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smilee/smilee-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:sui:scope_updated",
+      "programId": "program:sui",
+      "programName": "Sui",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/sui/sui-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:superfluid:scope_updated",
+      "programId": "program:superfluid",
+      "programName": "Superfluid",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/superfluid/superfluid-super-token-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:swisscom:scope_updated",
+      "programId": "program:swisscom",
+      "programName": "Swisscom",
+      "platform": "Self-hosted",
+      "url": "https://github.com/swisscom/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:tetu:scope_updated",
+      "programId": "program:tetu",
+      "programName": "TETU",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/tetu/tetu-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:trustee:scope_updated",
+      "programId": "program:trustee",
+      "programName": "Trustee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/trustee/trustee-plus-mobile",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-05T05:49:30.589Z:program:vaultka:scope_updated",
+      "programId": "program:vaultka",
+      "programName": "Vaultka",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/vaultka/vaultka-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-05T05:49:30.589Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
     {
       "id": "2026-09-05T01:02:27.102Z:program:swiss-post:scope_updated",
       "programId": "program:swiss-post",
@@ -551024,549 +551332,6 @@
         "type": "scope_updated",
         "label": "Scope or policy changed",
         "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:dodoex:scope_updated",
-      "programId": "program:dodoex",
-      "programName": "DODOEX",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/dodoex",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:envelop:scope_updated",
-      "programId": "program:envelop",
-      "programName": "ENVELOP",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/envelop/envelop-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:fastex:scope_updated",
-      "programId": "program:fastex",
-      "programName": "Fastex",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/fastex/fastex-web",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor; KYC required"
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:grafana-labs:scope_updated",
-      "programId": "program:grafana-labs",
-      "programName": "Grafana Labs",
-      "platform": "Self-hosted",
-      "url": "https://github.com/grafana/bugbounty",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "static-source",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:horizon-protocol:scope_updated",
-      "programId": "program:horizon-protocol",
-      "programName": "Horizon Protocol",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/horizon-protocol/horizon-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:impermax-finance:scope_updated",
-      "programId": "program:impermax-finance",
-      "programName": "Impermax Finance",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/impermax-finance/impermax-finance-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:kinza:scope_updated",
-      "programId": "program:kinza",
-      "programName": "KINZA",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/kinza/kinza-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:kolibrio:scope_updated",
-      "programId": "program:kolibrio",
-      "programName": "Kolibrio",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/kolibrio/alfred-telegram-trading-bot",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:metis:scope_updated",
-      "programId": "program:metis",
-      "programName": "Metis",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/metis/metis-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:mysten-labs:scope_updated",
-      "programId": "program:mysten-labs",
-      "programName": "Mysten Labs",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/mysten-labs/sui-wallet",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:owncloud:scope_updated",
-      "programId": "program:owncloud",
-      "programName": "OwnCloud",
-      "platform": "Self-hosted",
-      "url": "https://hackerone.com/owncloud",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:phabricator:scope_updated",
-      "programId": "program:phabricator",
-      "programName": "Phabricator",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/phabricator",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:ruby:scope_updated",
-      "programId": "program:ruby",
-      "programName": "Ruby",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/ruby",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:shido:scope_updated",
-      "programId": "program:shido",
-      "programName": "Shido",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/shido/shido-network-protocol",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:smardex:scope_updated",
-      "programId": "program:smardex",
-      "programName": "SmarDex",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/smardex/smardex-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:smilee:scope_updated",
-      "programId": "program:smilee",
-      "programName": "Smilee",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/smilee/smilee-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:sui:scope_updated",
-      "programId": "program:sui",
-      "programName": "Sui",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/sui/sui-protocol",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:superfluid:scope_updated",
-      "programId": "program:superfluid",
-      "programName": "Superfluid",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/superfluid/superfluid-super-token-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:swisscom:scope_updated",
-      "programId": "program:swisscom",
-      "programName": "Swisscom",
-      "platform": "Self-hosted",
-      "url": "https://github.com/swisscom/bugbounty",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "static-source",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:tetu:scope_updated",
-      "programId": "program:tetu",
-      "programName": "TETU",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/tetu/tetu-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:trustee:scope_updated",
-      "programId": "program:trustee",
-      "programName": "Trustee",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/trustee/trustee-plus-mobile",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T05:58:54.320Z:program:vaultka:scope_updated",
-      "programId": "program:vaultka",
-      "programName": "Vaultka",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/vaultka/vaultka-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T05:58:54.320Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:amazon-vulnerability-research-program:new_target",
-      "programId": "program:amazon-vulnerability-research-program",
-      "programName": "Amazon Vulnerability Research Program",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/amazonvrp",
-      "score": 47,
-      "change": {
-        "type": "new_target",
-        "label": "21 targets added",
-        "at": "2026-09-04T01:02:17.767Z",
-        "addedTargets": 21
-      },
-      "evScore": 0,
-      "workflow": "ai-agent",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:swiss-post:scope_updated",
-      "programId": "program:swiss-post",
-      "programName": "Swiss Post",
-      "platform": "YesWeHack",
-      "url": "https://yeswehack.com/programs/swiss-post",
-      "score": 45,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z"
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "invite-only program"
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:1inch:scope_updated",
-      "programId": "program:1inch",
-      "programName": "1inch",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/1inch/1inch-smart-contract",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:assetmantle:scope_updated",
-      "programId": "program:assetmantle",
-      "programName": "AssetMantle",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/assetmantle/assetmantle",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:blueberry-protocol-foundation:scope_updated",
-      "programId": "program:blueberry-protocol-foundation",
-      "programName": "Blueberry Protocol Foundation",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/blueberry-protocol-foundation/blueberry-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:civic:scope_updated",
-      "programId": "program:civic",
-      "programName": "Civic",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/civic/civic-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:coinmate-io:scope_updated",
-      "programId": "program:coinmate-io",
-      "programName": "CoinMate.io",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/coinmate",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:deltaprime:scope_updated",
-      "programId": "program:deltaprime",
-      "programName": "DeltaPrime",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/deltaprime/deltaprime-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:dexe-protocol:scope_updated",
-      "programId": "program:dexe-protocol",
-      "programName": "DeXe Protocol",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/dexe-protocol/dexe-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-04T01:02:17.767Z:program:django:scope_updated",
-      "programId": "program:django",
-      "programName": "Django",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/django",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-04T01:02:17.767Z",
         "removedTargets": 1
       },
       "evScore": 0,
