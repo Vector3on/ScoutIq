@@ -18,6 +18,7 @@ import { fingerprintAsset } from './fingerprint.mjs';
 import { loadTried } from './tried.mjs';
 import { alphaQueueSink } from './digest.mjs';
 import { fetchFeedCached } from './feedcache.mjs';
+import { parseGithubRepo, enrichGithubRepo } from './enrich.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -53,7 +54,7 @@ function normalizeProgram(platform, raw) {
   };
 }
 
-function evForTarget(prog, asset, nowIso, settings) {
+function evForTarget(prog, asset, nowIso, settings, repoSignals = null) {
   const maxReward = prog.maxPayout != null ? prog.maxPayout
     : prog.offersBounties ? (SEV_REWARD[String(asset.maxSeverity ?? 'medium').toLowerCase()] ?? SEV_REWARD.medium) : 0;
   const program = {
@@ -64,7 +65,7 @@ function evForTarget(prog, asset, nowIso, settings) {
     policyText: prog.instruction ?? '',
   };
   const target = { type: asset.type, value: asset.identifier, key: asset.identifier, eligible: asset.eligible };
-  return evaluateTarget(program, target, { now: nowIso, repoSignals: null, settings });
+  return evaluateTarget(program, target, { now: nowIso, repoSignals, settings });
 }
 
 export function createPlugin(options = {}) {
@@ -81,6 +82,10 @@ export function createPlugin(options = {}) {
   // polite on-disk cache (opt-in): absolute, or relative to the substrate root.
   const cacheDir = options.cacheDir ? (path.isAbsolute(options.cacheDir) ? options.cacheDir : path.resolve(DIR, '../..', options.cacheDir)) : null;
   const cacheTtlMs = options.cacheTtlMs ?? 6 * 3600 * 1000;
+  // opt-in GitHub-source enrichment: populate ev.freshCodeIndex from the public repo.
+  // Off by default so unit tests never reach api.github.com (the boundary test stays exact).
+  const enrichSource = options.enrichSource ?? false;
+  const maxEnrich = options.maxEnrich ?? 8;
 
   const schema = {
     entityTypes: ['target', 'program', 'class', 'technique'],
@@ -97,6 +102,7 @@ export function createPlugin(options = {}) {
       { name: 'rewardCeiling', type: 'target' }, { name: 'exposedSeams', type: 'target' }, { name: 'applicableTechniques', type: 'target' },
       { name: 'distinctTechniques', type: 'target' }, { name: 'classesCount', type: 'target' }, { name: 'crowd', type: 'target' },
       { name: 'scopeAssets', type: 'target' }, { name: 'eligible', type: 'target' },
+      { name: 'accessibility', type: 'target' }, { name: 'freshCodeIndex', type: 'target' },
     ],
   };
 
@@ -119,8 +125,12 @@ export function createPlugin(options = {}) {
       id: 'bounty-feed', version: '1',
       description: 'Public bug-bounty program/scope feeds (arkadiyt/bounty-targets-data). OSINT of already-public scope; the plugin never contacts any listed target.',
       terms: { url: 'https://github.com/arkadiyt/bounty-targets-data', officialApi: false, notes: 'Public dataset of published program scopes; read-only. Discovery evidence, not authorization.' },
-      endpoints: [{ host: 'raw.githubusercontent.com', pathPrefix: '/arkadiyt/bounty-targets-data/', methods: ['GET'], minIntervalMs: 1000, dailyCap: 200, maxBytes: 32 * 1024 * 1024 }],
-      auth: 'none', dataClasses: ['public-metadata', 'text'], scale: { maxRequestsPerRun: 8 },
+      endpoints: [
+        { host: 'raw.githubusercontent.com', pathPrefix: '/arkadiyt/bounty-targets-data/', methods: ['GET'], minIntervalMs: 1000, dailyCap: 200, maxBytes: 32 * 1024 * 1024 },
+        // public GitHub API for read-only source-freshness enrichment (opt-in, anonymous)
+        { host: 'api.github.com', pathPrefix: '/repos/', methods: ['GET'], minIntervalMs: 1200, dailyCap: 200, maxBytes: 8 * 1024 * 1024 },
+      ],
+      auth: 'none', dataClasses: ['public-metadata', 'text'], scale: { maxRequestsPerRun: 30 },
     },
     propose({ stats, now, limit }) {
       const out = [];
@@ -141,6 +151,7 @@ export function createPlugin(options = {}) {
       const programs = Array.isArray(raw) ? raw : (raw.programs ?? []);
       const nowIso = new Date(now).toISOString();
       const observations = [];
+      let enrichCount = 0, enrichStopped = false;         // bounded, block-aware source enrichment
       for (const rp of programs.slice(0, maxProgramsPerFeed)) {
         const prog = normalizeProgram(f.platform, rp);
         if (!prog.inScope.length) continue;
@@ -149,7 +160,21 @@ export function createPlugin(options = {}) {
         for (const asset of prog.inScope.slice(0, maxTargetsPerProgram)) {
           if (!asset.identifier) continue;
           const fp = fingerprintAsset(asset, { name: prog.name, website: prog.website, instruction: asset.instruction });
-          const ev = evForTarget(prog, asset, nowIso, settings);
+          // opt-in, read-only enrichment of GitHub source assets → real ev.freshCodeIndex
+          let repoSignals = null, repoRevision = null;
+          if (enrichSource && !enrichStopped && fp.assetType === 'SOURCE_CODE' && enrichCount < maxEnrich) {
+            const repo = parseGithubRepo(asset.identifier);
+            if (repo) {
+              enrichCount++;
+              try {
+                const e = await enrichGithubRepo(fetch, repo, now);
+                if (e.blocked) enrichStopped = true;            // 401/403/429 = stop signal for the run
+                repoSignals = e.repoSignals;
+                if (e.revision) repoRevision = { source: 'github', repo, revision: e.revision, committedAt: e.committedAt ?? null, branch: e.branch ?? null };
+              } catch { enrichStopped = true; }                 // any policy denial/error → stop enriching
+            }
+          }
+          const ev = evForTarget(prog, asset, nowIso, settings, repoSignals);
           const slug = String(asset.identifier).replace(/[^a-z0-9._~/-]+/gi, '_').slice(0, 80);
           const targetKey = `${f.platform}/${prog.handle}#${slug}`;
           const cc = coverageChart(spine, { classIds: fp.classes, fingerprints: fp.fingerprints, key: targetKey }, tried);
@@ -165,11 +190,17 @@ export function createPlugin(options = {}) {
               workflow: ev.workflow, findableClass: ev.findableClass, evClass: fp.evClass, offersBounties: prog.offersBounties,
               excludeReason: ev.excludeReason, evReason: ev.reason,
               progEfficiency: prog.responseEfficiency, progResolveDays: prog.avgResolveDays, progManaged: prog.managed, feedId: f.id,
+              ...(repoRevision ? { repoRevision } : {}), ...(repoSignals ? { enriched: 1 } : {}),
             },
             signals: {
               ev: round(ev.evScore, 2), pFindable: ev.pFindable, pPayable: ev.pPayable, pFirst: ev.pFirst, rewardCeiling: ev.effectiveReward,
               exposedSeams: cc.exposedSeams, applicableTechniques: cc.applicableTechniques, distinctTechniques: cc.distinctTechniques,
               classesCount: fp.classes.length, crowd, scopeAssets: prog.inScope.length, eligible: asset.eligible ? 1 : 0,
+              // findability × accessibility drives ranking (a hardened live-web giant is worth
+              // less than a findable source-available target). accessibility is the surface's
+              // openness to a researcher; freshCodeIndex is the ScoutIq fresh-code signal (−1 until enriched).
+              accessibility: ({ 'static-source': 1.0, 'live-contract': 0.75, 'static-source-hardened': 0.35 })[ev.workflow] ?? 0.5,
+              freshCodeIndex: Number.isFinite(ev.freshCodeIndex) ? ev.freshCodeIndex : -1,
             },
           }];
           const relations = [{ from: targetId, rel: 'in_scope_of', to: programId }];
@@ -201,19 +232,21 @@ export function createPlugin(options = {}) {
     score(entity, { now, helpers }) {
       const { latestSignal } = helpers;
       if (entity.type === 'target') {
-        const ev = latestSignal(entity, 'ev') ?? 0;
-        const cap = settings.rewardCap;
-        const evNorm = clamp(Math.log1p(Math.max(0, ev)) / Math.log1p(cap));
+        // Retune: findability × accessibility drives, reward only modulates. A hardened
+        // live-web giant ($10k, pFindable ~0.2) must not float above a findable
+        // source-available target — findability, not reward, is the discriminator.
+        const pFind    = clamp(latestSignal(entity, 'pFindable') ?? 0.15);
+        const access   = clamp(latestSignal(entity, 'accessibility') ?? 0.5);
+        const lowCrowd = clamp(1 - (latestSignal(entity, 'crowd') ?? 0.5));
+        const fci = latestSignal(entity, 'freshCodeIndex') ?? -1;
+        const freshCode = fci >= 0 ? clamp(fci / 100) : 0;
+        const rewardMod = 0.6 + 0.4 * clamp(Math.log1p(latestSignal(entity, 'rewardCeiling') ?? 0) / Math.log1p(settings.rewardCap));
         const cc = coverageOf(entity);
         const untried = cc ? cc.untriedTechniques : (latestSignal(entity, 'applicableTechniques') ?? 0);
         const cov = clamp(Math.log1p(untried) / Math.log1p(COV_NORM));
-        const freshDays = (now - entity.firstSeen) / DAY;
-        const fresh = clamp((FRESH_WINDOW - freshDays) / FRESH_WINDOW);
-        const lowCrowd = clamp(1 - (latestSignal(entity, 'crowd') ?? 0.5));
-        const base = evNorm * cov;                        // ScoutIq EV × untried seam-coverage
-        // fresh + low-crowd lift it; a small floor keeps fresh, technique-rich, low/zero-EV
-        // targets visible as a watch list rather than vanishing.
-        return clamp(base * (0.7 + 0.2 * fresh + 0.1 * lowCrowd) + 0.05 * cov * fresh);
+        const fresh = clamp((FRESH_WINDOW - (now - entity.firstSeen) / DAY) / FRESH_WINDOW);
+        const core = pFind * access;                 // findability × accessibility drives
+        return clamp(core * (0.5 + 0.2 * lowCrowd + 0.15 * freshCode + 0.1 * cov + 0.05 * fresh) * rewardMod);
       }
       if (entity.type === 'program' || entity.type === 'class' || entity.type === 'technique') return 0.02;
       return 0.02;

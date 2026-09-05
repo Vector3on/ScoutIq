@@ -92,6 +92,8 @@
         "maxTargetsPerProgram": 6,
         "cacheDir": ".loam/bounty-cache",
         "cacheTtlMs": 21600000,
+        "enrichSource": true,
+        "maxEnrich": 10,
         "feeds": [
           { "id": "hackerone", "platform": "hackerone", "url": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/main/data/hackerone_data.json" }
         ]

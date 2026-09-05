@@ -86,18 +86,28 @@ delivery cutoff). The operator answers; `judgment.recorded` folds into the value
 recalibrates what gets delivered next. This is the compounding edge: the same code without
 the accumulated judgments is a worse ranker. It is front-and-center in the runbook below.
 
-## Value function
+## Value function — findability × accessibility, reward only modulates (DECISIONS D45)
 
-`score(target) = clamp( evNorm × coverage × (0.7 + 0.2·fresh + 0.1·lowCrowd) + 0.05·coverage·fresh )`
+`score(target) = clamp( pFindable × accessibility × (0.5 + 0.2·lowCrowd + 0.15·freshCode + 0.1·cov + 0.05·fresh) × rewardMod )`
 
-- `evNorm` — ScoutIq `evScore` (dollars) on a saturating log scale. EV already contains
-  `P(first)`, which is ScoutIq's own *fresh + low-crowd* measure, so the queue is EV-first.
-- `coverage` — untried applicable cells, saturating (a target that exposes seams whose
-  techniques have not been tried on it scores high).
-- `fresh` — target novelty from Loam's memory (`firstSeen`), the thing the feed-level EV
-  cannot see.
-- the small last term is a **watch-list floor**: a fresh, technique-rich, low/zero-EV
-  target stays visible instead of vanishing.
+- `pFindable × accessibility` is the **driver**. `accessibility` = `{static-source:1.0,
+  live-contract:0.75, static-source-hardened:0.35}[workflow] ?? 0.5` — how open the surface is
+  to a researcher. A hardened live-web giant ($10k, pFindable ≈ 0.2) must not outrank a findable
+  source-available target; findability, not reward, is the discriminator.
+- `rewardMod` — a gentle 0.6–1.0 log factor; reward matters but only modulates. 10× the reward
+  cannot buy the top (pinned by a regression test).
+- `freshCode` — ScoutIq's `freshCodeIndex/100`, dormant until GitHub-source enrichment
+  populates it (below); `cov` — untried applicable cells (saturating); `fresh`/`lowCrowd` —
+  target novelty and low recorded crowd.
+
+The sink sorts strictly by score descending and **excludes non-paying programs** (`pPayable 0` /
+`offersBounties false`), so a $0 target never sits above a payable one.
+
+**GitHub-source enrichment** (`enrich.mjs`, opt-in `enrichSource`): for a GitHub source asset,
+an anonymous, read-only, rate-limited read of the public repo (recent commits, best-effort
+files-added on the pinned HEAD) builds an ev-core `repoSignals` so `freshCodeIndex` is real and
+genuinely fresh source-available code rises. Observe-only (public repo metadata, never the
+target's live service); a 401/403/429 blocks the host and stops enrichment for the run.
 
 ## Run it
 
@@ -173,22 +183,28 @@ replays the journal and continues. Proven by an interrupt-and-resume test.
 
 ## Honest status — wired vs stubbed
 
-**Wired (runs on the real feed, tested — 80 tests):**
+**Wired (runs on the real feed, tested — 82 tests):**
 - Atlas verbatim (19/95/95/38); 120 techniques from the PDF with real source links; the
   two-level join; per-target coverage; tried/untried with never-repeat.
 - **Real live feed** (`arkadiyt/bounty-targets-data`) with polite TTL + conditional-GET
   caching, robots-obeyed; real HackerOne scope fingerprinted to anatomy classes.
-- The **real** ScoutIq `evaluateTarget` EV, degrading honestly to null repo signals.
-- The full Loam heartbeat + the **judgment loop**, and now the **tried-journal → judgment**
+- The **real** ScoutIq `evaluateTarget` EV, plus the **findability × accessibility retune**
+  (D45, regression-tested) and a sink that sorts strictly by score and excludes non-paying.
+- **GitHub-source enrichment** (opt-in, anonymous, read-only, rate-limited, block-aware) that
+  populates `freshCodeIndex` so fresh source-available code rises — tested end-to-end.
+- The full Loam heartbeat + the **judgment loop**, and the **tried-journal → judgment**
   feedback (outcome vocabulary → value-model calibration).
 - The **investigation-prep loop**: bounded-question records, states stopping at
   `ready_for_human_test`, probabilistic prior-art/dedup, and crash-safe persistence + atomic
   claims with an interrupt-recovery test.
 
 **Stubbed / weak (named so you can push on it):**
-- **EV without enrichment.** `evaluateTarget` runs with `repoSignals: null` for feed assets;
-  `P(findable)` leans on the classifier and `max_severity → nominal reward` is a conservative
-  public inference, not a real payout table.
+- **Enrichment reachability.** The fresh-code lift only fires where the public GitHub API is
+  reachable (CI/Colab/laptop). In a locked-down sandbox whose egress proxy binds `api.github.com`
+  to one repo, enrichment is refused (403) and the loop falls back to unenriched EV — graceful,
+  but the source-rise then needs a real environment. files-added is best-effort (one compare call).
+- **EV still leans on the classifier** for non-source assets (`repoSignals: null`), and
+  `max_severity → nominal reward` is a conservative public inference, not a real payout table.
 - **The family join is coarse (recall-first)** — a seam sees ~48 techniques; fingerprints
   refine but do not fully disambiguate. The prep loop's candidate technique is simply the first
   untried one on the seam; ranking techniques within a seam is future work.

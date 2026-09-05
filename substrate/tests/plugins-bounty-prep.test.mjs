@@ -10,7 +10,7 @@ import { runOnce } from '../core/worker.mjs';
 import { Ledger } from '../core/ledger.mjs';
 import { Policy } from '../policy/policy.mjs';
 import { project } from '../core/projections.mjs';
-import { memoryProjection } from '../core/memory.mjs';
+import { memoryProjection, latestSignal } from '../core/memory.mjs';
 import { archiveProjection } from '../core/archive.mjs';
 import { fetchFeedCached, readCache } from '../plugins/bounty/feedcache.mjs';
 import { loadTried, markTriedCell, readTriedFile, writeTriedFile } from '../plugins/bounty/tried.mjs';
@@ -65,6 +65,37 @@ test('feedcache: TTL serves without a request; a stale hit revalidates (304); an
   const d = await fetchFeedCached(async () => ({ ok: false, status: 403, text: '', headers: {}, blocked: true }), { dir, id: 'x', url, now: 999999, ttlMs: 10000 });
   assert.equal(d.source, 'stale-if-error'); assert.equal(d.body, '[1]', 'a block reused the last good snapshot rather than losing the run');
   fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('real-feed enrichment: opt-in GitHub-source enrichment populates freshCodeIndex and lifts pFindable — observe-only, allowed hosts only', async () => {
+  const commits = Array.from({ length: 80 }, (_, i) => ({ sha: `sha${i}`, commit: { committer: { date: new Date(Date.UTC(2026, 7, 1) + i * 3600e3).toISOString() } } }));
+  const calls = [];
+  const okJson = (body) => ({ status: 200, ok: true, headers: new Map(), text: async () => JSON.stringify(body) });
+  const gh = async (url) => {
+    const u = new URL(url); calls.push(u.hostname);
+    if (u.pathname === '/robots.txt') return { status: 200, ok: true, headers: new Map(), text: async () => 'User-agent: *\nDisallow:\n' };
+    if (u.hostname === FEED_HOST) return { status: 200, ok: true, headers: new Map(), text: async () => FEED };
+    if (u.hostname === 'api.github.com') {
+      if (/\/compare\//.test(u.pathname)) return okJson({ files: [{ status: 'added' }, { status: 'modified' }, { status: 'added' }] });
+      if (/\/commits/.test(u.pathname)) return okJson(commits);
+      return okJson({ default_branch: 'main', stargazers_count: 12, created_at: '2024-01-01T00:00:00Z', pushed_at: '2026-08-30T00:00:00Z', archived: false, language: 'Go' });
+    }
+    return { status: 404, ok: false, headers: new Map(), text: async () => '' };
+  };
+  const store = await openStore(':memory:');
+  const now = Date.UTC(2026, 8, 5, 12);
+  const plugin = await loadPlugin('./plugins/bounty/index.mjs', { ...opts(), enrichSource: true, maxEnrich: 4 }, { baseDir: ROOT });
+  await runOnce({ store, plugin, domain: 'bounty', node: 't', env: { LOAM_AUTONOMOUS: '1' }, wall: () => now, sleep: async () => {}, fetchImpl: gh, config: { budgetSeconds: 30, valueModel: true, maxFindings: 12 }, now, seed: 'e', outDir: null });
+  const memory = (await project(store, memoryProjection, { domain: 'bounty', saveSnapshot: false })).state;
+  const src = pickTarget(memory, (e) => e.attrs?.assetType === 'SOURCE_CODE');
+  assert.ok(src, 'the source-code asset was observed');
+  assert.ok(latestSignal(src, 'freshCodeIndex') >= 30, `freshCodeIndex populated by enrichment (${latestSignal(src, 'freshCodeIndex')})`);
+  assert.ok(latestSignal(src, 'pFindable') > 0.3, `pFindable lifted well above the unenriched ~0.06 (${latestSignal(src, 'pFindable')})`);
+  assert.ok(src.attrs.repoRevision?.revision, 'the pinned repo revision was recorded');
+  // observe-only: the public repo API was read, but never a listed target host
+  assert.ok(calls.includes('api.github.com'), 'enrichment read the public GitHub repo');
+  assert.ok(calls.every((h) => h === FEED_HOST || h === 'api.github.com'), `only public-data hosts contacted, got: ${[...new Set(calls)]}`);
+  await store.close();
 });
 
 // ── 2. tried-journal: cell + coverage + judgment feedback ─────────────────────

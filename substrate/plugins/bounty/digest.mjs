@@ -81,7 +81,11 @@ export function alphaQueueSink({ spine, tried }) {
       const targets = findings
         .filter((f) => f.entityType === 'target')
         .map((f) => ({ finding: f, entity: memory.entities.get(f.entityId) }))
-        .filter((x) => x.entity);
+        .filter((x) => x.entity)
+        // exclude programs that do not confirm bounties (a $0 lead never outranks a payable one)
+        .filter(({ entity: e }) => e.attrs?.offersBounties !== false && (sig(e, 'pPayable') ?? 0) > 0)
+        // strictly by score descending — the queue is monotonic in priority
+        .sort((a, b) => (b.finding.score ?? 0) - (a.finding.score ?? 0) || (a.entity.id < b.entity.id ? -1 : 1));
       if (!targets.length) return;
       const queue = renderAlphaQueue(targets, { spine, tried, now });
       const chart = renderCoverageChart(targets[0].entity, { spine, tried, now });

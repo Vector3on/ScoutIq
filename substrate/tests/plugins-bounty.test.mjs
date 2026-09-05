@@ -146,3 +146,19 @@ test('bounty coverage never repeats a tried cell', () => {
   const stillThere = after.chart[0].seams[0].techniques.find((t) => t.cell === cell);
   assert.equal(stillThere.tried, true, 'the cell is marked tried, not removed from the chart');
 });
+
+test('bounty retune: findability × accessibility beats reward — static-source outranks equal-pFindable live-web, and reward cannot buy the top', async () => {
+  const plugin = await loadPlugin('./plugins/bounty/index.mjs', {}, { baseDir: ROOT });
+  const now = Date.UTC(2026, 8, 5, 12);
+  const helpers = { latestSignal };
+  // a target entity with controlled signals; no classIds → coverageOf is null → equal untried for all
+  const mk = (accessibility, reward, key) => {
+    const sig = { pFindable: 0.3, accessibility, crowd: 0.5, freshCodeIndex: -1, rewardCeiling: reward, applicableTechniques: 100 };
+    return { id: `target:${key}`, type: 'target', firstSeen: now, attrs: { assetValue: key }, signals: new Map(Object.entries(sig).map(([k, v]) => [k, { n: 1, points: [[now, v]] }])) };
+  };
+  const staticSource = plugin.value.score(mk(1.0, 4000, 'src'), { now, helpers });   // accessibility 1.0
+  const liveWeb      = plugin.value.score(mk(0.5, 4000, 'web'), { now, helpers });   // accessibility 0.5, equal pFindable + reward
+  const richWeb      = plugin.value.score(mk(0.5, 40000, 'rich'), { now, helpers }); // 10× the reward ceiling
+  assert.ok(staticSource > liveWeb, `static-source (${staticSource}) must strictly outrank equal-pFindable live-web (${liveWeb})`);
+  assert.ok(staticSource > richWeb, `reward must not buy the top: static-source (${staticSource}) > 10×-reward live-web (${richWeb})`);
+});
