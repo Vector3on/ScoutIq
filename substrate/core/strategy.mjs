@@ -20,6 +20,10 @@ export const MENUS = Object.freeze({
 });
 export const SEED_OPS = ['recent', 'all', 'stale', 'top'];
 export const PIPE_OPS = ['expand', 'filterSignal', 'filterAge', 'filterDegree', 'bridge', 'newcomer', 'accelerating', 'silent', 'outlier', 'rareTerms', 'rising', 'viaNewEdge', 'limit'];
+// v4: a schema may carry `observables: [{ id, type }]` — discovered ways of measuring (core/observables.mjs) —
+// which the grammar offers as a filter op (`obsFilter`) and a ranker (`obs`). Without them the grammar is v2's.
+export const OBS_OP = 'obsFilter';
+const obsFor = (schema, type) => (schema.observables ?? []).filter((o) => !o.type || o.type === type);
 export const RANKERS = ['value', 'surprisal', 'burst', 'recency', 'degree', 'signal', 'age', 'mixed'];
 export const MAX_PIPE = 4;
 export const MAX_SET = 5000;
@@ -55,6 +59,8 @@ export function randomSeed(schema, rng) {
 }
 
 export function randomOp(schema, rng, currentType) {
+  const obs = obsFor(schema, currentType);
+  if (obs.length && rng() < 0.25) return { op: OBS_OP, id: rng.pick(obs).id, cmp: rng() < 0.7 ? 'gt' : 'lt', q: rng.pick(MENUS.q) };
   const op = rng.pick(PIPE_OPS);
   const rels = relsFor(schema, currentType);
   const sigs = signalsFor(schema, currentType);
@@ -83,6 +89,8 @@ export function randomOp(schema, rng, currentType) {
 }
 
 export function randomRanker(schema, rng, type) {
+  const obs = obsFor(schema, type);
+  if (obs.length && rng() < 0.2) return { by: 'obs', id: rng.pick(obs).id };
   const by = rng.pick(RANKERS);
   if (by === 'signal') {
     const sigs = signalsFor(schema, type);
@@ -345,6 +353,14 @@ export function runStrategy(genome, ctx) {
         break;
       }
       case 'limit': set = set.slice(0, op.n); break;
+      case OBS_OP: {
+        if (!ctx.obs) break; // an observable this worker cannot evaluate (retired, or no context): the op is a no-op
+        const vals = set.map((id) => [id, ctx.obs(op.id, id)]).filter((x) => x[1] !== null && x[1] !== undefined && Number.isFinite(x[1]));
+        if (!vals.length) break;
+        const thr = quantile(vals.map((x) => x[1]), op.q);
+        set = vals.filter((x) => (op.cmp === 'gt' ? x[1] >= thr : x[1] <= thr)).map((x) => { say(x[0], `${ctx.obsName?.(op.id) ?? op.id} ${op.cmp === 'gt' ? '≥' : '≤'} q${op.q} (${fmt(x[1])})`); return x[0]; });
+        break;
+      }
       default: break;
     }
     trace.push(set.length);
@@ -362,6 +378,7 @@ export function runStrategy(genome, ctx) {
       case 'age': return (now - e.firstSeen) / DAY_MS;
       case 'degree': return degree(mem, id);
       case 'signal': return latestSignal(e, g.rank.signal) ?? -Infinity;
+      case 'obs': { const v = ctx.obs ? ctx.obs(g.rank.id, id) : null; return v === null || v === undefined ? ctx.value(id) : v; }
       case 'mixed': return 0.5 * ctx.value(id) + 0.3 * Math.min(1, surprisal(mem.terms, e.text) / 8) + 0.2 * Math.min(1, burstScore(mem.terms, e.text, now));
       default: return ctx.value(id);
     }

@@ -13,7 +13,7 @@ import { archiveProjection, noveltyOf, strategyEntropy } from './archive.mjs';
 import { qdProjection, coverage, qdScore, fitnessOf } from './qd.mjs';
 import { makePlannerProjection, estimateCost } from './planner.mjs';
 import { selectActions, bucket } from './attention.mjs';
-import { runStrategy, describeBehavior, cellOf, DegreeRanks, randomGenome, mutate, mutateStrong, crossover, genomeId, normalizeGenome, canonicalGenomes } from './strategy.mjs';
+import { runStrategy, describeBehavior, cellOf, DegreeRanks, randomGenome, mutate, mutateStrong, crossover, genomeId, normalizeGenome, canonicalGenomes, OBS_OP } from './strategy.mjs';
 import { HashEmbedder, cosine } from './embed.mjs';
 import { Policy, PolicyError } from '../policy/policy.mjs';
 import { pull, push, exportLedger, importLedger } from './sync.mjs';
@@ -26,6 +26,14 @@ import { entityFeatures } from './features.mjs';
 import { makeValueModelProjection, predictValue, selectJudgments, calibrationMae, posteriorValue } from './valuemodel.mjs';
 import { provenanceProjection, assignCredit, makePlannerCreditProjection } from './credit.mjs';
 import { makeSentinelProjection, diagnose, nextIntervention, activeInterventions } from './sentinel.mjs';
+// v4 addons (DESIGN.md §10) — hindsight labels, learned observables, retrospective curriculum, learning progress.
+// Each is a config flag; with the flags off this file emits exactly the v3 event stream.
+import { pastRuns, memoryAsOf } from './timetravel.mjs';
+import { hindsightComponents } from './hindsight.mjs';
+import { makeObsContext, evalAll, randomProgram, mutateProgram, observableId, candidateFitness, obsCorrelation, quantileEdges, describeProgram } from './observables.mjs';
+import { makeValueModelV4Projection, takeIg, hindsightMae, labelMae, residualRows, activeObservables } from './valuemodel-v4.mjs';
+import { makeCurriculumProjection, retroSpec, retroId, harderRetro, retroCriterion, labelsForDay, retroFitness, activeRetro } from './curriculum.mjs';
+import { makeProgressProjection, diagnoseProgress, activeProgressInterventions } from './progress.mjs';
 
 export const DEFAULTS = Object.freeze({
   budgetSeconds: 60,
@@ -63,7 +71,21 @@ export const DEFAULTS = Object.freeze({
   sentinel: false,            // false | 'observe' (diagnose only) | true (diagnose and intervene)
   sentinelWindow: 8, sentinelMinRuns: 12, sentinelCooldown: 6,
   mutationStrength: 1,
+  // ---- v4 addons (off = v3 behaviour) ----
+  hindsight: false,           // label the past with the future: hindsight.labeled rows for the value model (needs valueModel)
+  hindsightHorizon: 7, hindsightFresh: 3, hindsightBatch: 120, hindsightBacklog: 3, hindsightTypes: null,
+  discovery: false,           // evolve observables that explain the value model's residual (observable.* events)
+  obsCandidates: 24, obsNewPerStep: 4, obsMinRows: 120, obsMinFitness: 0.01, obsMaxAdopted: 16, obsRedundancy: 0.9, obsRetireRows: 400, obsDepth: 2,
+  obsOps: false,              // adopted observables enter the strategy grammar as filter ops and rankers
+  curriculum: false, retroMax: 3, retroCandidates: 4, retroTransfers: 2, retroMinValue: 0.3,
+  metaAttention: true,        // learn actions (hindsight / discover / retro) compete in the attention model; false = fixed schedule
+  reserveLearn: 0.15,
+  learnCosts: { hindsight: 1.0, discover: 0.5, retro: 0.3 }, // nominal budget-seconds per learn action (declared, not learned from wall-clock: keeps runs reproducible)
+  progress: false,            // false | 'observe' | true (raise discovery temperature on a frontier stall)
+  progressWindow: 8, progressMinRuns: 10, progressCooldown: 6,
+  vmDim: 256, vmMaxRows: 3000, vmRebuildEvery: 25, vmMinHindRows: 100,
 });
+const LEARN = new Set(['hindsight', 'discover', 'retro']);
 
 const HELPERS = Object.freeze({ neighbors, degree, latestSignal, surprisal, burstScore, relationRecord, seriesLatest, seriesFirst, DAY_MS, cosine });
 
@@ -74,6 +96,8 @@ export async function runOnce(opts) {
     policyConfig = {}, seed = null, outDir = null,
   } = opts;
   const cfg = { ...DEFAULTS, ...(opts.config ?? {}) };
+  if (cfg.curriculum) cfg.hindsight = true;       // environments are labelled by hindsight
+  if (cfg.hindsight || cfg.discovery) cfg.valueModel = true; // labels and observables are the value model's
   const now = opts.now ?? wall();                 // logical time of this run
   const wallStart = wall();
   const logical = () => now + (wall() - wallStart); // logical clock advancing with real time
@@ -93,9 +117,15 @@ export async function runOnce(opts) {
     : makePlannerProjection({ priorVar: cfg.priorVar, noiseVar: cfg.noiseVar, forgetting: cfg.forgetting });
   const vqProjection = v3.phenotype ? makeVqProjection({ tau: cfg.vqTau, kmax: cfg.vqKmax }) : null;
   const frontierProjection = v3.frontier ? makeFrontierProjection() : null;
-  const valueModelProjection = v3.value ? makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }) : null;
+  const v4 = { hindsight: !!cfg.hindsight, discovery: !!cfg.discovery, curriculum: !!cfg.curriculum, progress: !!cfg.progress, obsOps: !!cfg.obsOps };
+  const useV4 = v4.hindsight || v4.discovery;
+  const valueModelProjection = v3.value
+    ? (useV4 ? makeValueModelV4Projection({ dim: cfg.vmDim, priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar, maxRows: cfg.vmMaxRows, rebuildEvery: cfg.vmRebuildEvery }) : makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }))
+    : null;
   const sentinelProjection = v3.sentinel ? makeSentinelProjection() : null;
-  const [mem, arch, qd, plan, pol, vqP, frP, vmP, prP, seP] = await Promise.all([
+  const curriculumProjection = v4.curriculum ? makeCurriculumProjection() : null;
+  const progressProjection = v4.progress ? makeProgressProjection() : null;
+  const [mem, arch, qd, plan, pol, vqP, frP, vmP, prP, seP, cuP, pgP] = await Promise.all([
     project(store, memoryProjection, { domain, log }),
     project(store, archiveProjection, { domain, log }),
     project(store, qdProjection, { domain, log }),
@@ -106,10 +136,13 @@ export async function runOnce(opts) {
     valueModelProjection ? project(store, valueModelProjection, { domain, log }) : null,
     v3.credit ? project(store, provenanceProjection, { domain, log }) : null,
     sentinelProjection ? project(store, sentinelProjection, { domain, log }) : null,
+    curriculumProjection ? project(store, curriculumProjection, { domain, log }) : null,
+    progressProjection ? project(store, progressProjection, { domain, log }) : null,
   ]);
   const memory = mem.state, archive = arch.state, qdState = qd.state, planner = plan.state, policyState = pol.state;
   const vqState = vqP?.state ?? null, frontierState = frP?.state ?? null, vmState = vmP?.state ?? null, provenance = prP?.state ?? null, sentinelState = seP?.state ?? null;
-  const before = { entities: memory.entities.size, obs: memory.obsCount, elites: qdState.elitesReplaced, evaluations: qdState.evaluations, findings: archive.total, vqCells: vqState ? vqOccupied(vqState) : 0 };
+  const cuState = cuP?.state ?? null, pgState = pgP?.state ?? null;
+  const before = { entities: memory.entities.size, obs: memory.obsCount, elites: qdState.elitesReplaced, evaluations: qdState.evaluations, findings: archive.total, vqCells: vqState ? vqOccupied(vqState) : 0, adopted: vmState?.observables?.adopted.size ?? 0, solved: cuState?.solved ?? 0, transfers: cuState?.transfers ?? 0 };
 
   // 3. policy + ledger ---------------------------------------------------------
   let ledger = null;
@@ -119,6 +152,8 @@ export async function runOnce(opts) {
   if (valueModelProjection) projections.push([valueModelProjection, vmState, domain]);
   if (provenance) projections.push([provenanceProjection, provenance, domain]);
   if (sentinelProjection) projections.push([sentinelProjection, sentinelState, domain]);
+  if (curriculumProjection) projections.push([curriculumProjection, cuState, domain]);
+  if (progressProjection) projections.push([progressProjection, pgState, domain]);
   const policy = new Policy(policyConfig, {
     env, now: wall, fetchImpl, sleep, log,
     emit: (kind, body) => ledger.emit(kind, body),
@@ -183,12 +218,67 @@ export async function runOnce(opts) {
     }
   }
 
+  // 3d. v4: learning progress — diagnose a frontier stall; raise discovery temperature if asked to act
+  let progressInfo = null, discoveryTemperature = 1;
+  if (pgState) {
+    const diag = diagnoseProgress(pgState, { window: cfg.progressWindow, minRuns: cfg.progressMinRuns });
+    const active = activeProgressInterventions(pgState);
+    if (active.length) discoveryTemperature = 2;
+    let intervened = null;
+    const lastAt = pgState.interventions.at(-1)?.index ?? -Infinity;
+    if (diag.stalled && cfg.progress === true && !active.length && pgState.index - lastAt >= cfg.progressCooldown) { intervened = 'temperature'; discoveryTemperature = 2; }
+    progressInfo = { ...diag, intervened, ttl: 4, active: active.length };
+  }
+
+  // 3e. v4: retrospective environments — minimal criterion, spawn from labelled days, harder children
+  const today = Math.floor(now / DAY_MS);
+  const runsPast = useV4 ? await pastRuns(store, domain) : [];
+  let solvedThisRun = 0;
+  if (cuState && vmState) {
+    for (const ch of activeRetro(cuState)) {
+      const verdict = retroCriterion(ch);
+      if (verdict === 'active') continue;
+      await ledger.emit('challenge.retired', { challengeId: ch.id, reason: verdict, runId, ts: now });
+      if (verdict !== 'solved') continue;
+      solvedThisRun++;
+      const spec = harderRetro(ch.spec);
+      const id = retroId(spec);
+      if (spec.minValue > ch.spec.minValue && !cuState.challenges.has(id) && activeRetro(cuState).length < cfg.retroMax) await ledger.emit('challenge.created', { challengeId: id, spec, parent: ch.id, origin: 'solved', runId, ts: now });
+    }
+    const haveDays = new Set([...cuState.challenges.values()].map((c) => c.spec.retro?.asOfDay));
+    for (const d of [...vmState.labelledDays].filter((x) => !haveDays.has(x)).sort((a, b) => b - a)) {
+      if (activeRetro(cuState).length >= cfg.retroMax) break;
+      const run = runsPast.filter((r) => r.day === d).at(-1);
+      if (!run || !labelsForDay(vmState, d).size) continue;
+      const spec = retroSpec({ asOfDay: d, cutoffTs: run.ts, now: run.now, minValue: cfg.retroMinValue });
+      const id = retroId(spec);
+      if (cuState.challenges.has(id)) continue;
+      await ledger.emit('challenge.created', { challengeId: id, spec, parent: null, origin: 'schedule', runId, ts: now });
+    }
+  }
+
   // 4. value function + vectors ----------------------------------------------
   let vectors = new MemoryVectors(memory, embedder);
   let degreeRanks = new DegreeRanks(memory);
   let signalRanks = v3.phenotype || v3.value ? new SignalRanks(memory, plugin.schema.signals) : null;
   const valueCache = new Map();
   const featureCache = new Map();
+  // v4: adopted observables — a live evaluation context, outputs per entity (adopted + candidates), and the grown grammar
+  let obsCtx = null;
+  const obsCache = new Map();
+  const adoptedList = vmState?.observables ? [...vmState.observables.adopted.values()] : [];
+  const searchSchema = v4.obsOps && adoptedList.length ? { ...plugin.schema, observables: adoptedList.map((o) => ({ id: o.id, type: o.type })) } : plugin.schema;
+  const liveObs = () => { if (!obsCtx) obsCtx = makeObsContext({ memory, now, schema: plugin.schema, degreeRanks, signalRanks }); return obsCtx; };
+  function obsOf(id) {
+    if (!vmState?.observables) return null;
+    if (obsCache.has(id)) return obsCache.get(id);
+    const programs = activeObservables(vmState);
+    const o = programs.length ? evalAll(liveObs(), programs, id) : null;
+    obsCache.set(id, o);
+    return o;
+  }
+  const obsEval = (oid, eid) => { const o = vmState?.observables?.adopted.get(oid); return o ? liveObs().eval(o.program, eid) : null; };
+  const obsName = (oid) => { const o = vmState?.observables?.adopted.get(oid); return o ? describeProgram(o.program) : oid; };
   const useAffine = cfg.affineCalibration ?? !cfg.valueModel;
   const calibration = useAffine ? fitCalibration(archive, (id) => rawValue(id)) : null;
   function featuresOf(id) {
@@ -204,7 +294,7 @@ export async function runOnce(opts) {
     if (!Number.isFinite(v)) v = 0;
     return Math.max(0, Math.min(1, v));
   }
-  const learnedReady = () => !!(vmState && vmState.trained >= cfg.vmMinTrained);
+  const learnedReady = () => !!(vmState && (vmState.trained >= cfg.vmMinTrained || (vmState.hindRows ?? 0) >= cfg.vmMinHindRows));
   function valueOf(id) {
     if (valueCache.has(id)) return valueCache.get(id);
     const j = archive.judgments.get(id);
@@ -220,8 +310,8 @@ export async function runOnce(opts) {
   function deliveryValue(id) {
     const j = archive.judgments.get(id);
     if (learnedReady()) {
-      const f = featuresOf(id), raw = rawValue(id);
-      return j ? posteriorValue(vmState, f, raw, Math.max(0, Math.min(1, Number(j.value))), { judgmentSd: cfg.judgmentSd }).value : predictValue(vmState, f, raw).value;
+      const f = featuresOf(id), raw = rawValue(id), o = obsOf(id);
+      return j ? posteriorValue(vmState, f, raw, Math.max(0, Math.min(1, Number(j.value))), { judgmentSd: cfg.judgmentSd, obs: o }).value : predictValue(vmState, f, raw, o).value;
     }
     if (j) return Math.max(0, Math.min(1, Number(j.value)));
     return valueOf(id);
@@ -233,6 +323,8 @@ export async function runOnce(opts) {
     if (signalRanks) signalRanks = new SignalRanks(memory, plugin.schema.signals);
     valueCache.clear();
     featureCache.clear();
+    obsCtx = null;
+    obsCache.clear();
     memoryDirty = false;
   }
   const recentVecs = archive.recent.slice(-200).map((f) => (vectors.space === 'hash' ? (f.title ? vectors.embedText(f.title) : null) : vectors.get(f.entityId))).filter(Boolean);
@@ -307,17 +399,52 @@ export async function runOnce(opts) {
       }
     }
   }
+  // v4: learn actions — a hindsight pass per pending day, one discovery step, retrospective evaluations and transfers.
+  // They are candidates like any other: their outcome is measured learning progress (information gained by the value
+  // model, fitness of adopted observables, retrospective fitness), so the same objective decides how much to invest.
+  const learn = [];
+  let pendingDays = [];
+  if (vmState?.observables && v4.hindsight) {
+    const byDay = new Map();
+    for (const r of runsPast) if (r.day <= today - cfg.hindsightHorizon && !vmState.labelledDays.has(r.day)) byDay.set(r.day, r);
+    pendingDays = [...byDay.values()].sort((a, b) => b.day - a.day);
+    for (const r of pendingDays.slice(0, cfg.hindsightBacklog)) learn.push({ id: `hindsight:${r.day}`, type: 'hindsight', run: r, features: { type: 'hindsight', lag: bucket(today - r.day - cfg.hindsightHorizon, [1, 3, 8]), rows: bucket(vmState.hindRows, [100, 500, 2000]), pairs: bucket(vmState.labelPairs, [5, 20, 80]) }, cost: cfg.learnCosts.hindsight });
+  }
+  if (vmState?.observables && v4.discovery) learn.push({ id: 'discover', type: 'discover', features: { type: 'discover', adopted: bucket(vmState.observables.adopted.size, [1, 4, 8, 16]), cands: bucket(vmState.observables.candidates.size, [4, 12, 24]), rows: bucket(vmState.rows.length, [120, 400, 1200, 2500]), temp: discoveryTemperature > 1 }, cost: cfg.learnCosts.discover });
+  if (cuState && vmState) {
+    const rr = rng.fork('retro-cands');
+    let n = 0;
+    for (const env of rr.shuffle(activeRetro(cuState))) {
+      for (let i = 0; i < 2 && n < cfg.retroCandidates; i++, n++) {
+        const mode = env.elites.length && rr() < 0.5 ? 'mutation' : cells.length && rr() < 0.6 ? 'transfer-in' : 'random';
+        learn.push({ id: `retro:${env.id}:${i}`, type: 'retro', env, mode, features: { type: 'retro', minValue: bucket(env.spec.minValue, [0.3, 0.5, 0.7]), evals: bucket(env.evaluations, [3, 10, 30]), best: bucket(env.best, [0.02, 0.1, 0.2]), mode }, cost: cfg.learnCosts.retro });
+      }
+    }
+    let t = 0;
+    for (const env of [...cuState.challenges.values()].sort((a, b) => b.best - a.best)) {
+      for (const e of env.elites.slice(0, 2)) {
+        if (t >= cfg.retroTransfers) break;
+        const g = qdState.genomes.get(e.genomeId);
+        if (g && g.evals > 0 && (now - g.lastTs) / DAY_MS < 7) continue;
+        candidates.push({ id: `transfer:${env.id}:${e.genomeId}`, type: 'transfer', genome: e.genome, challenge: env, elite: e, features: { type: 'transfer', fit: bucket(e.fitness, [0.05, 0.15, 0.3]), minValue: bucket(env.spec.minValue, [0.3, 0.5, 0.7]), retro: true }, cost: evolveCost });
+        t++;
+      }
+    }
+  }
+  const forcedLearn = [];
+  if (cfg.metaAttention) candidates.push(...learn); else forcedLearn.push(...learn);
   const forced = [];
   if (qdState.evaluations === 0) for (const [i, g] of canonicalGenomes(plugin.schema).entries()) forced.push({ id: `canonical:${i}`, type: 'seeded', genome: g, kind: 'canonical', features: { type: 'seeded', canonical: true }, cost: evolveCost });
   for (const s of archive.seeded) if (!qdState.genomes.has(genomeId(normalizeGenome(s.genome)))) forced.push({ id: `seeded:${s.id}`, type: 'seeded', genome: normalizeGenome(s.genome), kind: 'seeded', features: { type: 'seeded', canonical: false }, cost: evolveCost });
 
   // 6. attention: select under budget --------------------------------------------
-  const selection = selectActions(candidates, {
-    model: planner.model, rng: rng.fork('select'), beta: cfg.beta, budget: cfg.budgetSeconds,
-    reserve: [{ match: (c) => c.type === 'poll', fraction: cfg.reserveSense }, { match: (c) => c.type !== 'poll', fraction: cfg.reserveThink }],
-  });
-  // Sense before you think: polls change memory; evaluations read it.
-  const chosen = [...selection.chosen.filter((c) => c.type === 'poll'), ...forced, ...selection.chosen.filter((c) => c.type !== 'poll')];
+  const reserve = [{ match: (c) => c.type === 'poll', fraction: cfg.reserveSense }, { match: (c) => c.type !== 'poll' && !LEARN.has(c.type), fraction: cfg.reserveThink }];
+  if (learn.length && cfg.metaAttention) reserve.push({ match: (c) => LEARN.has(c.type), fraction: cfg.reserveLearn }); // labels are a complement, not a substitute (D7)
+  const selection = selectActions(candidates, { model: planner.model, rng: rng.fork('select'), beta: cfg.beta, budget: cfg.budgetSeconds, reserve });
+  // Sense before you think; learn (label the past, adopt observables) before you evaluate, so deliveries use the newest model.
+  const learnOrder = { hindsight: 0, discover: 1, retro: 2 };
+  const chosenLearn = [...forcedLearn, ...selection.chosen.filter((c) => LEARN.has(c.type))].sort((a, b) => learnOrder[a.type] - learnOrder[b.type] || (a.type === 'hindsight' ? a.run.day - b.run.day : 0));
+  const chosen = [...selection.chosen.filter((c) => c.type === 'poll'), ...forced, ...chosenLearn, ...selection.chosen.filter((c) => c.type !== 'poll' && !LEARN.has(c.type))];
   await ledger.emit('action.planned', {
     runId, candidates: candidates.length, chosen: chosen.length, budgetSeconds: cfg.budgetSeconds, estimatedSeconds: selection.used,
     top: selection.chosen.slice(0, 25).map((c) => ({ id: c.id, score: round(c.score), exploit: round(c.exploit), ig: round(c.ig), cost: round(c.cost) })),
@@ -325,7 +452,10 @@ export async function runOnce(opts) {
 
   // 7. act ------------------------------------------------------------------------
   const pool = new Map();
-  const counters = { byType: {}, executed: 0, newObservations: 0, observations: 0, evaluations: 0, denials: 0, blocked: 0, igSum: 0, exploitSum: 0 };
+  let obsEvents = null;                 // v4: the observation log, read once per heartbeat for time-travel folds
+  const memAtCache = new Map();         // v4: memory as of a cutoff, per heartbeat
+  const derivedAt = (memAt, t) => ({ vectors: new MemoryVectors(memAt, embedder), degreeRanks: new DegreeRanks(memAt), signalRanks: new SignalRanks(memAt, plugin.schema.signals), now: t });
+  const counters = { byType: {}, executed: 0, newObservations: 0, observations: 0, evaluations: 0, denials: 0, blocked: 0, igSum: 0, exploitSum: 0, hindRows: 0, hindIg: 0, adopted: 0, newShapes: 0, proposed: 0, retroEvals: 0 };
   const restoreFetch = policy.installGlobalFetchGuard();
   try {
     for (const action of chosen) {
@@ -342,6 +472,18 @@ export async function runOnce(opts) {
         } else if (action.type === 'frontier') {
           refreshDerived();
           const r = await executeChallenge(action);
+          raw = r.raw; extra = r.extra;
+        } else if (action.type === 'hindsight') {
+          refreshDerived();
+          const r = await executeHindsight(action);
+          raw = r.raw; extra = r.extra;
+        } else if (action.type === 'discover') {
+          refreshDerived();
+          const r = await executeDiscover(action);
+          raw = r.raw; extra = r.extra;
+        } else if (action.type === 'retro') {
+          refreshDerived();
+          const r = await executeRetro(action);
           raw = r.raw; extra = r.extra;
         } else {
           refreshDerived();
@@ -391,7 +533,7 @@ export async function runOnce(opts) {
   }
 
   async function executeEvolution(action) {
-    const schema = plugin.schema;
+    const schema = searchSchema;
     const r = rng.fork(`evo:${action.id}:${counters.executed}`);
     let genome, kind, parent = null, vqParent = null, origin = null;
     const fixedCellOf = (c) => (c.cell.startsWith('vq:') ? c.fixedCell ?? null : c.cell);
@@ -417,7 +559,7 @@ export async function runOnce(opts) {
   }
 
   function evaluateGenome(genome, kind, parent) {
-    const ctx = { memory, vectors, now, value: valueOf, k: cfg.k, isNovel: (id) => noveltyOf(archive, { entityId: id, now, windowDays: cfg.windowDays }).hard === 1 };
+    const ctx = { memory, vectors, now, value: valueOf, k: cfg.k, isNovel: (id) => noveltyOf(archive, { entityId: id, now, windowDays: cfg.windowDays }).hard === 1, obs: v4.obsOps ? obsEval : undefined, obsName };
     const out = runStrategy(genome, ctx);
     const findings = out.items.map((it) => {
       const value = valueOf(it.id);
@@ -431,14 +573,14 @@ export async function runOnce(opts) {
 
   /** v3: evaluate a genome inside a frontier challenge (region + value bar). */
   async function executeChallenge(action) {
-    const ch = action.challenge, schema = plugin.schema;
+    const ch = action.challenge, schema = searchSchema;
     const r = rng.fork(`challenge:${action.id}:${counters.executed}`);
     let genome, parent = null;
     if (action.mode === 'mutation' && ch.elites.length) { const e = r.pick(ch.elites); genome = mutateStrong(e.genome, schema, r, cfg.mutationStrength); parent = { genomeId: e.genomeId, cell: ch.id }; }
     else if (action.mode === 'transfer-in' && cells.length) { const c = r.pick(cells.slice(0, 20)); genome = c.genome; parent = { genomeId: c.genomeId, cell: c.cell }; }
     else genome = randomGenome(schema, r);
     const accept = regionAccept(ch.spec, memory, now);
-    const ctx = { memory, vectors, now, value: valueOf, k: cfg.k, isNovel: (id) => noveltyOf(archive, { entityId: id, now, windowDays: cfg.windowDays }).hard === 1, accept };
+    const ctx = { memory, vectors, now, value: valueOf, k: cfg.k, isNovel: (id) => noveltyOf(archive, { entityId: id, now, windowDays: cfg.windowDays }).hard === 1, accept, obs: v4.obsOps ? obsEval : undefined, obsName };
     const out = runStrategy(genome, ctx);
     const findings = out.items.map((it) => {
       const value = valueOf(it.id);
@@ -455,6 +597,107 @@ export async function runOnce(opts) {
       if (!prev || prev.score < f.score) pool.set(f.entityId, { ...f, strategyId: gid, cell: ch.id, genome });
     }
     return { raw: Math.max(0, fitness), extra: { genomeId: gid, kind: `frontier:${action.mode}`, fitness: round(fitness, 5), challenge: ch.id, nOut: findings.length } };
+  }
+
+  // 7b. v4 executors ----------------------------------------------------------------
+  async function memoryAt(cutoffTs) {
+    if (memAtCache.has(cutoffTs)) return memAtCache.get(cutoffTs);
+    if (!obsEvents) obsEvents = await store.readAll({ domain, kinds: ['observation.seen', 'entity.embedded'] });
+    const m = await memoryAsOf(store, { domain, cutoffTs, events: obsEvents });
+    memAtCache.set(cutoffTs, m);
+    return m;
+  }
+
+  /** Label the entities that were fresh at a past heartbeat with what memory knows now (core/hindsight.mjs). */
+  async function executeHindsight(action) {
+    const r = action.run, H = cfg.hindsightHorizon;
+    const memAt = await memoryAt(r.ts);
+    const d = derivedAt(memAt, r.now);
+    const ctxAt = makeObsContext({ memory: memAt, now: r.now, schema: plugin.schema, degreeRanks: d.degreeRanks, signalRanks: d.signalRanks });
+    const programs = activeObservables(vmState);
+    const rawAt = (id) => { const e = memAt.entities.get(id); if (!e) return 0; const v = Number(plugin.value.score(e, { memory: memAt, now: r.now, vectors: d.vectors, helpers: HELPERS, domain })); return Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0; };
+    const types = cfg.hindsightTypes ?? [plugin.schema.primaryType ?? plugin.schema.entityTypes[0]];
+    const fresh = [];
+    const t0 = r.now - cfg.hindsightFresh * DAY_MS;
+    for (const t of types) for (const id of memAt.byType.get(t) ?? []) { const at = memAt.ingestedAt.get(id); if (at !== undefined && at >= t0 && at <= r.ts) fresh.push(id); }
+    fresh.sort();
+    const pick = new Set(rng.fork(`hindsight:${r.day}`).shuffle(fresh).slice(0, cfg.hindsightBatch));
+    for (const [id, j] of archive.judgments) if (memAt.entities.has(id) && Math.abs(j.ts - r.now) <= 2 * DAY_MS) pick.add(id);
+    takeIg(vmState);
+    let rows = 0;
+    for (const id of [...pick].sort()) {
+      const comps = hindsightComponents(id, { memory, asOf: r.now, horizon: H, schema: plugin.schema });
+      if (!comps) continue;
+      const ps = rawAt(id);
+      const features = entityFeatures(id, { memory: memAt, schema: plugin.schema, now: r.now, degreeRanks: d.degreeRanks, signalRanks: d.signalRanks, pluginScore: ps, tokens: cfg.vmTokens });
+      const obs = programs.length ? evalAll(ctxAt, programs, id) : null;
+      const prev = archive.byEntity.get(id);
+      const ev = await ledger.emit('hindsight.labeled', { runId, entityId: id, asOf: r.now, asOfDay: r.day, horizonDays: H, components: comps, features, obs, pluginScore: round(ps, 4), novelAt: prev && prev.last < r.now ? 0 : 1, rev: vmState.observables.rev, ts: now }, { dedupKey: `hind:${domain}:${id}:${r.day}:${H}`, skipIfDedupKeyExists: true });
+      if (ev) rows++;
+    }
+    if (!vmState.labelledDays.has(r.day)) await ledger.emit('hindsight.labeled', { runId, asOfDay: r.day, horizonDays: H, empty: true, ts: now });
+    const ig = takeIg(vmState);
+    counters.hindRows += rows; counters.hindIg += ig;
+    return { raw: ig, extra: { asOfDay: r.day, rows, batch: pick.size, ig: round(ig, 4), labelPairs: vmState.labelPairs, hindMae: round(hindsightMae(vmState) ?? 0, 4) } };
+  }
+
+  /** One generation of observable search: score candidates on the residual, adopt at most one, retire the hopeless, propose new ones. */
+  async function executeDiscover() {
+    const obsState = vmState.observables;
+    const r = rng.fork(`discover:${counters.executed}`);
+    const T = plugin.schema.primaryType ?? plugin.schema.entityTypes[0];
+    const rows = vmState.rows.length >= cfg.obsMinRows ? residualRows(vmState) : [];
+    const results = [];
+    for (const c of obsState.candidates.values()) results.push({ c, ...(rows.length ? candidateFitness(c.id, rows, { minRows: cfg.obsMinRows }) : { fitness: null, n: 0, batches: 0 }) });
+    const ranked = results.filter((x) => x.fitness !== null).sort((a, b) => b.fitness - a.fitness);
+    let gain = 0, adoptedNow = 0, newShapes = 0;
+    for (const x of ranked) {
+      if (x.fitness < cfg.obsMinFitness || adoptedNow >= 1 || obsState.adopted.size >= cfg.obsMaxAdopted) break;
+      const twin = [...obsState.adopted.keys()].find((aid) => Math.abs(obsCorrelation(x.c.id, aid, rows)) > cfg.obsRedundancy);
+      if (twin) { await ledger.emit('observable.retired', { runId, id: x.c.id, reason: 'redundant', twin, fitness: round(x.fitness, 5), n: x.n, ts: now }); continue; }
+      const edges = quantileEdges(rows.map((row) => row.obs?.[x.c.id]).filter((v) => v !== undefined));
+      if (!edges) continue;
+      const isNew = !obsState.shapes.has(x.c.shape);
+      await ledger.emit('observable.adopted', { runId, id: x.c.id, program: x.c.program, type: x.c.type, edges, fitness: round(x.fitness, 5), n: x.n, description: describeProgram(x.c.program), shape: x.c.shape, ts: now });
+      gain += x.fitness; adoptedNow++; if (isNew) newShapes++;
+    }
+    for (const x of results) if (x.fitness !== null && x.n >= cfg.obsRetireRows && x.fitness < cfg.obsMinFitness / 3 && obsState.candidates.has(x.c.id)) await ledger.emit('observable.retired', { runId, id: x.c.id, reason: 'unfit', fitness: round(x.fitness, 5), n: x.n, ts: now });
+    const parents = [...obsState.adopted.values(), ...ranked.slice(0, 3).map((x) => x.c)];
+    let proposed = 0;
+    const want = Math.min(cfg.obsCandidates - obsState.candidates.size, Math.round(cfg.obsNewPerStep * discoveryTemperature));
+    for (let i = 0; i < want; i++) {
+      let program, parent = null;
+      if (parents.length && r() < 0.5) { const p = r.pick(parents); program = mutateProgram(p.program, plugin.schema, T, r); parent = p.id; }
+      else program = randomProgram(plugin.schema, T, r, cfg.obsDepth + (discoveryTemperature > 1 ? 1 : 0));
+      const id = observableId(program);
+      if (obsState.adopted.has(id) || obsState.candidates.has(id)) continue;
+      await ledger.emit('observable.proposed', { runId, id, program, type: T, parent, origin: discoveryTemperature > 1 ? 'stall' : 'search', description: describeProgram(program), ts: now });
+      proposed++;
+    }
+    counters.adopted += adoptedNow; counters.newShapes += newShapes; counters.proposed += proposed;
+    return { raw: gain, extra: { adopted: adoptedNow, proposed, evaluated: ranked.length, best: ranked[0] ? round(ranked[0].fitness, 4) : null, rows: rows.length, candidates: obsState.candidates.size } };
+  }
+
+  /** Evaluate a solver in a retrospective environment: memory as it was, hindsight labels as truth (core/curriculum.mjs). */
+  async function executeRetro(action) {
+    const env = action.env, spec = env.spec;
+    const memAt = await memoryAt(spec.retro.cutoffTs);
+    const d = derivedAt(memAt, spec.retro.now);
+    const labels = labelsForDay(vmState, spec.retro.asOfDay);
+    const r = rng.fork(`retro:${action.id}:${counters.executed}`);
+    let genome, parent = null;
+    if (action.mode === 'mutation' && env.elites.length) { const e = r.pick(env.elites); genome = mutateStrong(e.genome, searchSchema, r, cfg.mutationStrength); parent = { genomeId: e.genomeId, cell: env.id }; }
+    else if (action.mode === 'transfer-in' && cells.length) { const c = r.pick(cells.slice(0, 20)); genome = c.genome; parent = { genomeId: c.genomeId, cell: c.cell }; }
+    else genome = randomGenome(searchSchema, r);
+    const ctxAt = makeObsContext({ memory: memAt, now: spec.retro.now, schema: plugin.schema, degreeRanks: d.degreeRanks, signalRanks: d.signalRanks });
+    const ctx = { memory: memAt, vectors: d.vectors, now: spec.retro.now, value: (id) => labels.get(id)?.value ?? 0, k: cfg.k, isNovel: (id) => labels.get(id)?.novel === 1, obs: v4.obsOps ? (oid, eid) => { const o = vmState.observables.adopted.get(oid); return o ? ctxAt.eval(o.program, eid) : null; } : undefined, obsName };
+    const out = runStrategy(genome, ctx);
+    const findings = out.items.map((it) => { const v = labels.get(it.id)?.value ?? 0; return { entityId: it.id, value: v, novelty: 1, hard: 1, score: v }; });
+    const fitness = retroFitness(findings, cfg.k, genome, spec);
+    const gid = genomeId(normalizeGenome(genome));
+    counters.retroEvals++;
+    await ledger.emit('challenge.evaluated', { challengeId: env.id, runId, genomeId: gid, genome, fitness: round(fitness, 5), kind: action.mode, parent, nOut: findings.length, ts: now });
+    return { raw: Math.max(0, fitness), extra: { genomeId: gid, kind: `retro:${action.mode}`, fitness: round(fitness, 5), env: env.id, asOfDay: spec.retro.asOfDay, nOut: findings.length } };
   }
 
   // 8. select outputs: novel, valuable, diverse ------------------------------------
@@ -490,7 +733,7 @@ export async function runOnce(opts) {
   let judgmentRequest = null;
   if (vmState) {
     const delivered = new Set(findings.map((f) => f.entityId));
-    const cands = [...pool.values()].sort((a, b) => b.score - a.score).slice(0, Math.max(cfg.maxFindings * 4, 60)).map((f) => ({ entityId: f.entityId, features: featuresOf(f.entityId), pluginScore: rawValue(f.entityId), score: f.score, findingId: findings.find((x) => x.entityId === f.entityId)?.findingId ?? null }));
+    const cands = [...pool.values()].sort((a, b) => b.score - a.score).slice(0, Math.max(cfg.maxFindings * 4, 60)).map((f) => ({ entityId: f.entityId, features: featuresOf(f.entityId), obs: obsOf(f.entityId), pluginScore: rawValue(f.entityId), score: f.score, findingId: findings.find((x) => x.entityId === f.entityId)?.findingId ?? null }));
     const cutoff = findings.length >= cfg.maxFindings ? Math.min(...findings.map((f) => f.score)) : 0;
     // The decision a judgment informs is NEXT run's delivery: only undelivered candidates are worth the operator's budget.
     let picked;
@@ -508,7 +751,7 @@ export async function runOnce(opts) {
     const need = new Map();
     for (const c of cands) if (delivered.has(c.entityId)) need.set(c.entityId, c);
     for (const c of picked) need.set(c.entityId, c);
-    for (const c of need.values()) await ledger.emit('value.features', { runId, entityId: c.entityId, features: c.features, pluginScore: round(c.pluginScore, 4), ts: now });
+    for (const c of need.values()) await ledger.emit('value.features', { runId, entityId: c.entityId, features: c.features, ...(c.obs ? { obs: c.obs, rev: vmState.observables?.rev ?? 0 } : {}), pluginScore: round(c.pluginScore, 4), ts: now });
     if (picked.length) {
       judgmentRequest = picked.map((c) => ({ entityId: c.entityId, findingId: c.findingId, title: (memory.entities.get(c.entityId)?.text ?? c.entityId).slice(0, 140), score: round(c.score, 4), ig: round(c.ig, 4), priority: round(c.priority ?? 0, 4), reason: c.probe ? 'calibration probe (random)' : cfg.activeJudgments ? (cfg.judgmentMode === 'ei' ? 'highest expected improvement over the delivery cutoff' : 'most informative for the value model') : 'top delivered' }));
       await ledger.emit('judgment.requested', { runId, items: judgmentRequest, ts: now });
@@ -547,6 +790,17 @@ export async function runOnce(opts) {
   if (vmState) summary.valueModel = { trained: vmState.trained, mae: calibrationMae(vmState) === null ? null : round(calibrationMae(vmState), 4), requested: judgmentRequest?.length ?? 0, active: !!cfg.activeJudgments };
   if (provenance) summary.credit = { credited, total: planner.credited ?? 0 };
   if (sentinelInfo) summary.sentinel = sentinelInfo;
+  if (useV4 || cuState || pgState) {
+    const v = {};
+    if (vmState?.observables) {
+      const usesObs = (g) => (g.pipe ?? []).some((op) => op.op === OBS_OP) || g.rank?.by === 'obs';
+      v.hindsight = { rows: vmState.hindRows, rowsThisRun: counters.hindRows, mae: round(hindsightMae(vmState) ?? 0, 4), labelPairs: vmState.labelPairs, labelMae: round(labelMae(vmState) ?? 0, 4), labelledDays: vmState.labelledDays.size, pending: pendingDays.length, ig: round(counters.hindIg, 4), rebuilds: vmState.rebuilds, ready: learnedReady() };
+      v.observables = { adopted: vmState.observables.adopted.size, candidates: vmState.observables.candidates.size, rev: vmState.observables.rev, retired: vmState.observables.retired, adoptedThisRun: counters.adopted, newShapesThisRun: counters.newShapes, proposedThisRun: counters.proposed, shapes: vmState.observables.shapes.size, inGrammar: searchSchema.observables?.length ?? 0, elitesUsingObs: [...qdState.cells.values()].filter((c) => usesObs(c.genome)).length, names: [...vmState.observables.adopted.values()].map((o) => `${describeProgram(o.program)} (${round(o.fitness ?? 0, 3)})`).slice(0, 16) };
+    }
+    if (cuState) v.curriculum = { active: activeRetro(cuState).length, total: cuState.challenges.size, solved: cuState.solved, retired: cuState.retired, evaluations: cuState.evaluations, transfers: cuState.transfers, solvedThisRun, retroEvalsThisRun: counters.retroEvals, transferElites: [...qdState.cells.values()].filter((c) => c.kind === 'transfer').length };
+    if (progressInfo) v.progress = progressInfo;
+    summary.v4 = v;
+  }
   await ledger.emit('run.completed', summary);
 
   // 10. snapshots + sync out ------------------------------------------------------------

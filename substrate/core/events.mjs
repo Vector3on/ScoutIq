@@ -119,6 +119,9 @@ export const KINDS = Object.freeze([
   'value.features', 'judgment.requested',
   'credit.assigned',
   'sentinel.intervened',
+  // v4 additive kinds (DESIGN.md §10): hindsight labels, learned observables, retrospective environments reuse challenge.*
+  'hindsight.labeled',
+  'observable.proposed', 'observable.adopted', 'observable.retired',
 ]);
 const KIND_SET = new Set(KINDS);
 

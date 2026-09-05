@@ -14,6 +14,16 @@
 // shows the operator) and judgment.recorded (existing kind).
 import { Projection, mapToArr, arrToMap } from './projections.mjs';
 import { LinearModel, featurize } from './attention.mjs';
+import { bucketOf } from './observables.mjs';
+
+/** Feature vector for a state: base features, plus adopted observables (v4 states) bucketed on their adoption edges. */
+export function phiFor(state, features, obs = null) {
+  const adopted = state.observables?.adopted;
+  if (!adopted || !adopted.size) return featurize(features, state.model.dim);
+  const f = { ...features };
+  for (const [id, o] of adopted) f[`obs:${id}`] = bucketOf(obs ? obs[id] : null, o.edges);
+  return featurize(f, state.model.dim);
+}
 
 export function makeValueModelProjection({ dim = 256, priorVar = 0.25, noiseVar = 0.05, forgetting = 1.0 } = {}) {
   return new Projection({
@@ -53,8 +63,8 @@ function train(state, id, j) {
 }
 
 /** Predict a calibrated value with uncertainty for an entity's features. */
-export function predictValue(state, features, pluginScore) {
-  const phi = featurize(features, state.model.dim);
+export function predictValue(state, features, pluginScore, obs = null) {
+  const phi = phiFor(state, features, obs);
   const mu = state.model.mean(phi), v = state.model.variance(phi);
   return { value: Math.max(0, Math.min(1, pluginScore + mu)), residual: mu, sd: Math.sqrt(v), ig: state.model.infoGain(phi) };
 }
@@ -76,7 +86,7 @@ export function selectJudgments(state, candidates, { k = 5, mode = 'ei', cutoff 
   const floor = Math.max(0.05, calibrationMae(state) ?? 0.2);
   for (const c of candidates) {
     if (state.judged.has(c.entityId)) continue;
-    const phi = featurize(c.features, state.model.dim);
+    const phi = phiFor(state, c.features, c.obs ?? null);
     const ig = state.model.infoGain(phi);
     let priority;
     if (mode === 'ei') {
@@ -113,8 +123,8 @@ function erf(x) {
  * (precision-weighted). A judgment is evidence, not ground truth: this is what stops a large
  * budget of noisy judgments on marginal items from delivering the winner's curse.
  */
-export function posteriorValue(state, features, pluginScore, judgment, { judgmentSd = 0.15 } = {}) {
-  const p = predictValue(state, features, pluginScore);
+export function posteriorValue(state, features, pluginScore, judgment, { judgmentSd = 0.15, obs = null } = {}) {
+  const p = predictValue(state, features, pluginScore, obs);
   const floor = Math.max(0.05, calibrationMae(state) ?? 0.2);
   const varM = p.sd * p.sd + floor * floor, varJ = judgmentSd * judgmentSd;
   const value = (p.value / varM + judgment / varJ) / (1 / varM + 1 / varJ);

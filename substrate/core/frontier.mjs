@@ -70,9 +70,9 @@ export function minimalCriterion(ch, { lo = 0.01, hi = 0.3, minEvals = 20, maxEv
   return 'active';
 }
 
-export function makeFrontierProjection({ maxElites = 5 } = {}) {
+export function makeFrontierProjection({ maxElites = 5, name = 'frontier', retro = false } = {}) {
   return new Projection({
-    name: 'frontier',
+    name,
     version: 1,
     kinds: ['challenge.created', 'challenge.evaluated', 'challenge.retired'],
     init: () => ({ challenges: new Map(), created: 0, retired: 0, solved: 0, evaluations: 0, transfers: 0 }),
@@ -80,6 +80,7 @@ export function makeFrontierProjection({ maxElites = 5 } = {}) {
       const b = ev.body;
       if (ev.kind === 'challenge.created') {
         if (state.challenges.has(b.challengeId)) return;
+        if (!!b.spec?.retro !== retro) return; // v4: retrospective environments (core/curriculum.mjs) fold into their own instance
         state.challenges.set(b.challengeId, { id: b.challengeId, spec: b.spec, parent: b.parent ?? null, origin: b.origin ?? null, status: 'active', createdTs: b.ts ?? ev.ts, evaluations: 0, best: 0, bestGenomeId: null, elites: [], lastEvalTs: 0, retiredReason: null });
         state.created++;
       } else if (ev.kind === 'challenge.evaluated') {

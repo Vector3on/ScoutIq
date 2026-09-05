@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { openStore } from '../core/store.mjs';
 import { runOnce } from '../core/worker.mjs';
 import { loadPlugin } from '../core/plugins.mjs';
-import { runExperiment, v3Verdicts, VARIANT_CONFIGS } from '../core/experiment.mjs';
+import { runExperiment, v3Verdicts, v4Verdicts, VARIANT_CONFIGS } from '../core/experiment.mjs';
 import { runSeries, liveVerdict, formatSeries } from '../core/metrics.mjs';
 import { buildBundle, parseJudgments, ingestJudgments } from '../core/bundle.mjs';
 import { project } from '../core/projections.mjs';
@@ -134,12 +134,14 @@ async function cmdExperiment(args) {
   for (const seed of seeds) {
     const r = await runExperiment({ runs, budgetSeconds: budget, seed, variants, log: args.verbose ? log : () => {}, judgmentsPerRun, config });
     r.v3 = v3Verdicts(r.results, runs);
+    r.v4 = v4Verdicts(r.results, runs);
     all.push({ seed, ...r });
     if (!args.json) {
       console.log(`\n== seed ${seed}`);
       for (const v of variants) console.log(`${v.padEnd(16)} trueValue/run: ${r.results[v].map((x) => x.trueValue.toFixed(2)).join(' ')}   cum→${r.results[v][runs - 1].cumTrue}  coverage→${r.results[v][runs - 1].coverage}  entropy→${r.results[v][runs - 1].entropy}${r.results[v][runs - 1].vqCells !== null ? `  learnedCells→${r.results[v][runs - 1].vqCells}` : ''}`);
       console.log('verdicts:', JSON.stringify(r.verdicts));
       if (Object.keys(r.v3.ceiling ?? {}).length || Object.keys(r.v3.ablations ?? {}).length || r.v3.isolated) console.log('v3:', JSON.stringify(r.v3));
+      if (r.v4.ceiling || Object.keys(r.v4.isolated).length || Object.keys(r.v4.ablations).length) console.log('v4:', JSON.stringify(r.v4));
     }
   }
   const agg = aggregate(all, variants, runs);
@@ -317,6 +319,7 @@ const HELP = `loam — compounding intelligence substrate
   loam run --domain <d> [--budget sec] [--role r] [--mode auto|local|ledger] [--json]
   loam experiment [--runs 10] [--seeds 7,11,23] [--budget 8] [--variants memory,memoryless,single-cell] [--judgments 0] [--window 30] [--json]
                   v3 variants: v3 (shipping defaults), v3-all, v3-descriptor, v3-learned, v3-frontier, v3-value, v3-credit, v3-sentinel, v3-no-<addon>
+                  v4 variants: v4 (shipping defaults), v4-all, v4-hindsight, v4-discovery, v4-discovery-judgments, v4-obsops, v4-curriculum, v4-no-<addon>, v4-fixed, v4-progress
   loam report --domain <d> [--last 30]
   loam bundle --domain <d> [--out file.md] [--top 15] [--uncertain 6] [--runs 3]
   loam ingest-judgment <reply.md> --domain <d> [--by name]
