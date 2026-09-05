@@ -350,3 +350,64 @@ Per seed, v4-grammar vs v3 (cum, 3 streams each): 129.4 vs 129.2 · 130.8 vs 129
 - The grammar configuration raises the substrate's own novel-value estimate by 6–13 % without raising hidden truth; on a real domain, where truth is unknown, that gap would be invisible. The toy is the reason to distrust proxies.
 - Every v4 mechanism costs run time on the toy (1.2× for the grammar configuration, 2.9× with hindsight on); on a 240 s real-domain budget this is negligible.
 - Three-seed, single-stream, unpaired comparisons are not evidence on this world; §10.3 says what that cost. The paired standard error of a 10-run mean ratio is ≈ 2 %, so an effect below ≈ 4 % is not resolvable here even paired.
+
+# 11. Bounty intelligence — the four-layer heartbeat (a domain, not an engine change)
+
+v4's result was that the ceiling is **data + supervision, not algorithm**. The bounty domain
+(`plugins/bounty`) is the direct consequence: it adds no core mechanism. It supplies the two
+things v4 said were missing — real *observables* (the eyes) and a real *teacher* (judgments)
+— behind the same plug-in interface every other domain uses. `core/` and `policy/` do not
+know it exists.
+
+## 11.1 The four layers
+
+One organism, four questions:
+
+| layer | question | substance |
+|---|---|---|
+| **anatomy** | *where* could a bug live | a defensive atlas: 19 system classes, 95 seams, each seam a pair of side-assumptions, the `mechanismFamilies` it belongs to, and the **invariant that must hold**; 38 public `observableSignals` |
+| **pathology** | *what* has actually worked | 120 deduped public case studies — one line of *how it was found*, its `mechanismFamilies`, and the researcher's primary source |
+| **EV** | *what is a lead worth* | ScoutIq's `evaluateTarget`: `min(cap,reward) × P(findable) × P(payable) × P(first)`, unmodified, run on public feed signals |
+| **Loam** | *compounding memory + judgment* | the graph, the value model, novelty/diversity delivery, and the judgment loop — this substrate |
+
+## 11.2 The spine, and why the join is real
+
+`mechanismFamilies` is the shared vocabulary — ten families, which are also the source PDF's
+ten recurring patterns. The atlas seams and the catalog cases were expressed in the same
+ontology, so the join is a genuine shared key, not a post-hoc mapping:
+
+```
+anatomy.seam ──mechanismFamilies──▶ technique ──fingerprints──▶ target(public feed)
+```
+
+The join is two-level on purpose. The family key is **coarse** (ten families, 120
+techniques → ≈ 48 techniques per seam): a recall-first *reasoning lens*, "this seam fails
+through the same class of mistake." The `fingerprints` key is **selective**: a technique's
+preconditions matched against a target's public observable fingerprint, so the catalog is
+filtered to what a target's inferred anatomy can actually instantiate. Coverage is then a
+pure projection: `class → exposed seams (+ invariant) → applicable techniques → tried/untried`,
+with a *cell* = `target::seam::technique` and a hard rule that a tried cell is never
+re-surfaced.
+
+## 11.3 The eyes and the teacher, mapped to v4
+
+- **Eyes.** The sensor emits the spine as graph (`fingerprints_as`, `applicable`,
+  `in_scope_of`) and declares twelve per-target signals (`ev`, `exposedSeams`,
+  `applicableTechniques`, `crowd`, …). These are exactly the inputs v4's learned-observable
+  search (§10.2, `discovery`/`obsOps`) evolves programs over. The atlas + catalog thereby
+  become something the substrate can *learn to look with*, not just a static table.
+- **Teacher.** The value model requests the most uncertain leads each heartbeat and folds the
+  operator's ratings back in (D6, D26, D29). On the toy this was neutral because the toy's
+  truth is a thin window (§10.4); on a domain with a real expert in the seat, it is the whole
+  point — the accumulated judgments are the moat, and the same code without them is a worse
+  ranker.
+
+## 11.4 Honesty, by construction
+
+EV runs with `repoSignals: null` for feed assets (no enrichment), so `P(findable)` leans on
+the classifier and the reward ceiling is a conservative `max_severity → nominal` inference;
+the family join is recall-first and its false positives are the first thing judgments should
+tighten; `crowd` is a proxy until Loam's memory has diffed the feed over time. The domain is
+built to make these visible rather than to hide them — see `plugins/bounty/README.md`
+("Honest status") and DECISIONS D34–D39. The point is a small end-to-end organism that runs,
+observes only, and compounds — not a finished value function.

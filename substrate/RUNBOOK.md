@@ -152,3 +152,92 @@ Everything below is off unless enabled; the v3 event stream is unchanged when it
 **Reading the report.** `loam report` prints the v4 projections when present: hindsight rows and label calibration, the adopted observables in words (`max over authored_by/out of [degree(active_in,out)] (fitness 0.013)`), candidates and retired count, kinds of observables adopted, curriculum status, and the progress diagnosis with the before/after effect of every intervention.
 
 **Reproducible, paired experiments.** `loam experiment` runs every variant on a logical wall clock (one millisecond per read), so two runs of the same variant, seed and judgment budget produce identical logs whatever the machine is doing; the real wall time is reported separately. Pass `--config '{"rngTag":"a"}'` to run every variant of an invocation under the same planner and oracle streams — the only way a difference between variants means anything on the toy (DECISIONS D33). Variants: `v4` (v3 plus the progress diagnosis), `v4-grammar`, `v4-all`, isolated `v4-<mechanism>`, `v4-select`, ablated `v4-no-<mechanism>`, `v4-fixed`, and the grammar-growth pushes `v4-obs-lift`, `v4-obs-more`, `v4-obs-deep`, `v4-obs-progress`.
+
+## 14. Bounty intelligence domain (DESIGN §11)
+
+Anatomy (the atlas) × pathology (120 case studies) × EV (ScoutIq) × Loam memory, delivered
+as an **alpha queue**. Observe-only: it prioritises public targets and never tests one.
+Full design in `plugins/bounty/README.md`.
+
+**Try it offline first (fixture feed, deterministic, no network):**
+
+```bash
+cd substrate
+node plugins/bounty/demo.mjs --runs 1          # prints the alpha queue + one full coverage chart
+node plugins/bounty/demo.mjs --runs 3 --judge  # closes the teacher loop with a stand-in operator
+```
+
+**Run it live (the real public feed, read-only):**
+
+```bash
+node bin/loam.mjs doctor                        # confirms: bounty-feed OK, raw.githubusercontent.com, auth none
+# In CI/Colab, global fetch reaches the internet directly:
+node bin/loam.mjs run --domain bounty           # observe-only heartbeat; writes out/bounty/alpha-queue.md
+# In a sandbox where outbound goes through an env proxy, Node's built-in fetch needs it:
+NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/path/to/ca-bundle.crt node bin/loam.mjs run --domain bounty
+```
+
+The heartbeat fetches the ~18 MB `arkadiyt/bounty-targets-data` HackerOne feed (cached
+politely: a fresh snapshot makes no request; once stale, a conditional GET downloads only on
+change; a block reuses the last good snapshot — `.loam/bounty-cache`, gitignored),
+fingerprints each in-scope asset to anatomy classes, computes ScoutIq EV, joins the untried
+applicable techniques, and writes `out/bounty/alpha-queue.md` (+ `.json`, + the top target's
+full coverage chart).
+
+### Record what you looked at, and let it teach the model (the tried-journal)
+
+When you have looked in **your** authorized environment and know the result, record it. The
+cell never re-appears, and the outcome becomes a Loam judgment that calibrates the value model:
+
+```bash
+node plugins/bounty/journal.mjs mark "<targetKey>" <seamId> <techId> <outcome> --note "why"
+node plugins/bounty/journal.mjs list
+```
+
+Outcomes (→ judgment value): `real-defect`·`disclosed`·`fixed` (high) · `impact-not-established`·`unreproducible` (weak) · `prevented`·`intended`·`out-of-scope` (low). The loop never writes this — a try is a human action.
+
+### Prepare a lead for testing (the investigation-prep loop)
+
+```bash
+node plugins/bounty/prep.mjs --top 10 --resolve-revisions   # bounded-question records; prints ONE in full
+```
+
+For each top lead it fills a bounded-question record (repo revision, scope evidence, observed
+change, the invariant **pulled from the seam**, competing explanations, the single read-only
+discriminating check, probabilistic prior-art, remaining budget) and walks it to
+`ready_for_human_test` or `rejected`. It **stops** at `ready_for_human_test`: the active test,
+and everything after, is yours, in your controlled environment, in scope. Records are journalled
+and leads are claimed atomically, so the run resumes cleanly after an interruption.
+
+### The judgment loop — the teacher (do this; it is the whole point)
+
+The substrate's edge is the operator's accumulated judgment, not the code. Every run it asks
+you to rate the leads it is **least sure about**; your ratings recalibrate the value model and
+change what it delivers next. The loop is three commands:
+
+```bash
+node bin/loam.mjs run    --domain bounty                       # 1. heartbeat → queue + a judgment request
+node bin/loam.mjs bundle --domain bounty --out bundle.md       # 2. paste-ready bundle (top leads + "please judge these first")
+#    edit bundle.md's reply block:  finding <id> <0..1> <why>   — your reason matters more than the number
+node bin/loam.mjs ingest-judgment bundle.md --domain bounty    # 3. fold the ratings back in
+node bin/loam.mjs run    --domain bounty                       # 4. re-ranked with what you taught it
+```
+
+**The first judgments to give** (they calibrate fastest):
+1. Rate the top identity / agents / defi leads — where EV and anatomy agree; this anchors the
+   high end.
+2. Rate a coarse-join false positive **low** (e.g. an HTTP-desync technique listed under a
+   smart-contract seam) — teaches the model that family-only matches are weak.
+3. Rate the `$0` points-only watch-list item near **zero** — confirms the EV-first stance.
+
+Record what you actually looked at in `plugins/bounty/data/tried.json` (`target::seam::technique`
+cells); the queue will never re-surface a tried cell. The loop never writes that file — a
+"try" is a human action, outside the observe-only boundary.
+
+### Config (`loam.config.json`, domain `bounty`)
+
+`valueModel` + `judgmentsPerRun` + `activeJudgments` are **on** (the teacher). The
+learned-observable search (`discovery`/`obsOps`, §13) is off until a deployment has
+accumulated enough rows (DECISIONS D39); the twelve per-target signals are already declared,
+so switching it on is a config change, not a code change. Point `options.feeds` at additional
+platform feeds (Bugcrowd/Intigriti/YesWeHack are best-effort; HackerOne is fully supported).

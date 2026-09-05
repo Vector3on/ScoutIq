@@ -42,6 +42,7 @@ export function createPlugin(options) {
 - `plugins/toy` — a synthetic world with **hidden ground truth**, used to falsify the substrate's claims in CI.
 - `plugins/arxiv-lit` — scientific-literature monitoring over the public arXiv API (interests, cross-archive emerging bridges, authors bursting into new fields, rising vocabulary; author names are never stored).
 - `plugins/oss-health` — open-source ecosystem health over npm, npm downloads, deps.dev and optionally the GitHub API (usage × maintenance silence × bus factor, advisories, maintainer changes, rising usage; maintainers are keyed pseudonyms).
+- `plugins/bounty` — bounty-intelligence heartbeat over public program/scope feeds (arkadiyt/bounty-targets-data): fingerprints each in-scope asset to a defensive anatomy atlas (19 classes, 95 seams), joins a 120-case technique catalog through the shared `mechanismFamilies` vocabulary, ranks by ScoutIq EV × untried seam-coverage, and delivers a never-repeated **alpha queue** with the invariant that must hold and the operator's judgment loop. Observe-only: it prioritises public targets and never tests, probes, or contacts one. See [plugins/bounty/README.md](plugins/bounty/README.md).
 
 ## How it is legitimate
 
