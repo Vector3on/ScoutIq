@@ -116,3 +116,54 @@ Everything below is additive: new event kinds, new projections, new modules, con
 
 ## D23 — Random streams are part of the experiment
 **Observation.** Identical configurations under different random streams differ by ≈ ±10 % in cumulative hidden-truth value over 30 runs — comparable to the effects under test. Every v3 claim in DESIGN §9 is therefore reported over 5 world seeds × 3 random streams, with the spread.
+
+---
+
+# v4 — attacking the information ceiling (additive)
+
+Everything below is additive: four new event kinds (`hindsight.labeled`, `observable.proposed/adopted/retired`; retrospective environments reuse `challenge.*` with `spec.retro`), new modules, new projections, config flags that default to v3 behaviour. Invariants I1–I4 and the four policy gates are untouched; `tests/v4.test.mjs` asserts that v3 flags emit no v4 events, that v3 folds ignore the v4 kinds, and that a v4 run is reproducible from the log and a seed. Numbers are in DESIGN.md §10.
+
+## D24 — Measure the label before trusting it: hidden-truth correlation of self-generated labels is a first-class metric
+**Choice.** Every hindsight label the substrate writes is scored in the harness against the toy's hidden truth (rank correlation per batch, and the fraction of the batch's best-20 truth its top-20 captures), next to the plug-in's own proxy at the same moment.
+**Why.** A self-supervised label is only worth what it knows about the truth. The first version of the components (raw log-ratio growth, last-point signal growth) reached ρ ≈ 0.28 — *below* the plug-in proxy (0.34): the value model would have learned to predict a signal weaker than the one it already had. Without this metric the failure would have read as "hindsight is neutral" instead of "the label is the bottleneck".
+**Cost.** Toy-only, like the ceiling decomposition (D14).
+
+## D25 — Hindsight statistics are count-aware and onset-relative, and a structure older than memory is never "young"
+**Choice.** Pair, degree and term components are hindsight bursts (a Poisson surprise of the future count under the past rate, the rate shrunk only for structures younger than seven days) and *young-and-growing* scores (age at the time discounted over the horizon × the eventual size); signal components are window mean-shifts; anything whose birth predates the first observation in memory has unknown age and is never young.
+**Why.** Raw log-ratios reward tiny counts (1 → 3) as much as real bursts; a last-point/max-of-window signal statistic is swamped by Poisson noise; a fixed pseudo-history biases every *old* structure toward "bursting" (common tokens scored 0.56); and in a memory that is a few days old, everything looks young. Each fix was measured: the best component's ρ with truth went from 0.24 to 0.37, and the truth-trained ceiling over the components from 0.37 to 0.44.
+**Cost.** Two statistics per pair kind (a few more label-model features). The ceiling stays at ρ ≈ 0.4–0.45 because the truth is a *window* after an onset while generic statistics of the future decay inside it — a limit of what hindsight can know, not of the estimator (§10.5).
+
+## D26 — The label model is piecewise-constant, and labels are evidence only after twenty judgment pairs
+**Choice.** Bucketed component indicators plus linear terms in a Bayesian ridge; hindsight rows are stored from the first pass but enter the value model only once twenty (components, judgment) pairs exist, at which point the exact posterior is rebuilt with all of them.
+**Why.** On the run's own ≈150 judgment pairs a bucketed model reaches ρ = 0.39 with hidden truth where a linear one reaches 0.19 (the relation is a threshold, not a slope). An uncalibrated label (prior 0) is a systematic bias, and precision weighting cannot fix bias — only variance — so the rows wait.
+**Cost.** The first ≈ 6–8 heartbeats of hindsight rows are stored, not used; a rebuild of ≈ 3,000 rows costs ≈ 0.2 s at dim 256.
+
+## D27 — Hindsight labels: built, measured, shipped off (with the retrospective curriculum that depends on them)
+**Choice.** `hindsight: false`, `curriculum: false` by default; both remain available and tested.
+**Why.** With calibrated labels (ρ ≈ 0.30–0.40; top-20 by label carries ≈ 65 % of the achievable truth) every configuration that folds hindsight rows sits 3–4 % *below* v3 on cumulative hidden-truth value over 30 runs, with or without the stacked head (D29), and the curriculum is neutral (+1.7 %, no transfer elite ever displaced a main-archive elite). The mechanism is honest about why: v3 already delivered within ≈ 8 % of the truth-trained linear ceiling over its features with ten judgments per heartbeat, so a label with a third of a judgment's precision and a systematic component can only add noise to a model that has almost nothing left to learn from these features. The planner agreed — under meta-attention it stopped choosing hindsight passes.
+**Cost.** ≈ 2,000 lines of mechanism carried for a result that says no on one world. Kept because the premise — a domain where the operator cannot judge but the future is observable — is common outside the toy, and because the label metric (D24) will say when it applies.
+
+## D28 — Learned observables are discovered from the value model's residual, held out by batch, one adoption per step
+**Choice.** A typed entity→scalar DSL (`core/observables.mjs`, ≈ 850 program shapes); candidates proposed from the first heartbeat so evidence accrues before labels arrive; fitness = held-out R² of the bucketed output against the current residual, by batch parity; redundancy check against adopted observables; at most one adoption per step, sixteen adopted at most; the feature space of the value model is rebuilt exactly on every revision.
+**Why.** Feature construction by evolutionary search is the rigorous form of "let the substrate discover what to measure" (La Cava's FEAT and evolutionary feature synthesis); scoring on the residual makes every adoption marginal by construction; holding out by batch is what keeps a search over hundreds of candidates from adopting noise. Measured: the truth-trained linear ceiling over base ⊕ discovered observables exceeds the fixed-feature ceiling (5.3 → 5.9–6.2 late), so the discovered observables carry information the fixed set does not.
+**Cost.** With judgment rows only (ten per heartbeat) evidence is slow — the first adoption lands around heartbeat 12 and 2–6 observables are adopted by heartbeat 30; each heartbeat costs ≈ +0.1 s.
+
+## D29 — The stacked head: weak labels inform, true labels decide
+**Choice.** When hindsight is on, a judgment-only head scores deliveries over base features ⊕ observables ⊕ the hindsight model's prediction (bucketed); the hindsight model supplies residuals for discovery.
+**Why.** The standard remedy for weak supervision. It did not rescue hindsight on the toy (D27), which is itself informative: the head learned to ignore the hindsight feature and the remaining loss came from judgments being spent differently.
+**Cost.** A second 256-dim model, rebuilt with the first; disabled automatically when hindsight is off.
+
+## D30 — Observables grow the grammar; this is where the gain is
+**Choice.** Adopted observables become a seed (`topObs`), a filter op (`obsFilter`) and a ranker (`obs`) of the strategy DSL. A genome naming a retired observable degrades to the plain seed / a no-op filter, so every old genome stays valid.
+**Why.** Observables in the value model alone are neutral (the model was near its ceiling); observables in the *search* raise the candidate pool's hidden-truth ceiling and the delivered value: at ten judgments per heartbeat, +6–10 % cumulative truth and +30 % sustained novel value over v3, matching what v3 needs forty judgments per heartbeat to reach. The search space of ways of looking now expands with what the substrate learned to measure — open-endedness of the space, not only of the population.
+**Cost.** The advantage narrows as the judgment budget grows (+2 % at forty per heartbeat): judged items enter the pool by right, so search matters less when the operator does the searching.
+
+## D31 — Experiments run on a logical wall clock
+**Choice.** The harness passes a clock that advances one millisecond per read; event times, learned action costs and time-travel cutoffs become functions of the log alone. Learn actions carry nominal (declared) costs.
+**Why.** Under CPU contention the planner's wall-clock cost estimates changed which marginal action fit the budget and two identical runs diverged — the same class of artifact as D20. Reproducibility from the log and a seed is an invariant of the design; the harness must not depend on what else the machine is doing.
+**Cost.** `elapsedMs` inside the log is logical; the harness records real wall time separately.
+
+## D32 — Meta-attention is mechanism-level attention with the existing planner, and it is neutral here
+**Choice.** Hindsight passes, discovery steps and retrospective evaluations are planner actions with nominal costs, features and a measured learning-progress outcome (nats of information gained by the value model; fitness of adopted observables; retrospective fitness), under a 15 % reserve.
+**Why.** It falls out of the design: "which mechanism to invest in" is the same expected-free-energy question as "which action". Measured against a fixed schedule it is neutral in the shipping configuration (the one learn action always fits its reserve) and mildly positive when hindsight competes (the planner stops paying for passes whose information gain is low).
+**Cost.** Nominal costs are arbitrary units; the reserve is a tunable like D7's.

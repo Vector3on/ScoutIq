@@ -61,7 +61,7 @@ export function diagnoseProgress(state, { window = 8, minRuns = 10 } = {}) {
   const runs = state.runs;
   if (runs.length < minRuns) return { stalled: false, reason: 'warming-up', n: runs.length };
   const w = runs.slice(-window);
-  const maes = w.map((r) => r.hindMae).filter((x) => x !== null);
+  const maes = w.map((r) => r.hindMae ?? r.vmMae).filter((x) => x !== null && x !== undefined);
   const lpValue = maes.length >= 3 ? -slope(maes) : 0;            // > 0: calibration error still falling
   const adoptions = w.reduce((s, r) => s + r.adopted, 0);
   const newShapes = w.reduce((s, r) => s + r.newShapes, 0);

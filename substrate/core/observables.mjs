@@ -327,6 +327,30 @@ export function candidateFitness(id, rows, { bins = BINS, minRows = 120 } = {}) 
   return { fitness: 1 - sseBins / sseMean, n: have.length, batches: batches.size };
 }
 
+/**
+ * Ranking lift of a candidate as a way of LOOKING (its use in the strategy grammar): the mean label of the rows in
+ * its top quintile over the mean label of all rows, computed on each batch parity separately and taken at the minimum
+ * (a held-out estimate). Independent of the value model: an observable can be a poor residual explainer and still be
+ * a good filter, or the reverse.
+ */
+export function candidateLift(id, rows, { minRows = 120, top = 0.2 } = {}) {
+  const have = rows.filter((row) => row.obs && row.obs[id] !== undefined && row.obs[id] !== null && Number.isFinite(row.y));
+  const batches = new Set(have.map((row) => row.batch));
+  if (have.length < minRows || batches.size < 2) return { lift: null, n: have.length };
+  let worst = Infinity;
+  for (const parity of [0, 1]) {
+    const part = have.filter((row) => Math.abs(row.batch % 2) === parity);
+    if (part.length < 20) return { lift: null, n: have.length };
+    const sorted = part.slice().sort((a, b) => b.obs[id] - a.obs[id]);
+    const k = Math.max(5, Math.floor(part.length * top));
+    const topMean = sorted.slice(0, k).reduce((s, row) => s + row.y, 0) / k;
+    const allMean = part.reduce((s, row) => s + row.y, 0) / part.length;
+    const lift = allMean > 1e-6 ? topMean / allMean : 1;
+    if (lift < worst) worst = lift;
+  }
+  return { lift: worst, n: have.length };
+}
+
 /** Spearman correlation between two observables over rows that carry both. */
 export function obsCorrelation(idA, idB, rows) {
   const xs = [], ys = [];

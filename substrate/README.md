@@ -57,7 +57,7 @@ The policy layer is code, not comments, and is tested (`tests/policy.test.mjs`):
 ```bash
 cd substrate
 node bin/loam.mjs doctor
-npm test                                   # 45 tests, ~7 s, including the falsification protocol
+npm test                                   # 68 tests, ~90 s, including the falsification protocol
 node bin/loam.mjs run --domain toy         # one heartbeat (git-ledger mode, no secrets)
 node bin/loam.mjs report --domain toy
 node bin/loam.mjs experiment               # memory vs memoryless vs single-cell on hidden truth
@@ -76,15 +76,22 @@ v3 asked one question — *where does the substrate plateau, and why* — and an
 
 Six additive mechanisms were built, each behind a flag, each with tests and its own falsification metric wired into `loam experiment`: a learned behavior space (vector-quantized elites over strategy phenotypes), POET-style frontier challenges, a Bayesian value model with Expected-Improvement judgment selection, delayed credit for polls, an external-embedding path, and a plateau sentinel. The ones that moved their metric without costing hidden-truth value ship on by default for the toy cron; the ones that did not are shipped off with the numbers that say so. DESIGN.md §9 has the ceiling decomposition, the judgment-budget curve (monotone with diminishing returns, once a measurement artifact was found and removed), the noise study, and the honest verdict per mechanism.
 
+## v4: attacking the information ceiling
+
+v3 left the ceiling as an *information* limit: a linear model over the fixed feature set could not do much better with unlimited labels. v4 makes both sides of that limit things the substrate does to itself, and measures them against each other. It **discovers observables** — small typed programs over its own memory (graph, temporal, signal, pair and text primitives, ≈ 850 kinds) — and adopts the ones that explain what its value model still gets wrong, held out by batch; those observables then **grow the strategy grammar** (a seed, a filter, a ranker), so the space of ways of looking expands with what it learned to measure. It **labels its own past with its own future** (an entity that was fresh at a past heartbeat is a precursor if the structures it belonged to were young then and grew afterwards), with a label model calibrated by judgments and a label-vs-truth metric that says how much those labels know; it trains solvers on **retrospective environments** with a minimal criterion; and it lets the existing free-energy planner allocate budget across these mechanisms by their measured learning progress, with a projection that tracks second-order novelty (new *kinds* of observables) and declares a frontier stall.
+
+What the numbers say (DESIGN.md §10): discovered observables raise the truth-trained linear ceiling (5.3 → 5.9–6.2) and, in the grammar, the candidate pool and the delivered value — at ten judgments per heartbeat the substrate reaches what v3 needs forty for; the hindsight labels reach ρ ≈ 0.3–0.4 with hidden truth, which is not enough to help a model already within 8 % of its feature ceiling, so they ship off with the curriculum that depends on them; and the remaining plateau has moved from *features* to *supervision and search*: the mechanisms that still respond are the ones that put better ways of looking into the search, and they stop responding when the judgment budget is large enough that the operator does the searching.
+
 ## Layout
 
 ```
 bin/loam.mjs          CLI: run · experiment · report · bundle · ingest-judgment · proposals · sync · doctor
 core/                 events · store · sync · projections · memory · archive · embed · strategy · qd · attention · planner · worker · bundle · metrics · experiment
                       v3: phenotype · vq · frontier · features · valuemodel · credit · sentinel · embedio
+                      v4: observables · hindsight · timetravel · valuemodel-v4 · curriculum · progress
 policy/               data gate · manifest gate · network gate · action gate
 plugins/              toy · arxiv-lit · oss-health
-tests/                45 tests (core loop, CRDT convergence, policy layer, plug-ins, falsification)
+tests/                68 tests (core loop, CRDT convergence, policy layer, plug-ins, falsification, v3 and v4 addons)
 colab/                heavy-worker notebook
 loam.config.json      domains, store mode, policy caps, planner/QD parameters
 ../.github/workflows/loam.yml   the heartbeat

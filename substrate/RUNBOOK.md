@@ -10,7 +10,7 @@ Operating Loam unattended at $0. Commands run from `substrate/`.
 
 ```bash
 node bin/loam.mjs doctor     # environment, config, plug-in manifests, hub connectivity
-npm test                     # 45 tests incl. the falsification protocol (~7 s)
+npm test                     # 68 tests incl. the falsification protocol (~90 s)
 ```
 
 ## 2. Secrets (GitHub → Settings → Secrets and variables → Actions)
@@ -131,3 +131,24 @@ Everything below is off unless enabled; the v2 event stream is unchanged when it
 **External embeddings.** `loam embed-export --domain <d> --out texts.jsonl` lists entities with text but no external vector; encode them anywhere (the Colab notebook's cell 7 uses a free open model) and hand back `loam embed vectors.jsonl --embedder <name> --domain <d>`. Once at least half the text-bearing entities have vectors from one embedder, that space is used exclusively (vectors from different embedders are never compared).
 
 **Reading the report.** `loam report` prints the v3 projections when present: learned-archive cells and codebook size, value-model judgments and prequential calibration error, frontier status, and the sentinel's diagnosis plus the before/after effect of every intervention.
+
+## 13. v4 addons (DESIGN.md §10)
+
+Everything below is off unless enabled; the v3 event stream is unchanged when it is off. `discovery` and `obsOps` are the ones that moved hidden-truth value on the toy and ship on for the toy cron; the rest are built, tested, measured and shipped off with the numbers that say so (DECISIONS D27, D32).
+
+| flag | what it does | default |
+|---|---|---|
+| `discovery: true` | evolves *observables* — small typed programs over memory (graph, temporal, signal, pair and text primitives) — and adopts the ones whose bucketed output explains what the value model still gets wrong, held out by batch; adopted observables become features of the value model (`observable.*` events) | off — the toy cron uses it |
+| `obsOps: true` | adopted observables enter the strategy grammar as a seed (`topObs`), a filter op (`obsFilter`) and a ranker (`obs`): the search space grows with what the substrate learned to measure | off — the toy cron uses it |
+| `obsLift` | a second adoption route: a candidate whose top quintile carries ≥ `obsLift` × the mean label is adopted as a way of looking even if it explains no residual | 0 (off) |
+| `obsCandidates` · `obsNewPerStep` · `obsSteps` · `obsDepth` · `obsMaxAdopted` | size of the candidate pool, proposals per step, steps per heartbeat, program depth, adopted cap | 24 · 4 · 1 · 2 · 16 |
+| `hindsight: true` | labels the entities that were fresh at a past heartbeat with what memory knows now (young-and-growing pairs, hindsight bursts, signal shifts); a label model calibrated by judgments turns them into evidence for the value model (`hindsight.labeled` events) | off (labels reach ρ ≈ 0.3–0.4 with hidden truth on the toy and cost 3–4 % cumulative value; §10.5) |
+| `hindsightHorizon` · `hindsightFresh` · `hindsightBatch` | days of future per label, freshness window at the time, entities per pass | 7 · 3 · 120 |
+| `vmStack: true` | with hindsight on, a judgment-only head scores deliveries over features ⊕ observables ⊕ the hindsight model's prediction | on (only matters with `hindsight`) |
+| `curriculum: true` | retrospective environments (a past heartbeat's memory + its hindsight labels) with a minimal criterion and two-way transfer; implies `hindsight` | off (neutral on the toy; §10) |
+| `metaAttention` | the learn actions (hindsight pass, discovery step, retrospective evaluation) are planned by the attention model with nominal costs (`learnCosts`) under `reserveLearn`; `false` runs them on a fixed schedule | on (neutral in the shipping configuration) |
+| `progress: "observe"` | learning-progress diagnosis in `loam report` and in every `run.completed` (calibration-error slope, adoption rate, new *kinds* of observables, frontier stall); `true` also raises discovery temperature on a stall | off — the toy cron observes |
+
+**Reading the report.** `loam report` prints the v4 projections when present: hindsight rows and label calibration, the adopted observables in words (`max over authored_by/out of [degree(active_in,out)] (fitness 0.013)`), candidates and retired count, kinds of observables adopted, curriculum status, and the progress diagnosis with the before/after effect of every intervention.
+
+**Reproducible experiments.** `loam experiment` runs every variant on a logical wall clock (one millisecond per read), so two runs of the same variant, seed and judgment budget produce identical logs whatever the machine is doing; the real wall time is reported separately. Variants: `v4` (the shipping configuration), `v4-all`, isolated `v4-<mechanism>`, ablated `v4-no-<mechanism>`, `v4-fixed`, and the grammar-growth pushes `v4-obs-lift`, `v4-obs-more`, `v4-obs-deep`, `v4-obs-progress`.

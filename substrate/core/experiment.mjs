@@ -41,7 +41,8 @@ export const V3_DEFAULT = Object.freeze({ descriptor: 'both', valueModel: true, 
  * turns every v4 addon on; `v4-X` isolates one on top of v3; `v4-no-X` ablates one from `v4-all`.
  */
 export const V4_ALL = Object.freeze({ ...V3_DEFAULT, hindsight: true, discovery: true, obsOps: true, curriculum: true, progress: 'observe', metaAttention: true });
-export const V4_DEFAULT = Object.freeze({ ...V3_DEFAULT, hindsight: true, discovery: true, obsOps: true, curriculum: true, progress: 'observe', metaAttention: true });
+/** The shipping v4 configuration: judgment-fed observable discovery, observables in the strategy grammar; hindsight labels and the retrospective curriculum are off (DESIGN.md §10, D27). */
+export const V4_DEFAULT = Object.freeze({ ...V3_DEFAULT, discovery: true, obsOps: true, hindsight: false, curriculum: false, progress: 'observe', metaAttention: true });
 export const VARIANT_CONFIGS = Object.freeze({
   memory: {}, memoryless: {}, 'single-cell': { bins: 1 },
   v3: V3_DEFAULT, 'v3-all': V3_ALL,
@@ -50,6 +51,10 @@ export const VARIANT_CONFIGS = Object.freeze({
   'v4-obsops': { ...V3_DEFAULT, hindsight: true, discovery: true, obsOps: true }, 'v4-obsops-judgments': { ...V3_DEFAULT, discovery: true, obsOps: true }, 'v4-curriculum': { ...V3_DEFAULT, hindsight: true, curriculum: true },
   'v4-no-discovery': { ...V4_ALL, discovery: false, obsOps: false }, 'v4-no-obsops': { ...V4_ALL, obsOps: false }, 'v4-no-curriculum': { ...V4_ALL, curriculum: false },
   'v4-fixed': { ...V4_ALL, metaAttention: false }, 'v4-progress': { ...V4_ALL, progress: true }, 'v4-nostack': { ...V4_ALL, vmStack: false },
+  // pushing the grammar-growth direction (judgment-fed discovery, observables in the grammar)
+  'v4-obs-lift': { ...V3_DEFAULT, discovery: true, obsOps: true, obsLift: 1.5 }, 'v4-obs-more': { ...V3_DEFAULT, discovery: true, obsOps: true, obsCandidates: 48, obsNewPerStep: 8, obsSteps: 2 },
+  'v4-obs-lift-more': { ...V3_DEFAULT, discovery: true, obsOps: true, obsLift: 1.5, obsCandidates: 48, obsNewPerStep: 8, obsSteps: 2 }, 'v4-obs-deep': { ...V3_DEFAULT, discovery: true, obsOps: true, obsDepth: 3 },
+  'v4-obs-progress': { ...V3_DEFAULT, discovery: true, obsOps: true, progress: true },
   'v3-descriptor': { descriptor: 'both' }, 'v3-learned': { descriptor: 'learned' }, 'v3-frontier': { frontier: true },
   'v3-value': { valueModel: true }, 'v3-value-topk': { valueModel: true, activeJudgments: false }, 'v3-credit': { credit: true }, 'v3-sentinel': { sentinel: true },
   'v3-no-descriptor': { ...V3_ALL, descriptor: 'fixed' }, 'v3-no-frontier': { ...V3_ALL, frontier: false }, 'v3-no-value': { ...V3_ALL, valueModel: false },

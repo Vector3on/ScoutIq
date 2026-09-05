@@ -240,7 +240,7 @@ export function residualRows(state) {
   for (const row of state.rows) {
     if (row.kind === 'hindsight' && !ready) continue;
     const phi = phiOf(state, row.f, row.o);
-    out.push({ obs: row.o, r: (row.y - row.ps) - state.model.mean(phi), batch: row.batch, kind: row.kind, id: row.id });
+    out.push({ obs: row.o, r: (row.y - row.ps) - state.model.mean(phi), y: row.y, batch: row.batch, kind: row.kind, id: row.id });
   }
   return out;
 }

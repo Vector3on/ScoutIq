@@ -192,7 +192,7 @@ async function cmdReport(args, cfg) {
     project(local, makeValueModelV4Projection(), { domain, saveSnapshot: false }), project(local, makeCurriculumProjection(), { domain, saveSnapshot: false }), project(local, makeProgressProjection(), { domain, saveSnapshot: false }),
   ]);
   const v4 = {};
-  if (vm4.state.hindRows || vm4.state.observables.adopted.size) {
+  if (vm4.state.hindRows || vm4.state.observables.adopted.size || vm4.state.observables.candidates.size) {
     v4.hindsight = { rows: vm4.state.hindRows, labelledDays: vm4.state.labelledDays.size, labelPairs: vm4.state.labelPairs, labelMae: Number((labelMae(vm4.state) ?? 0).toFixed(4)), hindsightMae: Number((hindsightMae(vm4.state) ?? 0).toFixed(4)), rebuilds: vm4.state.rebuilds };
     v4.observables = { adopted: [...vm4.state.observables.adopted.values()].map((o) => `${describeProgram(o.program)} (fitness ${Number(o.fitness ?? 0).toFixed(3)}, n ${o.n})`), candidates: vm4.state.observables.candidates.size, retired: vm4.state.observables.retired, kinds: vm4.state.observables.shapes.size };
   }

@@ -13,7 +13,7 @@ import { archiveProjection, noveltyOf, strategyEntropy } from './archive.mjs';
 import { qdProjection, coverage, qdScore, fitnessOf } from './qd.mjs';
 import { makePlannerProjection, estimateCost } from './planner.mjs';
 import { selectActions, bucket } from './attention.mjs';
-import { runStrategy, describeBehavior, cellOf, DegreeRanks, randomGenome, mutate, mutateStrong, crossover, genomeId, normalizeGenome, canonicalGenomes, OBS_OP } from './strategy.mjs';
+import { runStrategy, describeBehavior, cellOf, DegreeRanks, randomGenome, mutate, mutateStrong, crossover, genomeId, normalizeGenome, canonicalGenomes, OBS_OP, OBS_SEED } from './strategy.mjs';
 import { HashEmbedder, cosine } from './embed.mjs';
 import { Policy, PolicyError } from '../policy/policy.mjs';
 import { pull, push, exportLedger, importLedger } from './sync.mjs';
@@ -30,7 +30,7 @@ import { makeSentinelProjection, diagnose, nextIntervention, activeInterventions
 // Each is a config flag; with the flags off this file emits exactly the v3 event stream.
 import { pastRuns, memoryAsOf } from './timetravel.mjs';
 import { hindsightComponents } from './hindsight.mjs';
-import { makeObsContext, evalAll, randomProgram, mutateProgram, observableId, candidateFitness, obsCorrelation, quantileEdges, describeProgram } from './observables.mjs';
+import { makeObsContext, evalAll, randomProgram, mutateProgram, observableId, candidateFitness, candidateLift, obsCorrelation, quantileEdges, describeProgram } from './observables.mjs';
 import { makeValueModelV4Projection, takeIg, hindsightMae, labelMae, residualRows, activeObservables, labelsReady } from './valuemodel-v4.mjs';
 import { makeCurriculumProjection, retroSpec, retroId, harderRetro, retroCriterion, labelsForDay, retroFitness, activeRetro } from './curriculum.mjs';
 import { makeProgressProjection, diagnoseProgress, activeProgressInterventions } from './progress.mjs';
@@ -76,6 +76,8 @@ export const DEFAULTS = Object.freeze({
   hindsightHorizon: 7, hindsightFresh: 3, hindsightBatch: 120, hindsightBacklog: 3, hindsightTypes: null,
   discovery: false,           // evolve observables that explain the value model's residual (observable.* events)
   obsCandidates: 24, obsNewPerStep: 4, obsMinRows: 120, obsMinFitness: 0.01, obsMaxAdopted: 16, obsRedundancy: 0.9, obsRetireRows: 400, obsDepth: 2,
+  obsLift: 0,                 // > 0: a second adoption route — a candidate whose top quintile carries ≥ obsLift × the mean label is adopted as a way of looking
+  obsSteps: 1,                // discovery steps offered per heartbeat
   obsOps: false,              // adopted observables enter the strategy grammar as filter ops and rankers
   curriculum: false, retroMax: 3, retroCandidates: 4, retroTransfers: 2, retroMinValue: 0.3,
   metaAttention: true,        // learn actions (hindsight / discover / retro) compete in the attention model; false = fixed schedule
@@ -121,7 +123,7 @@ export async function runOnce(opts) {
   const v4 = { hindsight: !!cfg.hindsight, discovery: !!cfg.discovery, curriculum: !!cfg.curriculum, progress: !!cfg.progress, obsOps: !!cfg.obsOps };
   const useV4 = v4.hindsight || v4.discovery;
   const valueModelProjection = v3.value
-    ? (useV4 ? makeValueModelV4Projection({ dim: cfg.vmDim, priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar, maxRows: cfg.vmMaxRows, rebuildEvery: cfg.vmRebuildEvery, stack: !!cfg.vmStack, stackMinTrained: cfg.vmMinTrained }) : makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }))
+    ? (useV4 ? makeValueModelV4Projection({ dim: cfg.vmDim, priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar, maxRows: cfg.vmMaxRows, rebuildEvery: cfg.vmRebuildEvery, stack: !!cfg.vmStack && !!cfg.hindsight, stackMinTrained: cfg.vmMinTrained }) : makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }))
     : null;
   const sentinelProjection = v3.sentinel ? makeSentinelProjection() : null;
   const curriculumProjection = v4.curriculum ? makeCurriculumProjection() : null;
@@ -411,7 +413,7 @@ export async function runOnce(opts) {
     pendingDays = [...byDay.values()].sort((a, b) => b.day - a.day);
     for (const r of pendingDays.slice(0, cfg.hindsightBacklog)) learn.push({ id: `hindsight:${r.day}`, type: 'hindsight', run: r, features: { type: 'hindsight', lag: bucket(today - r.day - cfg.hindsightHorizon, [1, 3, 8]), rows: bucket(vmState.hindRows, [100, 500, 2000]), pairs: bucket(vmState.labelPairs, [5, 20, 80]) }, cost: cfg.learnCosts.hindsight });
   }
-  if (vmState?.observables && v4.discovery) learn.push({ id: 'discover', type: 'discover', features: { type: 'discover', adopted: bucket(vmState.observables.adopted.size, [1, 4, 8, 16]), cands: bucket(vmState.observables.candidates.size, [4, 12, 24]), rows: bucket(vmState.rows.length, [120, 400, 1200, 2500]), temp: discoveryTemperature > 1 }, cost: cfg.learnCosts.discover });
+  if (vmState?.observables && v4.discovery) for (let i = 0; i < cfg.obsSteps; i++) learn.push({ id: `discover:${i}`, type: 'discover', features: { type: 'discover', adopted: bucket(vmState.observables.adopted.size, [1, 4, 8, 16]), cands: bucket(vmState.observables.candidates.size, [4, 12, 24]), rows: bucket(vmState.rows.length, [120, 400, 1200, 2500]), temp: discoveryTemperature > 1 }, cost: cfg.learnCosts.discover });
   if (cuState && vmState) {
     const rr = rng.fork('retro-cands');
     let n = 0;
@@ -649,18 +651,27 @@ export async function runOnce(opts) {
     const T = plugin.schema.primaryType ?? plugin.schema.entityTypes[0];
     const rows = vmState.rows.length >= cfg.obsMinRows ? residualRows(vmState) : [];
     const results = [];
-    for (const c of obsState.candidates.values()) results.push({ c, ...(rows.length ? candidateFitness(c.id, rows, { minRows: cfg.obsMinRows }) : { fitness: null, n: 0, batches: 0 }) });
+    for (const c of obsState.candidates.values()) results.push({ c, ...(rows.length ? candidateFitness(c.id, rows, { minRows: cfg.obsMinRows }) : { fitness: null, n: 0, batches: 0 }), lift: rows.length && cfg.obsLift > 0 ? candidateLift(c.id, rows, { minRows: cfg.obsMinRows }).lift : null });
     const ranked = results.filter((x) => x.fitness !== null).sort((a, b) => b.fitness - a.fitness);
     let gain = 0, adoptedNow = 0, newShapes = 0;
+    const adopt = async (x, role, score) => {
+      const twin = [...obsState.adopted.keys()].find((aid) => Math.abs(obsCorrelation(x.c.id, aid, rows)) > cfg.obsRedundancy);
+      if (twin) { await ledger.emit('observable.retired', { runId, id: x.c.id, reason: 'redundant', twin, fitness: round(x.fitness ?? 0, 5), n: x.n, ts: now }); return false; }
+      const edges = quantileEdges(rows.map((row) => row.obs?.[x.c.id]).filter((v) => v !== undefined));
+      if (!edges) return false;
+      const isNew = !obsState.shapes.has(x.c.shape);
+      await ledger.emit('observable.adopted', { runId, id: x.c.id, program: x.c.program, type: x.c.type, edges, fitness: round(x.fitness ?? 0, 5), lift: x.lift === null ? null : round(x.lift, 4), role, n: x.n, description: describeProgram(x.c.program), shape: x.c.shape, ts: now });
+      gain += score; adoptedNow++; if (isNew) newShapes++;
+      return true;
+    };
     for (const x of ranked) {
       if (x.fitness < cfg.obsMinFitness || adoptedNow >= 1 || obsState.adopted.size >= cfg.obsMaxAdopted) break;
-      const twin = [...obsState.adopted.keys()].find((aid) => Math.abs(obsCorrelation(x.c.id, aid, rows)) > cfg.obsRedundancy);
-      if (twin) { await ledger.emit('observable.retired', { runId, id: x.c.id, reason: 'redundant', twin, fitness: round(x.fitness, 5), n: x.n, ts: now }); continue; }
-      const edges = quantileEdges(rows.map((row) => row.obs?.[x.c.id]).filter((v) => v !== undefined));
-      if (!edges) continue;
-      const isNew = !obsState.shapes.has(x.c.shape);
-      await ledger.emit('observable.adopted', { runId, id: x.c.id, program: x.c.program, type: x.c.type, edges, fitness: round(x.fitness, 5), n: x.n, description: describeProgram(x.c.program), shape: x.c.shape, ts: now });
-      gain += x.fitness; adoptedNow++; if (isNew) newShapes++;
+      if (await adopt(x, 'model', x.fitness)) break;
+    }
+    // the second route: a way of looking — its top quintile is rich in labelled value even if it explains no residual
+    if (cfg.obsLift > 0 && obsState.adopted.size < cfg.obsMaxAdopted) {
+      const byLift = results.filter((x) => x.lift !== null && x.lift >= cfg.obsLift && obsState.candidates.has(x.c.id)).sort((a, b) => b.lift - a.lift);
+      for (const x of byLift) if (await adopt(x, 'search', Math.max(0, x.lift - 1) * 0.05)) break;
     }
     for (const x of results) if (x.fitness !== null && x.n >= cfg.obsRetireRows && x.fitness < cfg.obsMinFitness / 3 && obsState.candidates.has(x.c.id)) await ledger.emit('observable.retired', { runId, id: x.c.id, reason: 'unfit', fitness: round(x.fitness, 5), n: x.n, ts: now });
     const parents = [...obsState.adopted.values(), ...ranked.slice(0, 3).map((x) => x.c)];
@@ -794,7 +805,7 @@ export async function runOnce(opts) {
   if (useV4 || cuState || pgState) {
     const v = {};
     if (vmState?.observables) {
-      const usesObs = (g) => (g.pipe ?? []).some((op) => op.op === OBS_OP) || g.rank?.by === 'obs';
+      const usesObs = (g) => (g.pipe ?? []).some((op) => op.op === OBS_OP) || g.rank?.by === 'obs' || g.seed?.op === OBS_SEED;
       v.hindsight = { rows: vmState.hindRows, rowsThisRun: counters.hindRows, mae: round(hindsightMae(vmState) ?? 0, 4), labelPairs: vmState.labelPairs, labelsReady: labelsReady(vmState), labelMae: round(labelMae(vmState) ?? 0, 4), labelledDays: vmState.labelledDays.size, pending: pendingDays.length, ig: round(counters.hindIg, 4), rebuilds: vmState.rebuilds, ready: learnedReady(), stacked: !!(vmState.stack && vmState.trainedJ >= vmState.stackMinTrained) };
       v.observables = { adopted: vmState.observables.adopted.size, candidates: vmState.observables.candidates.size, rev: vmState.observables.rev, retired: vmState.observables.retired, adoptedThisRun: counters.adopted, newShapesThisRun: counters.newShapes, proposedThisRun: counters.proposed, shapes: vmState.observables.shapes.size, inGrammar: searchSchema.observables?.length ?? 0, elitesUsingObs: [...qdState.cells.values()].filter((c) => usesObs(c.genome)).length, names: [...vmState.observables.adopted.values()].map((o) => `${describeProgram(o.program)} (${round(o.fitness ?? 0, 3)})`).slice(0, 16) };
     }

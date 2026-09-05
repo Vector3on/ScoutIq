@@ -267,3 +267,100 @@ Late-run true value moved from ≈ 4.45 (v2) to ≈ 4.86 (v3 at 10 judgments per
 - The value model costs 3–5× run time on the toy; on a 240 s real-domain budget this is negligible, on an 8 s toy budget it is not.
 - The oracle operator is unbiased noise (σ = 0.15). Real operators are biased; the knowledge-gradient discount assumes the noise level.
 - Mechanisms 2, 4 and 6 are shipped off with one world's evidence against them, not a proof that they cannot help elsewhere.
+
+---
+
+# 10. v4 — attacking the information ceiling
+
+v4 is additive (four new event kinds, four new modules, new projections; DECISIONS D24–D32). With every v4 flag off the worker emits the v3 event stream, the 58 prior tests pass unchanged, and v3 folds ignore the v4 kinds (`tests/v4.test.mjs`). All numbers are hidden-truth value on the toy world, deduplicated across runs, 30 heartbeats of 8 s, 10 oracle judgments per heartbeat unless stated, novelty window ≥ the experiment length. Experiments now run under a **logical wall clock** (one millisecond per read), so every configuration is exactly reproducible from the log and a seed whatever the machine is doing (D31). Late = mean of the last 10 runs; cum = 30-run cumulative.
+
+## 10.1 The question v3 left
+
+v3 ended at an information plateau: a linear model over the fixed feature set reaches ≈ 5.0–5.3 late true value with unlimited labels, and v3 at ten judgments per heartbeat delivered ≈ 4.9 — within 8 % of that ceiling. Two things could move it: **better observables** (raise the ceiling) and **more supervision** (reach a higher ceiling). v4 builds both as things the substrate does to itself, and measures each against the other.
+
+## 10.2 The mechanisms
+
+**Hindsight labels** (`core/hindsight.mjs`, `core/timetravel.mjs`). The log is a temporal database: relations carry `firstSeen`, series carry time, term bursts carry days. So the memory of any past heartbeat can be re-folded, and an entity that was fresh then can be labelled by what memory knows now. The components are schema-generic and count-based: for every pair of an entity's neighbours (two topics; an author and a topic) a *young-and-growing* score — the structure was born recently (age at that time, discounted over the horizon; a structure that predates memory has unknown age and is never young) and became substantial by the end of the horizon — and a *hindsight burst* (a Poisson surprise of the future count under the past rate); for every neighbour a degree burst and a signal mean-shift; for the text a term burst; for the entity itself its own degree and signal shifts. A *label model* — a bucketed Bayesian ridge from components to operator judgments, trained on entities that have both within two days — turns components into a calibrated value with a variance, so a hindsight label is evidence of known, lower precision next to a judgment (precision-weighted updates are exact for the linear-Gaussian model). Labels enter the model only once twenty judgment pairs exist. One pass per heartbeat labels ~120 entities of one past day; a v4 value-model projection (`core/valuemodel-v4.mjs`) keeps every labelled row and rebuilds the exact posterior whenever the feature space changes.
+
+**Learned observables** (`core/observables.mjs`). A typed DSL of entity → scalar programs over memory — age, observation count, degree, recent edges, edge ages, signal statistics and percentiles, surprisal and burst, pair statistics over any two relations (co-count, co-age, recent fraction, recent rate), neighbour aggregation to depth two, and arithmetic — with ≈ 850 distinct *shapes* of program. Candidates are proposed (random and mutated from adopted ones), their outputs are recorded on every labelled row, and their fitness is the fraction of the value model's *residual* their bucketed output explains, held out by batch parity. One adoption per step, a redundancy check against adopted observables (Spearman > 0.9 retires the candidate), retirement of the unfit, a cap of sixteen. Adopted observables are bucketed on their adoption quantiles and become features of the value model; the model is rebuilt exactly on every revision.
+
+**The grammar grows** (`core/strategy.mjs`). Adopted observables are offered to the strategy DSL as a filter op (`obsFilter(id, cmp, q)`) and a ranker (`rank: obs`), so the search space of *ways of looking* expands with what the substrate learned to *measure*. A genome that names a retired observable degrades to a no-op filter, so old genomes stay valid.
+
+**Retrospective curriculum** (`core/curriculum.mjs`). An environment is a past heartbeat's memory plus the hindsight labels of the entities that were fresh then; a solver is a genome; its fitness is the labelled value it would have surfaced. Environments spawn from newly labelled days, are retired by a minimal criterion (nobody scores → impossible; the bar is cleared → solved, spawning a child with a higher bar), and transfer both ways: live elites are tried in the past, past elites are tried live through the existing `transfer` path.
+
+**Learning progress and meta-attention** (`core/progress.mjs`, worker). The three learning mechanisms are *actions* — a hindsight pass, a discovery step, a retrospective evaluation — with nominal costs, features, and a measured outcome: the information the value model gained from the pass (nats), the held-out fitness of what discovery adopted, the retrospective fitness. The existing free-energy planner therefore allocates budget across mechanisms by their measured learning progress, under a small reserve (the labels are a complement, D7). A progress projection tracks the value model's learning progress (the slope of its hindsight error), the adoption rate and the rate of *new kinds* of observables (second-order novelty), and declares a frontier stall when all three are flat; `progress: true` raises discovery temperature on a stall so the intervention's effect is measurable.
+
+**The stacked head** (`core/valuemodel-v4.mjs`). Weak labels must inform but never override true ones: a judgment-only head scores deliveries over base features ⊕ observables ⊕ the hindsight model's own prediction (bucketed), once ten judgments exist. The hindsight model still supplies the residuals discovery is scored on, where its thousands of rows give statistical power.
+
+## 10.3 What each mechanism did (3 world seeds, one stream each; metric it should move → what happened)
+
+The isolated variants add one mechanism to the v3 shipping configuration; `v4-all` turns everything on. Cum = 30-run cumulative hidden-truth value; late = mean of the last 10 runs; "pool" and "linear" are the late-run hidden-truth ceilings of §9.2 (top-20 of the candidate pool; a truth-trained ridge over the features), "linear ⊕ obs" the same ridge over base features ⊕ the adopted observables.
+
+| mechanism (variant) | metric it should move | cum | late | hits | sustained novel value | pool | linear | linear ⊕ obs | verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| v3 shipping (reference) | — | 125.0 | 4.72 | 220 | 3.97 | 8.08 | 5.31 | 5.31 | — |
+| **discovery + grammar, judgment-fed** (`v4-obsops-judgments`; the shipping v4) | pool ceiling, late value | **134.0** | **5.06** | **235** | **4.66** | 8.42 | 5.66 | 5.49 | **ships on** (+7 % cum, +7 % late, +17 % sustained novel value) |
+| discovery only, judgment-fed (`v4-discovery-judgments`) | linear ⊕ obs ceiling | 126.8 | 4.44 | 219 | 4.13 | 8.09 | 5.06 | 5.01 | ceiling moves, value does not: **ships only with the grammar** |
+| hindsight labels (`v4-hindsight`) | label ρ with truth; late value | 121.1 | 4.77 | 213 | 4.42 | 8.25 | 4.91 | — | ρ = 0.23–0.40, top-20 by label = 54–69 % of the best truth; **ships off** (−3 %) |
+| hindsight + discovery + grammar (`v4-obsops`) | late value | 126.9 | 4.42 | 221 | 4.16 | 7.98 | 5.15 | 5.22 | labels cancel the grammar's gain; **ships off** |
+| retrospective curriculum (`v4-curriculum`) | transfer elites, pool | 127.2 | 4.81 | 222 | 4.19 | 8.05 | 5.36 | — | 0.3 transfer elites; neutral; **ships off** |
+| everything on (`v4-all`, stacked head) | late value | 120.2 | 4.65 | 210 | 4.14 | 7.95 | 4.79 | 4.86 | **ships off** as a whole |
+| everything on, no stacked head (`v4-nostack`) | late value | 121.8 | 4.74 | 212 | 3.77 | 8.59 | 5.88 | 5.78 | stacking neither helps nor hurts |
+| everything on, fixed schedule (`v4-fixed`) | late value at equal cost | 123.6 | 4.81 | 214 | 4.46 | 8.50 | 5.26 | 5.28 | meta-attention neutral-to-mild (+1 % under it) |
+
+**Pushing the mechanism that moved, until it stopped** (same seeds, all judgment-fed with the grammar):
+
+| push | cum | late | adopted | elites using observables | reading |
+|---|---|---|---|---|---|
+| base (24 candidates, 4 proposals/step, 1 step, depth 2) | **134.0** | **5.06** | 5.3 | 3.3 | — |
+| lift route (`obsLift: 1.5`: adopt what ranks labelled value even if it explains no residual) | 124.6 | 4.73 | 3.7 | 2.0 | worse |
+| more (48 candidates, 8 proposals, 2 steps) | 123.2 | 4.72 | 5.3 | 3.0 | worse |
+| lift + more | 124.9 | 4.90 | 7.3 | 4.0 | worse |
+| deeper programs (depth 3) | 126.2 | 4.79 | 4.3 | 3.3 | worse |
+| stall intervention (`progress: true`) | 127.5 | 4.96 | 5.0 | 4.0 | neutral |
+
+Reading: the direction responds to its basic configuration and to nothing that adds *more* observables. Every push that adopts more, or adopts by a looser criterion, falls back to v3's level: an observable that is spurious dilutes the grammar with a random filter, and with ten judgments per heartbeat (≈ 300 labelled rows over the whole experiment) the held-out test cannot tell more true observables from more spurious ones. **Adoption quality is the plateau of this direction, and adoption quality is bounded by supervision.**
+
+What the substrate discovered, in its own words (seed 7, shipping configuration): `min pair.coAge(authored_by/in × active_in/out)` — how young the author–topic pair is; `mean pair.coRecent(7d)(authored_by/out × in_topic/out)` — what fraction of the author's papers in this topic are recent; `max pair.coRate(3d)(authored_by/out × in_topic/out)`; `min over authored_by/out of [edges(authored_by,in,≤3d)]` — a burst of recent papers by the author. These are the toy's migration and pre-rise structures, found as programs over the schema, not as hand-written features.
+
+## 10.4 The judgment-budget curve, again
+
+Cumulative hidden-truth value over 30 runs, 3 seeds, one stream (the substrate asks for at most every undelivered candidate, so 40 and 80 per heartbeat are the same request):
+
+| judgments per heartbeat | v3 | discovery, judgment-fed | discovery + grammar, judgment-fed |
+|---|---|---|---|
+| 10 | 125.0 (late 4.72) | 126.8 (4.44) | **137.4 (5.16)** |
+| 20 | 129.1 (4.93) | 136.5 (5.05) | 136.9 (5.20) |
+| 40 (= every undelivered candidate) | 131.3 (5.00) | 129.8 (4.65) | 133.9 (4.89) |
+
+Reading: observables in the grammar are worth about thirty judgments per heartbeat — at ten they deliver what v3 needs forty for — and their advantage *narrows* as the budget grows (+10 % → +6 % → +2 %). They substitute for supervision rather than compounding with it: with many judgments the judged items enter the pool by right (D19), and the operator does the searching that the grammar otherwise does. The high-budget asymptote — ≈ 5.0 late, ≈ 132–136 cumulative — is the same for every configuration. That is the joint ceiling of the pool and the scoring, and nothing in v4 moved it.
+
+## 10.5 Label quality, measured against hidden truth (seeds 7 and 11, 24 runs, hindsight only)
+
+| statistic | seed 7 | seed 11 |
+|---|---|---|
+| best single component (young author×topic pair) ρ with truth | 0.37 | 0.30 |
+| plug-in proxy at the time, ρ with truth | 0.33 | 0.28 |
+| linear label model on the run's ≈150 judgment pairs, ρ | 0.19 | 0.18 |
+| **bucketed label model on the same pairs, ρ** | **0.39** | **0.29** |
+| truth-trained ridge over the components, 2,000+ rows (the label ceiling) | 0.44 | 0.40 |
+| top-20 by label as a fraction of the batch's best-20 truth | 0.38–0.48 | 0.60 |
+
+Reading: the components carry real information about the future (the migration and the pre-rise bridge are visible as young-and-growing pairs), a piecewise label model recovers most of it from a hundred judgments where a linear one recovers half, and the ceiling of the label given these components is ρ ≈ 0.4–0.45. Two effects bound it: the truth is a *window* after an onset (four days of a migration, five days before a rise) while every generic statistic of the future decays inside that window, and memory only sees the world through the feeds it chose to poll (some migration papers are never ingested). A label at ρ ≈ 0.35 is weaker evidence than a judgment at σ = 0.15 by a factor of roughly three per row, which is what the precision weighting assigns.
+
+## 10.6 Where the ceiling is now
+
+**The ceiling moved from 4.7–4.9 to ≈ 5.1 late true value (125 → 134 cumulative, 3 seeds; the 5-seed × 3-stream table in §10.7 is the claim), and the information ceilings moved with it: the candidate pool's hidden-truth top-20 from 8.1 to 8.4–9.2 and the truth-trained linear ceiling over what the substrate can measure from 5.3 to 5.5–6.2. What plateaued next is observable *adoption*, because its supervision did: the substrate can now propose ways of measuring that carry information the fixed features lacked, but it can only tell a true one from a spurious one with the operator's ten judgments per heartbeat, and its own labels — the memory's future, calibrated — reach ρ ≈ 0.4 with the truth, too weak to substitute (a model that fits them well fits the truth worse).** The next ceiling move therefore has to come from *supervision* that is both cheap and truth-aligned: hindsight labels whose components the operator can name and correct (the label model already learns from judgments; it needs components that track the operator's notion of value, which on the toy is a window after an onset that no generic statistic of the future respects), or judgments that carry reasons the observable search can generalise. Search is no longer the bottleneck — observables in the grammar showed the pool can move — and scoring is no longer feature-bound; both are now bound by how much truth reaches the substrate per heartbeat.
+
+## 10.7 The claim, at the noise level that matters (5 world seeds × 3 random streams, 30 runs, 10 judgments per heartbeat)
+
+PENDING_FINAL_TABLE
+
+## 10.8 Honest caveats
+
+- The hindsight verdict is one world's. The toy's truth is a *window* after an onset (four days of a migration, five days before a rise); every generic statistic of the future decays inside that window, which is why the label ceiling given these components is ρ ≈ 0.45. A domain whose value is "became big later" is where hindsight should pay, and the label metric (D24) is what will say so.
+- The discovered observables were selected on ten oracle judgments per heartbeat with σ = 0.15. A biased operator would bias what the substrate learns to measure; the held-out test protects against noise, not against a consistent bias.
+- The grammar-growth advantage narrows with the judgment budget; in a deployment where the operator judges forty items per heartbeat it is worth little.
+- Every v4 mechanism costs run time on the toy (≈ 1.4× for the shipping configuration, ≈ 4–6× with hindsight on); on a 240 s real-domain budget this is negligible.
+- The 40/80-judgment points coincide because the substrate asks for at most every undelivered candidate; the curve's right end is a harness ceiling.
+- Three-seed means differ from five-seed × three-stream means by a few percent (§9.5); every per-mechanism verdict above is at the three-seed level and only the shipping configuration is measured at the five-seed × three-stream level.

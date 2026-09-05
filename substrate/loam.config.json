@@ -17,7 +17,12 @@
         "judgmentsPerRun": 10,
         "sentinel": "observe",
         "frontier": false,
-        "credit": false
+        "credit": false,
+        "discovery": true,
+        "obsOps": true,
+        "hindsight": false,
+        "curriculum": false,
+        "progress": "observe"
       }
     },
     "arxiv-lit": {
@@ -45,7 +50,10 @@
         "descriptor": "both",
         "valueModel": true,
         "judgmentsPerRun": 10,
-        "sentinel": "observe"
+        "sentinel": "observe",
+        "discovery": true,
+        "obsOps": true,
+        "progress": "observe"
       }
     },
     "oss-health": {
@@ -71,7 +79,10 @@
         "descriptor": "both",
         "valueModel": true,
         "judgmentsPerRun": 10,
-        "sentinel": "observe"
+        "sentinel": "observe",
+        "discovery": true,
+        "obsOps": true,
+        "progress": "observe"
       }
     }
   },

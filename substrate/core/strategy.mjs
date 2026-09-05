@@ -45,8 +45,11 @@ function pickType(schema, rng) {
   return rng.pick(schema.entityTypes);
 }
 
+export const OBS_SEED = 'topObs';
 export function randomSeed(schema, rng) {
   const type = pickType(schema, rng);
+  const obs = obsFor(schema, type);
+  if (obs.length && rng() < 0.25) return { op: OBS_SEED, type, id: rng.pick(obs).id, n: rng.pick(MENUS.n) };
   const op = rng.pick(SEED_OPS);
   if (op === 'recent') return { op, type, days: rng.pick(MENUS.days) };
   if (op === 'stale') return { op, type, minDays: rng.pick(MENUS.days.slice(2)), maxDays: 365 };
@@ -185,9 +188,13 @@ function capSet(mem, ids) {
   return ids.map((id) => [id, mem.entities.get(id)?.lastSeen ?? 0]).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, MAX_SET).map((x) => x[0]);
 }
 
-function seedSet(mem, seed, now) {
+function seedSet(mem, seed, now, ctx = null) {
   const ids = [...(mem.byType.get(seed.type) ?? [])];
   if (seed.op === 'all') return ids;
+  if (seed.op === OBS_SEED) {
+    if (!ctx?.obs) return ids; // no evaluator for this observable: degrade to `all`
+    return ids.map((id) => [id, ctx.obs(seed.id, id)]).filter((x) => x[1] !== null && x[1] !== undefined && Number.isFinite(x[1])).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, seed.n).map((x) => x[0]);
+  }
   if (seed.op === 'recent') { const t0 = now - seed.days * DAY_MS; return ids.filter((id) => mem.entities.get(id).lastSeen >= t0); }
   if (seed.op === 'stale') {
     const hi = now - seed.minDays * DAY_MS, lo = now - (seed.maxDays ?? 365) * DAY_MS;
@@ -259,7 +266,7 @@ export function runStrategy(genome, ctx) {
   const g = normalizeGenome(genome);
   const why = new Map();
   const say = (id, s) => { let a = why.get(id); if (!a) { a = []; why.set(id, a); } if (a.length < 6) a.push(s); };
-  let set = capSet(mem, seedSet(mem, g.seed, now));
+  let set = capSet(mem, seedSet(mem, g.seed, now, ctx));
   const trace = [set.length];
   const pairCache = new Map();
   for (const op of g.pipe) {
