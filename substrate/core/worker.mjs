@@ -74,6 +74,7 @@ export const DEFAULTS = Object.freeze({
   // ---- v4 addons (off = v3 behaviour) ----
   hindsight: false,           // label the past with the future: hindsight.labeled rows for the value model (needs valueModel)
   hindsightHorizon: 7, hindsightFresh: 3, hindsightBatch: 120, hindsightBacklog: 3, hindsightTypes: null,
+  hindsightUse: 'evidence',   // 'evidence': labels are weak evidence for the value model; 'select': labels only score observable candidates
   discovery: false,           // evolve observables that explain the value model's residual (observable.* events)
   obsCandidates: 24, obsNewPerStep: 4, obsMinRows: 120, obsMinFitness: 0.01, obsMaxAdopted: 16, obsRedundancy: 0.9, obsRetireRows: 400, obsDepth: 2,
   obsLift: 0,                 // > 0: a second adoption route — a candidate whose top quintile carries ≥ obsLift × the mean label is adopted as a way of looking
@@ -123,7 +124,7 @@ export async function runOnce(opts) {
   const v4 = { hindsight: !!cfg.hindsight, discovery: !!cfg.discovery, curriculum: !!cfg.curriculum, progress: !!cfg.progress, obsOps: !!cfg.obsOps };
   const useV4 = v4.hindsight || v4.discovery;
   const valueModelProjection = v3.value
-    ? (useV4 ? makeValueModelV4Projection({ dim: cfg.vmDim, priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar, maxRows: cfg.vmMaxRows, rebuildEvery: cfg.vmRebuildEvery, stack: !!cfg.vmStack && !!cfg.hindsight, stackMinTrained: cfg.vmMinTrained }) : makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }))
+    ? (useV4 ? makeValueModelV4Projection({ dim: cfg.vmDim, priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar, maxRows: cfg.vmMaxRows, rebuildEvery: cfg.vmRebuildEvery, stack: !!cfg.vmStack && !!cfg.hindsight && cfg.hindsightUse !== 'select', stackMinTrained: cfg.vmMinTrained, hindsightUse: cfg.hindsightUse }) : makeValueModelProjection({ priorVar: cfg.vmPriorVar, noiseVar: cfg.vmNoiseVar }))
     : null;
   const sentinelProjection = v3.sentinel ? makeSentinelProjection() : null;
   const curriculumProjection = v4.curriculum ? makeCurriculumProjection() : null;

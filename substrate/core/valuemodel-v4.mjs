@@ -26,9 +26,11 @@ import { bucketOf, programShape } from './observables.mjs';
 
 export const V4_KINDS = ['value.features', 'judgment.recorded', 'hindsight.labeled', 'observable.proposed', 'observable.adopted', 'observable.retired'];
 
-export function makeValueModelV4Projection({ dim = 256, priorVar = 0.005, noiseVar = 0.03, maxRows = 3000, rebuildEvery = 25, labelResidualFloor = 0.09, pairWindowDays = 2, labelMinPairs = 20, stack = true, stackMinTrained = 10 } = {}) {
+export function makeValueModelV4Projection({ dim = 256, priorVar = 0.005, noiseVar = 0.03, maxRows = 3000, rebuildEvery = 25, labelResidualFloor = 0.09, pairWindowDays = 2, labelMinPairs = 20, stack = true, stackMinTrained = 10, hindsightUse = 'evidence' } = {}) {
+  // hindsightUse: 'evidence' — calibrated labels are (weak) evidence for the value model; 'select' — labels only score
+  // observable candidates (the future picks the measurements; the operator's judgments alone train the model).
   const init = () => ({
-    version: 4, dim, priorVar, noiseVar, maxRows, rebuildEvery, labelResidualFloor, pairWindowDays, labelMinPairs, stack, stackMinTrained,
+    version: 4, dim, priorVar, noiseVar, maxRows, rebuildEvery, labelResidualFloor, pairWindowDays, labelMinPairs, stack, stackMinTrained, hindsightUse,
     model: new LinearModel({ dim, priorVar, noiseVar, forgetting: 1 }),
     // the stacked head: judgments only, over the same features plus the hindsight model's prediction (weak labels inform, true labels decide)
     modelJ: new LinearModel({ dim, priorVar, noiseVar, forgetting: 1 }), trainedJ: 0,
@@ -104,7 +106,7 @@ export function makeValueModelV4Projection({ dim = 256, priorVar = 0.005, noiseV
       }
     },
     dehydrate: (s) => ({
-      version: s.version, dim: s.dim, priorVar: s.priorVar, noiseVar: s.noiseVar, maxRows: s.maxRows, rebuildEvery: s.rebuildEvery, labelResidualFloor: s.labelResidualFloor, pairWindowDays: s.pairWindowDays, labelMinPairs: s.labelMinPairs, stack: s.stack, stackMinTrained: s.stackMinTrained,
+      version: s.version, dim: s.dim, priorVar: s.priorVar, noiseVar: s.noiseVar, maxRows: s.maxRows, rebuildEvery: s.rebuildEvery, labelResidualFloor: s.labelResidualFloor, pairWindowDays: s.pairWindowDays, labelMinPairs: s.labelMinPairs, stack: s.stack, stackMinTrained: s.stackMinTrained, hindsightUse: s.hindsightUse ?? 'evidence',
       model: s.model.toState(), modelJ: s.modelJ.toState(), trainedJ: s.trainedJ, features: mapToArr(s.features), judged: mapToArr(s.judged), pending: mapToArr(s.pending), trained: s.trained, absErr: s.absErr,
       rows: s.rows, hindN: s.hindN, hindAbsErr: s.hindAbsErr, hindRows: s.hindRows,
       labelModel: s.labelModel.toState(), labelPairs: s.labelPairs, labelAbsErr: s.labelAbsErr, comps: mapToArr(s.comps),
@@ -202,6 +204,7 @@ function addRow(state, row, phi = null) {
     phi = phi ?? phiOf(state, row.f, row.o);
     state.hindAbsErr += Math.abs(clamp01(row.ps + state.model.mean(phi)) - row.y);
     state.hindN++;
+    if (state.hindsightUse === 'select') return; // a label selects observables; it is not evidence for the model
   }
   phi = phi ?? phiOf(state, row.f, row.o);
   state.ig += updateWeighted(state, phi, row.y - row.ps, row.prec);
@@ -215,7 +218,7 @@ export function ensureModel(state) {
   state.model = new LinearModel({ dim: state.dim, priorVar: state.priorVar, noiseVar: state.noiseVar, forgetting: 1 });
   const ready = labelsReady(state);
   for (const row of state.rows) {
-    if (row.kind === 'hindsight') { if (!ready) continue; setHindsightTarget(state, row); }
+    if (row.kind === 'hindsight') { if (!ready) continue; setHindsightTarget(state, row); if (state.hindsightUse === 'select') continue; }
     updateWeighted(state, phiOf(state, row.f, row.o), row.y - row.ps, row.prec);
   }
   if (state.stack) {

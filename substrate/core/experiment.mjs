@@ -55,6 +55,8 @@ export const VARIANT_CONFIGS = Object.freeze({
   'v4-obs-lift': { ...V3_DEFAULT, discovery: true, obsOps: true, obsLift: 1.5 }, 'v4-obs-more': { ...V3_DEFAULT, discovery: true, obsOps: true, obsCandidates: 48, obsNewPerStep: 8, obsSteps: 2 },
   'v4-obs-lift-more': { ...V3_DEFAULT, discovery: true, obsOps: true, obsLift: 1.5, obsCandidates: 48, obsNewPerStep: 8, obsSteps: 2 }, 'v4-obs-deep': { ...V3_DEFAULT, discovery: true, obsOps: true, obsDepth: 3 },
   'v4-obs-progress': { ...V3_DEFAULT, discovery: true, obsOps: true, progress: true },
+  // the future selects the measurements, the operator trains the model: hindsight labels score candidates only
+  'v4-select': { ...V3_DEFAULT, hindsight: true, hindsightUse: 'select', discovery: true, obsOps: true },
   'v3-descriptor': { descriptor: 'both' }, 'v3-learned': { descriptor: 'learned' }, 'v3-frontier': { frontier: true },
   'v3-value': { valueModel: true }, 'v3-value-topk': { valueModel: true, activeJudgments: false }, 'v3-credit': { credit: true }, 'v3-sentinel': { sentinel: true },
   'v3-no-descriptor': { ...V3_ALL, descriptor: 'fixed' }, 'v3-no-frontier': { ...V3_ALL, frontier: false }, 'v3-no-value': { ...V3_ALL, valueModel: false },
@@ -81,7 +83,7 @@ export async function runVariant({ variant, runs, budgetSeconds, seed, epoch, lo
   const reported = new Set(); // harness-level dedup: a discovery counts once per experiment, whatever the variant remembers
   const illuminated = new Set(); // behaviour cells (fixed 6-bin grid) reached with positive fitness, across the whole experiment
   const productive = new Set(); // distinct strategies that produced delivered findings
-  const orng = makeRng(`oracle:${seed}:${variant}`);
+  const orng = makeRng(`oracle:${seed}:${extraConfig.rngTag ?? variant}`); // the oracle's noise is part of the stream: paired across variants when rngTag is given
   let cumTrue = 0, judged = 0, credited = 0, interventions = 0;
   const linear = extraConfig.linearCeiling ? new LinearModel({ dim: 512, priorVar: 0.005, noiseVar: 0.03 }) : null; // hindsight: every past pool item labelled with truth
   const linearObs = extraConfig.linearCeiling ? new LinearModel({ dim: 512, priorVar: 0.005, noiseVar: 0.03 }) : null; // the same, over base features ⊕ adopted observables
