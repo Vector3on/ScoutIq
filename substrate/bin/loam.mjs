@@ -335,7 +335,8 @@ const HELP = `loam — compounding intelligence substrate
   loam run --domain <d> [--budget sec] [--role r] [--mode auto|local|ledger] [--json]
   loam experiment [--runs 10] [--seeds 7,11,23] [--budget 8] [--variants memory,memoryless,single-cell] [--judgments 0] [--window 30] [--json]
                   v3 variants: v3 (shipping defaults), v3-all, v3-descriptor, v3-learned, v3-frontier, v3-value, v3-credit, v3-sentinel, v3-no-<addon>
-                  v4 variants: v4 (shipping defaults), v4-all, v4-hindsight, v4-discovery, v4-discovery-judgments, v4-obsops, v4-curriculum, v4-no-<addon>, v4-fixed, v4-progress
+                  v4 variants: v4 (v3 + progress diagnosis), v4-grammar, v4-all, v4-hindsight, v4-select, v4-discovery, v4-discovery-judgments, v4-obsops, v4-curriculum, v4-no-<addon>, v4-fixed, v4-obs-<push>
+                  pass --config '{"rngTag":"a"}' to run all variants under identical streams (paired comparison)
   loam report --domain <d> [--last 30]
   loam bundle --domain <d> [--out file.md] [--top 15] [--uncertain 6] [--runs 3]
   loam ingest-judgment <reply.md> --domain <d> [--by name]

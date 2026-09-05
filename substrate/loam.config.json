@@ -18,8 +18,8 @@
         "sentinel": "observe",
         "frontier": false,
         "credit": false,
-        "discovery": true,
-        "obsOps": true,
+        "discovery": false,
+        "obsOps": false,
         "hindsight": false,
         "curriculum": false,
         "progress": "observe"
@@ -51,8 +51,6 @@
         "valueModel": true,
         "judgmentsPerRun": 10,
         "sentinel": "observe",
-        "discovery": true,
-        "obsOps": true,
         "progress": "observe"
       }
     },
@@ -80,8 +78,6 @@
         "valueModel": true,
         "judgmentsPerRun": 10,
         "sentinel": "observe",
-        "discovery": true,
-        "obsOps": true,
         "progress": "observe"
       }
     }

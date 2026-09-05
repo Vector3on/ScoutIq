@@ -41,12 +41,17 @@ export const V3_DEFAULT = Object.freeze({ descriptor: 'both', valueModel: true, 
  * turns every v4 addon on; `v4-X` isolates one on top of v3; `v4-no-X` ablates one from `v4-all`.
  */
 export const V4_ALL = Object.freeze({ ...V3_DEFAULT, hindsight: true, discovery: true, obsOps: true, curriculum: true, progress: 'observe', metaAttention: true });
-/** The shipping v4 configuration: judgment-fed observable discovery, observables in the strategy grammar; hindsight labels and the retrospective curriculum are off (DESIGN.md §10, D27). */
-export const V4_DEFAULT = Object.freeze({ ...V3_DEFAULT, discovery: true, obsOps: true, hindsight: false, curriculum: false, progress: 'observe', metaAttention: true });
+/**
+ * The shipping v4 configuration: v3 plus the learning-progress diagnosis. No v4 mechanism moved hidden-truth value
+ * under the paired protocol (DESIGN.md §10.7), so every one of them ships off; `v4-grammar` is the best-measured
+ * candidate (judgment-fed discovery with observables in the strategy grammar), kept as a named variant.
+ */
+export const V4_DEFAULT = Object.freeze({ ...V3_DEFAULT, discovery: false, obsOps: false, hindsight: false, curriculum: false, progress: 'observe' });
+export const V4_GRAMMAR = Object.freeze({ ...V3_DEFAULT, discovery: true, obsOps: true, progress: 'observe' });
 export const VARIANT_CONFIGS = Object.freeze({
   memory: {}, memoryless: {}, 'single-cell': { bins: 1 },
   v3: V3_DEFAULT, 'v3-all': V3_ALL,
-  v4: V4_DEFAULT, 'v4-all': V4_ALL,
+  v4: V4_DEFAULT, 'v4-all': V4_ALL, 'v4-grammar': V4_GRAMMAR,
   'v4-hindsight': { ...V3_DEFAULT, hindsight: true }, 'v4-discovery': { ...V3_DEFAULT, hindsight: true, discovery: true }, 'v4-discovery-judgments': { ...V3_DEFAULT, discovery: true },
   'v4-obsops': { ...V3_DEFAULT, hindsight: true, discovery: true, obsOps: true }, 'v4-obsops-judgments': { ...V3_DEFAULT, discovery: true, obsOps: true }, 'v4-curriculum': { ...V3_DEFAULT, hindsight: true, curriculum: true },
   'v4-no-discovery': { ...V4_ALL, discovery: false, obsOps: false }, 'v4-no-obsops': { ...V4_ALL, obsOps: false }, 'v4-no-curriculum': { ...V4_ALL, curriculum: false },
