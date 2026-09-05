@@ -101,54 +101,106 @@ the accumulated judgments is a worse ranker. It is front-and-center in the runbo
 
 ## Run it
 
-**Offline demo (fixture feed, no network, deterministic):**
+**Live (the real public feed, read-only, policy-guarded).** The sensor points at
+`arkadiyt/bounty-targets-data` (~18 MB HackerOne feed). Caching is polite: a fresh snapshot
+makes no request; once stale, a conditional GET (`If-None-Match`) downloads only on change;
+on a block it reuses the last good snapshot. `robots.txt` is fetched and obeyed (fail-closed).
 
 ```bash
 cd substrate
-node plugins/bounty/demo.mjs --runs 1            # prints the alpha queue + one full coverage chart
-node plugins/bounty/demo.mjs --runs 3 --judge    # closes the teacher loop with a stand-in operator
+# Node's fetch needs the env proxy + CA in this kind of sandbox; in CI/Colab neither is needed.
+NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=$CA node bin/loam.mjs run --domain bounty   # observe-only heartbeat → out/bounty/alpha-queue.md
 ```
 
-**Tests (the 68 substrate tests stay green; 5 new ones prove this domain):**
+**The tried-journal + judgment feedback (the teacher).** When you have looked (in *your*
+authorized environment) and know the result, record it. The cell never re-appears, and the
+outcome becomes a Loam judgment that calibrates the value model:
 
 ```bash
-npm test
+node plugins/bounty/journal.mjs mark "<targetKey>" <seamId> <techId> <outcome> --note "why"
+node plugins/bounty/journal.mjs list
+# outcomes: real-defect · disclosed · fixed  (positive)  |  impact-not-established · unreproducible (weak)
+#           prevented · intended · out-of-scope  (negative)
 ```
 
-**Live (public feed, read-only, policy-guarded):**
+**The investigation-prep loop.** For each top lead, build a bounded-question record and walk
+it to a terminal state; it STOPS at `ready_for_human_test`:
 
 ```bash
-node bin/loam.mjs run --domain bounty            # fetches arkadiyt/bounty-targets-data, observe-only
-node bin/loam.mjs bundle --domain bounty --out bundle.md   # the operator's judgment bundle
-node bin/loam.mjs ingest-judgment reply.md --domain bounty # fold ratings back in
+node plugins/bounty/prep.mjs --top 10 --resolve-revisions   # prints states + ONE full record
 ```
+
+**Offline demo + tests (deterministic, no network):**
+
+```bash
+node plugins/bounty/demo.mjs --runs 3 --judge   # fixture heartbeat + stand-in teacher loop
+npm test                                          # 80 tests: 68 substrate + 12 bounty
+```
+
+## The investigation-prep loop
+
+Between the queue and a human tester sits a bounded, observe-only prep loop
+(`investigation.mjs`, driven by `prep.mjs`). A **lead** is (target × seam). Its record answers
+a fixed set of questions and no more:
+
+1. **exact repo revision** — the public repo HEAD for source assets (`--resolve-revisions`,
+   read-only OSINT), or `n/a` for a deployed service.
+2. **scope evidence** — the asset, its eligibility, the program, EV.
+3. **observed change** — the public signal that surfaced it (fresh scope, untried coverage).
+4. **expected invariant** — **pulled verbatim from the seam**, never invented.
+5. **competing explanations** — defect · safeguard · intended · misunderstanding.
+6. **next discriminating check** — a single read-only, human-run observation that would tell
+   defect from benign. **Described, never executed.**
+7. **prior art** — a probabilistic, low-visibility dedup estimate (below).
+8. **remaining budget.**
+
+States: `collected → eligible → investigating → ready_for_human_test` (or `rejected`, with a
+recorded reason). The output at `ready` is a **supported, testable hypothesis** handed to the
+human — with the standing reminder that the active test, and everything after, is theirs, in
+their controlled environment, in scope. There is deliberately **no autonomous testing step**.
+
+**Prior-art / dedup** (`priorart.mjs`) runs at the eligible gate. It reads only public program
+signals (response efficiency, resolve activity, managed status, crowd, technique age) and
+returns a **probability with low visibility — a clue, not proof**. `likely-known` (p ≥ 0.7)
+rejects the lead and records the evidence; anything else passes with the estimate attached.
+"Plausibly-novel" means *no public reason to think it is known*, never *new*.
+
+**Persistence & recovery** (`prepstore.mjs`): every record snapshot is one line in an
+append-only journal (a torn trailing line is ignored, never fatal); every lead is claimed with
+an **atomic exclusive-create claim file** that expires, so one worker holds a lead at a time and
+a crashed worker's lead becomes stealable after the TTL. Kill the loop anywhere and re-run — it
+replays the journal and continues. Proven by an interrupt-and-resume test.
 
 ## Honest status — wired vs stubbed
 
-**Wired (runs, tested):**
-- Atlas loaded verbatim (19/95/95/38); 120 techniques parsed from the PDF with real source
-  links; the two-level join; per-target coverage charts; tried/untried with never-repeat.
-- Public fingerprinting from the feed schema (asset type + host shape + program text).
+**Wired (runs on the real feed, tested — 80 tests):**
+- Atlas verbatim (19/95/95/38); 120 techniques from the PDF with real source links; the
+  two-level join; per-target coverage; tried/untried with never-repeat.
+- **Real live feed** (`arkadiyt/bounty-targets-data`) with polite TTL + conditional-GET
+  caching, robots-obeyed; real HackerOne scope fingerprinted to anatomy classes.
 - The **real** ScoutIq `evaluateTarget` EV, degrading honestly to null repo signals.
-- The full Loam heartbeat: graph, value model, novelty/diversity delivery, and the
-  **judgment loop** (request → bundle → ingest → recalibrate), demonstrated end-to-end.
-- The alpha-queue digest (queue + one full coverage chart), and the boundary test.
+- The full Loam heartbeat + the **judgment loop**, and now the **tried-journal → judgment**
+  feedback (outcome vocabulary → value-model calibration).
+- The **investigation-prep loop**: bounded-question records, states stopping at
+  `ready_for_human_test`, probabilistic prior-art/dedup, and crash-safe persistence + atomic
+  claims with an interrupt-recovery test.
 
 **Stubbed / weak (named so you can push on it):**
-- **EV without enrichment.** `evaluateTarget` runs with `repoSignals: null` for feed assets,
-  so `P(findable)` leans on the classifier and `freshCode`/`hardening` are absent.
-  `max_severity → nominal reward` is a conservative public inference, not a real payout table.
-- **The family join is coarse (recall-first).** Ten families over 120 techniques means a seam
-  sees ~48 techniques; fingerprints refine but do not fully disambiguate. Some listed
-  techniques share only the *family*, not the exact mechanism. This is by design (a lens),
-  but it is the first thing operator judgments should tighten.
-- **`crowd` is a proxy** (`1 − P(first)`); a true low-crowd signal needs feed-diffing over
-  time (which Loam's memory gives, but the fixture is a single snapshot).
-- **Multi-platform normalisation.** HackerOne is fully supported; Bugcrowd/Intigriti/
-  YesWeHack are best-effort.
-- **Learned observables** (`discovery`/`obsOps`) ship off: they need volume (≥120 rows,
-  ≥100 hindsight rows) a fixture cannot provide. The signals are declared so they switch on
-  cleanly for a long-running deployment.
+- **EV without enrichment.** `evaluateTarget` runs with `repoSignals: null` for feed assets;
+  `P(findable)` leans on the classifier and `max_severity → nominal reward` is a conservative
+  public inference, not a real payout table.
+- **The family join is coarse (recall-first)** — a seam sees ~48 techniques; fingerprints
+  refine but do not fully disambiguate. The prep loop's candidate technique is simply the first
+  untried one on the seam; ranking techniques within a seam is future work.
+- **Prior-art is a heuristic, not a lookup.** It reads public program signals only; it does not
+  yet query a disclosure index (HackerOne Hacktivity, CVE, changelogs). Low visibility is stated
+  everywhere; treat rejections as prioritisation, not proof of duplication.
+- **Revision resolution is HackerOne-shaped and GitHub-only**, unauthenticated (60 req/hr), for
+  source assets; other hosts and deep change analysis are not built.
+- **`crowd` is a proxy** (`1 − P(first)`); a true low-crowd signal needs feed-diffing over time.
+- **Multi-platform normalisation**: HackerOne is fully supported; Bugcrowd/Intigriti/YesWeHack
+  are best-effort. **Learned observables** (`discovery`/`obsOps`) ship off until a deployment has
+  volume (≥120 rows); their inputs are declared so they switch on with a config flag.
 
 **The first judgments the operator should give to calibrate it:**
 1. Rate the top identity/agents/defi leads the queue surfaces — these are where EV and
@@ -166,4 +218,7 @@ history / scratchpad); each record keeps the researcher's primary-source URL fro
 link annotations. `mechanismFamilies` and `fingerprints` per case are derived by an auditable
 keyword classifier over the case text, which is preserved in `howFound`. No other dump was used.
 
-See DESIGN §11, DECISIONS D34–D39, and RUNBOOK §14.
+Program-maturity signals (response efficiency, resolve activity, managed status) come from the
+same public feed and feed only the probabilistic prior-art estimate.
+
+See DESIGN §11, DECISIONS D34–D44, and RUNBOOK §14.

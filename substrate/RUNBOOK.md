@@ -167,17 +167,47 @@ node plugins/bounty/demo.mjs --runs 1          # prints the alpha queue + one fu
 node plugins/bounty/demo.mjs --runs 3 --judge  # closes the teacher loop with a stand-in operator
 ```
 
-**Run it live (public feed, read-only):**
+**Run it live (the real public feed, read-only):**
 
 ```bash
 node bin/loam.mjs doctor                        # confirms: bounty-feed OK, raw.githubusercontent.com, auth none
+# In CI/Colab, global fetch reaches the internet directly:
 node bin/loam.mjs run --domain bounty           # observe-only heartbeat; writes out/bounty/alpha-queue.md
+# In a sandbox where outbound goes through an env proxy, Node's built-in fetch needs it:
+NODE_USE_ENV_PROXY=1 NODE_EXTRA_CA_CERTS=/path/to/ca-bundle.crt node bin/loam.mjs run --domain bounty
 ```
 
-The heartbeat fetches `arkadiyt/bounty-targets-data`, fingerprints each in-scope asset to
-anatomy classes, computes ScoutIq EV, joins the untried applicable techniques, and delivers
-the queue to `out/bounty/alpha-queue.md` (+ `alpha-queue.json`, and the top target's full
-coverage chart).
+The heartbeat fetches the ~18 MB `arkadiyt/bounty-targets-data` HackerOne feed (cached
+politely: a fresh snapshot makes no request; once stale, a conditional GET downloads only on
+change; a block reuses the last good snapshot — `.loam/bounty-cache`, gitignored),
+fingerprints each in-scope asset to anatomy classes, computes ScoutIq EV, joins the untried
+applicable techniques, and writes `out/bounty/alpha-queue.md` (+ `.json`, + the top target's
+full coverage chart).
+
+### Record what you looked at, and let it teach the model (the tried-journal)
+
+When you have looked in **your** authorized environment and know the result, record it. The
+cell never re-appears, and the outcome becomes a Loam judgment that calibrates the value model:
+
+```bash
+node plugins/bounty/journal.mjs mark "<targetKey>" <seamId> <techId> <outcome> --note "why"
+node plugins/bounty/journal.mjs list
+```
+
+Outcomes (→ judgment value): `real-defect`·`disclosed`·`fixed` (high) · `impact-not-established`·`unreproducible` (weak) · `prevented`·`intended`·`out-of-scope` (low). The loop never writes this — a try is a human action.
+
+### Prepare a lead for testing (the investigation-prep loop)
+
+```bash
+node plugins/bounty/prep.mjs --top 10 --resolve-revisions   # bounded-question records; prints ONE in full
+```
+
+For each top lead it fills a bounded-question record (repo revision, scope evidence, observed
+change, the invariant **pulled from the seam**, competing explanations, the single read-only
+discriminating check, probabilistic prior-art, remaining budget) and walks it to
+`ready_for_human_test` or `rejected`. It **stops** at `ready_for_human_test`: the active test,
+and everything after, is yours, in your controlled environment, in scope. Records are journalled
+and leads are claimed atomically, so the run resumes cleanly after an interruption.
 
 ### The judgment loop — the teacher (do this; it is the whole point)
 

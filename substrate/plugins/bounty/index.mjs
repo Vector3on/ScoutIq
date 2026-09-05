@@ -17,7 +17,11 @@ import { buildSpine, coverageChart } from './spine.mjs';
 import { fingerprintAsset } from './fingerprint.mjs';
 import { loadTried } from './tried.mjs';
 import { alphaQueueSink } from './digest.mjs';
+import { fetchFeedCached } from './feedcache.mjs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+const DIR = path.dirname(fileURLToPath(import.meta.url));
 const DAY = 86400000;
 const COV_NORM = 220;      // saturation point for the untried-cell coverage term
 const FRESH_WINDOW = 45;   // days; a target first seen within this window is "fresh"
@@ -33,6 +37,8 @@ function normalizeProgram(platform, raw) {
       handle: raw.handle ?? raw.name, name: raw.name ?? raw.handle, url: raw.url ?? null, website: raw.website ?? null,
       offersBounties: !!raw.offers_bounties, status: raw.submission_state === 'open' ? 'open' : (raw.submission_state ?? 'unknown'),
       managed: !!raw.managed_program, resolvedReports: raw.resolvedReports ?? null,
+      responseEfficiency: Number.isFinite(raw.response_efficiency_percentage) ? raw.response_efficiency_percentage : null,
+      avgResolveDays: Number.isFinite(raw.average_time_to_report_resolved) ? raw.average_time_to_report_resolved : null,
       inScope: (raw.targets?.in_scope ?? []).map((a) => ({ identifier: a.asset_identifier, type: a.asset_type, eligible: a.eligible_for_bounty !== false, maxSeverity: a.max_severity ?? null, instruction: a.instruction ?? null })),
     };
   }
@@ -72,6 +78,9 @@ export function createPlugin(options = {}) {
   const maxTargetsPerProgram = options.maxTargetsPerProgram ?? 8;
   const maxTechniqueNodes = options.maxTechniqueNodes ?? 12;
   const staleDays = options.staleDays ?? 1;
+  // polite on-disk cache (opt-in): absolute, or relative to the substrate root.
+  const cacheDir = options.cacheDir ? (path.isAbsolute(options.cacheDir) ? options.cacheDir : path.resolve(DIR, '../..', options.cacheDir)) : null;
+  const cacheTtlMs = options.cacheTtlMs ?? 6 * 3600 * 1000;
 
   const schema = {
     entityTypes: ['target', 'program', 'class', 'technique'],
@@ -124,10 +133,11 @@ export function createPlugin(options = {}) {
     },
     async poll(params, { fetch, now }) {
       const f = params.feed;
-      const res = await fetch(f.url, { headers: { accept: 'application/json' } });
-      if (!res.ok) return { observations: [], blocked: res.blocked };
+      const fetchText = async (url, headers) => { const r = await fetch(url, { headers }); return { ok: r.ok, status: r.status, text: r.text, headers: r.headers, blocked: r.blocked }; };
+      const got = await fetchFeedCached(fetchText, { dir: cacheDir, id: f.id, url: f.url, now, ttlMs: cacheTtlMs });
+      if (!got.body) return { observations: [], blocked: got.blocked };
       let raw;
-      try { raw = res.json(); } catch { return { observations: [] }; }
+      try { raw = JSON.parse(got.body); } catch { return { observations: [] }; }
       const programs = Array.isArray(raw) ? raw : (raw.programs ?? []);
       const nowIso = new Date(now).toISOString();
       const observations = [];
@@ -154,6 +164,7 @@ export function createPlugin(options = {}) {
               classIds: fp.classes, fingerprints: fp.fingerprints, maxSeverity: asset.maxSeverity,
               workflow: ev.workflow, findableClass: ev.findableClass, evClass: fp.evClass, offersBounties: prog.offersBounties,
               excludeReason: ev.excludeReason, evReason: ev.reason,
+              progEfficiency: prog.responseEfficiency, progResolveDays: prog.avgResolveDays, progManaged: prog.managed, feedId: f.id,
             },
             signals: {
               ev: round(ev.evScore, 2), pFindable: ev.pFindable, pPayable: ev.pPayable, pFirst: ev.pFirst, rewardCeiling: ev.effectiveReward,
