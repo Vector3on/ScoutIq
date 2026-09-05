@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-05T19:05:23.824Z",
+  "generatedAt": "2026-09-05T21:18:50.944Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -9247,6 +9247,70 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 9,
+      "useful": false
+    },
+    "program:twilio:8912ab2c0977be9a1740": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T21:18:50.944Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 9,
+      "useful": false
+    },
+    "program:vimeo:e1f453b60fd3bf62f00c": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T21:18:50.944Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 9,
+      "useful": false
+    },
+    "program:acorns-grow:40637e7ed48ee1a4ec5c": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T21:18:50.944Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 82,
+      "useful": false
+    },
+    "program:adafruit:eb1d391774d8c74c405d": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T21:18:50.944Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 10931,
       "useful": false
     }
   }
