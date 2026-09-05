@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-05T21:18:50.944Z",
+  "generatedAt": "2026-09-05T23:57:27.539Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -9312,6 +9312,75 @@
       "resolvedReports": null,
       "textBytes": 10931,
       "useful": false
+    },
+    "program:agicap:65d7f0b92e1e57a142cf": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T23:57:27.539Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 4733,
+      "useful": false
+    },
+    "program:agoda-public:e79446e3e4ad057ac646": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T23:57:27.539Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 9,
+      "useful": false
+    },
+    "program:aiven:c1f8ed210dca25b04e1e": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T23:57:27.539Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 9,
+      "useful": false
+    },
+    "program:alasco-gmbh:68870aa163ba1052a708": {
+      "status": "ok",
+      "fetchedAt": "2026-09-05T23:57:27.539Z",
+      "source": "official-policy",
+      "programFloorSeverity": "LOW",
+      "floorSource": "scraped-reward-table",
+      "rewardsBySeverity": {
+        "LOW": 1000,
+        "MEDIUM": 1000,
+        "HIGH": 1000,
+        "CRITICAL": 1000
+      },
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 12203,
+      "useful": true
     }
   }
 }
