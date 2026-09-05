@@ -172,3 +172,35 @@ Everything below is additive: four new event kinds (`hindsight.labeled`, `observ
 **Choice.** The harness pairs every variant with its reference: the same world seed, the same planner random stream (`rngTag`) and the same oracle-noise stream; verdicts report the mean of paired ratios and the number of paired wins; three-seed single-stream comparisons are used for smoke, never for a verdict.
 **Why.** The first sweeps seeded the planner and the oracle by variant name, so each variant ran under its own streams; they reported +7–10 % cumulative hidden-truth value for the grammar configuration, and a whole paragraph was written about why. Paired, the same configuration is 0.97–1.00×. On this world a run's cumulative value has a standard deviation of ≈ 6–9 (5–7 %), so an unpaired three-seed difference of 7 % is under two standard errors. v3's D23 had measured the noise; it had not yet enforced the pairing.
 **Cost.** Paired runs are one more parameter to remember; the harness now defaults to pairing whenever `rngTag` is given and the CLI documents it. The paired standard error of a ten-run mean ratio is still ≈ 2 %, so effects under ≈ 4 % are not resolvable on the toy at this scale.
+
+# bounty domain — anatomy × pathology × EV × Loam (additive, a plug-in only)
+
+## D34 — The bounty capability is a domain, not a core change
+**Choice.** Anatomy, pathology and EV enter behind the existing plug-in interface (`plugins/bounty`); `core/` and `policy/` are untouched, and all 68 prior tests pass unchanged (73 with the 5 new ones).
+**Why.** v4's finding was that the ceiling is data + supervision, not algorithm (DESIGN §10). The right response is to supply the missing observables and the teacher, not to add engine. A domain keeps that honest — the same core that watches literature and OSS health now watches bounty scope, and the diff is data + one plug-in.
+**Cost.** The plug-in cannot change core behaviour it might want (e.g. a bespoke novelty metric for cells); it must express everything as schema, signals, value and a sink. That constraint is the point.
+
+## D35 — The observe-only boundary is the policy layer, restated in the plug-in, and tested
+**Choice.** The only declared endpoint is the public scope feed; the plug-in never contacts a listed target. The end-to-end test asserts that the only host touched across a heartbeat is the feed host. Anatomy ships as invariants and `observableSignals`, techniques as one-line *how-found* + source link — no payloads, no target-specific steps.
+**Why.** "Legal" has to be a property of the code, not a promise in a README. The substrate already enforces public-only, robots, and 401/403/429-as-stop (D-policy); the plug-in adds nothing that could reach a target, and a test pins that so a future edit that did would fail CI.
+**Cost.** The loop can only reason from what is already public; it can be wrong about a target's real anatomy (inference, never proof). That is the correct trade for staying observe-only.
+
+## D36 — EV is ScoutIq's `evaluateTarget`, unmodified, degrading to null enrichment
+**Choice.** Reuse `scripts/ev-core.mjs` `evaluateTarget` directly, with `repoSignals: null` for feed assets; map `max_severity → a nominal reward` only when the program declares it pays, so non-paying programs score EV 0.
+**Why.** Reimplementing the EV formula would let the two drift; calling the real one makes the integration genuine and inherits ScoutIq's exclusions and `P(first)` (its own fresh + low-crowd measure). Null enrichment is honest: the feed does not carry repo internals.
+**Cost.** Without enrichment `P(findable)` leans on the classifier and `freshCode`/`hardening` are absent, and the nominal reward table is a coarse public inference. Named as the first weakness in the honest report; the fix is per-target enrichment, which is more network and more scope.
+
+## D37 — `mechanismFamilies` is the join; it is coarse on purpose, and fingerprints refine it
+**Choice.** Seam ⇄ technique via the ten shared families (recall-first, ≈ 48 techniques/seam); target ⇄ technique via `fingerprints` (a technique's preconditions vs a target's public observable fingerprint) for selectivity.
+**Why.** The atlas and the PDF were built to the same ten-pattern ontology, so the family key is a real shared vocabulary, not glue. Coarse recall is the right default for a *discovery* tool: surface the right technique among family-mates and let judgments prune. Fingerprints stop a smart contract from attracting HTTP-desync techniques.
+**Cost.** Some listed techniques share only the family, not the exact mechanism — visible false positives. Deliberately left as the first thing operator judgments should tighten (the value model learns family-only matches are weak); the alternative, a hand-curated seam→technique table, would be more precise and far less maintainable, and would not compound.
+
+## D38 — "Tried" is operator-owned, out-of-band; the loop never infers it
+**Choice.** A tried *cell* is `target::seam::technique`, recorded by a human in `data/tried.json`; coverage = applicable − tried and the queue never re-surfaces a tried cell. The autonomous loop never writes this file.
+**Why.** A "try" is a test — the one thing the boundary forbids the loop from doing or claiming. Keeping tried state human-authored keeps observe-only crisp, makes coverage deterministic and testable, and matches reality: the loop cannot know what was tried unless told.
+**Cost.** Coverage only shrinks as the operator records work; there is no automatic progress. The natural extension (parsing `tried` directives out of the judgment reply during `ingest-judgment`) is left as future work so the boundary stays obvious.
+
+## D39 — The alpha queue is a plug-in sink; learned observables ship off until there is volume
+**Choice.** The plug-in ships its own `alpha-queue` sink (queue + one full coverage chart) alongside the substrate's generic digest. `valueModel` + `judgmentsPerRun` + `activeJudgments` are on in `loam.config.json`; `discovery`/`obsOps`/`hindsight` are off.
+**Why.** The queue needs domain rendering (class, invariant, untried techniques, source links) the generic digest cannot give. The teacher (judgments) works from run one and is the v4 lever, so it is on. The learned-observable search needs ≥120 rows / ≥100 hindsight rows (D28) that a fixture cannot provide, so it ships off but its inputs (the twelve signals) are declared so it switches on cleanly for a long-running deployment.
+**Cost.** Out of the box the "eyes" are the declared signals and the graph, not yet evolved observables; a real deployment must accumulate data before that layer earns its runtime (DESIGN §10.3).

@@ -80,6 +80,28 @@
         "sentinel": "observe",
         "progress": "observe"
       }
+    },
+    "bounty": {
+      "plugin": "./plugins/bounty/index.mjs",
+      "enabled": true,
+      "budgetSeconds": 60,
+      "options": {
+        "researcherCountry": "IN",
+        "rewardCap": 50000,
+        "maxProgramsPerFeed": 60,
+        "maxTargetsPerProgram": 8,
+        "feeds": [
+          { "id": "hackerone", "platform": "hackerone", "url": "https://raw.githubusercontent.com/arkadiyt/bounty-targets-data/main/data/hackerone_data.json" }
+        ]
+      },
+      "config": {
+        "descriptor": "both",
+        "valueModel": true,
+        "judgmentsPerRun": 8,
+        "activeJudgments": true,
+        "sentinel": "observe",
+        "progress": "observe"
+      }
     }
   },
   "store": {

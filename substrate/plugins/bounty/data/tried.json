@@ -1,0 +1,4 @@
+{
+  "note": "Operator-owned. A tried cell is '<seamId>::<techId>' under a target key. The autonomous loop never writes this file: tries are human actions recorded out-of-band. Coverage = applicable minus tried; the queue never re-surfaces a tried cell. Example: { \"cells\": { \"hackerone/acme#https://acme.example\": [\"web.S1::T007\"] } }",
+  "cells": {}
+}

@@ -152,3 +152,62 @@ Everything below is off unless enabled; the v3 event stream is unchanged when it
 **Reading the report.** `loam report` prints the v4 projections when present: hindsight rows and label calibration, the adopted observables in words (`max over authored_by/out of [degree(active_in,out)] (fitness 0.013)`), candidates and retired count, kinds of observables adopted, curriculum status, and the progress diagnosis with the before/after effect of every intervention.
 
 **Reproducible, paired experiments.** `loam experiment` runs every variant on a logical wall clock (one millisecond per read), so two runs of the same variant, seed and judgment budget produce identical logs whatever the machine is doing; the real wall time is reported separately. Pass `--config '{"rngTag":"a"}'` to run every variant of an invocation under the same planner and oracle streams — the only way a difference between variants means anything on the toy (DECISIONS D33). Variants: `v4` (v3 plus the progress diagnosis), `v4-grammar`, `v4-all`, isolated `v4-<mechanism>`, `v4-select`, ablated `v4-no-<mechanism>`, `v4-fixed`, and the grammar-growth pushes `v4-obs-lift`, `v4-obs-more`, `v4-obs-deep`, `v4-obs-progress`.
+
+## 14. Bounty intelligence domain (DESIGN §11)
+
+Anatomy (the atlas) × pathology (120 case studies) × EV (ScoutIq) × Loam memory, delivered
+as an **alpha queue**. Observe-only: it prioritises public targets and never tests one.
+Full design in `plugins/bounty/README.md`.
+
+**Try it offline first (fixture feed, deterministic, no network):**
+
+```bash
+cd substrate
+node plugins/bounty/demo.mjs --runs 1          # prints the alpha queue + one full coverage chart
+node plugins/bounty/demo.mjs --runs 3 --judge  # closes the teacher loop with a stand-in operator
+```
+
+**Run it live (public feed, read-only):**
+
+```bash
+node bin/loam.mjs doctor                        # confirms: bounty-feed OK, raw.githubusercontent.com, auth none
+node bin/loam.mjs run --domain bounty           # observe-only heartbeat; writes out/bounty/alpha-queue.md
+```
+
+The heartbeat fetches `arkadiyt/bounty-targets-data`, fingerprints each in-scope asset to
+anatomy classes, computes ScoutIq EV, joins the untried applicable techniques, and delivers
+the queue to `out/bounty/alpha-queue.md` (+ `alpha-queue.json`, and the top target's full
+coverage chart).
+
+### The judgment loop — the teacher (do this; it is the whole point)
+
+The substrate's edge is the operator's accumulated judgment, not the code. Every run it asks
+you to rate the leads it is **least sure about**; your ratings recalibrate the value model and
+change what it delivers next. The loop is three commands:
+
+```bash
+node bin/loam.mjs run    --domain bounty                       # 1. heartbeat → queue + a judgment request
+node bin/loam.mjs bundle --domain bounty --out bundle.md       # 2. paste-ready bundle (top leads + "please judge these first")
+#    edit bundle.md's reply block:  finding <id> <0..1> <why>   — your reason matters more than the number
+node bin/loam.mjs ingest-judgment bundle.md --domain bounty    # 3. fold the ratings back in
+node bin/loam.mjs run    --domain bounty                       # 4. re-ranked with what you taught it
+```
+
+**The first judgments to give** (they calibrate fastest):
+1. Rate the top identity / agents / defi leads — where EV and anatomy agree; this anchors the
+   high end.
+2. Rate a coarse-join false positive **low** (e.g. an HTTP-desync technique listed under a
+   smart-contract seam) — teaches the model that family-only matches are weak.
+3. Rate the `$0` points-only watch-list item near **zero** — confirms the EV-first stance.
+
+Record what you actually looked at in `plugins/bounty/data/tried.json` (`target::seam::technique`
+cells); the queue will never re-surface a tried cell. The loop never writes that file — a
+"try" is a human action, outside the observe-only boundary.
+
+### Config (`loam.config.json`, domain `bounty`)
+
+`valueModel` + `judgmentsPerRun` + `activeJudgments` are **on** (the teacher). The
+learned-observable search (`discovery`/`obsOps`, §13) is off until a deployment has
+accumulated enough rows (DECISIONS D39); the twelve per-target signals are already declared,
+so switching it on is a config change, not a code change. Point `options.feeds` at additional
+platform feeds (Bugcrowd/Intigriti/YesWeHack are best-effort; HackerOne is fully supported).
