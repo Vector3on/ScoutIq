@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-05T23:57:27.539Z",
+  "generatedAt": "2026-09-06T04:46:23.044Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -9381,6 +9381,80 @@
       "resolvedReports": null,
       "textBytes": 12203,
       "useful": true
+    },
+    "program:algolia:139eb6444dd1974ad180": {
+      "status": "ok",
+      "fetchedAt": "2026-09-06T04:46:23.044Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 9,
+      "useful": false
+    },
+    "program:allbridge:e0776472fe626ccbb238": {
+      "status": "ok",
+      "fetchedAt": "2026-09-06T04:46:23.044Z",
+      "source": "official-policy",
+      "programFloorSeverity": "CRITICAL",
+      "floorSource": "scraped-reward-table",
+      "rewardsBySeverity": {
+        "LOW": 100,
+        "MEDIUM": 200,
+        "HIGH": 750,
+        "CRITICAL": 1500
+      },
+      "inviteOnly": false,
+      "kycRequired": true,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 7502,
+      "useful": true
+    },
+    "program:alphax:1fe2d0b38d6c125f8fd7": {
+      "status": "ok",
+      "fetchedAt": "2026-09-06T04:46:23.044Z",
+      "source": "official-policy",
+      "programFloorSeverity": "HIGH",
+      "floorSource": "scraped-reward-table",
+      "rewardsBySeverity": {
+        "LOW": 50,
+        "MEDIUM": 300,
+        "HIGH": 1000,
+        "CRITICAL": 2000
+      },
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 7057,
+      "useful": true
+    },
+    "program:apple:441438f1214ae0ea7ca0": {
+      "status": "ok",
+      "fetchedAt": "2026-09-06T04:46:23.044Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 3635,
+      "useful": false
     }
   }
 }
