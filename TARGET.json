@@ -1,0 +1,22 @@
+{
+  "target": "",
+  "ref": "",
+  "mode": "anatomy",
+  "refresh": 0,
+  "budget": {
+    "seconds": 180,
+    "files": 300,
+    "fileBytes": 262144,
+    "totalBytes": 16777216,
+    "tasks": 1500,
+    "facts": 30000,
+    "depth": 24,
+    "requests": 400
+  },
+  "llm": {
+    "enabled": false,
+    "endpoint": "http://127.0.0.1:11434/v1/chat/completions",
+    "model": "",
+    "maxCalls": 4
+  }
+}

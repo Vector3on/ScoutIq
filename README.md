@@ -242,3 +242,12 @@ data/audited.json               persistent completed-audit memory
 ## Responsible use
 
 Only test public programs you are personally eligible for, within the exact current policy. Use your own accounts and data. Do not test third parties, exceed permitted traffic, or treat a discovery feed as authorization.
+
+## Blindsight target anatomy
+
+Set `target` in [TARGET.json](TARGET.json), then run
+`node substrate/bin/blindsight.mjs watch`. On the Blindsight branch, committing
+that file also triggers the cloud worker. It records source layers, dependencies,
+contracts, evidence and unknowns in SQLite, with optional source-snapshot/mock
+export and bounded model interpretation. See the [engine guide](substrate/blindsight/README.md)
+for supported inputs, automatic activation, database storage and fidelity limits.

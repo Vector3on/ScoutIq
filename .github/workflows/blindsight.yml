@@ -1,0 +1,82 @@
+name: Blindsight target worker
+
+on:
+  push:
+    branches: ['codex/blindsight-autonomous-anatomy', master, main]
+    paths: ['TARGET.json', 'substrate/blindsight/**', 'substrate/bin/blindsight.mjs', 'substrate/tests/blindsight.test.mjs', '.github/workflows/blindsight.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# One durable state branch, so runs serialize across all source branches.
+concurrency:
+  group: blindsight-state
+  cancel-in-progress: false
+
+jobs:
+  peel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_PAT: ${{ secrets.GH_PAT || github.token }}
+      LOAM_DB_URL: ${{ secrets.LOAM_DB_URL }}
+      LOAM_DB_TOKEN: ${{ secrets.LOAM_DB_TOKEN }}
+      LOAM_NODE_NAME: blindsight-actions
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify engine
+        run: node --test substrate/tests/blindsight.test.mjs
+      - name: Restore durable database
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p substrate/.loam
+          if git ls-remote --exit-code --heads origin blindsight-data; then
+            git fetch origin blindsight-data
+            git worktree add --detach "$RUNNER_TEMP/blindsight-state" FETCH_HEAD
+            if [ -f "$RUNNER_TEMP/blindsight-state/blindsight.db" ]; then
+              cp "$RUNNER_TEMP/blindsight-state/blindsight.db" substrate/.loam/blindsight.db
+            fi
+          else
+            git worktree add --detach "$RUNNER_TEMP/blindsight-state" HEAD
+            git -C "$RUNNER_TEMP/blindsight-state" switch --orphan blindsight-data
+          fi
+      - name: Peel assigned target
+        id: peel
+        shell: bash
+        run: |
+          set -euo pipefail
+          node substrate/bin/blindsight.mjs run
+      - name: Persist database and outputs
+        if: always() && steps.peel.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          state="$RUNNER_TEMP/blindsight-state"
+          if [ ! -d "$state" ] || [ ! -f substrate/.loam/blindsight.db ]; then exit 0; fi
+          cp substrate/.loam/blindsight.db "$state/blindsight.db"
+          if [ -d substrate/out/blindsight ]; then
+            mkdir -p "$state/results"
+            cp -R substrate/out/blindsight/. "$state/results/"
+          fi
+          git -C "$state" config user.name 'blindsight-bot'
+          git -C "$state" config user.email 'blindsight-bot@users.noreply.github.com'
+          git -C "$state" add blindsight.db
+          if [ -d "$state/results" ]; then git -C "$state" add results; fi
+          if git -C "$state" diff --cached --quiet; then exit 0; fi
+          git -C "$state" commit -m 'blindsight: persist target anatomy'
+          git -C "$state" push origin HEAD:refs/heads/blindsight-data
+      - name: Downloadable anatomy
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blindsight-${{ github.run_id }}
+          path: substrate/out/blindsight
+          retention-days: 30
+          if-no-files-found: ignore
