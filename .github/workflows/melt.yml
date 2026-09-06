@@ -1,0 +1,42 @@
+name: Melt detached capability experiment
+
+on:
+  push:
+    branches: ['codex/melt-executable-capabilities']
+    paths: ['MELT_TARGET.json', 'melt/**', '.github/workflows/melt.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: melt-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  export-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test runtime and export contracts
+        run: python3 -m unittest discover -s melt/tests -v
+      - name: Run detached experiment
+        run: python3 melt/cli.py experiment --out melt/out/experiment.json
+      - name: Export and execute assigned capability
+        run: python3 melt/cli.py target
+      - name: Export all four standalone capabilities
+        run: |
+          python3 melt/cli.py export objects --out melt/out/objects.py
+          python3 melt/cli.py export plan --out melt/out/plan.py
+          python3 melt/cli.py export probe --out melt/out/probe.py
+          python3 melt/cli.py export scene --out melt/out/scene.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: melt-${{ github.run_id }}
+          path: melt/out/
+          if-no-files-found: error
+          retention-days: 30

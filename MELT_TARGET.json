@@ -1,0 +1,9 @@
+{
+  "capsule": "scene",
+  "input": {
+    "grid": [[0, 2, 2, 0, 0], [0, 2, 0, 0, 3], [0, 0, 0, 3, 3]],
+    "background": 0,
+    "connectivity": 4
+  },
+  "export": "melt/out/my-capability.py"
+}

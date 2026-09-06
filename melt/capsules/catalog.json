@@ -1,0 +1,29 @@
+{
+  "objects": {
+    "version": 1,
+    "dependencies": [],
+    "purpose": "Partition an integer pixel grid into same-color connected objects",
+    "contract": "grid: rectangular integer matrix up to 64x64; optional background and connectivity"
+  },
+  "plan": {
+    "version": 1,
+    "dependencies": [],
+    "purpose": "Plan dependency layers and distinguish cyclic tasks from blocked descendants",
+    "contract": "tasks: mapping of names to dependency-name lists; at most 128 tasks"
+  },
+  "probe": {
+    "version": 1,
+    "dependencies": [],
+    "purpose": "Choose the experiment with minimum expected surviving hypotheses",
+    "contract": "candidates: 1..128 equally long prediction vectors of 1..128 categorical strings; uniform prior"
+  },
+  "scene": {
+    "version": 1,
+    "dependencies": [
+      "objects",
+      "plan"
+    ],
+    "purpose": "Compose perception with an assembly dependency plan",
+    "contract": "objects input; outputs object summaries and a dependency schedule"
+  }
+}

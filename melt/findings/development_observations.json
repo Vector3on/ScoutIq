@@ -1,0 +1,115 @@
+[
+  {
+    "capsule": "objects",
+    "input": {
+      "grid": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "connectivity": 8
+    },
+    "expected_property": "8-connectivity should produce one object",
+    "actual": {
+      "status": "ok",
+      "result": {
+        "height": 2,
+        "width": 2,
+        "objects": [
+          {
+            "color": 1,
+            "area": 1,
+            "cells": [
+              [
+                0,
+                0
+              ]
+            ],
+            "bbox": [
+              0,
+              0,
+              1,
+              1
+            ]
+          },
+          {
+            "color": 1,
+            "area": 1,
+            "cells": [
+              [
+                1,
+                1
+              ]
+            ],
+            "bbox": [
+              1,
+              1,
+              2,
+              2
+            ]
+          }
+        ]
+      },
+      "receipt": {
+        "entry": "objects",
+        "steps": 25,
+        "capsule_calls": [
+          "objects"
+        ],
+        "model_calls": 0,
+        "sources": {
+          "objects": "07e5d69dafb374be574c0a65f6655c34f036029a0a2f1bde427d8c3a96fd6417"
+        }
+      }
+    }
+  },
+  {
+    "capsule": "plan",
+    "input": {
+      "tasks": {
+        "a": [
+          "b"
+        ],
+        "b": [
+          "a"
+        ],
+        "c": [
+          "b"
+        ]
+      }
+    },
+    "expected_property": "c is blocked downstream, but is not in a cycle",
+    "actual": {
+      "status": "ok",
+      "result": {
+        "layers": [],
+        "blocked": [
+          "a",
+          "b",
+          "c"
+        ],
+        "cycle_nodes": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "receipt": {
+        "entry": "plan",
+        "steps": 17,
+        "capsule_calls": [
+          "plan"
+        ],
+        "model_calls": 0,
+        "sources": {
+          "plan": "0f6b0575c5fb68c848322caf020e00c1914f586600059ce118fd754412ff7484"
+        }
+      }
+    }
+  }
+]
