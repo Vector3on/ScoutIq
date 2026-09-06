@@ -1,9 +1,103 @@
 {
-  "capsule": "scene",
+  "capsule": "diagnose",
   "input": {
-    "grid": [[0, 2, 2, 0, 0], [0, 2, 0, 0, 3], [0, 0, 0, 3, 3]],
-    "background": 0,
-    "connectivity": 4
+    "hypotheses": [
+      "hyp-0",
+      "hyp-1",
+      "hyp-2",
+      "hyp-3",
+      "hyp-4"
+    ],
+    "tests": [
+      {
+        "name": "test-0",
+        "cost": 6,
+        "outcomes": [
+          "2",
+          "2",
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      {
+        "name": "test-1",
+        "cost": 6,
+        "outcomes": [
+          "1",
+          "2",
+          "0",
+          "2",
+          "0"
+        ]
+      },
+      {
+        "name": "test-2",
+        "cost": 2,
+        "outcomes": [
+          "2",
+          "1",
+          "0",
+          "0",
+          "1"
+        ]
+      },
+      {
+        "name": "test-3",
+        "cost": 2,
+        "outcomes": [
+          "0",
+          "2",
+          "0",
+          "0",
+          "1"
+        ]
+      },
+      {
+        "name": "test-4",
+        "cost": 4,
+        "outcomes": [
+          "1",
+          "1",
+          "2",
+          "1",
+          "0"
+        ]
+      },
+      {
+        "name": "test-5",
+        "cost": 6,
+        "outcomes": [
+          "2",
+          "2",
+          "0",
+          "1",
+          "1"
+        ]
+      },
+      {
+        "name": "test-6",
+        "cost": 9,
+        "outcomes": [
+          "1",
+          "1",
+          "2",
+          "0",
+          "1"
+        ]
+      },
+      {
+        "name": "test-7",
+        "cost": 3,
+        "outcomes": [
+          "2",
+          "1",
+          "1",
+          "1",
+          "1"
+        ]
+      }
+    ]
   },
   "export": "melt/out/my-capability.py"
 }

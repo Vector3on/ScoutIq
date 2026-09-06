@@ -25,14 +25,19 @@ jobs:
         run: python3 -m unittest discover -s melt/tests -v
       - name: Run detached experiment
         run: python3 melt/cli.py experiment --out melt/out/experiment.json
+      - name: Run original complex reasoning benchmarks
+        run: python3 melt/cli.py benchmark --out melt/out/reasoning-benchmark.json
       - name: Export and execute assigned capability
         run: python3 melt/cli.py target
-      - name: Export all four standalone capabilities
+      - name: Export all seven standalone capabilities
         run: |
           python3 melt/cli.py export objects --out melt/out/objects.py
           python3 melt/cli.py export plan --out melt/out/plan.py
           python3 melt/cli.py export probe --out melt/out/probe.py
           python3 melt/cli.py export scene --out melt/out/scene.py
+          python3 melt/cli.py export state_planner --out melt/out/state_planner.py
+          python3 melt/cli.py export visual_rule --out melt/out/visual_rule.py
+          python3 melt/cli.py export diagnose --out melt/out/diagnose.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

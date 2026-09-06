@@ -68,6 +68,8 @@ def main():
     p = sub.add_parser('run'); p.add_argument('capsule'); p.add_argument('--input', required=True)
     p = sub.add_parser('target'); p.add_argument('path', nargs='?', default=str(ROOT.parent / 'MELT_TARGET.json'))
     p = sub.add_parser('experiment'); p.add_argument('--out', default=str(ROOT / 'out' / 'experiment.json'))
+    p = sub.add_parser('benchmark'); p.add_argument('--out', default=str(ROOT / 'out' / 'reasoning-benchmark.json'))
+    p.add_argument('--seed', type=int, default=880301); p.add_argument('--count', type=int, default=60)
     p = sub.add_parser('request'); p.add_argument('goal'); p.add_argument('--out', required=True)
     args = parser.parse_args()
     try:
@@ -103,6 +105,12 @@ def main():
         elif args.command == 'experiment':
             from experiment import experiment
             result = experiment(args.out)
+        elif args.command == 'benchmark':
+            from benchmarks.suite import benchmark
+            report = benchmark(args.out, args.seed, args.count)
+            result = {'status': report['status'], 'file': args.out,
+                      'passed_contract': report['passed_contract'], 'total': report['total'],
+                      'outcomes': {name: item['outcomes'] for name, item in report['results'].items()}}
         else:
             result = {'goal': args.goal, 'status': 'needs_model_authored_candidate',
                 'instruction': 'Provide public implementation notes, examples, applicability limits, and a run(data) function in the supported Python subset. Do not provide hidden reasoning.',

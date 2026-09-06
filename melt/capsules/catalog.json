@@ -25,5 +25,23 @@
     ],
     "purpose": "Compose perception with an assembly dependency plan",
     "contract": "objects input; outputs object summaries and a dependency schedule"
+  },
+  "state_planner": {
+    "version": 1,
+    "dependencies": [],
+    "purpose": "Find an optimal plan through state changes and destructive actions",
+    "contract": "1..10 binary facts, up to 32 actions, bounded expansions; explicit solved/unreachable/budget outcomes"
+  },
+  "visual_rule": {
+    "version": 1,
+    "dependencies": [],
+    "purpose": "Infer composed visual rules and preserve ambiguity",
+    "contract": "1..4 input/output grid pairs, grids up to 8x8 with colors 0..3, depth 0..3 in a five-operation language"
+  },
+  "diagnose": {
+    "version": 1,
+    "dependencies": [],
+    "purpose": "Build an optimal adaptive testing policy",
+    "contract": "1..8 hypotheses and up to 8 categorical tests with costs, optional observations, bounded subset search"
   }
 }

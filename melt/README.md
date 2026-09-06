@@ -14,19 +14,19 @@ From the repository root:
 python3 melt/cli.py target
 ```
 
-Edit [MELT_TARGET.json](../MELT_TARGET.json) to choose a capability and provide its input. The default perceives a small pixel scene and composes a dependency plan. The command writes `melt/out/my-capability.py` and executes it in a fresh Python process.
+Edit [MELT_TARGET.json](../MELT_TARGET.json) to choose a capability and provide its input. The current default constructs a cost-optimal conditional diagnosis policy. The command writes `melt/out/my-capability.py` and executes it in a fresh Python process.
 
 The new branch's GitHub workflow repeats validation and export whenever Melt or its target file changes. Download its `melt-<run-id>` artifact from the Actions run. It contains the standalone capabilities and experiment findings. This workflow does not merge or deploy the ScoutIQ site and uses no model secrets.
 
 Try the portable file from a directory outside this repository:
 
 ```bash
-echo '{"grid":[[1,0],[0,1]],"connectivity":8}' | python3 /path/to/my-capability.py
+python3 /path/to/my-capability.py < /path/to/diagnosis.json
 ```
 
-Windows users can supply the same JSON through their shell or a redirected JSON file. The output includes the result and an execution receipt with source digests, capability calls, and step count. `model_calls: 0` describes this runtime's architecture; it is not an externally measured counter of an inaccessible provider.
+Use [diagnosis.json](benchmarks/examples/diagnosis.json) as that input. Windows users can supply the same JSON through their shell or a redirected JSON file. The output includes the result and an execution receipt with source digests, capability calls, and step count. `model_calls: 0` describes this runtime's architecture; it is not an externally measured counter of an inaccessible provider.
 
-## Four exported forms
+## Seven exported forms
 
 | Capsule | Useful behavior | Input |
 |---|---|---|
@@ -34,6 +34,9 @@ Windows users can supply the same JSON through their shell or a redirected JSON 
 | `plan` | Deterministic dependency layers, blocked tasks, actual cycle members | `tasks`, mapping names to dependency lists |
 | `probe` | Experiment minimizing expected surviving hypotheses under a uniform prior | `candidates`, equally sized categorical prediction vectors |
 | `scene` | Composes `objects` and `plan` into a scene assembly description | Same input as `objects` |
+| `state_planner` | Minimum-cost planning through actions that add and delete facts | `initial`, partial `goal`, actions with `pre`, `effect`, and `cost` |
+| `visual_rule` | Infer a composition from examples; preserve competing explanations | Grid `examples`, `query`, optional bounded `max_depth` |
+| `diagnose` | Minimum worst-case-cost conditional testing policy | `hypotheses`, tests with costs and outcomes, optional prior `observed` results |
 
 The perception demonstration uses integer pixel grids; it is not a general image-understanding model. The planner produces plans and never runs tasks against external systems.
 
@@ -44,6 +47,19 @@ python3 melt/cli.py run plan --input tasks.json
 python3 melt/cli.py experiment --out melt/out/experiment.json
 python3 -m unittest discover -s melt/tests -v
 ```
+
+## Harder reasoning benchmarks
+
+The second experiment exports runtime search, rule induction, and conditional question planning. [Read its findings](benchmarks/FINDINGS.md), [public strategies](benchmarks/STRATEGIES.md), and [evaluation contract](benchmarks/CONTRACT.md).
+
+```bash
+python3 melt/cli.py benchmark
+python3 melt/cli.py run state_planner --input melt/benchmarks/examples/state_setback.json
+python3 melt/cli.py run visual_rule --input melt/benchmarks/examples/visual_ambiguity.json
+python3 melt/cli.py run diagnose --input melt/benchmarks/examples/diagnosis.json
+```
+
+All 229 final checks passed: 147 completed tasks, 27 proved-unreachable planning goals, and 55 explicit uncertainty/limit outcomes. These are original synthetic problems, not official ARC, PlanBench, or tau2 scores. Runtime tests now total 15. No live LLM comparison was performed.
 
 Example planner input:
 
