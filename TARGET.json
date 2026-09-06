@@ -1,7 +1,7 @@
 {
-  "target": "./substrate/blindsight",
+  "target": "",
   "ref": "",
-  "mode": "replica",
+  "mode": "anatomy",
   "refresh": 0,
   "budget": {
     "seconds": 180,
