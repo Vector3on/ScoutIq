@@ -1,0 +1,239 @@
+[
+  {
+    "entity": "file:README.md",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "extension": [
+        ".md"
+      ],
+      "heading": [
+        "Blindsight: an evidence-driven anatomy engine",
+        "Start",
+        "What the workers actually do",
+        "Database and outputs",
+        "Model integration without mandatory API spending",
+        "Verification"
+      ],
+      "lineCount": [
+        181
+      ],
+      "path": [
+        "README.md"
+      ],
+      "redacted": [
+        true
+      ]
+    }
+  },
+  {
+    "entity": "file:acquire.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "imports": [
+        "node:fs",
+        "node:path",
+        "../policy/policy.mjs",
+        "../policy/data.mjs",
+        "../core/events.mjs",
+        "./config.mjs"
+      ],
+      "lineCount": [
+        125
+      ],
+      "path": [
+        "acquire.mjs"
+      ],
+      "redacted": [
+        false
+      ]
+    }
+  },
+  {
+    "entity": "file:config.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "imports": [
+        "node:path",
+        "node:fs",
+        "../core/events.mjs"
+      ],
+      "lineCount": [
+        53
+      ],
+      "path": [
+        "config.mjs"
+      ],
+      "redacted": [
+        true
+      ]
+    }
+  },
+  {
+    "entity": "file:engine.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "imports": [
+        "node:path",
+        "node:fs",
+        "../core/events.mjs",
+        "./acquire.mjs",
+        "./extract.mjs",
+        "./llm.mjs",
+        "./export.mjs",
+        "./topology.mjs"
+      ],
+      "lineCount": [
+        89
+      ],
+      "path": [
+        "engine.mjs"
+      ],
+      "redacted": [
+        false
+      ]
+    }
+  },
+  {
+    "entity": "file:export.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "environmentVariable": [
+        "PORT"
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "imports": [
+        "node:fs",
+        "node:path",
+        "./config.mjs",
+        "./llm.mjs",
+        "node:http",
+        "node:fs"
+      ],
+      "lineCount": [
+        40
+      ],
+      "path": [
+        "export.mjs"
+      ],
+      "redacted": [
+        true
+      ]
+    }
+  },
+  {
+    "entity": "file:extract.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "imports": [
+        "node:path"
+      ],
+      "lineCount": [
+        110
+      ],
+      "path": [
+        "extract.mjs"
+      ],
+      "redacted": [
+        false
+      ]
+    }
+  },
+  {
+    "entity": "file:llm.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "environmentVariable": [
+        "BLINDSIGHT_LLM_TOKEN"
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "imports": [
+        "./acquire.mjs",
+        "../core/events.mjs"
+      ],
+      "lineCount": [
+        46
+      ],
+      "path": [
+        "llm.mjs"
+      ],
+      "redacted": [
+        false
+      ]
+    }
+  },
+  {
+    "entity": "file:store.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "imports": [
+        "../core/store.mjs",
+        "../core/events.mjs",
+        "../policy/data.mjs"
+      ],
+      "lineCount": [
+        75
+      ],
+      "path": [
+        "store.mjs"
+      ],
+      "redacted": [
+        false
+      ]
+    }
+  },
+  {
+    "entity": "file:topology.mjs",
+    "attributes": {
+      "containedBy": [
+        "directory:."
+      ],
+      "extension": [
+        ".mjs"
+      ],
+      "lineCount": [
+        41
+      ],
+      "path": [
+        "topology.mjs"
+      ],
+      "redacted": [
+        false
+      ]
+    }
+  }
+]

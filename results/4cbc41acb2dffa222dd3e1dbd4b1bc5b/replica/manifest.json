@@ -1,0 +1,51 @@
+{
+  "fidelity": "sanitized captured source subset; not behaviorally equivalent",
+  "revision": null,
+  "files": [
+    {
+      "path": "README.md",
+      "digest": "e1774734fbf5c180a40d7fa4e45da763",
+      "redacted": true
+    },
+    {
+      "path": "acquire.mjs",
+      "digest": "42cd2c07895370827b023ab3e51aacaa",
+      "redacted": false
+    },
+    {
+      "path": "config.mjs",
+      "digest": "605fb31dc0f0dce0e5267967de5b193f",
+      "redacted": true
+    },
+    {
+      "path": "engine.mjs",
+      "digest": "2a2eccc9b73dd44b2098b210cd885b0b",
+      "redacted": false
+    },
+    {
+      "path": "export.mjs",
+      "digest": "c0f33ec29557c60eeb0e688b2964369b",
+      "redacted": true
+    },
+    {
+      "path": "extract.mjs",
+      "digest": "ce4634978d23a563b3fabe83544b4f86",
+      "redacted": false
+    },
+    {
+      "path": "llm.mjs",
+      "digest": "f106e631758a1e7b5c52bdbec220d036",
+      "redacted": false
+    },
+    {
+      "path": "store.mjs",
+      "digest": "a1ca07f4717a6bcc37a42d07cd7a708f",
+      "redacted": false
+    },
+    {
+      "path": "topology.mjs",
+      "digest": "8414cd73ee653f393aeda2316a169f7b",
+      "redacted": false
+    }
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "nodes": [
+    "table:bs_artifacts",
+    "table:bs_facts",
+    "table:bs_fields",
+    "table:bs_runs",
+    "table:bs_tasks",
+    "file:acquire.mjs",
+    "file:config.mjs",
+    "file:engine.mjs",
+    "file:export.mjs",
+    "file:extract.mjs",
+    "file:llm.mjs",
+    "file:store.mjs",
+    "file:README.md",
+    "symbol:acquire.mjs:acquire",
+    "symbol:acquire.mjs:cleanText",
+    "symbol:acquire.mjs:priority",
+    "symbol:config.mjs:excluded",
+    "symbol:config.mjs:readConfig",
+    "symbol:config.mjs:safePath",
+    "symbol:config.mjs:validateConfig",
+    "symbol:engine.mjs:importModelResults",
+    "symbol:engine.mjs:runAnatomy",
+    "symbol:export.mjs:exportRun",
+    "symbol:extract.mjs:extract",
+    "symbol:extract.mjs:linkImports",
+    "symbol:extract.mjs:workersFor",
+    "symbol:llm.mjs:infer",
+    "symbol:llm.mjs:modelTask",
+    "symbol:llm.mjs:validateProposals",
+    "symbol:store.mjs:AnatomyStore",
+    "symbol:topology.mjs:attention",
+    "symbol:topology.mjs:topology",
+    "file:topology.mjs",
+    "target:4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+    "directory:."
+  ],
+  "edges": [
+    {
+      "from": "file:README.md",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:acquire.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:acquire.mjs",
+      "to": "file:config.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 6,
+          "end": 6
+        }
+      ]
+    },
+    {
+      "from": "file:config.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:engine.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:engine.mjs",
+      "to": "file:acquire.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 4,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "from": "file:engine.mjs",
+      "to": "file:llm.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 6,
+          "end": 6
+        }
+      ]
+    },
+    {
+      "from": "file:engine.mjs",
+      "to": "file:topology.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 8,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "from": "file:engine.mjs",
+      "to": "file:export.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 7,
+          "end": 7
+        }
+      ]
+    },
+    {
+      "from": "file:engine.mjs",
+      "to": "file:extract.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 5,
+          "end": 5
+        }
+      ]
+    },
+    {
+      "from": "file:export.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:export.mjs",
+      "to": "file:config.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 3,
+          "end": 3
+        }
+      ]
+    },
+    {
+      "from": "file:export.mjs",
+      "to": "file:llm.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 4,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "from": "file:extract.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:llm.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:llm.mjs",
+      "to": "file:acquire.mjs",
+      "relation": "dependsOn",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:store.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "from": "file:topology.mjs",
+      "to": "directory:.",
+      "relation": "containedBy",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 1,
+          "end": 1
+        }
+      ]
+    }
+  ]
+}

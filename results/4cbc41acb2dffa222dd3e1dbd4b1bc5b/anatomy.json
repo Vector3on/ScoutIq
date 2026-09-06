@@ -1,0 +1,2367 @@
+{
+  "run": {
+    "id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+    "target": "./substrate/blindsight",
+    "started": 1788706528332,
+    "finished": 1788706528571,
+    "status": "quiescent",
+    "summary": {
+      "status": "quiescent",
+      "runId": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "snapshot": "ff1126356a7498461cbe7f3d7f31f466",
+      "revision": null,
+      "files": 9,
+      "bytes": 53026,
+      "processed": 44,
+      "newFacts": 128,
+      "pending": 0,
+      "failed": [],
+      "limits": [],
+      "skipped": [],
+      "network": null,
+      "elapsedMs": 256,
+      "modelEnabled": false,
+      "plateau": "Available worker frontier exhausted, not universal understanding"
+    }
+  },
+  "artifacts": [
+    {
+      "id": "1bc3059364e544bf248b8e1fee783225",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "README.md",
+      "digest": "e1774734fbf5c180a40d7fa4e45da763",
+      "meta": {
+        "origin": "local",
+        "bytes": 9671,
+        "redacted": true
+      }
+    },
+    {
+      "id": "63b12895a82e2d0cfbf32a9f39139849",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "acquire.mjs",
+      "digest": "42cd2c07895370827b023ab3e51aacaa",
+      "meta": {
+        "origin": "local",
+        "bytes": 8991,
+        "redacted": false
+      }
+    },
+    {
+      "id": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "config.mjs",
+      "digest": "605fb31dc0f0dce0e5267967de5b193f",
+      "meta": {
+        "origin": "local",
+        "bytes": 3563,
+        "redacted": true
+      }
+    },
+    {
+      "id": "a2d68c8a439804bec9ab493abcbcaf3c",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "engine.mjs",
+      "digest": "2a2eccc9b73dd44b2098b210cd885b0b",
+      "meta": {
+        "origin": "local",
+        "bytes": 6343,
+        "redacted": false
+      }
+    },
+    {
+      "id": "07d53857360bdd49f8b169647e5a7a21",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "export.mjs",
+      "digest": "c0f33ec29557c60eeb0e688b2964369b",
+      "meta": {
+        "origin": "local",
+        "bytes": 4840,
+        "redacted": true
+      }
+    },
+    {
+      "id": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "extract.mjs",
+      "digest": "ce4634978d23a563b3fabe83544b4f86",
+      "meta": {
+        "origin": "local",
+        "bytes": 7453,
+        "redacted": false
+      }
+    },
+    {
+      "id": "4d31a32959908ddc247c2b90ad98811f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "llm.mjs",
+      "digest": "f106e631758a1e7b5c52bdbec220d036",
+      "meta": {
+        "origin": "local",
+        "bytes": 3592,
+        "redacted": false
+      }
+    },
+    {
+      "id": "9791c96cc4cdfddd911a0894f9a3b6c6",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "store.mjs",
+      "digest": "a1ca07f4717a6bcc37a42d07cd7a708f",
+      "meta": {
+        "origin": "local",
+        "bytes": 6249,
+        "redacted": false
+      }
+    },
+    {
+      "id": "4cfb359d4a5c94570f199fbcfcc48d04",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "path": "topology.mjs",
+      "digest": "8414cd73ee653f393aeda2316a169f7b",
+      "meta": {
+        "origin": "local",
+        "bytes": 2324,
+        "redacted": false
+      }
+    }
+  ],
+  "facts": [
+    {
+      "id": "defef12a1e1f60b6411d110708c52c49",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "table:bs_artifacts",
+      "layer": "data",
+      "predicate": "declaration",
+      "value": "CREATE TABLE IF NOT EXISTS bs_artifacts(id TEXT PRIMARY KEY, run_id TEXT NOT NULL, path TEXT NOT NULL, digest TEXT NOT NULL, text TEXT NOT NULL, meta TEXT NOT NULL, UNIQUE(run_id,path));",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 9,
+          "end": 9
+        }
+      ],
+      "producer": "contracts"
+    },
+    {
+      "id": "5961147464a0b807900261fd78a61cda",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "table:bs_facts",
+      "layer": "data",
+      "predicate": "declaration",
+      "value": "CREATE TABLE IF NOT EXISTS bs_facts(id TEXT PRIMARY KEY, run_id TEXT NOT NULL, entity TEXT NOT NULL, layer TEXT NOT NULL, predicate TEXT NOT NULL, value TEXT NOT NULL, status TEXT NOT NULL, evidence TEXT NOT NULL, producer TEXT NOT NULL);",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 11,
+          "end": 11
+        }
+      ],
+      "producer": "contracts"
+    },
+    {
+      "id": "f1f3d60fd58bd214696128baa0ddda9d",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "table:bs_fields",
+      "layer": "data",
+      "predicate": "declaration",
+      "value": "CREATE TABLE IF NOT EXISTS bs_fields(layer TEXT NOT NULL, predicate TEXT NOT NULL, type TEXT NOT NULL, PRIMARY KEY(layer,predicate,type));",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 15,
+          "end": 15
+        }
+      ],
+      "producer": "contracts"
+    },
+    {
+      "id": "34c3fd10102ca95ed01c7eaf3cd1925e",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "table:bs_runs",
+      "layer": "data",
+      "predicate": "declaration",
+      "value": "CREATE TABLE IF NOT EXISTS bs_runs(id TEXT PRIMARY KEY, target TEXT NOT NULL, started INTEGER NOT NULL, finished INTEGER, status TEXT NOT NULL, summary TEXT);",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 8,
+          "end": 8
+        }
+      ],
+      "producer": "contracts"
+    },
+    {
+      "id": "c657928f95f1435a424f2d53712d5f96",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "table:bs_tasks",
+      "layer": "data",
+      "predicate": "declaration",
+      "value": "CREATE TABLE IF NOT EXISTS bs_tasks(id TEXT PRIMARY KEY, run_id TEXT NOT NULL, worker TEXT NOT NULL, payload TEXT NOT NULL, priority REAL NOT NULL, state TEXT NOT NULL DEFAULT 'pending', attempts INTEGER NOT NULL DEFAULT 0, lease_until INTEGER, error TEXT);",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 13,
+          "end": 13
+        }
+      ],
+      "producer": "contracts"
+    },
+    {
+      "id": "320852b8b25bfc756e7c236a4fb47acb",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../policy/policy.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "3b675094fcda78e8066b347a48da32cf",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./config.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 6,
+          "end": 6
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "c3d99442ec88d744cff2563c3f1a01dc",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../policy/data.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 4,
+          "end": 4
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "e3d3450e30ae947d7ba63513f54807e8",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../core/events.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 5,
+          "end": 5
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "ec1bea6e50edf70a4db6c7d86bdb2935",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:path",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "ff2391d756d2aab99b6cdb45467d0e78",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:fs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "03362c760a8dc4dc24f9834af544a017",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:path",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "2abdb6e68cede1581fa2abc9a26f1d7b",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:fs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "bb18c36fab096eb3d3621b5acf91d774",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../core/events.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "187f962e7f6c163174d7d66352868992",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./extract.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 5,
+          "end": 5
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "2a51376340825821c47af8c79b1d68ed",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./export.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 7,
+          "end": 7
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "34719374d107b3a5e2a7d138d45f1735",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./llm.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 6,
+          "end": 6
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "500348482b02ed0e68237fe577df004f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:fs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "53c1033dcded252f1e3ca563e9e4c7c0",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./acquire.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 4,
+          "end": 4
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "5d4a3601e8d8b5ae2d3197c16d1990f6",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:path",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "9aec148a46af2b78fd4888406dfb56f8",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../core/events.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "beee002da0438c05bf4d232d31195e2f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./topology.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 8,
+          "end": 8
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "291b77f0476c70485dee0669f79fed03",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./llm.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 4,
+          "end": 4
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "29342dda81c2662e7a3018cc8eecc7da",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:path",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "4a37da243dac03f0224e5558e0489c82",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:http",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 36,
+          "end": 36
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "6e04fe93002fa07f6d7c936c3ab53b88",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:fs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "940dcea3dc9ced47d87ad38fb96894fa",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:fs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 36,
+          "end": 36
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "bfb95f4ed66a77cab1b373e1813366ed",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./config.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "6595ff1e10d913e37b2a9d584ad4fdda",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:extract.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "node:path",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "7464f2f87b53556b3c187fe6f4eaedc5",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../core/events.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "cec1bd6503eb633a3f6c73f801065526",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "./acquire.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "25f63fc8641102efa49dc285a0286538",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../policy/data.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "7470b665a6cbbcd9be6773d05247099f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../core/store.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "d940df1bf36b59df8df9bd576a969ea0",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "dependencies",
+      "predicate": "imports",
+      "value": "../core/events.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "dependencies"
+    },
+    {
+      "id": "889a044e18a9ff0ac3233fe574bf8d1d",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "documentation",
+      "predicate": "heading",
+      "value": "Database and outputs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 83,
+          "end": 83
+        }
+      ],
+      "producer": "documents"
+    },
+    {
+      "id": "913f1d415155fe02b1d59338ef99ae04",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "documentation",
+      "predicate": "heading",
+      "value": "What the workers actually do",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 53,
+          "end": 53
+        }
+      ],
+      "producer": "documents"
+    },
+    {
+      "id": "9d172a05f88b2346f0aba2f8a03a5c37",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "documentation",
+      "predicate": "heading",
+      "value": "Start",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 11,
+          "end": 11
+        }
+      ],
+      "producer": "documents"
+    },
+    {
+      "id": "9d3601c59f284df70e67105b7af0511f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "documentation",
+      "predicate": "heading",
+      "value": "Verification",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 165,
+          "end": 165
+        }
+      ],
+      "producer": "documents"
+    },
+    {
+      "id": "aa45eb20a79651a641454245b79e6376",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "documentation",
+      "predicate": "heading",
+      "value": "Model integration without mandatory API spending",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 127,
+          "end": 127
+        }
+      ],
+      "producer": "documents"
+    },
+    {
+      "id": "d3de08d52518a5f0149b791b231e8ef8",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "documentation",
+      "predicate": "heading",
+      "value": "Blindsight: an evidence-driven anatomy engine",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "documents"
+    },
+    {
+      "id": "ad5338ccfc36832bca0b25a67294a25b",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:acquire.mjs:acquire",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "acquire",
+        "file": "acquire.mjs",
+        "line": 19
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 19,
+          "end": 19
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "21783cd251879c4ade9cd2d727f959b0",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:acquire.mjs:cleanText",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "cleanText",
+        "file": "acquire.mjs",
+        "line": 8
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 8,
+          "end": 8
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "81827520a3b7ae1961639a1b9fefbb84",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:acquire.mjs:priority",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "priority",
+        "file": "acquire.mjs",
+        "line": 15
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 15,
+          "end": 15
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "82317ff96db657415a0b3558792a54cc",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:config.mjs:excluded",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "excluded",
+        "file": "config.mjs",
+        "line": 50
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 50,
+          "end": 50
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "6f318482a7c2348283e4758ac0f755c9",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:config.mjs:readConfig",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "readConfig",
+        "file": "config.mjs",
+        "line": 8
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 8,
+          "end": 8
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "d8dd83efe85b308f58042d88ca05a3a6",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:config.mjs:safePath",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "safePath",
+        "file": "config.mjs",
+        "line": 47
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 47,
+          "end": 47
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "08904c6973cacb4e13817a453e4ddb05",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:config.mjs:validateConfig",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "validateConfig",
+        "file": "config.mjs",
+        "line": 12
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 12,
+          "end": 12
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "cd19a934e1f98a76eb92168809758013",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:engine.mjs:importModelResults",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "importModelResults",
+        "file": "engine.mjs",
+        "line": 77
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 77,
+          "end": 77
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "41ccba71d5dcce356c3f993ed4acc53a",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:engine.mjs:runAnatomy",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "runAnatomy",
+        "file": "engine.mjs",
+        "line": 10
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 10,
+          "end": 10
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "e139ff432002f00b6a3a7153a8cb2936",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:export.mjs:exportRun",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "exportRun",
+        "file": "export.mjs",
+        "line": 6
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 6,
+          "end": 6
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "961d8e735167c2476261c4083ee729f9",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:extract.mjs:extract",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "extract",
+        "file": "extract.mjs",
+        "line": 5
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 5,
+          "end": 5
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "0a3064cf0c59388f561a96e46f7332e0",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:extract.mjs:linkImports",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "linkImports",
+        "file": "extract.mjs",
+        "line": 100
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 100,
+          "end": 100
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "92524ed9eaa1cb0fa7a4ba5c010603c4",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:extract.mjs:workersFor",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "workersFor",
+        "file": "extract.mjs",
+        "line": 90
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 90,
+          "end": 90
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "c50c235af6cbecc3f546851e79d17930",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:llm.mjs:infer",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "infer",
+        "file": "llm.mjs",
+        "line": 31
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 31,
+          "end": 31
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "2f84c479c05824f8cdd304dfd44a4373",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:llm.mjs:modelTask",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "modelTask",
+        "file": "llm.mjs",
+        "line": 6
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 6,
+          "end": 6
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "a6d3c43f296c526cd9e37302dd578c84",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:llm.mjs:validateProposals",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "validateProposals",
+        "file": "llm.mjs",
+        "line": 18
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 18,
+          "end": 18
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "237a11b70cbea67a28dcf30e01447832",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:store.mjs:AnatomyStore",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "AnatomyStore",
+        "file": "store.mjs",
+        "line": 19
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 19,
+          "end": 19
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "2cf1a1fb1874076cfc65f44b15304cac",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:topology.mjs:attention",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "attention",
+        "file": "topology.mjs",
+        "line": 36
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 36,
+          "end": 36
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "2b5cd69e61959953ad2839584a41dbcb",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "symbol:topology.mjs:topology",
+      "layer": "implementation",
+      "predicate": "declaration",
+      "value": {
+        "name": "topology",
+        "file": "topology.mjs",
+        "line": 3
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "symbols"
+    },
+    {
+      "id": "44bd4fd084c14b9c9f8496b6d53ce3d8",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "operations",
+      "predicate": "environmentVariable",
+      "value": "PORT",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 36,
+          "end": 36
+        }
+      ],
+      "producer": "contracts"
+    },
+    {
+      "id": "53f2072bcbbf013dcdc9e2264025f1d2",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "operations",
+      "predicate": "environmentVariable",
+      "value": "BLINDSIGHT_LLM_TOKEN",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 33,
+          "end": 33
+        }
+      ],
+      "producer": "contracts"
+    },
+    {
+      "id": "b71ae717793a97efad081d52101b90ec",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:extract.mjs",
+      "layer": "seams",
+      "predicate": "boundaryCandidate",
+      "value": {
+        "excerpt": "if (/\\b(?:authenticate|authorize|permission|tenant|session|middleware|validate|serialize|deserialize)\\b/i.test(line)) fact(file, 'seams', 'boundaryCandidate', { excerpt: line.trim().slice(0, 350), meaning: 'lexical signal; trust boundary not verified' }, i + 1, 'inferred');",
+        "meaning": "lexical signal; trust boundary not verified"
+      },
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 78,
+          "end": 78
+        }
+      ],
+      "producer": "operations"
+    },
+    {
+      "id": "1ada00bacf7ba939d83a3911d4b4995e",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "139c26f97e54bfe6140eb0ed6edcc3bf",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "c0d8de44f8f13c0e942b474257115646",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:config.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 6,
+          "end": 6
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "8a48123b1459babf3f1cee57772ae5ee",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../core/events.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 5,
+          "end": 5
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "ab69943c5010335d20c679590c4c85bb",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../policy/policy.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "e58fdff6c829a5adaa82f7088658fff6",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../policy/data.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 4,
+          "end": 4
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "09f6473c8834cbd8082077dfdc206b76",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "de9341c03028135cae998f4e4b3b8ddf",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../core/events.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "5b4c20a5db300d68203c3b399097a742",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "2cdd5cb63a9bd128070a5130fefc4dc3",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:acquire.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 4,
+          "end": 4
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "6bfaa8ce7328f96062be5519d0795287",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:llm.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 6,
+          "end": 6
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "85a47d7b5ec63ee88fe6f46cb6eda583",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:topology.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 8,
+          "end": 8
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "a42e258c75d5c7bd998d0523b3e23346",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:export.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 7,
+          "end": 7
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "fa8ec4727264b426aa8c5c5fad85e03f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:extract.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 5,
+          "end": 5
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "80b6739b48570b34c8afa2333e9c9606",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../core/events.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "1d9b1b69fddc9beb707a204e0ba5dadf",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "c73d3ef7cb95a08fff289efeebb6e509",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:config.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "cb6fe1f8f5b877147ad2da4233eff6c6",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:llm.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 4,
+          "end": 4
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "bbae2426b69ff6de8bf4dfe247b8f636",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:extract.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "3dd4d47e1a402beb65b22b827d357136",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "190fb90ba089db3e017a7fc168452d1b",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "structure",
+      "predicate": "dependsOn",
+      "value": "file:acquire.mjs",
+      "status": "inferred",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "dc2500631ce59f7ea3b3a4d85a232d79",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../core/events.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "cd6676e62f4535da862ee0db58404169",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "0a443fbe090e5c6e74e9b4449d41cdf7",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../core/events.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 2,
+          "end": 2
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "9377a37e5f5eca43d28c17a2b84a901b",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../core/store.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "d8c6daf77492f81670df99f24ff1014a",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "structure",
+      "predicate": "unresolvedImport",
+      "value": "../policy/data.mjs",
+      "status": "unknown",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 3,
+          "end": 3
+        }
+      ],
+      "producer": "linker"
+    },
+    {
+      "id": "a9da44ae0b3654b706180bf78c186fbb",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:topology.mjs",
+      "layer": "structure",
+      "predicate": "containedBy",
+      "value": "directory:.",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "002f51215fb11d53812b3c85a7ae9c88",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".md",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "da3e9d55b0baa97e76cb957ef01d31f5",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 181,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "5f56c32044e9feb6264b31876509aa17",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "README.md",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "633e355fd5687e6825c8ca51bd19552a",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:README.md",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": true,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "1bc3059364e544bf248b8e1fee783225",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "4b4d2bbdce3f39af9e100cf6f253b895",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "87b20c8a29cf3ed1e5df74bfc6cbbccf",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 125,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "6006e526d6ae5efc02c6d6f886dd3d90",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "acquire.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "6f9b20224cdaa06b1aba93ed7f8a02e5",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:acquire.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": false,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "63b12895a82e2d0cfbf32a9f39139849",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "d6c0d33a182a19cf41e806f9c34e963a",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "e61f349ad3ac5a798ca03c68a382d52f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 53,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "18e9e460294dd53a374443a4d25a05f0",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "config.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "57c8a6f035309a05bb9befc0d2331dac",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:config.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": true,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4a7e6e93c181bd72c2a8f040e4a9ad29",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "50067eb890de5b7d17ee6ce2f94138ad",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "c2f1470dd9cafad283b03260dc2366d5",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 89,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "25d5216bbc6d8b3254d625301d5921ff",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "engine.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "a1f7c8b97cb05983ffbd511f7858565e",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:engine.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": false,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "a2d68c8a439804bec9ab493abcbcaf3c",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "d6414626ffe0790c0d6ef473456ef7f3",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "e67eec88f76e6246fc0f03e9364cc096",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 40,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "5f46f633f1d1cc17185ad9fcffbef7f5",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "export.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "c8f0e298f7e6c02002b3f4c183dfb932",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:export.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": true,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "07d53857360bdd49f8b169647e5a7a21",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "cff5b65e2334ec4386b2e59a8125d944",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:extract.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "d2c39e364675d14aa86d2b70f208658b",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:extract.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 110,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "1eeb55abed435e040f601a359ab0540f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:extract.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "extract.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "236cc1bef67b9fdfe3ff2e47d16d0639",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:extract.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": false,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "bcd9c4c5eda816c7a3fdb07c1e4e7c52",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "9b390b2aeed1b10719833b136ae294ae",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "1d1bbfa786502eb498acf195271a0f7c",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 46,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "e274bae6b286e01941a1675792c015e4",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "llm.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "38fef08db7291870e4642b06d84dbf52",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:llm.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": false,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4d31a32959908ddc247c2b90ad98811f",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "cbe30dc93effd79ac0ce2898732410d3",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "afde35c40c03412023aa96bf8d647349",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 75,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "f3066081c9c86bcb3b0d7858f6167259",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "store.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "2a29f61dea0b7f2576768d49a35cf301",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:store.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": false,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "9791c96cc4cdfddd911a0894f9a3b6c6",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "0323e69e73d17ffa022e9330d3bc53ca",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:topology.mjs",
+      "layer": "surface",
+      "predicate": "extension",
+      "value": ".mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "e27128dece30b753bb26baa60773eb76",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:topology.mjs",
+      "layer": "surface",
+      "predicate": "lineCount",
+      "value": 41,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "a27862b643fb645ea37510b8e576a35f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:topology.mjs",
+      "layer": "surface",
+      "predicate": "path",
+      "value": "topology.mjs",
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "30d96fa77111857ca6ed6e3609b23767",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "file:topology.mjs",
+      "layer": "surface",
+      "predicate": "redacted",
+      "value": false,
+      "status": "observed",
+      "evidence": [
+        {
+          "artifact": "4cfb359d4a5c94570f199fbcfcc48d04",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "producer": "structure"
+    },
+    {
+      "id": "a5824994a8de2b082769fa1574ab8e40",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "target:4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "layer": "unknowns",
+      "predicate": "hiddenComponents",
+      "value": "Private backends, deployment state and components absent from captured sources are unknown",
+      "status": "unknown",
+      "evidence": [],
+      "producer": "coverage"
+    },
+    {
+      "id": "d5eb73bd848cf8867417c3124e88155f",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "target:4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "layer": "unknowns",
+      "predicate": "parserCoverage",
+      "value": "Lexical source analysis plus JSON structure; not a complete AST or language semantics engine",
+      "status": "unknown",
+      "evidence": [],
+      "producer": "coverage"
+    },
+    {
+      "id": "76b7caf97189f937877a59ae5b483987",
+      "run_id": "4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "entity": "target:4cbc41acb2dffa222dd3e1dbd4b1bc5b",
+      "layer": "unknowns",
+      "predicate": "runtimeBehavior",
+      "value": "No dynamic execution or behavioral equivalence verification performed",
+      "status": "unknown",
+      "evidence": [],
+      "producer": "coverage"
+    }
+  ]
+}
