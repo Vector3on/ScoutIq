@@ -1,0 +1,715 @@
+{
+  "benchmark": "Melt reasoning 2",
+  "seed": 1717,
+  "random_cases_per_family": 8,
+  "freeze": {
+    "capsules": {
+      "state_planner": "79f40ce0956da4fc3cbf5508069e0d6a578a8efcaf0af568a3231569d81112c2",
+      "visual_rule": "452a1b8cb0f38585cdb1c45a55b9511cf6ff1f1618e1c5d47842587180866e2b",
+      "diagnose": "42248eb148f02ba72e6fd3b3bc9dcb2690e3d8a20c667fe40a88146da4b60b02"
+    },
+    "runtime": "608473c030339be3279a32700886bf1da3413fe6edb1427312ef0b96cccb351e",
+    "evaluator": "6bfd5fc865fe9afa719e30c88773bb07a4fda08f899df2a77cac656b4c79f54d"
+  },
+  "corpus_sha256": "8a53268b58eaab382730d5f3c9004ae97c38ea9f7b99792dd75d210293194c27",
+  "results": {
+    "state_planner": {
+      "passed_contract": 18,
+      "total": 18,
+      "outcomes": {
+        "solved": 10,
+        "unreachable": 5,
+        "budget_exhausted": 3
+      },
+      "tags": {
+        "random_costed": {
+          "passed": 8,
+          "total": 8
+        },
+        "setback": {
+          "passed": 3,
+          "total": 3
+        },
+        "long_horizon": {
+          "passed": 3,
+          "total": 3
+        },
+        "budget": {
+          "passed": 3,
+          "total": 3
+        },
+        "unreachable": {
+          "passed": 1,
+          "total": 1
+        }
+      },
+      "wrong_definitive_answers": 0,
+      "artifact_sha256": "9372edd988593f43e55882cc255bd66394b410dad6544119830f2236a7b26ea9",
+      "external_action_attempts": [],
+      "maximum_steps": 62632,
+      "baseline": {
+        "name": "action-count BFS",
+        "matches": 13,
+        "eligible": 15,
+        "metric": "matches optimum/status",
+        "strict_cost_improvements": 2,
+        "total_cost_saved": 26
+      },
+      "cases": [
+        {
+          "id": "state_planner-0",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 474,
+          "expected": 30,
+          "baseline": 30,
+          "cost": 30,
+          "plan_length": 1
+        },
+        {
+          "id": "state_planner-1",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "unreachable",
+          "steps": 193,
+          "expected": null,
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "state_planner-2",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 304,
+          "expected": 30,
+          "baseline": 30,
+          "cost": 30,
+          "plan_length": 1
+        },
+        {
+          "id": "state_planner-3",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "unreachable",
+          "steps": 275,
+          "expected": null,
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "state_planner-4",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 957,
+          "expected": 30,
+          "baseline": 30,
+          "cost": 30,
+          "plan_length": 1
+        },
+        {
+          "id": "state_planner-5",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "unreachable",
+          "steps": 1905,
+          "expected": null,
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "state_planner-6",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 450,
+          "expected": 8,
+          "baseline": 8,
+          "cost": 8,
+          "plan_length": 1
+        },
+        {
+          "id": "state_planner-7",
+          "tag": "random_costed",
+          "pass": true,
+          "outcome": "unreachable",
+          "steps": 369,
+          "expected": null,
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "state_planner-8",
+          "tag": "setback",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 170,
+          "expected": 4,
+          "baseline": 4,
+          "cost": 4,
+          "plan_length": 1
+        },
+        {
+          "id": "state_planner-9",
+          "tag": "setback",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 173,
+          "expected": 4,
+          "baseline": 9,
+          "cost": 4,
+          "plan_length": 4
+        },
+        {
+          "id": "state_planner-10",
+          "tag": "setback",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 173,
+          "expected": 4,
+          "baseline": 25,
+          "cost": 4,
+          "plan_length": 4
+        },
+        {
+          "id": "state_planner-11",
+          "tag": "long_horizon",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 2434,
+          "expected": 63,
+          "baseline": 63,
+          "cost": 63,
+          "plan_length": 63
+        },
+        {
+          "id": "state_planner-12",
+          "tag": "long_horizon",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 12655,
+          "expected": 255,
+          "baseline": 255,
+          "cost": 255,
+          "plan_length": 255
+        },
+        {
+          "id": "state_planner-13",
+          "tag": "long_horizon",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 62632,
+          "expected": 1023,
+          "baseline": 1023,
+          "cost": 1023,
+          "plan_length": 1023
+        },
+        {
+          "id": "state_planner-14",
+          "tag": "budget",
+          "pass": true,
+          "outcome": "budget_exhausted",
+          "steps": 138,
+          "expected": "budget_exhausted",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "state_planner-15",
+          "tag": "budget",
+          "pass": true,
+          "outcome": "budget_exhausted",
+          "steps": 218,
+          "expected": "budget_exhausted",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "state_planner-16",
+          "tag": "budget",
+          "pass": true,
+          "outcome": "budget_exhausted",
+          "steps": 314,
+          "expected": "budget_exhausted",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "state_planner-17",
+          "tag": "unreachable",
+          "pass": true,
+          "outcome": "unreachable",
+          "steps": 46,
+          "expected": null,
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        }
+      ]
+    },
+    "visual_rule": {
+      "passed_contract": 16,
+      "total": 16,
+      "outcomes": {
+        "ambiguous": 7,
+        "solved": 5,
+        "unsupported": 4
+      },
+      "tags": {
+        "composition_size_transfer": {
+          "passed": 8,
+          "total": 8
+        },
+        "ambiguous": {
+          "passed": 4,
+          "total": 4
+        },
+        "outside_grammar": {
+          "passed": 4,
+          "total": 4
+        }
+      },
+      "wrong_definitive_answers": 0,
+      "artifact_sha256": "2fe978d090ec3327baa02be53a4e0785174a45e96d51ef815572bd0c515c0c1f",
+      "external_action_attempts": [],
+      "maximum_steps": 15054,
+      "baseline": {
+        "name": "first-consistent guess",
+        "matches": 6,
+        "eligible": 16,
+        "metric": "matches hidden target output",
+        "strict_cost_improvements": 0,
+        "total_cost_saved": 0
+      },
+      "cases": [
+        {
+          "id": "visual_rule-0",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "ambiguous",
+          "steps": 6028,
+          "expected": "ambiguous",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-1",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 6306,
+          "expected": "solved",
+          "baseline": true,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-2",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "ambiguous",
+          "steps": 6537,
+          "expected": "ambiguous",
+          "baseline": true,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-3",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 8315,
+          "expected": "solved",
+          "baseline": true,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-4",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 4007,
+          "expected": "solved",
+          "baseline": true,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-5",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "ambiguous",
+          "steps": 5826,
+          "expected": "ambiguous",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-6",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 4732,
+          "expected": "solved",
+          "baseline": true,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-7",
+          "tag": "composition_size_transfer",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 5823,
+          "expected": "solved",
+          "baseline": true,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-8",
+          "tag": "ambiguous",
+          "pass": true,
+          "outcome": "ambiguous",
+          "steps": 13085,
+          "expected": "ambiguous",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-9",
+          "tag": "ambiguous",
+          "pass": true,
+          "outcome": "ambiguous",
+          "steps": 15054,
+          "expected": "ambiguous",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-10",
+          "tag": "ambiguous",
+          "pass": true,
+          "outcome": "ambiguous",
+          "steps": 11746,
+          "expected": "ambiguous",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-11",
+          "tag": "ambiguous",
+          "pass": true,
+          "outcome": "ambiguous",
+          "steps": 10407,
+          "expected": "ambiguous",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-12",
+          "tag": "outside_grammar",
+          "pass": true,
+          "outcome": "unsupported",
+          "steps": 5179,
+          "expected": "unsupported",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-13",
+          "tag": "outside_grammar",
+          "pass": true,
+          "outcome": "unsupported",
+          "steps": 5179,
+          "expected": "unsupported",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-14",
+          "tag": "outside_grammar",
+          "pass": true,
+          "outcome": "unsupported",
+          "steps": 5179,
+          "expected": "unsupported",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "visual_rule-15",
+          "tag": "outside_grammar",
+          "pass": true,
+          "outcome": "unsupported",
+          "steps": 5179,
+          "expected": "unsupported",
+          "baseline": false,
+          "cost": null,
+          "plan_length": null
+        }
+      ]
+    },
+    "diagnose": {
+      "passed_contract": 17,
+      "total": 17,
+      "outcomes": {
+        "solved": 8,
+        "unidentifiable": 4,
+        "inconsistent": 1,
+        "budget_exhausted": 4
+      },
+      "tags": {
+        "adaptive_cost": {
+          "passed": 8,
+          "total": 8
+        },
+        "unidentifiable": {
+          "passed": 4,
+          "total": 4
+        },
+        "inconsistent": {
+          "passed": 1,
+          "total": 1
+        },
+        "budget": {
+          "passed": 4,
+          "total": 4
+        }
+      },
+      "wrong_definitive_answers": 0,
+      "artifact_sha256": "400cfaef04690843547402371a252e3d9fcc6b3006f5835baeae57a501c1bb90",
+      "external_action_attempts": [],
+      "maximum_steps": 934,
+      "baseline": {
+        "name": "greedy immediate partition",
+        "matches": 7,
+        "eligible": 8,
+        "metric": "matches optimum/status",
+        "strict_cost_improvements": 1,
+        "total_cost_saved": 6
+      },
+      "cases": [
+        {
+          "id": "diagnose-0",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 147,
+          "expected": 6,
+          "baseline": 6,
+          "cost": 6,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-1",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 750,
+          "expected": 17,
+          "baseline": 17,
+          "cost": 17,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-2",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 506,
+          "expected": 4,
+          "baseline": 4,
+          "cost": 4,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-3",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 137,
+          "expected": 1,
+          "baseline": 1,
+          "cost": 1,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-4",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 934,
+          "expected": 6,
+          "baseline": 12,
+          "cost": 6,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-5",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 653,
+          "expected": 10,
+          "baseline": 10,
+          "cost": 10,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-6",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 121,
+          "expected": 0,
+          "baseline": 0,
+          "cost": 0,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-7",
+          "tag": "adaptive_cost",
+          "pass": true,
+          "outcome": "solved",
+          "steps": 839,
+          "expected": 6,
+          "baseline": 6,
+          "cost": 6,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-8",
+          "tag": "unidentifiable",
+          "pass": true,
+          "outcome": "unidentifiable",
+          "steps": 18,
+          "expected": "unidentifiable",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-9",
+          "tag": "unidentifiable",
+          "pass": true,
+          "outcome": "unidentifiable",
+          "steps": 18,
+          "expected": "unidentifiable",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-10",
+          "tag": "unidentifiable",
+          "pass": true,
+          "outcome": "unidentifiable",
+          "steps": 18,
+          "expected": "unidentifiable",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-11",
+          "tag": "unidentifiable",
+          "pass": true,
+          "outcome": "unidentifiable",
+          "steps": 18,
+          "expected": "unidentifiable",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-12",
+          "tag": "inconsistent",
+          "pass": true,
+          "outcome": "inconsistent",
+          "steps": 11,
+          "expected": "inconsistent",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-13",
+          "tag": "budget",
+          "pass": true,
+          "outcome": "budget_exhausted",
+          "steps": 67,
+          "expected": "budget_exhausted",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-14",
+          "tag": "budget",
+          "pass": true,
+          "outcome": "budget_exhausted",
+          "steps": 67,
+          "expected": "budget_exhausted",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-15",
+          "tag": "budget",
+          "pass": true,
+          "outcome": "budget_exhausted",
+          "steps": 67,
+          "expected": "budget_exhausted",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        },
+        {
+          "id": "diagnose-16",
+          "tag": "budget",
+          "pass": true,
+          "outcome": "budget_exhausted",
+          "steps": 67,
+          "expected": "budget_exhausted",
+          "baseline": null,
+          "cost": null,
+          "plan_length": null
+        }
+      ]
+    }
+  },
+  "passed_contract": 51,
+  "total": 51,
+  "failures": [],
+  "status": "passed",
+  "limitations": [
+    "Original synthetic benchmarks, not official ARC, PlanBench, or tau2 scores.",
+    "Author knows task families and writes both candidates and evaluators; no independent blinding.",
+    "Contract correctness includes explicit abstention; it is not the same as solving every task.",
+    "No live-model baseline, learned trace compiler, weight transfer, or autonomous source revision.",
+    "Program search is limited to a declared visual grammar. Beyond-grammar tasks stay unsupported.",
+    "Fixed algorithmic baselines use the same task data, not necessarily equal computation.",
+    "Python-level offline audit, not kernel-enforced network isolation."
+  ]
+}

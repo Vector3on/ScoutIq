@@ -1,0 +1,38 @@
+name: Observe-only synthesis organism
+
+on:
+  push:
+    branches: [codex/synthesis-organism]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: synthesis-organism-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Test inherited gates and all synthesis pieces
+        run: |
+          node --test --test-concurrency=1 substrate/tests/*.test.mjs organism/tests/*.test.mjs
+          python3 -m unittest discover -s melt/tests
+          cd executable-mind
+          python3 -m unittest discover -s tests -t .
+      - name: Reproduce the real offline observation and transfer experiment
+        run: node organism/demo.mjs organism/out/demo
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: observe-only-synthesis
+          path: organism/out/demo/
+          retention-days: 14

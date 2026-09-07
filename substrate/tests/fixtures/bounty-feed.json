@@ -1,0 +1,99 @@
+[
+  {
+    "handle": "acme_cloud",
+    "name": "Acme Cloud Platform",
+    "url": "https://hackerone.com/acme_cloud",
+    "website": "https://acme.example",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "managed_program": false,
+    "targets": {
+      "in_scope": [
+        { "asset_identifier": "https://api.acme.example", "asset_type": "API", "eligible_for_bounty": true, "max_severity": "critical", "instruction": "GraphQL and REST API gateway for tenant workloads" },
+        { "asset_identifier": "https://app.acme.example", "asset_type": "URL", "eligible_for_bounty": true, "max_severity": "critical", "instruction": "Primary multi-tenant web console" },
+        { "asset_identifier": "*.acme.example", "asset_type": "WILDCARD", "eligible_for_bounty": true, "max_severity": "high", "instruction": null }
+      ]
+    }
+  },
+  {
+    "handle": "northwind_id",
+    "name": "Northwind Identity",
+    "url": "https://hackerone.com/northwind_id",
+    "website": "https://login.northwind.example",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "targets": {
+      "in_scope": [
+        { "asset_identifier": "https://login.northwind.example", "asset_type": "URL", "eligible_for_bounty": true, "max_severity": "critical", "instruction": "OAuth2 / OIDC / SAML SSO and account-linking flows" },
+        { "asset_identifier": "https://accounts.northwind.example", "asset_type": "URL", "eligible_for_bounty": true, "max_severity": "high", "instruction": "Session, JWT, and password-reset endpoints" }
+      ]
+    }
+  },
+  {
+    "handle": "helios_ai",
+    "name": "Helios AI Assistant",
+    "url": "https://hackerone.com/helios_ai",
+    "website": "https://helios.example",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "targets": {
+      "in_scope": [
+        { "asset_identifier": "https://agent.helios.example", "asset_type": "URL", "eligible_for_bounty": true, "max_severity": "high", "instruction": "LLM agent with retrieval + tool-calling (MCP) over customer documents" },
+        { "asset_identifier": "https://api.helios.example/mcp", "asset_type": "API", "eligible_for_bounty": true, "max_severity": "high", "instruction": "MCP tool server" }
+      ]
+    }
+  },
+  {
+    "handle": "stablevault",
+    "name": "StableVault Protocol",
+    "url": "https://hackerone.com/stablevault",
+    "website": "https://stablevault.example",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "targets": {
+      "in_scope": [
+        { "asset_identifier": "0xVAULTcontractExampleAddress000000000000", "asset_type": "SMART_CONTRACT", "eligible_for_bounty": true, "max_severity": "critical", "instruction": "ERC-4626 vault on an optimistic L2 rollup; AMM oracle pricing" }
+      ]
+    }
+  },
+  {
+    "handle": "pigeon_mobile",
+    "name": "Pigeon Messenger",
+    "url": "https://hackerone.com/pigeon_mobile",
+    "website": "https://pigeon.example",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "targets": {
+      "in_scope": [
+        { "asset_identifier": "https://apps.apple.com/app/pigeon/id000000000", "asset_type": "APPLE_STORE_APP_ID", "eligible_for_bounty": true, "max_severity": "high", "instruction": "iOS messaging app" },
+        { "asset_identifier": "com.pigeon.messenger", "asset_type": "GOOGLE_PLAY_APP_ID", "eligible_for_bounty": true, "max_severity": "medium", "instruction": "Android messaging app" }
+      ]
+    }
+  },
+  {
+    "handle": "openforge_oss",
+    "name": "OpenForge",
+    "url": "https://hackerone.com/openforge_oss",
+    "website": "https://github.com/openforge-example",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "targets": {
+      "in_scope": [
+        { "asset_identifier": "https://github.com/openforge-example/core", "asset_type": "SOURCE_CODE", "eligible_for_bounty": true, "max_severity": "high", "instruction": "Go build pipeline, GitHub Actions, npm packages" }
+      ]
+    }
+  },
+  {
+    "handle": "quietlabs",
+    "name": "Quiet Labs (points only)",
+    "url": "https://hackerone.com/quietlabs",
+    "website": "https://quietlabs.example",
+    "offers_bounties": false,
+    "submission_state": "open",
+    "targets": {
+      "in_scope": [
+        { "asset_identifier": "https://portal.quietlabs.example", "asset_type": "URL", "eligible_for_bounty": false, "max_severity": "medium", "instruction": "Reputation-only program (no bounties) — watch-list" }
+      ]
+    }
+  }
+]

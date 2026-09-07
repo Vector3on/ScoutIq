@@ -1,0 +1,12 @@
+{
+  "phase": "before final evaluation",
+  "seed": 880301,
+  "random_cases_per_family": 60,
+  "sha256": {
+    "melt/capsules/state_planner.py": "79f40ce0956da4fc3cbf5508069e0d6a578a8efcaf0af568a3231569d81112c2",
+    "melt/capsules/visual_rule.py": "452a1b8cb0f38585cdb1c45a55b9511cf6ff1f1618e1c5d47842587180866e2b",
+    "melt/capsules/diagnose.py": "42248eb148f02ba72e6fd3b3bc9dcb2690e3d8a20c667fe40a88146da4b60b02",
+    "melt/runtime.py": "608473c030339be3279a32700886bf1da3413fe6edb1427312ef0b96cccb351e",
+    "melt/benchmarks/suite.py": "6bfd5fc865fe9afa719e30c88773bb07a4fda08f899df2a77cac656b4c79f54d"
+  }
+}

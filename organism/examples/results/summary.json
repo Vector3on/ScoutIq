@@ -1,0 +1,116 @@
+{
+  "baseline": {
+    "fileObservations": 6,
+    "queries": 6,
+    "cachedQueries": 0,
+    "grownLenses": 0,
+    "transferredLenses": 0,
+    "reusedConclusions": 0,
+    "newConclusions": 6,
+    "bitsReduced": 6,
+    "freshObservationBits": 6,
+    "networkRequests": 0,
+    "distinguished": 0,
+    "ceilings": 6,
+    "archive": {
+      "cells": 2,
+      "lenses": 2,
+      "memoryEntities": 6
+    }
+  },
+  "adaptive": {
+    "fileObservations": 14,
+    "queries": 12,
+    "cachedQueries": 2,
+    "grownLenses": 6,
+    "transferredLenses": 0,
+    "reusedConclusions": 0,
+    "newConclusions": 6,
+    "bitsReduced": 12,
+    "freshObservationBits": 10,
+    "networkRequests": 0,
+    "distinguished": 6,
+    "ceilings": 0,
+    "archive": {
+      "cells": 5,
+      "lenses": 4,
+      "memoryEntities": 10
+    }
+  },
+  "replay": {
+    "fileObservations": 0,
+    "queries": 0,
+    "cachedQueries": 0,
+    "grownLenses": 0,
+    "transferredLenses": 0,
+    "reusedConclusions": 6,
+    "newConclusions": 0,
+    "bitsReduced": 0,
+    "freshObservationBits": 0,
+    "networkRequests": 0,
+    "distinguished": 6,
+    "ceilings": 0,
+    "archive": {
+      "cells": 5,
+      "lenses": 4,
+      "memoryEntities": 10
+    }
+  },
+  "train": {
+    "fileObservations": 9,
+    "queries": 6,
+    "cachedQueries": 0,
+    "grownLenses": 3,
+    "transferredLenses": 0,
+    "reusedConclusions": 0,
+    "newConclusions": 3,
+    "bitsReduced": 6,
+    "freshObservationBits": 6,
+    "networkRequests": 0,
+    "distinguished": 3,
+    "ceilings": 0,
+    "archive": {
+      "cells": 5,
+      "lenses": 4,
+      "memoryEntities": 6
+    }
+  },
+  "warm": {
+    "fileObservations": 5,
+    "queries": 6,
+    "cachedQueries": 2,
+    "grownLenses": 0,
+    "transferredLenses": 3,
+    "reusedConclusions": 0,
+    "newConclusions": 3,
+    "bitsReduced": 6,
+    "freshObservationBits": 4,
+    "networkRequests": 0,
+    "distinguished": 3,
+    "ceilings": 0,
+    "archive": {
+      "cells": 6,
+      "lenses": 4,
+      "memoryEntities": 10
+    }
+  },
+  "cold": {
+    "fileObservations": 7,
+    "queries": 6,
+    "cachedQueries": 0,
+    "grownLenses": 3,
+    "transferredLenses": 0,
+    "reusedConclusions": 0,
+    "newConclusions": 3,
+    "bitsReduced": 6,
+    "freshObservationBits": 6,
+    "networkRequests": 0,
+    "distinguished": 3,
+    "ceilings": 0,
+    "archive": {
+      "cells": 4,
+      "lenses": 4,
+      "memoryEntities": 6
+    }
+  }
+}

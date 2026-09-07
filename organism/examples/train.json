@@ -1,0 +1,89 @@
+{
+  "format": "organism-snapshot-1",
+  "publicAuthorized": true,
+  "scope": "Public source of the user-owned ScoutIq repository, static reading only",
+  "capturedAt": "2026-09-07",
+  "files": [
+    {
+      "path": "source/substrate/policy/policy.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "292340064eabfafda7b8942bc204a2141281678edb5f0b407156dee766518e37",
+      "sourcePath": "substrate/policy/policy.mjs",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/actions.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "3168446cea586f03c8797fdde09ba945eac4139c53e742373fac228608400bb2",
+      "sourcePath": "substrate/policy/actions.mjs",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/data.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de",
+      "sourcePath": "substrate/policy/data.mjs",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/network.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa",
+      "sourcePath": "substrate/policy/network.mjs",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/manifest.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "bcc86bf5d2acdc5b9a8f3348e0b119d86ab6373fa6548933ad9ac944375a82cf",
+      "sourcePath": "substrate/policy/manifest.mjs",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/core/events.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "01175ee78e17d275f4acc3e23be44923baa67306c66377e04812efab87a9dcea",
+      "sourcePath": "substrate/core/events.mjs",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/core/ledger.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "bd56467ce3e6e1f23c0602bb44c06faf10a055556cab925ed8b7a67cea7753be",
+      "sourcePath": "substrate/core/ledger.mjs",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    }
+  ],
+  "targets": [
+    {
+      "id": "loam-policy",
+      "entry": "source/substrate/policy/policy.mjs",
+      "purpose": "research",
+      "program": {
+        "name": "ScoutIq self-observation",
+        "offersBounties": false,
+        "maxReward": 0
+      },
+      "asset": {
+        "type": "source-code",
+        "value": "https://github.com/Vector3on/ScoutIq",
+        "eligibleForBounty": false
+      }
+    },
+    {
+      "id": "loam-network",
+      "entry": "source/substrate/policy/network.mjs",
+      "purpose": "research",
+      "program": {
+        "name": "ScoutIq self-observation",
+        "offersBounties": false,
+        "maxReward": 0
+      },
+      "asset": {
+        "type": "source-code",
+        "value": "https://github.com/Vector3on/ScoutIq",
+        "eligibleForBounty": false
+      }
+    }
+  ]
+}

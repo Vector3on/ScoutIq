@@ -1,0 +1,8 @@
+{
+  "partition": {
+    "version": 1,
+    "dependencies": [],
+    "purpose": "Filter static evidence hypotheses and partition their predicted observations",
+    "contract": "rows: 1..128 categorical vectors; observed: numeric column strings to categorical answers"
+  }
+}

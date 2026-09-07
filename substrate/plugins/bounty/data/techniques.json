@@ -1,0 +1,2157 @@
+[
+  {
+    "id": "T001",
+    "number": 1,
+    "title": "Tag-name XSS and WAF evasion",
+    "year": 2026,
+    "howFound": "Fuzzing browser transformations showed that an HTML tag's localName can itself become executable JavaScript, a navigation URL, or fresh markup even when familiar attributes are filtered",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "structured protocol fuzzing"
+    ],
+    "fingerprints": [
+      "browser-ext"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/whats-in-a-tag-name-javascript-apparently"
+  },
+  {
+    "id": "T002",
+    "number": 2,
+    "title": "CSS-only webmail compromise paths",
+    "year": 2026,
+    "howFound": "Comparing sanitizer output with live browser behavior turned allowed labels, pseudo-elements, nesting, image proxies, and clipboard HTML into UI control, AI prompt injection, and token exfiltration primitives",
+    "mechanismFamilies": [
+      "secondary-channel/provenance",
+      "semantic/parser differential",
+      "trust-binding failure",
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "jwt-session",
+      "email",
+      "ai-agent-mcp",
+      "browser-ext",
+      "document-media"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/css-the-bomb-inside-your-inbox"
+  },
+  {
+    "id": "T003",
+    "number": 3,
+    "title": "CRLF-powered desync worms",
+    "year": 2026,
+    "howFound": "Researchers escalated ordinary response-header injection by using it to behead HTTP streams, creating browser-powered desynchronization and self-propagating cache or connection poisoning without a classic front-end/back-end split",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache",
+      "browser-ext"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/crlf-powered-desync-attacks"
+  },
+  {
+    "id": "T004",
+    "number": 4,
+    "title": "Human-guided AI protocol discovery",
+    "year": 2026,
+    "howFound": "A researcher fed small RFC fragments and deterministic cross-request tests to an AI agent, which surfaced new HTTP anomalies including dual-matching Content-Length behavior, status-line injection, and range-cache poisoning",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "http",
+      "cache",
+      "ai-agent-mcp"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/can-ai-do-novel-security-research"
+  },
+  {
+    "id": "T005",
+    "number": 5,
+    "title": "Void-canonicalization SAML bypass",
+    "year": 2025,
+    "howFound": "Differential XML parsing revealed that canonicalization errors could collapse signed material to an empty string while application logic still consumed an attacker-chosen assertion, breaking Ruby and PHP SAML validation",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "trust-binding failure",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "oauth-oidc-saml",
+      "xml"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/the-fragile-lock"
+  },
+  {
+    "id": "T006",
+    "number": 6,
+    "title": "Opossum opportunistic-TLS desynchronization",
+    "year": 2025,
+    "howFound": "Researchers treated STARTTLS-style protocol upgrades as a cross-layer state machine and found that endpoints could disagree about whether subsequent bytes were plaintext or encrypted application data",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "semantic/parser differential"
+    ],
+    "fingerprints": [
+      "http",
+      "dns-tls-pki"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "Opossum research",
+    "sourceUrl": "https://opossum-attack.com/"
+  },
+  {
+    "id": "T007",
+    "number": 7,
+    "title": "Funky chunk terminator smuggling",
+    "year": 2025,
+    "howFound": "Testing nonstandard line endings across HTTP parsers exposed cases where one hop ended a chunk-size line while another kept parsing, reviving request smuggling through character-level grammar ambiguity",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "smart-contract-evm"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "w4ke.info",
+    "sourceUrl": "https://w4ke.info/2025/06/18/funky-chunks.html"
+  },
+  {
+    "id": "T008",
+    "number": 8,
+    "title": "Conditioned Next.js race exploitation",
+    "year": 2025,
+    "howFound": "Instead of racing identical requests, the researcher conditioned framework state and timing so an intended race window reliably crossed security-sensitive cache and middleware decisions",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "zhero_web_security",
+    "sourceUrl": "https://zhero-web-sec.github.io/research-and-things/eclipse-on-nextjs-conditioned-exploitation-of-an-intended-race-condition"
+  },
+  {
+    "id": "T009",
+    "number": 9,
+    "title": "Next.js stale-cache exploit chains",
+    "year": 2025,
+    "howFound": "Mapping several cache lifetimes and internal headers showed how a response that was safe in one phase could become attacker-controlled after it outlived the state that justified caching it",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "zhero_web_security",
+    "sourceUrl": "https://zhero-web-sec.github.io/research-and-things/nextjs-cache-and-chains-the-stale-elixir"
+  },
+  {
+    "id": "T010",
+    "number": 10,
+    "title": "Go parser polyglot footguns",
+    "year": 2025,
+    "howFound": "Differential tests across Go's URL, HTTP, and encoding parsers found inputs with multiple valid interpretations, showing how individually reasonable standard-library APIs can compose into security bypasses",
+    "mechanismFamilies": [
+      "semantic/parser differential"
+    ],
+    "fingerprints": [
+      "http"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "Trail of Bits",
+    "sourceUrl": "https://blog.trailofbits.com/2025/06/17/unexpected-security-footguns-in-gos-parsers/"
+  },
+  {
+    "id": "T011",
+    "number": 11,
+    "title": "SVG interaction clickjacking",
+    "year": 2025,
+    "howFound": "Treating SVG as an interactive document rather than a passive image exposed coordinate, focus, and link behaviors that can relay a victim's clicks into actions the surrounding page did not visibly present",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "xml",
+      "browser-ext",
+      "document-media"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "lyra's blog",
+    "sourceUrl": "https://lyra.horse/blog/2025/12/svg-clickjacking/"
+  },
+  {
+    "id": "T012",
+    "number": 12,
+    "title": "Nonce-CSP reuse through disk cache",
+    "year": 2025,
+    "howFound": "The researcher crossed the policy/cache boundary and showed that a nonce-bearing response stored on disk could be replayed in a later context, converting a supposedly one-use CSP secret into a reusable bypass primitive",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "Jorian Woltjer",
+    "sourceUrl": "https://jorianwoltjer.com/blog/p/research/nonce-csp-bypass-using-disk-cache"
+  },
+  {
+    "id": "T013",
+    "number": 13,
+    "title": "Modern cross-site WebSocket hijacking",
+    "year": 2025,
+    "howFound": "Re-testing old assumptions against current browser cookie and WebSocket behavior uncovered practical cross-origin session abuse even where teams believed SameSite defaults had retired the bug class",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "jwt-session",
+      "browser-ext"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "Include Security",
+    "sourceUrl": "https://blog.includesecurity.com/2025/04/cross-site-websocket-hijacking-exploitation-in-2025/"
+  },
+  {
+    "id": "T014",
+    "number": 14,
+    "title": "Permission hijacking at scale",
+    "year": 2025,
+    "howFound": "Researchers searched for delegated permissions whose identifiers or ownership could be reclaimed, turning stale authorization references into repeatable privilege capture across many integrations",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "stateful/race/desync",
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "cache"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "Alberto F. de Rojas",
+    "sourceUrl": "https://albertofdr.github.io/post/permission-hijacking-2025/"
+  },
+  {
+    "id": "T015",
+    "number": 15,
+    "title": "OpenSSL AEAD tag-truncation misuse",
+    "year": 2025,
+    "howFound": "Auditing the API contract rather than the cipher found that callers could accidentally accept attacker-shortened authentication tags, converting a misuse-prone interface into a practical forgery surface",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "Felix Charette",
+    "sourceUrl": "https://sideni.xyz/posts/exploiting_openssl_api/"
+  },
+  {
+    "id": "T016",
+    "number": 16,
+    "title": "Prompt injection inside GitHub Actions",
+    "year": 2025,
+    "howFound": "Untrusted issue and pull-request text was traced into AI-maintained workflows, where model output could influence privileged automation and turn repository conversation into a software-supply-chain control channel",
+    "mechanismFamilies": [
+      "historical supply-chain",
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "http",
+      "ci-cd",
+      "ai-agent-mcp"
+    ],
+    "section": "A",
+    "domain": "2025-2026 frontier methods",
+    "source": "Aikido Security",
+    "sourceUrl": "https://www.aikido.dev/blog/promptpwnd-github-actions-ai-agents"
+  },
+  {
+    "id": "T017",
+    "number": 17,
+    "title": "BingBang cross-tenant CMS takeover",
+    "year": 2023,
+    "howFound": "A routine multi-tenant Azure app-registration choice let identities from any tenant authenticate to Microsoft's internal Bing content system, proving configuration semantics can erase an intended tenant boundary",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Wiz Research",
+    "sourceUrl": "https://www.wiz.io/blog/bingbang"
+  },
+  {
+    "id": "T018",
+    "number": 18,
+    "title": "nOAuth mutable-claim collision",
+    "year": 2023,
+    "howFound": "Researchers showed that applications using a mutable email claim instead of an immutable subject identifier can merge unrelated cross-tenant identities and hand one user another user's account",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [
+      "oauth-oidc-saml",
+      "email",
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Descope",
+    "sourceUrl": "https://www.descope.com/blog/post/noauth"
+  },
+  {
+    "id": "T019",
+    "number": 19,
+    "title": "Booking.com OAuth chain",
+    "year": 2023,
+    "howFound": "A custom OAuth parameter, permissive redirection, and account-linking logic were chained so three modest integration flaws became takeover of Booking.com and connected Kayak accounts",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "oauth-oidc-saml",
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Salt Security",
+    "sourceUrl": "https://salt.security/blog/traveling-with-oauth-account-takeover-on-booking-com"
+  },
+  {
+    "id": "T020",
+    "number": 20,
+    "title": "GitLab reset-email injection, CVE-2023-7028",
+    "year": 2024,
+    "howFound": "The reset workflow accepted multiple email values and sent the same valid reset link to an attacker-selected unverified secondary address, bypassing the usual ownership invariant",
+    "mechanismFamilies": [
+      "secondary-channel/provenance",
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "email",
+      "ci-cd"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "GitLab",
+    "sourceUrl": "https://docs.gitlab.com/releases/patches/patch-release-gitlab-16-7-2-released/"
+  },
+  {
+    "id": "T021",
+    "number": 21,
+    "title": "GitLab email-confirmation race, CVE-2022-4037",
+    "year": 2023,
+    "howFound": "HTTP/2 single-packet synchronization made the destination email and confirmation token come from different snapshots of account state, turning a tiny race window into a repeatable takeover path",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "trust-binding failure",
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [
+      "http",
+      "jwt-session",
+      "email"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/smashing-the-state-machine"
+  },
+  {
+    "id": "T022",
+    "number": 22,
+    "title": "GitPod OAuth cookie tossing",
+    "year": 2024,
+    "howFound": "A user-controlled workspace subdomain set parent-scope cookies that rebound a victim's completed GitHub or Bitbucket authorization to the attacker's GitPod session",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "oauth-oidc-saml",
+      "jwt-session",
+      "cloud-iam",
+      "containers-k8s",
+      "browser-ext"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Snyk Labs",
+    "sourceUrl": "https://labs.snyk.io/resources/hijacking-oauth-flows-via-cookie-tossing/"
+  },
+  {
+    "id": "T023",
+    "number": 23,
+    "title": "ChatGPT plugin forced installation",
+    "year": 2024,
+    "howFound": "Insufficiently bound OAuth state let a crafted but legitimate callback install an attacker-controlled legacy ChatGPT plugin without the victim knowingly approving that plugin",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [
+      "oauth-oidc-saml"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Salt Security",
+    "sourceUrl": "https://salt.security/blog/security-flaws-within-chatgpt-extensions-allowed-access-to-accounts-on-third-party-websites-and-sensitive-data"
+  },
+  {
+    "id": "T024",
+    "number": 24,
+    "title": "PluginLab zero-click account binding",
+    "year": 2024,
+    "howFound": "An unauthenticated authorization endpoint accepted a predictable member identifier and returned a code that bound a plugin session to another user's connected account",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "jwt-session"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Salt Security",
+    "sourceUrl": "https://salt.security/blog/security-flaws-within-chatgpt-extensions-allowed-access-to-accounts-on-third-party-websites-and-sensitive-data"
+  },
+  {
+    "id": "T025",
+    "number": 25,
+    "title": "ChatGPT wildcard web-cache deception",
+    "year": 2024,
+    "howFound": "Traversal-like path segments decoded differently across routing and caching layers, causing authenticated responses to be stored beneath paths the cache mistook for static files",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Harel Friedlander",
+    "sourceUrl": "https://nokline.github.io/bugbounty/2024/02/04/ChatGPT-ATO.html"
+  },
+  {
+    "id": "T026",
+    "number": 26,
+    "title": "Google Cloud Load Balancer TE.0 smuggling",
+    "year": 2024,
+    "howFound": "Differential testing found the managed load balancer consumed a chunked body that some backends treated as absent, creating request smuggling across a cloud security boundary",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "semantic/parser differential"
+    ],
+    "fingerprints": [
+      "http",
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Bugcrowd",
+    "sourceUrl": "https://www.bugcrowd.com/blog/unveiling-te-0-http-request-smuggling-discovering-a-critical-vulnerability-in-thousands-of-google-cloud-websites/"
+  },
+  {
+    "id": "T027",
+    "number": 27,
+    "title": "PDF.js FontMatrix code generation, CVE-2024-4367",
+    "year": 2024,
+    "howFound": "Font-glyph numeric data was accepted as a richer JavaScript value and interpolated into generated code, producing script execution without memory corruption",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "document-media"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Codean Labs",
+    "sourceUrl": "https://codeanlabs.com/2024/05/cve-2024-4367-arbitrary-js-execution-in-pdf-js/"
+  },
+  {
+    "id": "T028",
+    "number": 28,
+    "title": "DOMPurify mutation-XSS bypass chain",
+    "year": 2024,
+    "howFound": "Parser depth, DOM clobbering, namespace changes, and reparsing were composed to make sanitized markup mutate into executable HTML after the security check",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "structured protocol fuzzing",
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "containers-k8s",
+      "browser-ext",
+      "supply-chain-pkg"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Mizu",
+    "sourceUrl": "https://mizu.re/post/exploring-the-dompurify-library-bypasses-and-fixes"
+  },
+  {
+    "id": "T029",
+    "number": 29,
+    "title": "Apache HTTP Server confusion attacks",
+    "year": 2024,
+    "howFound": "Auditing the reused request_rec object found modules interpreting the same field as a URL, filename, or handler, producing access-control and execution differentials",
+    "mechanismFamilies": [
+      "semantic/parser differential"
+    ],
+    "fingerprints": [
+      "http"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Orange Tsai",
+    "sourceUrl": "https://blog.orange.tw/posts/2024-08-confusion-attacks-en/"
+  },
+  {
+    "id": "T030",
+    "number": 30,
+    "title": "Npgsql oversized-parameter SQL injection",
+    "year": 2024,
+    "howFound": "A value larger than the protocol's signed message-length field made trailing parameter bytes appear to PostgreSQL as a fresh wire message, bypassing normal parameterization guarantees",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "database-storage",
+      "messaging-queue"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Npgsql advisory",
+    "sourceUrl": "https://github.com/npgsql/npgsql/security/advisories/GHSA-x9vc-6hfv-hg8c"
+  },
+  {
+    "id": "T031",
+    "number": 31,
+    "title": "Capital One browser-powered desync",
+    "year": 2022,
+    "howFound": "A browser-originated request exploited redirect body-length disagreement and response stacking, using the victim browser's own connection pool as the request-smuggling transport",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "semantic/parser differential",
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "http",
+      "browser-ext",
+      "smart-contract-evm"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/browser-powered-desync-attacks"
+  },
+  {
+    "id": "T032",
+    "number": 32,
+    "title": "Cloudflare internal H2.0 desync",
+    "year": 2025,
+    "howFound": "Cache anomalies revealed a protocol desynchronization inside shared CDN infrastructure rather than at one customer origin, making the poisoning primitive potentially reusable across many sites",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache",
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "PortSwigger Research",
+    "sourceUrl": "https://portswigger.net/research/http1-must-die"
+  },
+  {
+    "id": "T033",
+    "number": 33,
+    "title": "ArtiPACKED GitHub artifact race",
+    "year": 2024,
+    "howFound": "Researchers searched workflow artifacts for transient .git credential files captured during a narrow upload race and recovered still-valid tokens and cloud pivots",
+    "mechanismFamilies": [
+      "historical supply-chain",
+      "stateful/race/desync",
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "jwt-session",
+      "cloud-iam",
+      "ci-cd"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Unit 42",
+    "sourceUrl": "https://unit42.paloaltonetworks.com/github-repo-artifacts-leak-tokens/"
+  },
+  {
+    "id": "T034",
+    "number": 34,
+    "title": "GitHub cross-fork object persistence",
+    "year": 2024,
+    "howFound": "Commit objects remained addressable through a shared fork network after a repository was deleted or privatized, revealing why lifecycle actions are unreliable secret-erasure controls even though GitHub calls the behavior intentional",
+    "mechanismFamilies": [
+      "historical supply-chain"
+    ],
+    "fingerprints": [],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Truffle Security",
+    "sourceUrl": "https://trufflesecurity.com/blog/anyone-can-access-deleted-and-private-repo-data-github"
+  },
+  {
+    "id": "T035",
+    "number": 35,
+    "title": "PyTorch self-hosted runner compromise",
+    "year": 2024,
+    "howFound": "Researchers first earned contributor status with a benign patch, then used a persistent pull-request runner as a trust-boundary pivot toward release and cloud credentials",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "http",
+      "cloud-iam",
+      "ci-cd"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "John Stawinski and Adnan Khan",
+    "sourceUrl": "https://johnstawinski.com/2024/01/11/playing-with-fire-how-we-executed-a-critical-supply-chain-attack-on-pytorch/"
+  },
+  {
+    "id": "T036",
+    "number": 36,
+    "title": "GitHub push-pipeline RCE, CVE-2026-3854",
+    "year": 2026,
+    "howFound": "AI-assisted binary and protocol analysis found injection in internal Git push processing reachable through an ordinary authenticated push rather than an administrative interface",
+    "mechanismFamilies": [
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "ci-cd",
+      "ai-agent-mcp"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Wiz Research",
+    "sourceUrl": "https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854"
+  },
+  {
+    "id": "T037",
+    "number": 37,
+    "title": "ExtraReplica cross-account database access",
+    "year": 2022,
+    "howFound": "Code execution in the researcher's own Azure PostgreSQL instance became a route into a shared service network, where replication and certificate isolation flaws exposed other tenants' databases",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "dns-tls-pki",
+      "database-storage"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Wiz Research",
+    "sourceUrl": "https://www.wiz.io/blog/wiz-research-discovers-extrareplica-cross-account-database-vulnerability-in-azure-postgresql"
+  },
+  {
+    "id": "T038",
+    "number": 38,
+    "title": "AutoWarp Azure managed-identity theft",
+    "year": 2022,
+    "howFound": "A customer automation sandbox was treated as an entry point to the hidden management plane, revealing a path to managed-identity tokens belonging to other tenants",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "jwt-session",
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Orca Security",
+    "sourceUrl": "https://orca.security/resources/blog/autowarp-microsoft-azure-automation-service-vulnerability/"
+  },
+  {
+    "id": "T039",
+    "number": 39,
+    "title": "AWS AppSync confused deputy",
+    "year": 2022,
+    "howFound": "A crafted data-source configuration coerced the AppSync service principal into assuming a victim IAM role that trusted AppSync but had not constrained the requesting account",
+    "mechanismFamilies": [
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "http",
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Datadog Security Labs",
+    "sourceUrl": "https://securitylabs.datadoghq.com/articles/appsync-vulnerability-disclosure/"
+  },
+  {
+    "id": "T040",
+    "number": 40,
+    "title": "AttachMe cross-tenant OCI volume attachment",
+    "year": 2022,
+    "howFound": "A missing tenant authorization check let a researcher attach another customer's block volume to a VM using only the volume identifier",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "blockchain-consensus",
+      "kernel-os"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Wiz Research",
+    "sourceUrl": "https://www.wiz.io/blog/attachme-oracle-cloud-vulnerability-allows-unauthorized-cross-tenant-volume-access"
+  },
+  {
+    "id": "T041",
+    "number": 41,
+    "title": "SynLapse shared connector escape, CVE-2022-29972",
+    "year": 2022,
+    "howFound": "Shell injection in a third-party data connector combined with service certificates and management APIs to turn one tenant's job into compromise of shared Azure integration infrastructure",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "dns-tls-pki"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Microsoft MSRC",
+    "sourceUrl": "https://www.microsoft.com/en-us/msrc/blog/2022/05/vulnerability-mitigated-in-the-third-party-data-connector-used-in-azure-synapse-pipelines-and-azure-data-factory-cve-2022-29972"
+  },
+  {
+    "id": "T042",
+    "number": 42,
+    "title": "CloudImposer managed dependency confusion",
+    "year": 2024,
+    "howFound": "Following Google's own package-installation guidance revealed that a public Python package could outrank an intended internal dependency during managed Cloud Composer environment creation",
+    "mechanismFamilies": [
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "supply-chain-pkg"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Tenable Research",
+    "sourceUrl": "https://www.tenable.com/blog/cloudimposer-executing-code-on-millions-of-google-servers-with-a-single-malicious-package"
+  },
+  {
+    "id": "T043",
+    "number": 43,
+    "title": "ConfusedFunction build-identity escalation",
+    "year": 2024,
+    "howFound": "Mapping undocumented deployment orchestration showed that permission to deploy a Google Cloud Function could invoke an automatically created, overprivileged Cloud Build identity",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "ci-cd",
+      "document-media"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Tenable Research",
+    "sourceUrl": "https://www.tenable.com/blog/confusedfunction-a-privilege-escalation-vulnerability-impacting-gcp-cloud-functions"
+  },
+  {
+    "id": "T044",
+    "number": 44,
+    "title": "Azure Health Bot redirect-to-metadata SSRF",
+    "year": 2024,
+    "howFound": "Redirect behavior transformed an allowed data-connection request into access to instance metadata, exposing the service identity and cross-tenant control-plane resources",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "confused-deputy",
+      "semantic/parser differential"
+    ],
+    "fingerprints": [
+      "http",
+      "cloud-iam"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Tenable Research",
+    "sourceUrl": "https://www.tenable.com/blog/compromising-microsofts-ai-healthcare-chatbot-service"
+  },
+  {
+    "id": "T045",
+    "number": 45,
+    "title": "0.0.0.0 Day localhost bypass",
+    "year": 2024,
+    "howFound": "Cross-browser testing of special-address semantics showed a public website could reach localhost services through 0.0.0.0 despite defenses focused on conventional private ranges",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "browser-ext"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Oligo Security",
+    "sourceUrl": "https://www.oligo.security/blog/0-0-0-0-day-exploiting-localhost-apis-from-the-browser"
+  },
+  {
+    "id": "T046",
+    "number": 46,
+    "title": "aCropalypse screenshot recovery",
+    "year": 2023,
+    "howFound": "An anomalously large edited PNG led to the discovery that cropping overwrote but did not truncate the file, leaving compressed scanline data from removed content recoverable",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "document-media"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "David Buchanan",
+    "sourceUrl": "https://www.da.vidbuchanan.co.uk/blog/exploiting-acropalypse.html"
+  },
+  {
+    "id": "T047",
+    "number": 47,
+    "title": "BLASTPASS zero-click wallet-pass chain",
+    "year": 2023,
+    "howFound": "Forensic examination of a civil-society iPhone exposed a malicious Wallet pass that reached ImageIO parsing through iMessage without normal user interaction",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "document-media",
+      "messaging-queue"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Citizen Lab",
+    "sourceUrl": "https://citizenlab.ca/blastpass-nso-group-iphone-zero-click-zero-day-exploit-captured-in-the-wild/"
+  },
+  {
+    "id": "T048",
+    "number": 48,
+    "title": "Operation Triangulation hardware-register bypass",
+    "year": 2023,
+    "howFound": "Reverse engineering an iMessage exploit chain revealed use of undocumented Apple SoC registers to bypass hardware-backed kernel-memory protections",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "kernel-os",
+      "hardware-radio",
+      "document-media",
+      "messaging-queue"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Kaspersky GReAT",
+    "sourceUrl": "https://securelist.com/operation-triangulation-the-last-hardware-mystery/111669/"
+  },
+  {
+    "id": "T049",
+    "number": 49,
+    "title": "Dirty Stream Android overwrite pattern",
+    "year": 2024,
+    "howFound": "Microsoft generalized many app bugs into one trust-boundary failure: an untrusted display filename was reused as a private filesystem path, enabling traversal and overwrite of sensitive app data",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Microsoft Threat Intelligence",
+    "sourceUrl": "https://www.microsoft.com/en-us/security/blog/2024/05/01/dirty-stream-attack-discovering-and-mitigating-a-common-vulnerability-pattern-in-android-apps/"
+  },
+  {
+    "id": "T050",
+    "number": 50,
+    "title": "TikTok Android deep-link takeover",
+    "year": 2022,
+    "howFound": "Overly broad deep-link routing was chained with a privileged WebView JavaScript bridge so one crafted link could invoke authenticated internal app functionality",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "blockchain-consensus"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Microsoft Security",
+    "sourceUrl": "https://www.microsoft.com/en-us/security/blog/2022/08/31/vulnerability-in-tiktok-android-app-could-lead-to-one-click-account-hijacking/"
+  },
+  {
+    "id": "T051",
+    "number": 51,
+    "title": "Exynos internet-to-baseband RCEs",
+    "year": 2023,
+    "howFound": "Focusing on the internet-facing modem protocol boundary uncovered zero-click paths capable of reaching baseband code with only the victim's phone number",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "hardware-radio"
+    ],
+    "section": "B",
+    "domain": "Identity, web, cloud, CI, browser, and mobile",
+    "source": "Google Project Zero",
+    "sourceUrl": "https://projectzero.google/2023/03/multiple-internet-to-baseband-remote-rce.html"
+  },
+  {
+    "id": "T052",
+    "number": 52,
+    "title": "Dirty Pipe page-cache overwrite",
+    "year": 2022,
+    "howFound": "A gzip-log corruption anomaly led to stale pipe_buffer flags that let pipe writes modify page-cache data for read-only files, an indirect path from data integrity failure to privilege escalation",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Max Kellermann",
+    "sourceUrl": "https://dirtypipe.cm4all.com/"
+  },
+  {
+    "id": "T053",
+    "number": 53,
+    "title": "CVE-2022-0185 kCTF container escape",
+    "year": 2022,
+    "howFound": "Researchers turned a syzkaller-found filesystem-context heap overflow into a working Ubuntu privilege escalation and Google kCTF escape across user-namespace boundaries",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "containers-k8s",
+      "supply-chain-pkg"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Will's Root",
+    "sourceUrl": "https://www.willsroot.io/2022/01/cve-2022-0185.html"
+  },
+  {
+    "id": "T054",
+    "number": 54,
+    "title": "StackRot maple-tree lifetime race",
+    "year": 2023,
+    "howFound": "Replacing VMA maple-tree nodes without the correct write lock produced an exploitable use-after-free despite RCU, challenging the assumption that deferred reclamation alone made the transition safe",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Ruihan Li",
+    "sourceUrl": "https://github.com/lrh2000/StackRot"
+  },
+  {
+    "id": "T055",
+    "number": 55,
+    "title": "Buzzer eBPF verifier path-pruning flaw",
+    "year": 2023,
+    "howFound": "A structure-aware fuzzer found the verifier could prune an unsafe execution path after conflating symbolic states, demonstrating the value of fuzzing analysis logic rather than only parsers",
+    "mechanismFamilies": [
+      "structured protocol fuzzing",
+      "semantic/parser differential"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Google Bug Hunters",
+    "sourceUrl": "https://bughunters.google.com/blog/a-deep-dive-into-cve-2023-2163-how-we-found-and-fixed-an-ebpf-linux-kernel-vulnerability"
+  },
+  {
+    "id": "T056",
+    "number": 56,
+    "title": "Leaky Vessels runc escape",
+    "year": 2024,
+    "howFound": "A leaked internal file descriptor combined with working-directory resolution order to cross the host/container filesystem boundary",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "containers-k8s"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Snyk Labs",
+    "sourceUrl": "https://labs.snyk.io/resources/leaky-vessels-docker-runc-container-breakout-vulnerabilities/"
+  },
+  {
+    "id": "T057",
+    "number": 57,
+    "title": "IngressNightmare ingress-nginx RCE",
+    "year": 2025,
+    "howFound": "Unauthenticated admission-controller configuration injection was chained with nginx shared-library loading, turning a supposedly internal validation service into cluster-level code execution",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Wiz Research",
+    "sourceUrl": "https://www.wiz.io/blog/ingress-nginx-kubernetes-vulnerabilities"
+  },
+  {
+    "id": "T058",
+    "number": 58,
+    "title": "Zenbleed vector-register lifetime leak",
+    "year": 2023,
+    "howFound": "CPU edge-case testing showed recovery from a mispredicted vzeroupper could reveal another context's vector-register contents",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Tavis Ormandy",
+    "sourceUrl": "https://lock.cmpxchg8b.com/zenbleed.html"
+  },
+  {
+    "id": "T059",
+    "number": 59,
+    "title": "Downfall speculative Gather sampling",
+    "year": 2023,
+    "howFound": "Researchers found speculative Gather instructions sample stale internal vector data, creating both extraction and value-injection primitives from a performance feature",
+    "mechanismFamilies": [
+      "hardware abstraction leak",
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "cache"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Daniel Moghimi",
+    "sourceUrl": "https://downfall.page/"
+  },
+  {
+    "id": "T060",
+    "number": 60,
+    "title": "Inception phantom speculation",
+    "year": 2023,
+    "howFound": "Phantom execution was combined with return-address-stack manipulation to poison future control-flow prediction despite earlier Spectre defenses",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "ETH Zurich COMSEC",
+    "sourceUrl": "https://comsec.ethz.ch/inception/"
+  },
+  {
+    "id": "T061",
+    "number": 61,
+    "title": "GoFetch data-dependent prefetch leakage",
+    "year": 2024,
+    "howFound": "Reverse engineering Apple's prefetcher showed it interprets data as pointer-like addresses, defeating software constant-time assumptions and leaking real cryptographic keys",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "GoFetch researchers",
+    "sourceUrl": "https://gofetch.fail/"
+  },
+  {
+    "id": "T062",
+    "number": 62,
+    "title": "LeftoverLocals GPU residue",
+    "year": 2024,
+    "howFound": "Tiny OpenCL listener and writer kernels showed uncleared local memory could reconstruct a co-resident process's LLM responses, extending residual-memory hunting to accelerators",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "http",
+      "ai-agent-mcp",
+      "kernel-os"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Trail of Bits",
+    "sourceUrl": "https://blog.trailofbits.com/2024/01/16/leftoverlocals-listening-to-llm-responses-through-leaked-gpu-local-memory/"
+  },
+  {
+    "id": "T063",
+    "number": 63,
+    "title": "Sinkclose SMM escalation",
+    "year": 2024,
+    "howFound": "Reverse engineering AMD SMM's TClose behavior exposed a decades-old silicon flaw that let an already kernel-privileged attacker reach more persistent ring-minus-two execution",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "kernel-os"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "IOActive",
+    "sourceUrl": "https://www.ioactive.com/event/def-con-talk-amd-sinkclose-universal-ring-2-privilege-escalation/"
+  },
+  {
+    "id": "T064",
+    "number": 64,
+    "title": "LogoFAIL firmware image-parser class",
+    "year": 2023,
+    "howFound": "Emulating and fuzzing reused boot-logo parsers turned a cosmetic pre-boot feature into cross-vendor firmware code execution across x86 and ARM supply chains",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "hardware abstraction leak",
+      "structured protocol fuzzing",
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "hardware-radio",
+      "document-media"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Binarly",
+    "sourceUrl": "https://www.binarly.io/blog/inside-logofail-poc-integer-overflow-to-code-execution"
+  },
+  {
+    "id": "T065",
+    "number": 65,
+    "title": "PixieFAIL pre-boot IPv6 flaws",
+    "year": 2024,
+    "howFound": "Auditing the IPv6/PXE path in the reference UEFI stack found nine remotely reachable memory-safety bugs before operating-system defenses load",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "cloud-iam"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Quarkslab",
+    "sourceUrl": "https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianocores-edk-ii-ipv6-network-stack.html"
+  },
+  {
+    "id": "T066",
+    "number": 66,
+    "title": "XZ release-tarball backdoor",
+    "year": 2024,
+    "howFound": "A half-second SSH CPU regression and Valgrind anomalies led to a multistage backdoor hidden in release tarballs after a long social-engineering takeover of upstream maintenance",
+    "mechanismFamilies": [
+      "historical supply-chain",
+      "trust-binding failure",
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "supply-chain-pkg"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Andres Freund",
+    "sourceUrl": "https://www.openwall.com/lists/oss-security/2024/03/29/4"
+  },
+  {
+    "id": "T067",
+    "number": 67,
+    "title": "PyTorch torchtriton dependency confusion",
+    "year": 2022,
+    "howFound": "Public-index precedence let a namesake PyPI package supersede PyTorch's intended nightly dependency, converting a theoretical namespace attack into a major-project compromise",
+    "mechanismFamilies": [
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "containers-k8s",
+      "supply-chain-pkg"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "PyTorch Foundation",
+    "sourceUrl": "https://pytorch.org/blog/compromised-nightly-dependency/"
+  },
+  {
+    "id": "T068",
+    "number": 68,
+    "title": "npm manifest confusion",
+    "year": 2023,
+    "howFound": "Diffing registry metadata against tarball package.json files showed npm accepted two independent manifests, allowing install behavior to be hidden from registry-facing scanners",
+    "mechanismFamilies": [
+      "historical supply-chain",
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "supply-chain-pkg"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Darcy Clarke",
+    "sourceUrl": "https://www.vlt.io/blog/the-massive-hole-in-the-npm-ecosystem"
+  },
+  {
+    "id": "T069",
+    "number": 69,
+    "title": "CocoaPods Trunk legacy ownership flaws",
+    "year": 2024,
+    "howFound": "Revisiting decade-old migration and account flows connected orphaned ownership, command-unsafe email validation, and spoofable verification links into package and registry takeover paths",
+    "mechanismFamilies": [
+      "historical supply-chain",
+      "trust-binding failure",
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [
+      "email",
+      "cloud-iam",
+      "containers-k8s",
+      "supply-chain-pkg"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "E.V.A.",
+    "sourceUrl": "https://www.evasec.io/blog/eva-discovered-supply-chain-vulnerabities-in-cocoapods"
+  },
+  {
+    "id": "T070",
+    "number": 70,
+    "title": "MavenGate stale-coordinate reclamation",
+    "year": 2024,
+    "howFound": "Dependency-graph mining plus expired-domain and abandoned-repository checks showed old Maven coordinates, including build plugins, could be silently reclaimed upstream",
+    "mechanismFamilies": [
+      "historical supply-chain",
+      "stateful/race/desync",
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "cache",
+      "ci-cd",
+      "browser-ext",
+      "supply-chain-pkg"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Oversecured",
+    "sourceUrl": "https://oversecured.com/blog/introducing-mavengate-a-supply-chain-attack-method-for-java-and-android-applications"
+  },
+  {
+    "id": "T071",
+    "number": 71,
+    "title": "Ultralytics provenance-led forensics",
+    "year": 2024,
+    "howFound": "Package attestations and build provenance localized malicious PyPI releases to a GitHub Actions workflow/cache path, showing signed provenance can speed discovery even when it does not prevent compromise",
+    "mechanismFamilies": [
+      "secondary-channel/provenance",
+      "historical supply-chain",
+      "stateful/race/desync",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "http",
+      "cache",
+      "ci-cd",
+      "supply-chain-pkg"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Python Package Index",
+    "sourceUrl": "https://blog.pypi.org/posts/2024-12-11-ultralytics-attack-analysis/"
+  },
+  {
+    "id": "T072",
+    "number": 72,
+    "title": "tj-actions/changed-files runtime compromise detection",
+    "year": 2025,
+    "howFound": "Network anomaly monitoring caught a popular GitHub Action after many mutable tags were repointed to secret-exfiltrating code, a failure source review alone would miss",
+    "mechanismFamilies": [
+      "historical supply-chain",
+      "trust-binding failure"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "StepSecurity",
+    "sourceUrl": "https://www.stepsecurity.io/blog/harden-runner-detection-tj-actions-changed-files-action-is-compromised"
+  },
+  {
+    "id": "T073",
+    "number": 73,
+    "title": "Microsoft 365 Copilot ASCII smuggling",
+    "year": 2024,
+    "howFound": "Indirect prompt injection, automatic tool use, invisible Unicode Tags, and trusted links were chained so private context could be staged in content the user could not visually inspect",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "http",
+      "ai-agent-mcp"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Embrace The Red",
+    "sourceUrl": "https://embracethered.com/blog/posts/2024/m365-copilot-prompt-injection-tool-invocation-and-data-exfil-using-ascii-smuggling/"
+  },
+  {
+    "id": "T074",
+    "number": 74,
+    "title": "EchoLeak zero-click RAG exfiltration",
+    "year": 2025,
+    "howFound": "One inbound email induced Microsoft 365 Copilot to retrieve private organizational context and route it through a Microsoft-trusted egress mechanism without a victim click",
+    "mechanismFamilies": [
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [
+      "email",
+      "ai-agent-mcp"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Aim Security",
+    "sourceUrl": "https://www.aim.security/post/echoleak-blogpost"
+  },
+  {
+    "id": "T075",
+    "number": 75,
+    "title": "Slack AI cross-channel RAG poisoning",
+    "year": 2024,
+    "howFound": "Instructions planted in a low-visibility public channel poisoned answers for a user with private-channel access and encoded retrieved secrets into a deceptive link",
+    "mechanismFamilies": [
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "ai-agent-mcp"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "PromptArmor",
+    "sourceUrl": "https://www.promptarmor.com/resources/data-exfiltration-from-slack-ai-via-indirect-prompt-injection"
+  },
+  {
+    "id": "T076",
+    "number": 76,
+    "title": "Gemini Cloud Assist log injection",
+    "year": 2025,
+    "howFound": "An instruction placed in an attacker-controlled HTTP header waited inside telemetry until an administrator's AI log summarizer ingested it as a delayed prompt-injection channel",
+    "mechanismFamilies": [
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [
+      "http",
+      "cloud-iam",
+      "ai-agent-mcp"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Tenable Research",
+    "sourceUrl": "https://www.tenable.com/security/research/tra-2025-10"
+  },
+  {
+    "id": "T077",
+    "number": 77,
+    "title": "CurXecute Cursor MCP auto-start RCE",
+    "year": 2025,
+    "howFound": "Indirect prompt injection changed Cursor's global MCP configuration, whose auto-start semantics crossed from model-generated text into local command execution without fresh approval",
+    "mechanismFamilies": [
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "ai-agent-mcp"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Aim Security",
+    "sourceUrl": "https://www.aim.security/post/when-public-prompts-turn-into-local-shells-rce-in-cursor-via-mcp-auto-start"
+  },
+  {
+    "id": "T078",
+    "number": 78,
+    "title": "MCPoison mutable trusted configuration",
+    "year": 2025,
+    "howFound": "Cursor cached trust to an MCP configuration's identity rather than immutable contents, so a once-benign approved configuration could later change and execute without reapproval",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http",
+      "cache",
+      "ai-agent-mcp"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Check Point Research",
+    "sourceUrl": "https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/"
+  },
+  {
+    "id": "T079",
+    "number": 79,
+    "title": "CamoLeak covert image channel",
+    "year": 2025,
+    "howFound": "Hidden pull-request prompt injection combined with GitHub Camo image fetching so pixel-request order encoded private repository context one character at a time",
+    "mechanismFamilies": [
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "http",
+      "ai-agent-mcp",
+      "document-media"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Legit Security",
+    "sourceUrl": "https://www.legitsecurity.com/blog/camoleak-critical-github-copilot-vulnerability-leaks-private-source-code"
+  },
+  {
+    "id": "T080",
+    "number": 80,
+    "title": "PKfail production use of test keys",
+    "year": 2024,
+    "howFound": "Scanning firmware and certificate datasets matched leaked private test keys to production Secure Boot roots, exposing a systemic signing-process failure rather than a parser bug",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "hardware-radio",
+      "dns-tls-pki"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Binarly",
+    "sourceUrl": "https://github.com/binarly-io/Vulnerability-REsearch/blob/main/PKfail/BRLY-2024-005.md"
+  },
+  {
+    "id": "T081",
+    "number": 81,
+    "title": "5Ghoul stateful 5G modem fuzzing",
+    "year": 2023,
+    "howFound": "A protocol-aware over-the-air base station and state machine uncovered 14 implementation flaws across commercial Qualcomm and MediaTek modems",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "structured protocol fuzzing"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "hardware-radio",
+      "document-media"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "ASSET Research Group",
+    "sourceUrl": "https://asset-group.github.io/disclosures/5ghoul/"
+  },
+  {
+    "id": "T082",
+    "number": 82,
+    "title": "Unsaflok hotel-key derivation break",
+    "year": 2024,
+    "howFound": "Researchers combined discarded and legitimate keycard analysis with proprietary key-derivation reverse engineering to turn one room credential into broadly reusable forged access cards",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Unsaflok researchers",
+    "sourceUrl": "https://unsaflok.com/"
+  },
+  {
+    "id": "T083",
+    "number": 83,
+    "title": "Blast-RADIUS chosen-prefix collision",
+    "year": 2024,
+    "howFound": "Modern MD5 collision engineering transformed a RADIUS Access-Reject into an Access-Accept without learning the shared secret, exposing a protocol-construction failure",
+    "mechanismFamilies": [
+      "semantic/parser differential"
+    ],
+    "fingerprints": [],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Blast-RADIUS researchers",
+    "sourceUrl": "https://www.blastradius.fail/"
+  },
+  {
+    "id": "T084",
+    "number": 84,
+    "title": "Terrapin SSH prefix truncation",
+    "year": 2023,
+    "howFound": "Formal analysis of SSH packet-state transitions found that pre-encryption sequence manipulation permits undetected packet deletion after encryption starts, enabling extension downgrades",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "browser-ext"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "Terrapin researchers",
+    "sourceUrl": "https://terrapin-attack.com/"
+  },
+  {
+    "id": "T085",
+    "number": 85,
+    "title": "KeyTrap DNSSEC algorithmic complexity",
+    "year": 2024,
+    "howFound": "Researchers reasoned from many-key/many-signature validation rules to construct a single packet that forces extreme CPU amplification across major resolvers",
+    "mechanismFamilies": [
+      "cost/DoS asymmetry",
+      "trust-binding failure",
+      "hardware abstraction leak"
+    ],
+    "fingerprints": [
+      "dns-tls-pki"
+    ],
+    "section": "C",
+    "domain": "Systems, hardware, supply chain, and firmware",
+    "source": "ATHENE",
+    "sourceUrl": "https://www.athene-center.de/en/keytrap"
+  },
+  {
+    "id": "T086",
+    "number": 86,
+    "title": "Raydium cross-pool tick-bitmap substitution",
+    "year": 2024,
+    "howFound": "Treating Solana remaining_accounts as untyped attacker input showed that a valid account from another pool could corrupt the target pool's tick bookkeeping",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "smart-contract-evm"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/raydium-tick-manipulation-bugfix-review/"
+  },
+  {
+    "id": "T087",
+    "number": 87,
+    "title": "Stacks contract-triggered VM panic",
+    "year": 2023,
+    "howFound": "Semantically unusual contracts reached a missing-contract path ending in Rust .expect(), turning on-chain input into a node-wide crash",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "kernel-os"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/stacks-dos-bugfix-review/"
+  },
+  {
+    "id": "T088",
+    "number": 88,
+    "title": "Astar cross-VM ERC-20 truncation",
+    "year": 2023,
+    "howFound": "Differentially executing the same transfer across EVM and WASM paths exposed a 256-bit amount silently narrowed to 128 bits in the host runtime",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "semantic/parser differential"
+    ],
+    "fingerprints": [
+      "smart-contract-evm",
+      "kernel-os"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/astar-network-integer-truncation-error-bugfix-review/"
+  },
+  {
+    "id": "T089",
+    "number": 89,
+    "title": "Aztec unconstrained residual and limb overflow",
+    "year": 2023,
+    "howFound": "Auditing witnesses over the integers rather than only field equalities found an unconstrained residual that combined with modulus overflow to permit repeated claims",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "trust-binding failure"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/aztec-multiple-spend-error-bugfix-review/"
+  },
+  {
+    "id": "T090",
+    "number": 90,
+    "title": "Balancer one-wei rounding amplification",
+    "year": 2023,
+    "howFound": "A tiny rounding asymmetry was combined with a temporary collapse of pool supply and balances, magnifying a one-wei discrepancy into repeatable value extraction",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "cost/DoS asymmetry"
+    ],
+    "fingerprints": [
+      "smart-contract-evm"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/balancer-rounding-error/"
+  },
+  {
+    "id": "T091",
+    "number": 91,
+    "title": "Frontier 256-to-128-bit native-value mismatch",
+    "year": 2022,
+    "howFound": "Comparing EVM msg.value with the host ledger found values whose low 128 bits were zero could appear large to the contract while transferring nothing underneath",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "smart-contract-evm"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/moonbeam-astar-and-acala-library-truncation-bugfix-review-1m-payout/"
+  },
+  {
+    "id": "T092",
+    "number": 92,
+    "title": "Optimism split-ledger SELFDESTRUCT accounting",
+    "year": 2022,
+    "howFound": "Diffing a modified opcode against the L2's alternate native-token ledger showed the ordinary account was zeroed while the authoritative tokenized balance survived",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "jwt-session",
+      "blockchain-consensus"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/optimism-infinite-money-duplication-bugfix-review/"
+  },
+  {
+    "id": "T093",
+    "number": 93,
+    "title": "Wormhole uninitialized implementation takeover",
+    "year": 2022,
+    "howFound": "Auditing implementation state separately from proxy state found the logic contract could accept a new Guardian set and destroy code on which every proxy depended",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "http"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/wormhole-uninitialized-proxy-bugfix-review/"
+  },
+  {
+    "id": "T094",
+    "number": 94,
+    "title": "Silo donation-driven interest explosion",
+    "year": 2023,
+    "howFound": "Comparing raw token balances with recorded deposits at a zero-liquidity boundary showed an unsolicited donation could push utilization above 100 percent and explosively reprice a tiny share position",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "jwt-session"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/silo-finance-logic-error/"
+  },
+  {
+    "id": "T095",
+    "number": 95,
+    "title": "DFX zero-transfer, nonzero-share mint",
+    "year": 2023,
+    "howFound": "Testing a two-decimal token at its real granularity found integer division rounded the asset transfer to zero while LP-share minting remained positive",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "jwt-session"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/dfx-finance-rounding-error-bugfix-review/"
+  },
+  {
+    "id": "T096",
+    "number": 96,
+    "title": "Mt Pelerin duplicate item in a stateful batch",
+    "year": 2022,
+    "howFound": "Repeating one identifier inside a batch showed the cancellation function paid each duplicate without first proving the transfer still remained pending",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/mt-pelerin-double-transaction-bugfix-review/"
+  },
+  {
+    "id": "T097",
+    "number": 97,
+    "title": "Yield Protocol live-balance donation attack",
+    "year": 2023,
+    "howFound": "Contrasting cached accounting with balanceOf() after unsolicited transfers revealed redemption trusted an attacker-inflatable live balance rather than recorded pool state",
+    "mechanismFamilies": [
+      "stateful/race/desync",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "http",
+      "cache",
+      "smart-contract-evm"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/yield-protocol-logic-error/"
+  },
+  {
+    "id": "T098",
+    "number": 98,
+    "title": "Notional collateral double representation",
+    "year": 2022,
+    "howFound": "Exercising transitions between bitmap and active-currency portfolio forms left one asset represented twice and therefore counted twice as collateral",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/notional-double-counting-free-collateral-bugfix-review/"
+  },
+  {
+    "id": "T099",
+    "number": 99,
+    "title": "Sense unauthenticated swap callback",
+    "year": 2022,
+    "howFound": "Auditing callback provenance independently of callback math found onSwap() updated oracle price and time without proving the caller was the Balancer Vault",
+    "mechanismFamilies": [
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [
+      "smart-contract-evm"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/sense-finance-access-control-issue-bugfix-review/"
+  },
+  {
+    "id": "T100",
+    "number": 100,
+    "title": "Trust Wallet 32-bit seed space",
+    "year": 2022,
+    "howFound": "Reverse engineering the compiled WASM wallet generator exposed effective entropy small enough to precompute address-to-private-key mappings",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Ledger Donjon",
+    "sourceUrl": "https://www.ledger.com/blog/funds-of-every-wallet-created-with-the-trust-wallet-browser-extension-could-have-been-stolen"
+  },
+  {
+    "id": "T101",
+    "number": 101,
+    "title": "NEAR pre-authentication ping of death",
+    "year": 2024,
+    "howFound": "Forcing rare cryptographic variants during handshake and probing every expect boundary found malformed SECP256K1 inputs could panic a validator before peer establishment",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "blockchain-consensus"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Zellic",
+    "sourceUrl": "https://www.zellic.io/blog/near-protocol-bug/"
+  },
+  {
+    "id": "T102",
+    "number": 102,
+    "title": "Lighthouse eager allocation from request count",
+    "year": 2023,
+    "howFound": "Tracing attacker-controlled cardinalities into constructors found an unchecked BlocksByRange.count reached VecDeque::with_capacity() before useful work began",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "http",
+      "blockchain-consensus"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Ethereum Foundation disclosure",
+    "sourceUrl": "https://notes.ethereum.org/mw-M7HxuRM-09nSPVqp52A"
+  },
+  {
+    "id": "T103",
+    "number": 103,
+    "title": "Prysm semantic-hole multiaddress crash",
+    "year": 2024,
+    "howFound": "Generating syntactically accepted but semantically incomplete addresses produced an IPv6-zone-only value that normalized to nil and was later dereferenced",
+    "mechanismFamilies": [
+      "semantic/parser differential"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Ethereum Foundation disclosure",
+    "sourceUrl": "https://notes.ethereum.org/vhUgKpoLSOG8KIc1P6yUdg"
+  },
+  {
+    "id": "T104",
+    "number": 104,
+    "title": "Lighthouse Yamux backpressure trap",
+    "year": 2024,
+    "howFound": "Combining response amplification with a peer that stopped reading prevented frames from draining while it continued to provoke new responses, exhausting memory",
+    "mechanismFamilies": [
+      "cost/DoS asymmetry",
+      "stateful/race/desync"
+    ],
+    "fingerprints": [
+      "http"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Ethereum Foundation disclosure",
+    "sourceUrl": "https://notes.ethereum.org/cCAGO6QZQ3WYTj7T6310Ww"
+  },
+  {
+    "id": "T105",
+    "number": 105,
+    "title": "Prysm permanent protocol-string interning",
+    "year": 2024,
+    "howFound": "Sending unique protocol identifiers sequentially bypassed concurrent-stream limits and permanently grew an unbounded deduplication map",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Ethereum Foundation disclosure",
+    "sourceUrl": "https://notes.ethereum.org/e_nZZJ84S_6_-xF9WzW9gw"
+  },
+  {
+    "id": "T106",
+    "number": 106,
+    "title": "Nimbus unsigned-to-signed protobuf length trap",
+    "year": 2024,
+    "howFound": "A uint64 length passed the protocol-size check but fatally trapped when converted to Nim's signed int, exposing a parser-language domain mismatch",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "semantic/parser differential"
+    ],
+    "fingerprints": [
+      "browser-ext"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi report",
+    "sourceUrl": "https://reports.immunefi.com/ethereum-protocol-or-attackathon/38146-bc-medium-nimbus-eth2-remote-crash"
+  },
+  {
+    "id": "T107",
+    "number": 107,
+    "title": "Nimbus far-future slot overflow",
+    "year": 2025,
+    "howFound": "Pushing a protocol timestamp to its sentinel boundary produced int64.max, after which adding the ordinary attestation offset triggered a fatal checked overflow",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "secondary-channel/provenance"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi report",
+    "sourceUrl": "https://reports.immunefi.com/ethereum-protocol-or-attackathon/38733-bc-medium-nibmus-eth2-remote-crash"
+  },
+  {
+    "id": "T108",
+    "number": 108,
+    "title": "Teku alternate-path rate-limit bypass",
+    "year": 2025,
+    "howFound": "Comparing request variants showed malformed BlobSidecarsByRange parameters bypassed both validation and object-count cost accounting",
+    "mechanismFamilies": [
+      "boundary-width/precision",
+      "cost/DoS asymmetry"
+    ],
+    "fingerprints": [
+      "http"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi report",
+    "sourceUrl": "https://reports.immunefi.com/ethereum-protocol-or-attackathon/38920-bc-medium-teku-remote-dos"
+  },
+  {
+    "id": "T109",
+    "number": 109,
+    "title": "Dragonberry forged IBC absence proofs",
+    "year": 2022,
+    "howFound": "Testing the proof language itself revealed malformed absence proofs could make one transfer appear both delivered and timed out",
+    "mechanismFamilies": [
+      "trust-binding failure"
+    ],
+    "fingerprints": [
+      "ai-agent-mcp"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Cosmos retrospective",
+    "sourceUrl": "https://forum.cosmos.network/t/cosmos-sdk-ibc-vulnerability-retrospective-security-advisories-dragonberry-and-elderflower-october-2022/8735"
+  },
+  {
+    "id": "T110",
+    "number": 110,
+    "title": "Elderflower Authz validation omission",
+    "year": 2022,
+    "howFound": "Tracing mandatory checks through delegated message wrappers found the Authz execution path omitted ValidateBasic() even though direct execution called it",
+    "mechanismFamilies": [
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "messaging-queue"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Cosmos retrospective",
+    "sourceUrl": "https://forum.cosmos.network/t/cosmos-sdk-ibc-vulnerability-retrospective-security-advisories-dragonberry-and-elderflower-october-2022/8735"
+  },
+  {
+    "id": "T111",
+    "number": 111,
+    "title": "Huckleberry IBC event hallucinations",
+    "year": 2023,
+    "howFound": "Checking atomicity between state and events found a failed acknowledgement rolled canonical state back while copying its events into the successful transaction result",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Jump Crypto",
+    "sourceUrl": "https://jumpcrypto.com/resources/huckleberry-ibc-event-hallucinations"
+  },
+  {
+    "id": "T112",
+    "number": 112,
+    "title": "Frozen Heart incomplete Fiat-Shamir transcript",
+    "year": 2022,
+    "howFound": "Reconstructing the verifier transcript showed omitted public inputs were not bound into challenges, allowing a prover to choose them later and forge PlonK proofs",
+    "mechanismFamilies": [
+      "structured protocol fuzzing",
+      "trust-binding failure"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Trail of Bits",
+    "sourceUrl": "https://blog.trailofbits.com/2022/04/18/the-frozen-heart-vulnerability-in-plonk/"
+  },
+  {
+    "id": "T113",
+    "number": 113,
+    "title": "Sui HamsterWheel non-converging analysis",
+    "year": 2023,
+    "howFound": "Fuzzing abstract-interpretation convergence rather than contract runtime found crafted bytecode could make the Move verifier loop indefinitely across validator restarts",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "structured protocol fuzzing"
+    ],
+    "fingerprints": [
+      "smart-contract-evm",
+      "blockchain-consensus"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "CertiK",
+    "sourceUrl": "https://certik.medium.com/unraveling-the-hamsterwheel-how-certik-caught-a-critical-bug-in-sui-aeff568bcb95"
+  },
+  {
+    "id": "T114",
+    "number": 114,
+    "title": "Fuel reverted transaction retained L1 withdrawal",
+    "year": 2024,
+    "howFound": "Comparing local revert semantics with externally consumed artifacts found a reverted L2 transaction undid its burn yet preserved the outbound L1 message identifier",
+    "mechanismFamilies": [
+      "historical supply-chain"
+    ],
+    "fingerprints": [
+      "ci-cd",
+      "blockchain-consensus",
+      "messaging-queue"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/top-5-bugs-from-the-fuel-attackathon/"
+  },
+  {
+    "id": "T115",
+    "number": 115,
+    "title": "Fuel ABI supertrait method exposure",
+    "year": 2024,
+    "howFound": "Inspecting compiler-generated callable surfaces found inherited ownership helpers became externally dispatchable even though developers had not declared them in the ABI",
+    "mechanismFamilies": [
+      "structured protocol fuzzing"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/top-5-bugs-from-the-fuel-attackathon/"
+  },
+  {
+    "id": "T116",
+    "number": 116,
+    "title": "Fuel WQAM register-liveness mismatch",
+    "year": 2024,
+    "howFound": "Differentially comparing VM instruction semantics with compiler read/write metadata found a missing dependency that let dead-code elimination remove live instructions",
+    "mechanismFamilies": [
+      "semantic/parser differential",
+      "structured protocol fuzzing",
+      "confused-deputy"
+    ],
+    "fingerprints": [
+      "cloud-iam",
+      "supply-chain-pkg",
+      "kernel-os"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/top-5-bugs-from-the-fuel-attackathon/"
+  },
+  {
+    "id": "T117",
+    "number": 117,
+    "title": "Fuel small-width pow overflow gap",
+    "year": 2024,
+    "howFound": "Testing each integer width independently found VM-level overflow handling protected large native types while u8, u16, and u32 wrappers silently wrapped",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "kernel-os"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/top-5-bugs-from-the-fuel-attackathon/"
+  },
+  {
+    "id": "T118",
+    "number": 118,
+    "title": "Fuel gas-work variable mismatch",
+    "year": 2024,
+    "howFound": "Comparing the variable charged for gas with the variable controlling work found code copy priced source length while zero-fill obeyed an independent attacker-chosen destination length",
+    "mechanismFamilies": [
+      "boundary-width/precision"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/top-5-bugs-from-the-fuel-attackathon/"
+  },
+  {
+    "id": "T119",
+    "number": 119,
+    "title": "Shardeum unsigned repair-state overwrite",
+    "year": 2024,
+    "howFound": "Treating recovery endpoints as consensus-critical writers revealed supplied replacement account data reached the state trie without validating its authorizing signatures",
+    "mechanismFamilies": [
+      "trust-binding failure",
+      "boundary-width/precision"
+    ],
+    "fingerprints": [
+      "blockchain-consensus"
+    ],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/top-3-bugs-from-the-shardeum-core-audit-competition/"
+  },
+  {
+    "id": "T120",
+    "number": 120,
+    "title": "ThunderNFT buy-to-sell transition theft",
+    "year": 2024,
+    "howFound": "Exploring transitions between individually valid order states found a buy order could become a sell order without ownership validation and later transfer the referenced NFT on cancellation",
+    "mechanismFamilies": [
+      "stateful/race/desync"
+    ],
+    "fingerprints": [],
+    "section": "D",
+    "domain": "Blockchain, smart contracts, and decentralized systems",
+    "source": "Immunefi",
+    "sourceUrl": "https://immunefi.com/blog/bug-fix-reviews/top-3-bugs-from-the-thundernft-invite-only-program/"
+  }
+]

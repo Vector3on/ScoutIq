@@ -1,0 +1,807 @@
+{
+  "experiment": "Melt self-export 1",
+  "date": "2026-09-06",
+  "claim_tested": "Model-authored procedures retain bounded task behavior as detached executable artifacts.",
+  "author_role": "The conversational assistant authored public source, tests, and revisions; no hidden reasoning was accessed.",
+  "seed": 260906,
+  "frozen_sources": {
+    "objects": "94db5ea018e42ba7943ee226d49a97436f0849c00df43398284e11faa80d0f65",
+    "plan": "892426738c1ac564d6780dd06d869b36c4a6f133e38a960faac47ad7f1ba86e0",
+    "probe": "da450598ab1fb95ff69877f1ad72a86a103470dcf5bf4307b33f173bc2357aaf",
+    "scene": "5ff36b637078431d83ce442b83acf86e4cb36efb149d9987a344c9b82619cab2"
+  },
+  "corpus_sha256": "74163139651f6fa9cca32cdcd561655e5d35a118333d5c8a0df5fb13a812ae7b",
+  "protocol": {
+    "process": "fresh isolated Python process, empty environment, temporary working directory",
+    "network": "Python audit hook rejects socket and process-launch events; not kernel network isolation",
+    "model": "No model client, credentials, or inference operation in exported call graph",
+    "oracle_independence": "Different algorithms where practical; same assistant authored both sides",
+    "evaluation": "Fixed synthetic family, fresh generated instances, not blinded evaluation"
+  },
+  "initial": {
+    "objects": {
+      "passed": 504,
+      "total": 613,
+      "failure_examples": [
+        {
+          "input": {
+            "grid": [
+              [
+                0,
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0
+              ]
+            ],
+            "connectivity": 8
+          },
+          "expected": {
+            "height": 2,
+            "width": 4,
+            "objects": [
+              {
+                "color": 1,
+                "area": 2,
+                "cells": [
+                  [
+                    0,
+                    3
+                  ],
+                  [
+                    1,
+                    2
+                  ]
+                ],
+                "bbox": [
+                  0,
+                  2,
+                  2,
+                  4
+                ]
+              }
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "result": {
+              "height": 2,
+              "width": 4,
+              "objects": [
+                {
+                  "color": 1,
+                  "area": 1,
+                  "cells": [
+                    [
+                      0,
+                      3
+                    ]
+                  ],
+                  "bbox": [
+                    0,
+                    3,
+                    1,
+                    4
+                  ]
+                },
+                {
+                  "color": 1,
+                  "area": 1,
+                  "cells": [
+                    [
+                      1,
+                      2
+                    ]
+                  ],
+                  "bbox": [
+                    1,
+                    2,
+                    2,
+                    3
+                  ]
+                }
+              ]
+            },
+            "receipt": {
+              "entry": "objects",
+              "steps": 33,
+              "capsule_calls": [
+                "objects"
+              ],
+              "model_calls": 0,
+              "sources": {
+                "objects": "07e5d69dafb374be574c0a65f6655c34f036029a0a2f1bde427d8c3a96fd6417"
+              }
+            }
+          }
+        },
+        {
+          "input": {
+            "grid": [
+              [
+                0,
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                1,
+                1,
+                0
+              ]
+            ],
+            "connectivity": 8
+          },
+          "expected": {
+            "height": 2,
+            "width": 4,
+            "objects": [
+              {
+                "color": 1,
+                "area": 3,
+                "cells": [
+                  [
+                    0,
+                    3
+                  ],
+                  [
+                    1,
+                    1
+                  ],
+                  [
+                    1,
+                    2
+                  ]
+                ],
+                "bbox": [
+                  0,
+                  1,
+                  2,
+                  4
+                ]
+              }
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "result": {
+              "height": 2,
+              "width": 4,
+              "objects": [
+                {
+                  "color": 1,
+                  "area": 1,
+                  "cells": [
+                    [
+                      0,
+                      3
+                    ]
+                  ],
+                  "bbox": [
+                    0,
+                    3,
+                    1,
+                    4
+                  ]
+                },
+                {
+                  "color": 1,
+                  "area": 2,
+                  "cells": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      1,
+                      2
+                    ]
+                  ],
+                  "bbox": [
+                    1,
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              ]
+            },
+            "receipt": {
+              "entry": "objects",
+              "steps": 39,
+              "capsule_calls": [
+                "objects"
+              ],
+              "model_calls": 0,
+              "sources": {
+                "objects": "07e5d69dafb374be574c0a65f6655c34f036029a0a2f1bde427d8c3a96fd6417"
+              }
+            }
+          }
+        },
+        {
+          "input": {
+            "grid": [
+              [
+                0,
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                0
+              ]
+            ],
+            "connectivity": 8
+          },
+          "expected": {
+            "height": 2,
+            "width": 4,
+            "objects": [
+              {
+                "color": 1,
+                "area": 2,
+                "cells": [
+                  [
+                    0,
+                    3
+                  ],
+                  [
+                    1,
+                    2
+                  ]
+                ],
+                "bbox": [
+                  0,
+                  2,
+                  2,
+                  4
+                ]
+              },
+              {
+                "color": 1,
+                "area": 1,
+                "cells": [
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "bbox": [
+                  1,
+                  0,
+                  2,
+                  1
+                ]
+              }
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "result": {
+              "height": 2,
+              "width": 4,
+              "objects": [
+                {
+                  "color": 1,
+                  "area": 1,
+                  "cells": [
+                    [
+                      0,
+                      3
+                    ]
+                  ],
+                  "bbox": [
+                    0,
+                    3,
+                    1,
+                    4
+                  ]
+                },
+                {
+                  "color": 1,
+                  "area": 1,
+                  "cells": [
+                    [
+                      1,
+                      0
+                    ]
+                  ],
+                  "bbox": [
+                    1,
+                    0,
+                    2,
+                    1
+                  ]
+                },
+                {
+                  "color": 1,
+                  "area": 1,
+                  "cells": [
+                    [
+                      1,
+                      2
+                    ]
+                  ],
+                  "bbox": [
+                    1,
+                    2,
+                    2,
+                    3
+                  ]
+                }
+              ]
+            },
+            "receipt": {
+              "entry": "objects",
+              "steps": 39,
+              "capsule_calls": [
+                "objects"
+              ],
+              "model_calls": 0,
+              "sources": {
+                "objects": "07e5d69dafb374be574c0a65f6655c34f036029a0a2f1bde427d8c3a96fd6417"
+              }
+            }
+          }
+        }
+      ],
+      "artifact_sha256": "6dc25eafb7f674d265cc8d322876468bf2c5aa7cedda843722e54037947cd8cf",
+      "capsules": [
+        "objects"
+      ],
+      "external_action_attempts": [],
+      "os_resource_limits": true,
+      "maximum_steps": 32897
+    },
+    "plan": {
+      "passed": 131,
+      "total": 163,
+      "failure_examples": [
+        {
+          "input": {
+            "tasks": {
+              "t0": [
+                "t1",
+                "t4"
+              ],
+              "t1": [],
+              "t2": [],
+              "t3": [],
+              "t4": [
+                "t1"
+              ],
+              "t5": [],
+              "t6": [],
+              "t7": [
+                "t7"
+              ],
+              "t8": [
+                "t2"
+              ],
+              "t9": [],
+              "t10": [
+                "t2",
+                "t3",
+                "t5",
+                "t8"
+              ],
+              "t11": [
+                "t0"
+              ],
+              "t12": [],
+              "t13": [
+                "t7"
+              ]
+            }
+          },
+          "expected": {
+            "layers": [
+              [
+                "t1",
+                "t12",
+                "t2",
+                "t3",
+                "t5",
+                "t6",
+                "t9"
+              ],
+              [
+                "t4",
+                "t8"
+              ],
+              [
+                "t0",
+                "t10"
+              ],
+              [
+                "t11"
+              ]
+            ],
+            "blocked": [
+              "t13",
+              "t7"
+            ],
+            "cycle_nodes": [
+              "t7"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "result": {
+              "layers": [
+                [
+                  "t1",
+                  "t12",
+                  "t2",
+                  "t3",
+                  "t5",
+                  "t6",
+                  "t9"
+                ],
+                [
+                  "t4",
+                  "t8"
+                ],
+                [
+                  "t0",
+                  "t10"
+                ],
+                [
+                  "t11"
+                ]
+              ],
+              "blocked": [
+                "t13",
+                "t7"
+              ],
+              "cycle_nodes": [
+                "t13",
+                "t7"
+              ]
+            },
+            "receipt": {
+              "entry": "plan",
+              "steps": 163,
+              "capsule_calls": [
+                "plan"
+              ],
+              "model_calls": 0,
+              "sources": {
+                "plan": "0f6b0575c5fb68c848322caf020e00c1914f586600059ce118fd754412ff7484"
+              }
+            }
+          }
+        },
+        {
+          "input": {
+            "tasks": {
+              "t0": [],
+              "t1": [
+                "t7"
+              ],
+              "t2": [],
+              "t3": [],
+              "t4": [
+                "t6"
+              ],
+              "t5": [
+                "t2",
+                "t8"
+              ],
+              "t6": [],
+              "t7": [],
+              "t8": [
+                "t8"
+              ],
+              "t9": [],
+              "t10": [
+                "t8"
+              ]
+            }
+          },
+          "expected": {
+            "layers": [
+              [
+                "t0",
+                "t2",
+                "t3",
+                "t6",
+                "t7",
+                "t9"
+              ],
+              [
+                "t1",
+                "t4"
+              ]
+            ],
+            "blocked": [
+              "t10",
+              "t5",
+              "t8"
+            ],
+            "cycle_nodes": [
+              "t8"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "result": {
+              "layers": [
+                [
+                  "t0",
+                  "t2",
+                  "t3",
+                  "t6",
+                  "t7",
+                  "t9"
+                ],
+                [
+                  "t1",
+                  "t4"
+                ]
+              ],
+              "blocked": [
+                "t10",
+                "t5",
+                "t8"
+              ],
+              "cycle_nodes": [
+                "t10",
+                "t5",
+                "t8"
+              ]
+            },
+            "receipt": {
+              "entry": "plan",
+              "steps": 89,
+              "capsule_calls": [
+                "plan"
+              ],
+              "model_calls": 0,
+              "sources": {
+                "plan": "0f6b0575c5fb68c848322caf020e00c1914f586600059ce118fd754412ff7484"
+              }
+            }
+          }
+        },
+        {
+          "input": {
+            "tasks": {
+              "t0": [
+                "t2"
+              ],
+              "t1": [
+                "t1",
+                "t4"
+              ],
+              "t2": [
+                "t1",
+                "t13"
+              ],
+              "t3": [
+                "t0",
+                "t5",
+                "t7",
+                "t9"
+              ],
+              "t4": [
+                "t0",
+                "t1",
+                "t8"
+              ],
+              "t5": [
+                "t7",
+                "t11"
+              ],
+              "t6": [],
+              "t7": [],
+              "t8": [
+                "t0",
+                "t2",
+                "t13"
+              ],
+              "t9": [
+                "t2",
+                "t7"
+              ],
+              "t10": [
+                "t6"
+              ],
+              "t11": [
+                "t4"
+              ],
+              "t12": [
+                "t8",
+                "t12"
+              ],
+              "t13": [
+                "t2",
+                "t5"
+              ]
+            }
+          },
+          "expected": {
+            "layers": [
+              [
+                "t6",
+                "t7"
+              ],
+              [
+                "t10"
+              ]
+            ],
+            "blocked": [
+              "t0",
+              "t1",
+              "t11",
+              "t12",
+              "t13",
+              "t2",
+              "t3",
+              "t4",
+              "t5",
+              "t8",
+              "t9"
+            ],
+            "cycle_nodes": [
+              "t0",
+              "t1",
+              "t11",
+              "t12",
+              "t13",
+              "t2",
+              "t4",
+              "t5",
+              "t8"
+            ]
+          },
+          "actual": {
+            "status": "ok",
+            "result": {
+              "layers": [
+                [
+                  "t6",
+                  "t7"
+                ],
+                [
+                  "t10"
+                ]
+              ],
+              "blocked": [
+                "t0",
+                "t1",
+                "t11",
+                "t12",
+                "t13",
+                "t2",
+                "t3",
+                "t4",
+                "t5",
+                "t8",
+                "t9"
+              ],
+              "cycle_nodes": [
+                "t0",
+                "t1",
+                "t11",
+                "t12",
+                "t13",
+                "t2",
+                "t3",
+                "t4",
+                "t5",
+                "t8",
+                "t9"
+              ]
+            },
+            "receipt": {
+              "entry": "plan",
+              "steps": 176,
+              "capsule_calls": [
+                "plan"
+              ],
+              "model_calls": 0,
+              "sources": {
+                "plan": "0f6b0575c5fb68c848322caf020e00c1914f586600059ce118fd754412ff7484"
+              }
+            }
+          }
+        }
+      ],
+      "artifact_sha256": "517eebf0f4b3bf383539bda153f652ab0c8ae905fae830516f972a65282da6fb",
+      "capsules": [
+        "plan"
+      ],
+      "external_action_attempts": [],
+      "os_resource_limits": true,
+      "maximum_steps": 33154
+    }
+  },
+  "revised": {
+    "objects": {
+      "passed": 613,
+      "total": 613,
+      "failure_examples": [],
+      "artifact_sha256": "51e99a97595e53f242458acc501a9ee3bdde028992d8b0b5a01849450e83c781",
+      "capsules": [
+        "objects"
+      ],
+      "external_action_attempts": [],
+      "os_resource_limits": true,
+      "maximum_steps": 49281
+    },
+    "plan": {
+      "passed": 163,
+      "total": 163,
+      "failure_examples": [],
+      "artifact_sha256": "35944fcd7e7e5c373a651dcd1e004f04c02ad64a988cdb35353f01d1bacdb172",
+      "capsules": [
+        "plan"
+      ],
+      "external_action_attempts": [],
+      "os_resource_limits": true,
+      "maximum_steps": 50050
+    },
+    "probe": {
+      "passed": 100,
+      "total": 100,
+      "failure_examples": [],
+      "artifact_sha256": "718dbdd19e4503adb904f8be6d7721ac26f1522dc6e3d4812d13575e0a668044",
+      "capsules": [
+        "probe"
+      ],
+      "external_action_attempts": [],
+      "os_resource_limits": true,
+      "maximum_steps": 617
+    },
+    "scene": {
+      "passed": 39,
+      "total": 39,
+      "failure_examples": [],
+      "artifact_sha256": "bbaf200f13e1215331563f0e877c51649e23b679816f1a73326dbcf060a0fdcd",
+      "capsules": [
+        "objects",
+        "plan",
+        "scene"
+      ],
+      "external_action_attempts": [],
+      "os_resource_limits": true,
+      "maximum_steps": 555
+    }
+  },
+  "invalid_inputs": {
+    "objects": {
+      "rejected": 4,
+      "total": 4
+    },
+    "plan": {
+      "rejected": 2,
+      "total": 2
+    },
+    "probe": {
+      "rejected": 2,
+      "total": 2
+    }
+  },
+  "total_revised_passed": 915,
+  "total_revised_cases": 915,
+  "limitations": [
+    "No whole-model transfer, weight training, or hidden-trace extraction.",
+    "Examples demonstrate procedural export, not preservation of general reasoning.",
+    "Development failure cases were chosen by the author; not a blind discovery experiment.",
+    "Capsule revisions were made by the assistant in this session, not by the disconnected runtime.",
+    "The exporter validates and packages source; it does not automatically compile natural-language reasoning.",
+    "Guarded Python execution is not a hardened multi-tenant sandbox. Review capsule source."
+  ],
+  "status": "passed"
+}

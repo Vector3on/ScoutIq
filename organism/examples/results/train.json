@@ -1,0 +1,738 @@
+{
+  "format": "organism-report-1",
+  "snapshot": "7dd9cd673d323d37cacf75fd53fc4eaa",
+  "boundary": "offline observe-only; proposals only; target code never executed",
+  "stats": {
+    "fileObservations": 9,
+    "queries": 6,
+    "cachedQueries": 0,
+    "grownLenses": 3,
+    "transferredLenses": 0,
+    "reusedConclusions": 0,
+    "newConclusions": 3,
+    "bitsReduced": 6,
+    "freshObservationBits": 6,
+    "networkRequests": 0
+  },
+  "catalog": {
+    "techniques": 120,
+    "systemClasses": 19,
+    "seams": 95,
+    "digest": "7c912e748a081b575d75ce4a6786fdb9"
+  },
+  "sources": [
+    {
+      "path": "source/substrate/policy/policy.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "292340064eabfafda7b8942bc204a2141281678edb5f0b407156dee766518e37",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/actions.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "3168446cea586f03c8797fdde09ba945eac4139c53e742373fac228608400bb2",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/data.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/network.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/policy/manifest.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "bcc86bf5d2acdc5b9a8f3348e0b119d86ab6373fa6548933ad9ac944375a82cf",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/core/events.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "01175ee78e17d275f4acc3e23be44923baa67306c66377e04812efab87a9dcea",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    },
+    {
+      "path": "source/substrate/core/ledger.mjs",
+      "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+      "sha256": "bd56467ce3e6e1f23c0602bb44c06faf10a055556cab925ed8b7a67cea7753be",
+      "repository": "https://github.com/Vector3on/ScoutIq"
+    }
+  ],
+  "coverage": {
+    "capturedFiles": 7,
+    "bytes": 47339,
+    "unresolvedRelativeImports": 0,
+    "localCandidates": 3,
+    "exhausted": true,
+    "grammarRadii": [
+      0,
+      1
+    ]
+  },
+  "archive": {
+    "cells": 5,
+    "lenses": 4,
+    "memoryEntities": 6
+  },
+  "records": [
+    {
+      "type": "conclusion",
+      "key": "586d2a5a28e3b638c0b5500c64f4666d",
+      "target": "loam-policy",
+      "entry": "source/substrate/policy/policy.mjs",
+      "family": "trust-binding failure",
+      "lensId": "aff6e8151ac0b7e342ec0a072d6c1fb1",
+      "radius": 1,
+      "status": "static-pattern-distinguished",
+      "hypotheses": [
+        "both-names-observed"
+      ],
+      "trace": [
+        {
+          "kind": "local-symbol",
+          "answer": "yes",
+          "evidence": [
+            {
+              "artifact": "07e999ceaffbc0d3f142330b3b27ba8b",
+              "start": 9,
+              "end": 9,
+              "path": "source/substrate/policy/policy.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "292340064eabfafda7b8942bc204a2141281678edb5f0b407156dee766518e37"
+            }
+          ],
+          "searched": [
+            {
+              "path": "source/substrate/policy/policy.mjs",
+              "sha256": "292340064eabfafda7b8942bc204a2141281678edb5f0b407156dee766518e37"
+            }
+          ],
+          "before": 4,
+          "after": 2,
+          "expectedBits": 1,
+          "realizedBits": 1,
+          "cached": false
+        },
+        {
+          "kind": "neighbor-symbol",
+          "answer": "yes",
+          "evidence": [
+            {
+              "artifact": "9cebda874133aaa86fdef6e1b585c9af",
+              "start": 14,
+              "end": 14,
+              "path": "source/substrate/policy/actions.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "3168446cea586f03c8797fdde09ba945eac4139c53e742373fac228608400bb2"
+            },
+            {
+              "artifact": "8b9a0a7fff3dcb04c58d4c5c7b1f2122",
+              "start": 35,
+              "end": 35,
+              "path": "source/substrate/policy/data.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            },
+            {
+              "artifact": "8b9a0a7fff3dcb04c58d4c5c7b1f2122",
+              "start": 79,
+              "end": 79,
+              "path": "source/substrate/policy/data.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            },
+            {
+              "artifact": "8b9a0a7fff3dcb04c58d4c5c7b1f2122",
+              "start": 138,
+              "end": 138,
+              "path": "source/substrate/policy/data.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            },
+            {
+              "artifact": "9ddf7919ccde7c46c802bc42100dec22",
+              "start": 27,
+              "end": 27,
+              "path": "source/substrate/policy/manifest.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "bcc86bf5d2acdc5b9a8f3348e0b119d86ab6373fa6548933ad9ac944375a82cf"
+            },
+            {
+              "artifact": "1ceb4f8c7828a62560ad5d4d4ae37465",
+              "start": 88,
+              "end": 88,
+              "path": "source/substrate/policy/network.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa"
+            }
+          ],
+          "searched": [
+            {
+              "path": "source/substrate/policy/actions.mjs",
+              "sha256": "3168446cea586f03c8797fdde09ba945eac4139c53e742373fac228608400bb2"
+            },
+            {
+              "path": "source/substrate/policy/data.mjs",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            },
+            {
+              "path": "source/substrate/policy/manifest.mjs",
+              "sha256": "bcc86bf5d2acdc5b9a8f3348e0b119d86ab6373fa6548933ad9ac944375a82cf"
+            },
+            {
+              "path": "source/substrate/policy/network.mjs",
+              "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa"
+            }
+          ],
+          "before": 2,
+          "after": 1,
+          "expectedBits": 1,
+          "realizedBits": 1,
+          "cached": false
+        }
+      ],
+      "seamIds": [
+        "web.S2",
+        "web.S3",
+        "web.S4",
+        "identity.S1",
+        "identity.S2",
+        "identity.S3",
+        "identity.S4",
+        "identity.S5",
+        "cloud.S1",
+        "cloud.S2",
+        "cloud.S3",
+        "cloud.S4",
+        "cloud.S5",
+        "cicd.S1",
+        "cicd.S3",
+        "cicd.S4",
+        "cicd.S5",
+        "containers.S1",
+        "containers.S2",
+        "containers.S3",
+        "containers.S4",
+        "containers.S5",
+        "agents.S1",
+        "agents.S2",
+        "agents.S4",
+        "agents.S5",
+        "api.S1",
+        "api.S4",
+        "api.S5",
+        "l1.S2",
+        "l1.S3",
+        "l1.S4",
+        "l1.S5",
+        "l2.S1",
+        "l2.S3",
+        "l2.S4",
+        "l2.S5",
+        "defi.S1",
+        "defi.S5",
+        "mobile.S1",
+        "mobile.S3",
+        "mobile.S4",
+        "storage.S1",
+        "storage.S3",
+        "storage.S4",
+        "messaging.S4",
+        "browser.S1",
+        "browser.S2",
+        "browser.S3",
+        "browser.S4",
+        "browser.S5",
+        "os.S1",
+        "os.S2",
+        "network.S1",
+        "network.S2",
+        "network.S3",
+        "network.S4",
+        "documents.S3",
+        "documents.S5",
+        "email.S1",
+        "email.S2",
+        "iot.S2",
+        "iot.S5"
+      ],
+      "techniqueReferences": [
+        "T002",
+        "T005",
+        "T013",
+        "T014",
+        "T015",
+        "T017",
+        "T018",
+        "T019",
+        "T021",
+        "T022",
+        "T023",
+        "T024",
+        "T027",
+        "T031",
+        "T033",
+        "T035",
+        "T037",
+        "T038",
+        "T040",
+        "T041",
+        "T043",
+        "T044",
+        "T045",
+        "T047",
+        "T049",
+        "T050",
+        "T066",
+        "T069",
+        "T070",
+        "T072",
+        "T078",
+        "T082",
+        "T085",
+        "T089",
+        "T092",
+        "T093",
+        "T094",
+        "T095",
+        "T109",
+        "T112",
+        "T119"
+      ],
+      "untriedReferenceCells": 2583,
+      "untriedPreview": [
+        "web.S2::T002",
+        "web.S2::T005",
+        "web.S2::T013",
+        "web.S2::T014",
+        "web.S2::T015"
+      ],
+      "referencePreview": [
+        {
+          "id": "T002",
+          "sourceUrl": "https://portswigger.net/research/css-the-bomb-inside-your-inbox"
+        },
+        {
+          "id": "T005",
+          "sourceUrl": "https://portswigger.net/research/the-fragile-lock"
+        },
+        {
+          "id": "T013",
+          "sourceUrl": "https://blog.includesecurity.com/2025/04/cross-site-websocket-hijacking-exploitation-in-2025/"
+        }
+      ],
+      "invariantPreview": [
+        {
+          "seam": "web.S2",
+          "statement": "Shared cache reuse respects representation variation and the response's storage permissions."
+        },
+        {
+          "seam": "web.S3",
+          "statement": "Routing and authorization refer to the same effective authority and resource."
+        },
+        {
+          "seam": "web.S4",
+          "statement": "Only designated intermediaries can introduce authoritative caller metadata."
+        }
+      ],
+      "catalogStatus": "Inherited catalog; source URLs and coarse family assignments not independently revalidated",
+      "techniqueApplicability": "unverified; no technique was executed or marked tried",
+      "evScore": 0,
+      "hardeningIndex": null,
+      "purpose": "research",
+      "runtimeSafety": "unknown",
+      "limitation": "Names and direct imports do not establish enforcement, runtime reachability, or a vulnerability."
+    },
+    {
+      "type": "conclusion",
+      "key": "27bc965dbcc66ef35f87be584dfe0064",
+      "target": "loam-network",
+      "entry": "source/substrate/policy/network.mjs",
+      "family": "trust-binding failure",
+      "lensId": "aff6e8151ac0b7e342ec0a072d6c1fb1",
+      "radius": 1,
+      "status": "static-pattern-distinguished",
+      "hypotheses": [
+        "both-names-observed"
+      ],
+      "trace": [
+        {
+          "kind": "local-symbol",
+          "answer": "yes",
+          "evidence": [
+            {
+              "artifact": "1ceb4f8c7828a62560ad5d4d4ae37465",
+              "start": 88,
+              "end": 88,
+              "path": "source/substrate/policy/network.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa"
+            }
+          ],
+          "searched": [
+            {
+              "path": "source/substrate/policy/network.mjs",
+              "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa"
+            }
+          ],
+          "before": 4,
+          "after": 2,
+          "expectedBits": 1,
+          "realizedBits": 1,
+          "cached": false
+        },
+        {
+          "kind": "neighbor-symbol",
+          "answer": "yes",
+          "evidence": [
+            {
+              "artifact": "8b9a0a7fff3dcb04c58d4c5c7b1f2122",
+              "start": 35,
+              "end": 35,
+              "path": "source/substrate/policy/data.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            },
+            {
+              "artifact": "8b9a0a7fff3dcb04c58d4c5c7b1f2122",
+              "start": 79,
+              "end": 79,
+              "path": "source/substrate/policy/data.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            },
+            {
+              "artifact": "8b9a0a7fff3dcb04c58d4c5c7b1f2122",
+              "start": 138,
+              "end": 138,
+              "path": "source/substrate/policy/data.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            }
+          ],
+          "searched": [
+            {
+              "path": "source/substrate/policy/data.mjs",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            }
+          ],
+          "before": 2,
+          "after": 1,
+          "expectedBits": 1,
+          "realizedBits": 1,
+          "cached": false
+        }
+      ],
+      "seamIds": [
+        "web.S2",
+        "web.S3",
+        "web.S4",
+        "identity.S1",
+        "identity.S2",
+        "identity.S3",
+        "identity.S4",
+        "identity.S5",
+        "cloud.S1",
+        "cloud.S2",
+        "cloud.S3",
+        "cloud.S4",
+        "cloud.S5",
+        "cicd.S1",
+        "cicd.S3",
+        "cicd.S4",
+        "cicd.S5",
+        "containers.S1",
+        "containers.S2",
+        "containers.S3",
+        "containers.S4",
+        "containers.S5",
+        "agents.S1",
+        "agents.S2",
+        "agents.S4",
+        "agents.S5",
+        "api.S1",
+        "api.S4",
+        "api.S5",
+        "l1.S2",
+        "l1.S3",
+        "l1.S4",
+        "l1.S5",
+        "l2.S1",
+        "l2.S3",
+        "l2.S4",
+        "l2.S5",
+        "defi.S1",
+        "defi.S5",
+        "mobile.S1",
+        "mobile.S3",
+        "mobile.S4",
+        "storage.S1",
+        "storage.S3",
+        "storage.S4",
+        "messaging.S4",
+        "browser.S1",
+        "browser.S2",
+        "browser.S3",
+        "browser.S4",
+        "browser.S5",
+        "os.S1",
+        "os.S2",
+        "network.S1",
+        "network.S2",
+        "network.S3",
+        "network.S4",
+        "documents.S3",
+        "documents.S5",
+        "email.S1",
+        "email.S2",
+        "iot.S2",
+        "iot.S5"
+      ],
+      "techniqueReferences": [
+        "T002",
+        "T005",
+        "T013",
+        "T014",
+        "T015",
+        "T017",
+        "T018",
+        "T019",
+        "T021",
+        "T022",
+        "T023",
+        "T024",
+        "T027",
+        "T031",
+        "T033",
+        "T035",
+        "T037",
+        "T038",
+        "T040",
+        "T041",
+        "T043",
+        "T044",
+        "T045",
+        "T047",
+        "T049",
+        "T050",
+        "T066",
+        "T069",
+        "T070",
+        "T072",
+        "T078",
+        "T082",
+        "T085",
+        "T089",
+        "T092",
+        "T093",
+        "T094",
+        "T095",
+        "T109",
+        "T112",
+        "T119"
+      ],
+      "untriedReferenceCells": 2583,
+      "untriedPreview": [
+        "web.S2::T002",
+        "web.S2::T005",
+        "web.S2::T013",
+        "web.S2::T014",
+        "web.S2::T015"
+      ],
+      "referencePreview": [
+        {
+          "id": "T002",
+          "sourceUrl": "https://portswigger.net/research/css-the-bomb-inside-your-inbox"
+        },
+        {
+          "id": "T005",
+          "sourceUrl": "https://portswigger.net/research/the-fragile-lock"
+        },
+        {
+          "id": "T013",
+          "sourceUrl": "https://blog.includesecurity.com/2025/04/cross-site-websocket-hijacking-exploitation-in-2025/"
+        }
+      ],
+      "invariantPreview": [
+        {
+          "seam": "web.S2",
+          "statement": "Shared cache reuse respects representation variation and the response's storage permissions."
+        },
+        {
+          "seam": "web.S3",
+          "statement": "Routing and authorization refer to the same effective authority and resource."
+        },
+        {
+          "seam": "web.S4",
+          "statement": "Only designated intermediaries can introduce authoritative caller metadata."
+        }
+      ],
+      "catalogStatus": "Inherited catalog; source URLs and coarse family assignments not independently revalidated",
+      "techniqueApplicability": "unverified; no technique was executed or marked tried",
+      "evScore": 0,
+      "hardeningIndex": null,
+      "purpose": "research",
+      "runtimeSafety": "unknown",
+      "limitation": "Names and direct imports do not establish enforcement, runtime reachability, or a vulnerability."
+    },
+    {
+      "type": "conclusion",
+      "key": "8f6798b355923a15ec063c4ab8175994",
+      "target": "loam-network",
+      "entry": "source/substrate/policy/network.mjs",
+      "family": "semantic/parser differential",
+      "lensId": "a28c27a36de1b83f764327c8bbf32b94",
+      "radius": 1,
+      "status": "static-pattern-distinguished",
+      "hypotheses": [
+        "both-names-observed"
+      ],
+      "trace": [
+        {
+          "kind": "local-symbol",
+          "answer": "yes",
+          "evidence": [
+            {
+              "artifact": "1ceb4f8c7828a62560ad5d4d4ae37465",
+              "start": 29,
+              "end": 29,
+              "path": "source/substrate/policy/network.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa"
+            }
+          ],
+          "searched": [
+            {
+              "path": "source/substrate/policy/network.mjs",
+              "sha256": "a7b09ff7140bd5c073835056ea4f1f59f40d6857a10edd830b5d4a9560e2c8fa"
+            }
+          ],
+          "before": 4,
+          "after": 2,
+          "expectedBits": 1,
+          "realizedBits": 1,
+          "cached": false
+        },
+        {
+          "kind": "neighbor-symbol",
+          "answer": "yes",
+          "evidence": [
+            {
+              "artifact": "8b9a0a7fff3dcb04c58d4c5c7b1f2122",
+              "start": 125,
+              "end": 125,
+              "path": "source/substrate/policy/data.mjs",
+              "revision": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            }
+          ],
+          "searched": [
+            {
+              "path": "source/substrate/policy/data.mjs",
+              "sha256": "5e44fb152f91a8b8c3f8060064e0282860d7e5cd03a9a7e0a56e17a8d1c7e0de"
+            }
+          ],
+          "before": 2,
+          "after": 1,
+          "expectedBits": 1,
+          "realizedBits": 1,
+          "cached": false
+        }
+      ],
+      "seamIds": [
+        "web.S1",
+        "web.S2",
+        "web.S3",
+        "identity.S2",
+        "identity.S4",
+        "cloud.S3",
+        "containers.S1",
+        "api.S2",
+        "l1.S1",
+        "l1.S3",
+        "l2.S2",
+        "defi.S1",
+        "mobile.S2",
+        "network.S2",
+        "documents.S1",
+        "documents.S2",
+        "documents.S3",
+        "email.S1",
+        "email.S3",
+        "email.S4",
+        "iot.S2"
+      ],
+      "techniqueReferences": [
+        "T001",
+        "T002",
+        "T005",
+        "T006",
+        "T007",
+        "T010",
+        "T026",
+        "T028",
+        "T029",
+        "T031",
+        "T044",
+        "T055",
+        "T064",
+        "T080",
+        "T083",
+        "T088",
+        "T103",
+        "T106",
+        "T113",
+        "T116"
+      ],
+      "untriedReferenceCells": 420,
+      "untriedPreview": [
+        "web.S1::T001",
+        "web.S1::T002",
+        "web.S1::T005",
+        "web.S1::T006",
+        "web.S1::T007"
+      ],
+      "referencePreview": [
+        {
+          "id": "T001",
+          "sourceUrl": "https://portswigger.net/research/whats-in-a-tag-name-javascript-apparently"
+        },
+        {
+          "id": "T002",
+          "sourceUrl": "https://portswigger.net/research/css-the-bomb-inside-your-inbox"
+        },
+        {
+          "id": "T005",
+          "sourceUrl": "https://portswigger.net/research/the-fragile-lock"
+        }
+      ],
+      "invariantPreview": [
+        {
+          "seam": "web.S1",
+          "statement": "Every receiving hop agrees on message boundaries under that hop's protocol."
+        },
+        {
+          "seam": "web.S2",
+          "statement": "Shared cache reuse respects representation variation and the response's storage permissions."
+        },
+        {
+          "seam": "web.S3",
+          "statement": "Routing and authorization refer to the same effective authority and resource."
+        }
+      ],
+      "catalogStatus": "Inherited catalog; source URLs and coarse family assignments not independently revalidated",
+      "techniqueApplicability": "unverified; no technique was executed or marked tried",
+      "evScore": 0,
+      "hardeningIndex": null,
+      "purpose": "research",
+      "runtimeSafety": "unknown",
+      "limitation": "Names and direct imports do not establish enforcement, runtime reachability, or a vulnerability."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "file": "organism/frozen/partition.py",
+  "sha256": "99cc28d6786b0f8e18dae3f7a3ce17d8e97fa04bde17ab65c3a8a6b2669565f2",
+  "entry": "partition",
+  "capsules": [
+    "partition"
+  ],
+  "requires_model": false,
+  "purpose": "Static hypothesis filtering and categorical partitions; no target code"
+}

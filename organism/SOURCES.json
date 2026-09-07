@@ -1,0 +1,15 @@
+{
+  "base": "b91077842b6bfd28e544afefd66203a24b1dc3a0",
+  "branches": {
+    "origin/blindsight-data": "c73b8095d8c8a2a34784521d3029eda9a7699048",
+    "origin/claude/bounty-heartbeat-integration-66h5jw": "2fc869aac57a7d85ece540ba0efc0b554064eeca",
+    "origin/claude/compounding-intelligence-substrate-a806b2": "538dc29ae2202e379dadb2dd6f95ce0bf470ffdb",
+    "origin/claude/loam-information-ceiling-ouus70": "e4fe28acd375f6eed83f081bac2537291c92caaa",
+    "origin/claude/loam-v3-ceiling": "4725aeb80f03c6ff0c2c0ef495f0307a06d949e8",
+    "origin/claude/project-setup-rfzeit": "aed92d3aed939e01f54be302c06df1015c0f7186",
+    "origin/codex/blindsight-autonomous-anatomy": "ef0ff5f842e5dceed90f2f63fccddb1f917c086a",
+    "origin/codex/blindsight-layer-engine": "4725aeb80f03c6ff0c2c0ef495f0307a06d949e8",
+    "origin/codex/melt-executable-capabilities": "966f6d2f70297ba4587d7b057b11005e70575431",
+    "origin/master": "b91077842b6bfd28e544afefd66203a24b1dc3a0"
+  }
+}

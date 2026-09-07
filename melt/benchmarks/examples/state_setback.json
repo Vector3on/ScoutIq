@@ -1,0 +1,70 @@
+{
+  "initial": [
+    0,
+    0,
+    0
+  ],
+  "goal": [
+    null,
+    null,
+    1
+  ],
+  "actions": [
+    {
+      "name": "prepare",
+      "pre": [
+        null,
+        null,
+        null
+      ],
+      "effect": [
+        1,
+        null,
+        null
+      ],
+      "cost": 1
+    },
+    {
+      "name": "authorize",
+      "pre": [
+        1,
+        0,
+        null
+      ],
+      "effect": [
+        0,
+        1,
+        null
+      ],
+      "cost": 1
+    },
+    {
+      "name": "deliver",
+      "pre": [
+        1,
+        1,
+        0
+      ],
+      "effect": [
+        null,
+        null,
+        1
+      ],
+      "cost": 1
+    },
+    {
+      "name": "shortcut",
+      "pre": [
+        null,
+        null,
+        null
+      ],
+      "effect": [
+        null,
+        null,
+        1
+      ],
+      "cost": 25
+    }
+  ]
+}
