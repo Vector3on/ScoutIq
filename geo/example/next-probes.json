@@ -1,0 +1,75 @@
+{
+  "method": "Loam LinearModel posterior mean + exact parameter IG; working Gaussian approximation to binary absence",
+  "warning": "Model IG is not a consumer visibility confidence interval. Adaptive answers must remain separate from fixed-battery trend estimates.",
+  "calibration": "Reserve every fifth collection for a pre-registered fixed-battery query, independent of this ranking.",
+  "probes": [
+    {
+      "query_id": "self-hosted-small",
+      "engine": "gemini-consumer",
+      "focus_brand": "Usermaven",
+      "prompt": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual user tracking. Which five tools should I compare before choosing? Explain tradeoffs briefly and cite sources if available.",
+      "information_gain_nats": 0.17139729534438014,
+      "posterior_absence_proxy": 0.932116896240297,
+      "priority": 0.4139821093787701,
+      "status": "ready-for-operator",
+      "note": "One answer measures all tracked brands; focus is the uncertainty target, never added to the prompt."
+    },
+    {
+      "query_id": "self-hosted-small",
+      "engine": "chatgpt-consumer",
+      "focus_brand": "Usermaven",
+      "prompt": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual user tracking. Which five tools should I compare before choosing? Explain tradeoffs briefly and cite sources if available.",
+      "information_gain_nats": 0.10256352242128901,
+      "posterior_absence_proxy": 0.8751022646433559,
+      "priority": 0.37465615123845175,
+      "status": "ready-for-operator",
+      "note": "One answer measures all tracked brands; focus is the uncertainty target, never added to the prompt."
+    },
+    {
+      "query_id": "saas-shortlist",
+      "engine": "gemini-consumer",
+      "focus_brand": "Usermaven",
+      "prompt": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to five brands, explain the tradeoffs briefly, and cite sources if available.",
+      "information_gain_nats": 0.1267632978445635,
+      "posterior_absence_proxy": 0.7492794928580369,
+      "priority": 0.3714018622041488,
+      "status": "ready-for-operator",
+      "note": "One answer measures all tracked brands; focus is the uncertainty target, never added to the prompt."
+    },
+    {
+      "query_id": "saas-shortlist",
+      "engine": "chatgpt-consumer",
+      "focus_brand": "Usermaven",
+      "prompt": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to five brands, explain the tradeoffs briefly, and cite sources if available.",
+      "information_gain_nats": 0.1023570189075277,
+      "posterior_absence_proxy": 0.6922648612610958,
+      "priority": 0.3391555826725256,
+      "status": "ready-for-operator",
+      "note": "One answer measures all tracked brands; focus is the uncertainty target, never added to the prompt."
+    }
+  ],
+  "blocked": [
+    {
+      "query_id": "self-hosted-small",
+      "engine": "perplexity-consumer",
+      "focus_brand": "Usermaven",
+      "prompt": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual user tracking. Which five tools should I compare before choosing? Explain tradeoffs briefly and cite sources if available.",
+      "information_gain_nats": 0.9554661877904942,
+      "posterior_absence_proxy": 0.8165481160872115,
+      "priority": 0.5559311315046032,
+      "status": "blocked-needs-access",
+      "note": "One answer measures all tracked brands; focus is the uncertainty target, never added to the prompt."
+    },
+    {
+      "query_id": "saas-shortlist",
+      "engine": "perplexity-consumer",
+      "focus_brand": "Usermaven",
+      "prompt": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to five brands, explain the tradeoffs briefly, and cite sources if available.",
+      "information_gain_nats": 0.952091730946387,
+      "posterior_absence_proxy": 0.6337107127049512,
+      "priority": 0.5422345880727525,
+      "status": "blocked-needs-access",
+      "note": "One answer measures all tracked brands; focus is the uncertainty target, never added to the prompt."
+    }
+  ]
+}

@@ -1,0 +1,339 @@
+{
+  "base": "b91077842b6bfd28e544afefd66203a24b1dc3a0",
+  "branches": [
+    {
+      "ref": "refs/heads/blindsight-data",
+      "sha": "c73b8095d8c8a2a34784521d3029eda9a7699048"
+    },
+    {
+      "ref": "refs/heads/claude/bounty-heartbeat-integration-66h5jw",
+      "sha": "2fc869aac57a7d85ece540ba0efc0b554064eeca"
+    },
+    {
+      "ref": "refs/heads/claude/compounding-intelligence-substrate-a806b2",
+      "sha": "538dc29ae2202e379dadb2dd6f95ce0bf470ffdb"
+    },
+    {
+      "ref": "refs/heads/claude/loam-information-ceiling-ouus70",
+      "sha": "e4fe28acd375f6eed83f081bac2537291c92caaa"
+    },
+    {
+      "ref": "refs/heads/claude/loam-v3-ceiling",
+      "sha": "4725aeb80f03c6ff0c2c0ef495f0307a06d949e8"
+    },
+    {
+      "ref": "refs/heads/claude/project-setup-rfzeit",
+      "sha": "aed92d3aed939e01f54be302c06df1015c0f7186"
+    },
+    {
+      "ref": "refs/heads/codex/blindsight-autonomous-anatomy",
+      "sha": "ef0ff5f842e5dceed90f2f63fccddb1f917c086a"
+    },
+    {
+      "ref": "refs/heads/codex/blindsight-layer-engine",
+      "sha": "4725aeb80f03c6ff0c2c0ef495f0307a06d949e8"
+    },
+    {
+      "ref": "refs/heads/codex/melt-executable-capabilities",
+      "sha": "966f6d2f70297ba4587d7b057b11005e70575431"
+    },
+    {
+      "ref": "refs/heads/master",
+      "sha": "b91077842b6bfd28e544afefd66203a24b1dc3a0"
+    }
+  ],
+  "loamFiles": [
+    {
+      "path": "substrate/.gitignore",
+      "sha": "aceaf19f97bf7d6804e926842f0313422fac2d10"
+    },
+    {
+      "path": "substrate/DECISIONS.md",
+      "sha": "d55f93ca19a88141ba63242c775ba684cf606deb"
+    },
+    {
+      "path": "substrate/DESIGN.md",
+      "sha": "31f072afc9cb50d1a29391c8aea97c10f1cca892"
+    },
+    {
+      "path": "substrate/README.md",
+      "sha": "7fafea75c72f41601ed4380abfd82570b1c5d684"
+    },
+    {
+      "path": "substrate/RUNBOOK.md",
+      "sha": "ffa8edc650f3f9f591004f35b8825764bee089b7"
+    },
+    {
+      "path": "substrate/bin/loam.mjs",
+      "sha": "ad57309d7a5c96db2605c12b5a25dbbede92821e"
+    },
+    {
+      "path": "substrate/bin/suppress-warnings.mjs",
+      "sha": "9bca232672b3e619641e3df1d55facc6148fc9fd"
+    },
+    {
+      "path": "substrate/colab/loam_worker.ipynb",
+      "sha": "35f753282d1ea11418865a6173abb420c53e5ef3"
+    },
+    {
+      "path": "substrate/core/archive.mjs",
+      "sha": "37ca33cd47504b8c99b06fd401224971e2772a25"
+    },
+    {
+      "path": "substrate/core/attention.mjs",
+      "sha": "45508208810c4c15526ac02bfd80eecc2270666f"
+    },
+    {
+      "path": "substrate/core/bundle.mjs",
+      "sha": "a5a30289e54cc300dad6873d8f070d2cd6da7a0c"
+    },
+    {
+      "path": "substrate/core/credit.mjs",
+      "sha": "ef5e9f3dd6bd7ec0f01de9aa38e34cb5edb98a27"
+    },
+    {
+      "path": "substrate/core/curriculum.mjs",
+      "sha": "8e7802a2ffbb77968baf5d9922b43db6cdfc5476"
+    },
+    {
+      "path": "substrate/core/embed.mjs",
+      "sha": "a92507635d5a6179054dae406ef243ea378748d6"
+    },
+    {
+      "path": "substrate/core/embedio.mjs",
+      "sha": "7963ad173ae82ca5436c8a2c1372eaefdb102c34"
+    },
+    {
+      "path": "substrate/core/events.mjs",
+      "sha": "aee1dedbdd9af15353249f37f78847ca7e7f78c9"
+    },
+    {
+      "path": "substrate/core/experiment.mjs",
+      "sha": "4a30395c951975f47aa1d049e5e810654476b9ec"
+    },
+    {
+      "path": "substrate/core/features.mjs",
+      "sha": "3eb09f86f81cf87bd2c0f9eef375012808932d11"
+    },
+    {
+      "path": "substrate/core/frontier.mjs",
+      "sha": "6f46b41497bcccf9763540a7b53559f22614c48c"
+    },
+    {
+      "path": "substrate/core/hindsight.mjs",
+      "sha": "bed08e60b35884959f57b49fd86d2a524e88e313"
+    },
+    {
+      "path": "substrate/core/ledger.mjs",
+      "sha": "5d934908501803e695fa1a0fb8f67bc3d81806df"
+    },
+    {
+      "path": "substrate/core/memory.mjs",
+      "sha": "a4abffce23555c34e05afef00fe40280d8f85b32"
+    },
+    {
+      "path": "substrate/core/metrics.mjs",
+      "sha": "8e2b37c8aa1b4b59df1a016fa88f167c31bfc2bd"
+    },
+    {
+      "path": "substrate/core/observables.mjs",
+      "sha": "6ec3ff99c124500220bce2fedf17cbf6f24a4078"
+    },
+    {
+      "path": "substrate/core/phenotype.mjs",
+      "sha": "882b29d6406adfec9f2cc2d9bc81abbfaf46b2af"
+    },
+    {
+      "path": "substrate/core/planner.mjs",
+      "sha": "58f8ebd804055c945cb43e2ebd41a86500eff829"
+    },
+    {
+      "path": "substrate/core/plugins.mjs",
+      "sha": "9cf415d3c99318836ad79ea2e3ccbdc7d189d051"
+    },
+    {
+      "path": "substrate/core/progress.mjs",
+      "sha": "e2fba64aed297df0ea9471c50889b0154190f23e"
+    },
+    {
+      "path": "substrate/core/projections.mjs",
+      "sha": "61b51592d3eeecbf3ddb05d03ab4e8768477c1c3"
+    },
+    {
+      "path": "substrate/core/qd.mjs",
+      "sha": "f56b22905ecef0add7a733fbb3709f4d228d286f"
+    },
+    {
+      "path": "substrate/core/sentinel.mjs",
+      "sha": "0f4151201498993293898772b3ec057c6ca8a260"
+    },
+    {
+      "path": "substrate/core/store.mjs",
+      "sha": "9380dfb8d69787bc56f3255f93bc61a058c595a3"
+    },
+    {
+      "path": "substrate/core/strategy.mjs",
+      "sha": "88c46412a96a4c2f5df18d2fde093251e5629e57"
+    },
+    {
+      "path": "substrate/core/sync.mjs",
+      "sha": "ec855694f1d43ccacd87f92360f9b7fa34b45168"
+    },
+    {
+      "path": "substrate/core/timetravel.mjs",
+      "sha": "1c76100447f2b8e85751714f0965428c3b6c1238"
+    },
+    {
+      "path": "substrate/core/valuemodel-v4.mjs",
+      "sha": "108d0b15a52ed2477792342579fe28dba8830c35"
+    },
+    {
+      "path": "substrate/core/valuemodel.mjs",
+      "sha": "8a65a3b88dbbb4a9da15ae28f8ad65b89d29e2f6"
+    },
+    {
+      "path": "substrate/core/vq.mjs",
+      "sha": "4edb0162ff12ea1c07cd4928e11789891e7830d3"
+    },
+    {
+      "path": "substrate/core/worker.mjs",
+      "sha": "1b4d3d636e06439f822bf0eea6e2251d20e06243"
+    },
+    {
+      "path": "substrate/loam.config.json",
+      "sha": "c84b3b9255ff6ccfa571797f0670c3400d2a417d"
+    },
+    {
+      "path": "substrate/package.json",
+      "sha": "ac2a50a6fc2ed1ffed18200e071d0dc1ce3ed134"
+    },
+    {
+      "path": "substrate/plugins/arxiv-lit/atom.mjs",
+      "sha": "1185fa778353c564121cc10bd12e2d9a146c6dd9"
+    },
+    {
+      "path": "substrate/plugins/arxiv-lit/index.mjs",
+      "sha": "d9a2dbc5e274fc57172d81d13ed01930431a5dff"
+    },
+    {
+      "path": "substrate/plugins/oss-health/index.mjs",
+      "sha": "f40725814501ce40b92d44c301d092e00eef4abe"
+    },
+    {
+      "path": "substrate/plugins/toy/index.mjs",
+      "sha": "9d15ca40e9e0787cfc2e03275ac3382e0fb50fd2"
+    },
+    {
+      "path": "substrate/plugins/toy/world.mjs",
+      "sha": "6e3007aa424d9bcbdd258609328fb65a6b472669"
+    },
+    {
+      "path": "substrate/policy/actions.mjs",
+      "sha": "a5ba10abf2bdde8a390caa5a41ef06d1a87ebe2d"
+    },
+    {
+      "path": "substrate/policy/data.mjs",
+      "sha": "1414e9a49df7a57e1f42f061b0d01b6710c8fc03"
+    },
+    {
+      "path": "substrate/policy/manifest.mjs",
+      "sha": "d385bbed7296d4f834b1e8d5189fbac9c2800ba4"
+    },
+    {
+      "path": "substrate/policy/network.mjs",
+      "sha": "900aae808dd2c2e0c5effbab0f2b5337955ddb24"
+    },
+    {
+      "path": "substrate/policy/policy.mjs",
+      "sha": "060edd47b3823d0f8127cb23ebc39ae8be0c6967"
+    },
+    {
+      "path": "substrate/tests/attention.test.mjs",
+      "sha": "ef42295b418de74b8694511c45ee2b52e7ee6698"
+    },
+    {
+      "path": "substrate/tests/bundle.test.mjs",
+      "sha": "2b1653c942eccb876a50381d39c50ea2c43f27a6"
+    },
+    {
+      "path": "substrate/tests/events.test.mjs",
+      "sha": "f9e07242a0fbc4e8090300f29051b9f3ff7ee9f6"
+    },
+    {
+      "path": "substrate/tests/fixtures/arxiv-cs.CR.atom",
+      "sha": "b8e3ef58e74995f5e2a85c70fc88bc98a5487a7b"
+    },
+    {
+      "path": "substrate/tests/fixtures/depsdev-project.json",
+      "sha": "c7445506d0227b29d64f670c3953f06f287d5779"
+    },
+    {
+      "path": "substrate/tests/fixtures/depsdev-version.json",
+      "sha": "249b6945fb1a75b462524adf6af93f6c78b4edb2"
+    },
+    {
+      "path": "substrate/tests/fixtures/github-commits.json",
+      "sha": "57795a6a976c23d6145a2188696aba58c4d514a1"
+    },
+    {
+      "path": "substrate/tests/fixtures/github-repo.json",
+      "sha": "8a14fe892f72755c66c06888343862e990b85d17"
+    },
+    {
+      "path": "substrate/tests/fixtures/npm-downloads-range.json",
+      "sha": "ff79495383e5ef986d516218138dcd1db9136300"
+    },
+    {
+      "path": "substrate/tests/fixtures/npm-hono.json",
+      "sha": "d94d5dcd0c2f00e95c57839a53bae279c113390b"
+    },
+    {
+      "path": "substrate/tests/plugins-arxiv.test.mjs",
+      "sha": "53e0217d46e8e5b87250e5989f6d7a023855e81c"
+    },
+    {
+      "path": "substrate/tests/plugins-oss.test.mjs",
+      "sha": "a251cb358233708402dc6fa6db01e8313e9f69e1"
+    },
+    {
+      "path": "substrate/tests/policy.test.mjs",
+      "sha": "14c9ce51c89af7d7ef3b1ef72d6d37aac7f2bb91"
+    },
+    {
+      "path": "substrate/tests/qd.test.mjs",
+      "sha": "75e73d5da2d1d9bfb96a839ff553213a64fe2735"
+    },
+    {
+      "path": "substrate/tests/store.test.mjs",
+      "sha": "6a80bbadf2fca55a23544706f7c1bbe799946941"
+    },
+    {
+      "path": "substrate/tests/strategy.test.mjs",
+      "sha": "890a045adabd8af867f4609a9dd8142252d7f23d"
+    },
+    {
+      "path": "substrate/tests/sync.test.mjs",
+      "sha": "6827e4b11490fd4dad2385e84712d6fb11fdee39"
+    },
+    {
+      "path": "substrate/tests/v3-embed.test.mjs",
+      "sha": "5b5ebde42bb4f64a69f99ab59b4ce31a59651498"
+    },
+    {
+      "path": "substrate/tests/v3.test.mjs",
+      "sha": "b958799300f8e78d313e35b93978ddb512c4ecad"
+    },
+    {
+      "path": "substrate/tests/v4.test.mjs",
+      "sha": "edfb7b0b362287c8b265fc5da31da32b78c7fe2a"
+    },
+    {
+      "path": "substrate/tests/worker.test.mjs",
+      "sha": "b63a2ddf2e4f4367afed4dcc64ef649162cf8bca"
+    }
+  ],
+  "meltRuntime": {
+    "path": "melt/runtime.py",
+    "sha": "81c1931e195425c1bb629e908ba6455d83d45cbc"
+  }
+}

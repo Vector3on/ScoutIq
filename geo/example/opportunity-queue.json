@@ -1,0 +1,905 @@
+[
+  {
+    "id": "a46aff058789e841",
+    "query_id": "saas-shortlist",
+    "prompt": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to five brands, explain the tradeoffs briefly, and cite sources if available.",
+    "engine": "chatgpt-consumer",
+    "stratum": {
+      "citation_coverage": "visible-only",
+      "context": {
+        "collector": "browser-dom-snapshot",
+        "locale": "English",
+        "new_chat": true,
+        "region": "unknown",
+        "search": "automatic; cited links visible",
+        "session": "anonymous-cloud-pilot-2026-09-07"
+      },
+      "engine": "chatgpt-consumer",
+      "model": "ChatGPT (underlying model not disclosed)"
+    },
+    "n": 2,
+    "attempts": 2,
+    "failed": 0,
+    "metrics": {
+      "GoatCounter": {
+        "mentions": 0,
+        "n": 2,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Plausible": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.18181818181818182,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Fathom": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.18181818181818182,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Matomo": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.18181818181818182,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Umami": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.18181818181818182,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Simple Analytics": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.18181818181818182,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "PostHog": {
+        "mentions": 1,
+        "n": 2,
+        "visibility": 0.5,
+        "wilson95": [
+          0.09453120573423074,
+          0.9054687942657693
+        ],
+        "share_of_voice": 0.09090909090909091,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Usermaven": {
+        "mentions": 0,
+        "n": 2,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      }
+    },
+    "intent_prior": 0.9,
+    "fixability_prior": 0.5,
+    "fixability_reason": "Unvalidated prior: an accurate category comparison may be feasible; inclusion is not under brand control.",
+    "opportunity_score": 33.75,
+    "score_kind": "prior-weighted hypothesis, not measured ROI",
+    "absence_posterior_mean": 0.75,
+    "evidence_ids": [
+      "chatgpt-pilot-1",
+      "chatgpt-pilot-2"
+    ],
+    "source_urls": [
+      "https://docs.umami.is/docs/about",
+      "https://matomo.org/",
+      "https://matomo.org/blog/2026/06/a-hands-on-guide-to-privacy-analytics/",
+      "https://matomo.org/faq/general/faq_146/",
+      "https://matomo.org/guide/manage-matomo/privacy/",
+      "https://measr.app/compare/privacy-analytics/",
+      "https://plausible.io/",
+      "https://plausible.io/privacy",
+      "https://plausible.io/privacy-focused-web-analytics",
+      "https://simpleanalytics.com/",
+      "https://simpleanalytics.com/google-analytics-alternatives",
+      "https://simpleanalytics.com/security",
+      "https://umami.is/",
+      "https://usefathom.com/"
+    ],
+    "framing": "business-shortlist",
+    "status": "pilot-needs-replication"
+  },
+  {
+    "id": "150f1b4213cd1eaf",
+    "query_id": "saas-shortlist",
+    "prompt": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to five brands, explain the tradeoffs briefly, and cite sources if available.",
+    "engine": "gemini-consumer",
+    "stratum": {
+      "citation_coverage": "visible-only",
+      "context": {
+        "collector": "browser-dom-snapshot",
+        "locale": "English",
+        "new_chat": true,
+        "region": "unknown",
+        "search": "automatic; source details visible",
+        "session": "anonymous-cloud-pilot-2026-09-07"
+      },
+      "engine": "gemini-consumer",
+      "model": "Flash-Lite (UI label; version not disclosed)"
+    },
+    "n": 1,
+    "attempts": 1,
+    "failed": 0,
+    "metrics": {
+      "GoatCounter": {
+        "mentions": 0,
+        "n": 1,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Plausible": {
+        "mentions": 1,
+        "n": 1,
+        "visibility": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "share_of_voice": 0.2,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Fathom": {
+        "mentions": 0,
+        "n": 1,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Matomo": {
+        "mentions": 1,
+        "n": 1,
+        "visibility": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "share_of_voice": 0.2,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Umami": {
+        "mentions": 0,
+        "n": 1,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Simple Analytics": {
+        "mentions": 1,
+        "n": 1,
+        "visibility": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "share_of_voice": 0.2,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "PostHog": {
+        "mentions": 1,
+        "n": 1,
+        "visibility": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "share_of_voice": 0.2,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Usermaven": {
+        "mentions": 1,
+        "n": 1,
+        "visibility": 1.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "share_of_voice": 0.2,
+        "owned_domain_cited_answers": 1,
+        "citation_n": 1,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      }
+    },
+    "intent_prior": 0.9,
+    "fixability_prior": 0.5,
+    "fixability_reason": "Unvalidated prior: an accurate category comparison may be feasible; inclusion is not under brand control.",
+    "opportunity_score": 30.0,
+    "score_kind": "prior-weighted hypothesis, not measured ROI",
+    "absence_posterior_mean": 0.6666666666666666,
+    "evidence_ids": [
+      "gemini-pilot-1"
+    ],
+    "source_urls": [
+      "https://usermaven.com/blog/privacy-first-analytics-tools"
+    ],
+    "framing": "business-shortlist",
+    "status": "pilot-needs-replication"
+  },
+  {
+    "id": "57020b0c914872bb",
+    "query_id": "self-hosted-small",
+    "prompt": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual user tracking. Which five tools should I compare before choosing? Explain tradeoffs briefly and cite sources if available.",
+    "engine": "chatgpt-consumer",
+    "stratum": {
+      "citation_coverage": "visible-only",
+      "context": {
+        "collector": "browser-dom-snapshot",
+        "locale": "English",
+        "new_chat": true,
+        "region": "unknown",
+        "search": "automatic; cited links visible",
+        "session": "anonymous-cloud-pilot-2026-09-07"
+      },
+      "engine": "chatgpt-consumer",
+      "model": "ChatGPT (underlying model not disclosed)"
+    },
+    "n": 2,
+    "attempts": 2,
+    "failed": 0,
+    "metrics": {
+      "GoatCounter": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.25,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": {
+          "positive": 1
+        },
+        "sentiment_review_n": 1,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Plausible": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.25,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Fathom": {
+        "mentions": 0,
+        "n": 2,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Matomo": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.25,
+        "owned_domain_cited_answers": 1,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.5,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Umami": {
+        "mentions": 2,
+        "n": 2,
+        "visibility": 1.0,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ],
+        "share_of_voice": 0.25,
+        "owned_domain_cited_answers": 2,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 1.0,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Simple Analytics": {
+        "mentions": 0,
+        "n": 2,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "PostHog": {
+        "mentions": 0,
+        "n": 2,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Usermaven": {
+        "mentions": 0,
+        "n": 2,
+        "visibility": 0.0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ],
+        "share_of_voice": 0.0,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 2,
+        "owned_domain_citation_rate": 0.0,
+        "sentiment": "not-mentioned",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      }
+    },
+    "intent_prior": 0.8,
+    "fixability_prior": 0.5,
+    "fixability_reason": "Unvalidated prior: document deployment constraints and supported use cases, subject to product verification.",
+    "opportunity_score": 10.0,
+    "score_kind": "prior-weighted hypothesis, not measured ROI",
+    "absence_posterior_mean": 0.25,
+    "evidence_ids": [
+      "chatgpt-pilot-3",
+      "chatgpt-pilot-4"
+    ],
+    "source_urls": [
+      "https://docs.umami.is/docs",
+      "https://docs.umami.is/docs/about",
+      "https://github.com/electerious/ackee",
+      "https://goatcounter.com/",
+      "https://goatcounter.com/help/privacy",
+      "https://helionlabs.dev/articles/self-hosted-web-analytics",
+      "https://matomo.org/privacy/",
+      "https://plausible.github.io/docs/self-hosting",
+      "https://plausible.io/about",
+      "https://ssdnodes.com/learn/self-hosted-web-analytics-vps",
+      "https://toolradar.com/guides/best-self-hosted-analytics"
+    ],
+    "framing": "technical-constraints",
+    "status": "pilot-needs-replication"
+  },
+  {
+    "id": "03db694c6532acfe",
+    "query_id": "saas-shortlist",
+    "prompt": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to five brands, explain the tradeoffs briefly, and cite sources if available.",
+    "engine": "perplexity-consumer",
+    "stratum": null,
+    "n": 0,
+    "attempts": 0,
+    "failed": 0,
+    "metrics": {
+      "GoatCounter": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Plausible": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Fathom": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Matomo": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Umami": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Simple Analytics": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "PostHog": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Usermaven": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      }
+    },
+    "intent_prior": 0.9,
+    "fixability_prior": 0.5,
+    "fixability_reason": "Unvalidated prior: an accurate category comparison may be feasible; inclusion is not under brand control.",
+    "opportunity_score": null,
+    "score_kind": "prior-weighted hypothesis, not measured ROI",
+    "absence_posterior_mean": null,
+    "evidence_ids": [],
+    "source_urls": [],
+    "framing": "business-shortlist",
+    "status": "unmeasured"
+  },
+  {
+    "id": "af4d641aefca7200",
+    "query_id": "self-hosted-small",
+    "prompt": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual user tracking. Which five tools should I compare before choosing? Explain tradeoffs briefly and cite sources if available.",
+    "engine": "perplexity-consumer",
+    "stratum": null,
+    "n": 0,
+    "attempts": 0,
+    "failed": 0,
+    "metrics": {
+      "GoatCounter": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Plausible": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Fathom": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Matomo": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Umami": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Simple Analytics": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "PostHog": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Usermaven": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      }
+    },
+    "intent_prior": 0.8,
+    "fixability_prior": 0.5,
+    "fixability_reason": "Unvalidated prior: document deployment constraints and supported use cases, subject to product verification.",
+    "opportunity_score": null,
+    "score_kind": "prior-weighted hypothesis, not measured ROI",
+    "absence_posterior_mean": null,
+    "evidence_ids": [],
+    "source_urls": [],
+    "framing": "technical-constraints",
+    "status": "unmeasured"
+  },
+  {
+    "id": "d7d91762d55903e9",
+    "query_id": "self-hosted-small",
+    "prompt": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual user tracking. Which five tools should I compare before choosing? Explain tradeoffs briefly and cite sources if available.",
+    "engine": "gemini-consumer",
+    "stratum": null,
+    "n": 0,
+    "attempts": 0,
+    "failed": 0,
+    "metrics": {
+      "GoatCounter": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Plausible": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Fathom": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Matomo": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Umami": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Simple Analytics": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "PostHog": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      },
+      "Usermaven": {
+        "mentions": 0,
+        "n": 0,
+        "visibility": null,
+        "wilson95": null,
+        "share_of_voice": null,
+        "owned_domain_cited_answers": 0,
+        "citation_n": 0,
+        "owned_domain_citation_rate": null,
+        "sentiment": "unassessed",
+        "sentiment_review_n": 0,
+        "sentiment_note": "Evidence-linked human/analyst annotations only; missing reviews are unassessed, not neutral."
+      }
+    },
+    "intent_prior": 0.8,
+    "fixability_prior": 0.5,
+    "fixability_reason": "Unvalidated prior: document deployment constraints and supported use cases, subject to product verification.",
+    "opportunity_score": null,
+    "score_kind": "prior-weighted hypothesis, not measured ROI",
+    "absence_posterior_mean": null,
+    "evidence_ids": [],
+    "source_urls": [],
+    "framing": "technical-constraints",
+    "status": "unmeasured"
+  }
+]

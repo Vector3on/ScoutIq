@@ -1,0 +1,10 @@
+[
+  {
+    "engine": "perplexity-consumer",
+    "status": "blocked",
+    "scope": "surface-access; no query submitted",
+    "snapshot": "- main:\n  - img \"Icon for www.perplexity.ai\"\n  - heading \"www.perplexity.ai\" [level=1]\n  - heading \"Performing security verification\" [level=2]\n  - paragraph: This website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\n- contentinfo:\n  - text: \"Ray ID:\"\n  - code: a3767b318a46d254\n  - text: Performance and Security by\n  - link \"Cloudflare, opens in a new tab\":\n    - /url: https://www.cloudflare.com?utm_source=challenge&utm_campaign=m\n    - text: Cloudflare\n  - link \"Privacy, opens in a new tab\":\n    - /url: https://www.cloudflare.com/privacypolicy/\n    - text: Privacy",
+    "url": "https://www.perplexity.ai/",
+    "observedAt": "2026-09-07T14:44:10.329Z"
+  }
+]

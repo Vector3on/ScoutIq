@@ -1,0 +1,20 @@
+{
+  "format": "geo-freeze-1",
+  "standalone_sha256": "0d87f772d36a9a3a3b4c96b9c00501eae62a734ff3ee68113ca413f1e5d453a1",
+  "source": "geo/audit.py",
+  "dependencies": "Python 3.10+ standard library only",
+  "model_calls_for_analysis": 0,
+  "melt_validation_cases": 12,
+  "capsule_receipt": {
+    "entry": "geo-opportunity",
+    "steps": 1,
+    "capsule_calls": [
+      "geo-opportunity"
+    ],
+    "model_calls": 0,
+    "sources": {
+      "geo-opportunity": "7a2ec07bbc669d51a8f5579f8fde75b775f833e96884425a6a14ed6d5387d69e"
+    }
+  },
+  "scope": "Melt validates the pure opportunity function. Collector, IO and statistical code are reviewed Python, not Melt-sandboxed."
+}

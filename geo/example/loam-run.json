@@ -1,0 +1,181 @@
+{
+  "summary": {
+    "runId": "4bb5c638a852e95f",
+    "domain": "geo",
+    "node": "geo.local",
+    "role": "worker",
+    "startedAt": 1788792441105,
+    "elapsedMs": 43,
+    "budgetSeconds": 8,
+    "estimatedSeconds": 2.55,
+    "candidates": 11,
+    "chosen": 15,
+    "executed": 15,
+    "byType": {
+      "poll": 3,
+      "seeded": 4,
+      "random": 8
+    },
+    "requests": 0,
+    "denials": 0,
+    "activeBlocks": 0,
+    "observations": 3,
+    "newObservations": 3,
+    "entities": 45,
+    "relations": 56,
+    "newEntities": 45,
+    "evaluations": 12,
+    "newElites": 2,
+    "archiveCells": 1,
+    "coverage": 0.0046,
+    "qdScore": 0.1804,
+    "findings": 3,
+    "poolSize": 3,
+    "novelValue": 0.7375,
+    "meanNovelty": 1,
+    "meanValue": 0.2458,
+    "strategyEntropy": 0,
+    "distinctStrategies": 1,
+    "calibration": null,
+    "attention": {
+      "meanIg": 1.0612,
+      "meanExploit": -0.9907,
+      "outcomes": 15
+    },
+    "valuePerSecond": 0.09219,
+    "vq": {
+      "cells": 1,
+      "centroids": 1,
+      "tau": 0.45,
+      "newCells": 1,
+      "descriptor": "both"
+    },
+    "sentinel": {
+      "stagnant": false,
+      "reason": "warming-up",
+      "n": 0,
+      "intervention": null,
+      "active": []
+    }
+  },
+  "findings": [
+    {
+      "findingId": "9621e3e1e58d4c46",
+      "runId": "4bb5c638a852e95f",
+      "domain": "geo",
+      "entityId": "query:a46aff058789e841",
+      "entityType": "query",
+      "title": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to f",
+      "score": 0.3375,
+      "value": 0.3375,
+      "novelty": 1,
+      "strategyId": "181aa0fd9df5201e",
+      "cell": "0-3-2",
+      "rationale": [],
+      "ts": 1788792441105,
+      "attrs": {
+        "engine": "chatgpt-consumer",
+        "evidenceIds": "chatgpt-pilot-1,chatgpt-pilot-2",
+        "queryId": "saas-shortlist",
+        "scoreKind": "prior-weighted hypothesis, not measured ROI",
+        "signals": {
+          "competitorVoice": 0.18181818181818182,
+          "intent": 0.9,
+          "opportunity": 0.3375,
+          "samples": 2,
+          "sourceCount": 14,
+          "visibility": 0
+        },
+        "firstSeen": 1788791645801,
+        "lastSeen": 1788791645801,
+        "n": 1
+      }
+    },
+    {
+      "findingId": "9485496d504eab50",
+      "runId": "4bb5c638a852e95f",
+      "domain": "geo",
+      "entityId": "query:57020b0c914872bb",
+      "entityType": "query",
+      "title": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual use",
+      "score": 0.1,
+      "value": 0.1,
+      "novelty": 1,
+      "strategyId": "181aa0fd9df5201e",
+      "cell": "0-3-2",
+      "rationale": [],
+      "ts": 1788792441105,
+      "attrs": {
+        "engine": "chatgpt-consumer",
+        "evidenceIds": "chatgpt-pilot-3,chatgpt-pilot-4",
+        "queryId": "self-hosted-small",
+        "scoreKind": "prior-weighted hypothesis, not measured ROI",
+        "signals": {
+          "competitorVoice": 0.25,
+          "intent": 0.8,
+          "opportunity": 0.1,
+          "samples": 2,
+          "sourceCount": 11,
+          "visibility": 1
+        },
+        "firstSeen": 1788791949528,
+        "lastSeen": 1788791949528,
+        "n": 1
+      }
+    },
+    {
+      "findingId": "86472795409f2ec5",
+      "runId": "4bb5c638a852e95f",
+      "domain": "geo",
+      "entityId": "query:150f1b4213cd1eaf",
+      "entityType": "query",
+      "title": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to f",
+      "score": 0.3,
+      "value": 0.3,
+      "novelty": 1,
+      "strategyId": "181aa0fd9df5201e",
+      "cell": "0-3-2",
+      "rationale": [],
+      "ts": 1788792441105,
+      "attrs": {
+        "engine": "gemini-consumer",
+        "evidenceIds": "gemini-pilot-1",
+        "queryId": "saas-shortlist",
+        "scoreKind": "prior-weighted hypothesis, not measured ROI",
+        "signals": {
+          "competitorVoice": 0.2,
+          "intent": 0.9,
+          "opportunity": 0.3,
+          "samples": 1,
+          "sourceCount": 1,
+          "visibility": 0
+        },
+        "firstSeen": 1788792006455,
+        "lastSeen": 1788792006455,
+        "n": 1
+      }
+    }
+  ],
+  "denials": [],
+  "blocks": [],
+  "pool": [
+    {
+      "entityId": "query:a46aff058789e841",
+      "score": 0.3375,
+      "value": 0.3375,
+      "strategyId": "181aa0fd9df5201e"
+    },
+    {
+      "entityId": "query:150f1b4213cd1eaf",
+      "score": 0.3,
+      "value": 0.3,
+      "strategyId": "181aa0fd9df5201e"
+    },
+    {
+      "entityId": "query:57020b0c914872bb",
+      "score": 0.1,
+      "value": 0.1,
+      "strategyId": "181aa0fd9df5201e"
+    }
+  ]
+}

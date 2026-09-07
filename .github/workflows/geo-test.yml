@@ -1,0 +1,23 @@
+name: GEO evidence and plugin tests
+on:
+  push:
+    branches: [codex/geo-intelligence-engine]
+  pull_request:
+    paths: ['geo/**', 'substrate/**', 'melt/runtime.py']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s geo/tests -p 'test_*.py' -v
+      - run: node --test geo/tests/*.test.mjs
+      - run: python -m geo.freeze && git diff --exit-code -- geo/colab
+      - run: node geo/run.mjs --out geo/output

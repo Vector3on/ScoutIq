@@ -1,0 +1,11 @@
+{
+  "format": "melt-1",
+  "entry": "geo-opportunity",
+  "capsules": {
+    "geo-opportunity": {
+      "source": "def run(data):\n    n = data['n']\n    if n == 0:\n        return None\n    return 100 * data['intent'] * data['fixability'] * (n - data['mentions'] + 1) / (n + 2)\n",
+      "sha256": "7a2ec07bbc669d51a8f5579f8fde75b775f833e96884425a6a14ed6d5387d69e",
+      "dependencies": []
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "meaning": "Evolved ways to find opportunity hypotheses; NOT proven marketing interventions",
+  "cells": [
+    {
+      "cell": "0-3-2",
+      "genomeId": "ed2b4863d79e06a2",
+      "genome": {
+        "pipe": [],
+        "rank": {
+          "by": "surprisal"
+        },
+        "seed": {
+          "days": 1,
+          "op": "recent",
+          "type": "query"
+        }
+      },
+      "fitness": 0.18038,
+      "bd": {
+        "age": 0.0009611683362714129,
+        "centrality": 0.5,
+        "spread": 0.4999994989064802
+      },
+      "ts": 1788792441105,
+      "evals": 1,
+      "since": 1788792441105,
+      "kind": "random"
+    }
+  ]
+}

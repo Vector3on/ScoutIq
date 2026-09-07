@@ -1,0 +1,21 @@
+{
+  "brand": "GoatCounter",
+  "category": "privacy-friendly website analytics",
+  "brands": [
+    {"name": "GoatCounter", "aliases": ["GoatCounter", "Goat Counter"], "domains": ["goatcounter.com"]},
+    {"name": "Plausible", "aliases": ["Plausible", "Plausible Analytics"], "domains": ["plausible.io"]},
+    {"name": "Fathom", "aliases": ["Fathom", "Fathom Analytics"], "domains": ["usefathom.com"]},
+    {"name": "Matomo", "aliases": ["Matomo"], "domains": ["matomo.org"]},
+    {"name": "Umami", "aliases": ["Umami"], "domains": ["umami.is"]},
+    {"name": "Simple Analytics", "aliases": ["Simple Analytics"], "domains": ["simpleanalytics.com"]},
+    {"name": "PostHog", "aliases": ["PostHog"], "domains": ["posthog.com"]},
+    {"name": "Usermaven", "aliases": ["Usermaven"], "domains": ["usermaven.com"]}
+  ],
+  "engines": ["chatgpt-consumer", "perplexity-consumer", "gemini-consumer"],
+  "queries": [
+    {"id": "saas-shortlist", "intent": 0.9, "fixability": 0.5, "fixability_reason": "Unvalidated prior: an accurate category comparison may be feasible; inclusion is not under brand control.", "framing": "business-shortlist", "prompt": "Which privacy-friendly website analytics tools should a small SaaS business shortlist as alternatives to Google Analytics? Recommend up to five brands, explain the tradeoffs briefly, and cite sources if available."},
+    {"id": "self-hosted-small", "intent": 0.8, "fixability": 0.5, "fixability_reason": "Unvalidated prior: document deployment constraints and supported use cases, subject to product verification.", "framing": "technical-constraints", "prompt": "I need simple privacy-friendly website analytics for a low-traffic site. I can self-host, prefer open source, and do not need individual user tracking. Which five tools should I compare before choosing? Explain tradeoffs briefly and cite sources if available."}
+  ],
+  "methodology": "Pilot convenience sample; repeated fresh chats in the same anonymous cloud-browser session. No independent-user, geographic or population-representativeness claim. Intent and fixability are declared operator priors, not measurements. Brand chosen after first category answer; selection bias disclosed.",
+  "brand_reference": "https://www.goatcounter.com/"
+}
