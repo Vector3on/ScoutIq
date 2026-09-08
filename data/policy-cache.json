@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-08T09:46:49.755Z",
+  "generatedAt": "2026-09-08T14:36:45.085Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -9459,7 +9459,7 @@
     "program:apsis:5d4c0e26ecb4afe9dce8": {
       "status": "pending",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-08T09:46:49.755Z",
+      "lastErrorAt": "2026-09-08T14:36:45.085Z",
       "lastError": "HTTP 403"
     },
     "program:asymetrix:f0e8a2335c2ffa91e44c": {
@@ -9536,7 +9536,7 @@
     "program:avail-carsharing:cbd307c782027b2a0bdb": {
       "status": "pending",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-08T09:46:49.755Z",
+      "lastErrorAt": "2026-09-08T14:36:45.085Z",
       "lastError": "fetch failed"
     },
     "program:badoo:9cd7353a5195a30fcae7": {
@@ -9939,7 +9939,7 @@
     "program:blue-jeans-network:ee333efb4e725986c0c8": {
       "status": "pending",
       "fetchedAt": null,
-      "lastErrorAt": "2026-09-08T09:46:49.755Z",
+      "lastErrorAt": "2026-09-08T14:36:45.085Z",
       "lastError": "HTTP 404"
     },
     "program:bluesnap:36c9722d0740c11f8fc7": {
@@ -10804,6 +10804,22 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 75,
+      "useful": false
+    },
+    "program:linktree:b9c01cb83a5528c0b4b0": {
+      "status": "ok",
+      "fetchedAt": "2026-09-08T14:36:45.085Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 73,
       "useful": false
     }
   }
