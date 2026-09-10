@@ -146,6 +146,32 @@ test("minified / very-long lines are skipped", () => {
   assert.equal(scan(huge).length, 0);
 });
 
+// ---- precision fixes surfaced by the Magento (Adobe Commerce) SRC run -----
+
+test("RegExp .exec() is not mistaken for a shell exec", () => {
+  assert.ok(!ids(scan("const match = Optional.from(pattern.exec(input));")).includes("cmdi-node-exec"));
+  assert.ok(ids(scan("child_process.exec('ls ' + req.query.dir);")).includes("cmdi-node-exec"));
+  assert.ok(ids(scan("const { exec } = require('child_process'); exec(req.body.cmd);")).includes("cmdi-node-exec"));
+});
+
+test("the word 'update' in an identifier is not mistaken for SQL", () => {
+  assert.ok(!ids(scan("button.broadcastOn([`update-active-item-${treeId}`], { value: leaf.id });")).includes("sqli-template-literal"));
+  assert.ok(!ids(scan("const isMimeType = (mime, type) => startsWith(mime, `${type}/`);")).includes("sqli-template-literal"));
+  assert.ok(ids(scan("db.query(`UPDATE users SET name = ${n} WHERE id = ${id}`);")).includes("sqli-template-literal"));
+});
+
+test("config/module path values are not flagged as hardcoded secrets", () => {
+  assert.equal(scan("const CONFIG_PATH_PASSWORD = 'cache/frontend/default/backend_password';").length, 0);
+  assert.equal(scan("const XML_PATH_YOUTUBE_API_KEY = 'catalog/product_video/youtube_api_key';").length, 0);
+  assert.equal(scan("changeEmailPassword: 'Magento_Customer/js/change-email-password',").length, 0);
+});
+
+test("weak RNG for non-crypto data generation is not flagged", () => {
+  assert.ok(!ids(scan("$set = array_keys($defaultAttributeSets)[mt_rand(0, $amount - 1)];", "php")).includes("weak-random-secret"));
+  assert.ok(!ids(scan("// mt_rand() here is not for cryptographic use.\n$token = mt_rand(1, 5);", "php")).includes("weak-random-secret"));
+  assert.ok(ids(scan("const sessionToken = 'r' + Math.random().toString(36);")).includes("weak-random-secret"));
+});
+
 // ---- scoring, dedup, ranking, summary -----------------------------------
 
 test("seeds rank by priority x confidence, high/P1 first", () => {

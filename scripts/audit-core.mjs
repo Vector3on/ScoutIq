@@ -23,7 +23,11 @@ const PLACEHOLDER_HINTS = [
   "fake", "notreal", "00000000", "1234567", "abcdef", "deadbeef", "sk_test",
 ];
 
-const SECRET_CONTEXT = /(token|secret|key|nonce|otp|password|passwd|salt|\biv\b|session|reset|verif|csrf|api|cookie|credential)/i;
+// Security-relevant context for weak-RNG. Deliberately excludes bare "api" and
+// substring "key" (which matched array_keys, monkey, etc.); keeps \bkey\b and
+// compound apiKey/privateKey so camelCase secrets still hit.
+const SECRET_CONTEXT = /(token|secret|nonce|\botp\b|password|passwd|salt|\biv\b|session|reset|csrf|credential|\bkey\b|api[_-]?key|private[_-]?key|signing|signature|cookie)/i;
+const NON_CRYPTO_INTENT = /not\s+for\s+crypto|non[-\s]?crypto|not\s+cryptograph|insecure\s+random\s+ok/i;
 const SAFE_COMPARE = /(timingSafeEqual|compare_digest|constant[_-]?time|constantTime|hash_equals|MessageDigest\.isEqual|subtle\.)/i;
 // A secret used as a VALUE next to a compare — not a function call like
 // datasetSignature(x) (content hashing), which the negative lookahead excludes.
@@ -136,7 +140,7 @@ function fnWeakRandomForSecret(text, lineStarts) {
   while ((match = weak.exec(text)) !== null) {
     const at = locate(text, match.index, lineStarts);
     const context = lines.slice(Math.max(0, at.line - 5), at.line + 4).join("\n");
-    if (SECRET_CONTEXT.test(context)) {
+    if (SECRET_CONTEXT.test(context) && !NON_CRYPTO_INTENT.test(context)) {
       seeds.push({ ...at, evidence: "weak RNG within 4 lines of a token/secret/key/nonce context" });
     }
   }
@@ -285,6 +289,8 @@ export function scanText({ path, text, lang, detectors, methodologyById }) {
         const valueMatch = at.snippet.match(/['"]([^'"]{8,})['"]/);
         const value = valueMatch?.[1] ?? matchedText;
         if (looksLikePlaceholder(at.snippet)) continue; // drop obvious placeholders
+        // Config/module path values (a/b/c) look secret-y by name but are not.
+        if (/^[A-Za-z0-9_.]+(?:\/[A-Za-z0-9_.-]+)+$/.test(value)) continue;
         const entropy = shannonEntropy(value);
         if (entropy < 3.0) continue; // low-entropy → not a real secret
         confidence = entropy >= 4.0 ? "medium" : "low";
