@@ -183,10 +183,22 @@ const slither = {
     const mapped = SLITHER_DETECTORS[candidate.vulnClass];
     if (!mapped) return { tool: this.id, status: "unconfirmed", kind: this.kind, detail: `no slither detector maps to ${candidate.vulnClass}` };
 
-    const scan = await memo(ctx.cache, "slither", async () => {
+    // Whole-target scan (works for framework projects: Foundry/Hardhat/Truffle).
+    let scan = await memo(ctx.cache, "slither:dir", async () => {
       const run = await ctx.runCommand(probe.path, [ctx.targetPath, "--json", "-"], { timeoutMs: ctx.timeoutMs });
       return { parsed: parseSlither(run.stdout), run };
     });
+    // A bare directory with no build framework compiles nothing under
+    // `slither <dir>` ("0 contracts analyzed"), so fall back to analyzing the
+    // candidate's file directly. This only surfaces additional real detectors,
+    // and every hit is still matched by file+line below (no new false positives).
+    if (!scan.parsed || scan.parsed.length === 0) {
+      const absFile = resolve(ctx.targetPath, candidate.file);
+      scan = await memo(ctx.cache, `slither:file:${candidate.file}`, async () => {
+        const run = await ctx.runCommand(probe.path, [absFile, "--json", "-"], { timeoutMs: ctx.timeoutMs });
+        return { parsed: parseSlither(run.stdout), run };
+      });
+    }
     if (!scan.parsed) return { tool: this.id, status: "error", kind: this.kind, detail: truncate(scan.run.stderr || "slither produced no JSON", 240) };
 
     for (const detector of scan.parsed) {
@@ -296,7 +308,9 @@ const semgrep = {
 
     const scan = await memo(ctx.cache, "semgrep", async () => {
       const rules = ctx.config.tools?.semgrepRules || "auto";
-      const run = await ctx.runCommand(probe.path, ["--json", "--quiet", "--config", rules, ctx.targetPath], { timeoutMs: ctx.timeoutMs });
+      // --dataflow-traces asks semgrep to attach the source→sink trace for
+      // taint-mode rules (captured as taint evidence where the engine emits it).
+      const run = await ctx.runCommand(probe.path, ["--json", "--quiet", "--dataflow-traces", "--config", rules, ctx.targetPath], { timeoutMs: ctx.timeoutMs });
       return { parsed: parseSemgrep(run.stdout), run };
     });
     if (!scan.parsed) return { tool: this.id, status: "error", kind: this.kind, detail: truncate(scan.run.stderr || "semgrep produced no JSON", 240) };

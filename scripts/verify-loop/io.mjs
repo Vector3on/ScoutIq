@@ -175,7 +175,14 @@ export async function which(binary, override) {
     const info = await stat(override).catch(() => null);
     if (info?.isFile()) return override;
   }
-  const probe = await runCommand(process.platform === "win32" ? "where" : "command", process.platform === "win32" ? [binary] : ["-v", binary], { timeoutMs: 5_000 });
+  // `command` is a shell builtin with no executable of its own, so spawning it
+  // directly throws ENOENT and every probe returns null. Run it through a shell.
+  // Only probe well-formed binary names/paths; never interpolate arbitrary text
+  // into the shell command string.
+  if (typeof binary !== "string" || !/^[A-Za-z0-9._+\/-]+$/.test(binary)) return null;
+  const probe = process.platform === "win32"
+    ? await runCommand("where", [binary], { timeoutMs: 5_000 })
+    : await runCommand("sh", ["-c", `command -v -- ${binary}`], { timeoutMs: 5_000 });
   const first = probe.stdout.split(/\r?\n/).map((line) => line.trim()).find(Boolean);
   return probe.ok && first ? first : null;
 }

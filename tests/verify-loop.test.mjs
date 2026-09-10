@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { delimiter, join, resolve } from "node:path";
+
+import { which } from "../scripts/verify-loop/io.mjs";
 
 import {
   detectStack,
@@ -534,4 +536,64 @@ test("CLI parseArgs and overridesFrom build a config overlay", () => {
   assert.equal(overrides.stack, "go");
   assert.deepEqual(overrides.vulnClasses, ["ssrf", "sql-injection"]);
   assert.equal(overrides.hypothesizer.provider, "anthropic");
+});
+
+// ------------------------------------------------ which() + real-tool wiring
+// Regression: which() used to spawn `command` (a shell builtin with no
+// executable), so every probe threw ENOENT and returned null — no confirmer
+// was ever detected and every candidate was falsely killed at the gate. These
+// tests exercise the REAL which()/runCommand path (no injected fakes).
+
+test("which() resolves a real binary on PATH and rejects bogus/unsafe names", async () => {
+  const sh = await which("sh", "");
+  assert.ok(sh, "which('sh') must resolve a real path (guards the ENOENT regression)");
+  assert.match(sh, /sh$/);
+  assert.equal(await which("this-binary-does-not-exist-zzz", ""), null);
+  assert.equal(await which("x; echo pwned", ""), null, "shell metacharacters must be rejected");
+  // An explicit override that exists is returned without a PATH probe.
+  assert.equal(await which("whatever", sh), sh);
+});
+
+test("end-to-end with a REAL tool on PATH: candidate is confirmed and emitted (not a false empty)", async (t) => {
+  const dir = await makeFixtureRepo();
+  const binDir = await mkdtemp(join(tmpdir(), "verify-loop-bin-"));
+  // A fake `slither` executable, discovered via the real which() through PATH.
+  // Prints its version on --version, else a JSON detector hit for the fixture.
+  const script = `#!/usr/bin/env sh
+for a in "$@"; do
+  if [ "$a" = "--version" ]; then echo "0.10.4"; exit 0; fi
+done
+cat <<'JSON'
+{"results":{"detectors":[{"check":"reentrancy-eth","impact":"High","confidence":"Medium","description":"Reentrancy in Vault.withdraw()","elements":[{"source_mapping":{"filename_relative":"src/Vault.sol","lines":[7,8,9,10]}}]}]}}
+JSON
+`;
+  await writeFile(join(binDir, "slither"), script, { mode: 0o755 });
+  await chmod(join(binDir, "slither"), 0o755);
+
+  const savedPath = process.env.PATH;
+  process.env.PATH = `${binDir}${delimiter}${savedPath}`;
+  t.after(() => { process.env.PATH = savedPath; });
+
+  const config = await loadConfig({
+    root: ROOT,
+    configPath: "config/verify-loop.json",
+    overrides: {
+      target: { repoPath: dir, permalinkBase: "https://github.com/acme/vault", ref: "deadbeef" },
+      stack: "solidity",
+      vulnClasses: ["reentrancy"],
+      auditStore: "audit-real.json",
+    },
+  });
+  // Real which()/runCommand — NOT injected. This is the wiring that was broken.
+  const report = await runVerifyLoop(config, { root: dir, now: NOW, token: "REALTOK", emit: true });
+
+  assert.equal(report.tools.slither.available, true, "the real which() must detect slither on PATH");
+  const finding = report.findings.find((f) => f.vulnClass === "reentrancy");
+  assert.ok(finding, "expected a CONFIRMED reentrancy finding, not a false empty");
+  assert.ok(finding.confirmingTools.includes("slither"));
+  assert.ok(finding.evidence.some((ev) => ev.tool === "slither" && ev.detail.includes("reentrancy-eth")), "confirming evidence must be attached");
+  assert.ok(finding.poc.content.includes("forge-std/Test.sol"), "a PoC scaffold must be emitted");
+  assert.ok(finding.q1Request.includes("Q1"), "a Q1 request must be emitted");
+  assert.equal(finding.permalink, "https://github.com/acme/vault/blob/deadbeef/src/Vault.sol#L8");
+  assert.equal(report.findings.length >= 1, true);
 });
