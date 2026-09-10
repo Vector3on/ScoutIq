@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-10T16:29:24.758Z",
+  "generatedAt": "2026-09-10T19:45:39.890Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -10890,6 +10890,70 @@
       "resolvedReports": null,
       "textBytes": 22913,
       "useful": true
+    },
+    "program:databricks:066b23fc846201020123": {
+      "status": "ok",
+      "fetchedAt": "2026-09-10T19:45:39.890Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 9,
+      "useful": false
+    },
+    "program:cappsule-sarl-marketplace-bug-bounty-program:6f8726e0d8a28ad0c85b": {
+      "status": "ok",
+      "fetchedAt": "2026-09-10T19:45:39.890Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 111,
+      "useful": false
+    },
+    "program:codecentric-ag-marketplace-bug-bounty-program:4ab9a028fa04a7f00e89": {
+      "status": "ok",
+      "fetchedAt": "2026-09-10T19:45:39.890Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 112,
+      "useful": false
+    },
+    "program:digital-rose-s-marketplace-bug-bounty:716826b305d07b6e6c09": {
+      "status": "ok",
+      "fetchedAt": "2026-09-10T19:45:39.890Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 102,
+      "useful": false
     }
   }
 }
