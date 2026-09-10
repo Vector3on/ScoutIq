@@ -235,6 +235,20 @@ scripts/query.mjs               default, live, and fresh-source CLI lanes
 data/audited.json               persistent completed-audit memory
 ```
 
+## Source-audit toolkit
+
+Once the radar has pointed you at an authorized target, `audit/` operationalizes the 100-point white-box methodology as executable tooling. It reads local source and emits *seeds* (candidates, not findings) mapped to methodology items, and ships a fail-closed scope guard for the live lane. It never sends a request to a live target — the live lane is yours to run, against verified scope, under safe harbor.
+
+```bash
+npm run audit:coverage                       # methodology automation coverage
+npm run audit -- --path /path/to/checkout    # SRC-lane scan → seed table
+npm run audit -- --path . --report out.md    # 7-Question-Gate worksheet
+npm run scope -- https://host.example.com     # fail-closed "scope is law" gate
+npm run test:audit                            # detector + scope-guard tests
+```
+
+See [`audit/README.md`](audit/README.md) for the full workflow and the seed-is-not-a-finding discipline.
+
 ## Responsible use
 
 Only test public programs you are personally eligible for, within the exact current policy. Use your own accounts and data. Do not test third parties, exceed permitted traffic, or treat a discovery feed as authorization.

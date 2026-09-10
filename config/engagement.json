@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "note": "This file is the ONLY authorization the live lane trusts. Fill 'inScope' ONLY with assets you have personally verified on the official program policy page, and set 'verifiedByUser': true only after that check. A discovery feed, this repo, and this file are NOT permission — the official program policy always controls authorization. Empty inScope or verifiedByUser=false means the scope guard denies everything (fail-closed).",
+  "activeEngagement": "abode-intigriti",
+  "engagements": {
+    "abode-intigriti": {
+      "program": "Abode",
+      "platform": "Intigriti",
+      "policyUrl": "PASTE the exact Intigriti program URL here",
+      "researcherCountry": "IN",
+      "safeHarbor": null,
+      "programFloorSeverity": "MEDIUM",
+      "verifiedByUser": false,
+      "allowPrivateRanges": false,
+      "inScope": [],
+      "outOfScope": [],
+      "notes": [
+        "1. Open the official Intigriti program policy for Abode.",
+        "2. Copy each in-scope domain/host/wildcard into 'inScope' EXACTLY as written (e.g. 'app.example.com', '*.example.com').",
+        "3. Copy every out-of-scope entry into 'outOfScope' (out-of-scope wins over in-scope in the guard).",
+        "4. Confirm the program is open, paid, offers safe harbor, and is available to your country.",
+        "5. Only then set verifiedByUser=true. Until then the guard denies all live actions.",
+        "6. The guard ALWAYS blocks loopback/RFC1918/link-local/metadata IPs regardless of this file."
+      ]
+    }
+  }
+}
