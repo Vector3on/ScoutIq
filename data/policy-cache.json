@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-10T19:45:39.890Z",
+  "generatedAt": "2026-09-10T22:38:43.955Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -1764,7 +1764,7 @@
     },
     "program:tidal:91c855cfe9a79c85b82b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-10T22:38:43.955Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1993,7 +1993,7 @@
     },
     "program:square:5dbe680990001fd63b4b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-10T22:38:43.955Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -2096,7 +2096,7 @@
     },
     "program:afterpay-bug-bounty-program:bb5a580105b385876ef4": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-10T22:38:43.955Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -7557,7 +7557,7 @@
     },
     "program:gocardless-bug-bounty-program:68d5fbe84c5c0bd8dabf": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:26:09.361Z",
+      "fetchedAt": "2026-09-10T22:38:43.955Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
