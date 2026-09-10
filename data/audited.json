@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-03T00:00:00.000Z",
+  "updatedAt": "2026-09-10T00:00:00.000Z",
   "entries": {
     "okx-go-wallet-sdk": {
       "verdict": "sub-bar",
@@ -78,6 +78,13 @@
       "notes": "Lightway core review yielded no payable issue and should not receive another blind audit.",
       "freshCodeIndexAtAudit": 0,
       "aliases": ["expressvpn/lightway", "expressvpn lightway", "lightway"]
+    },
+    "magento-open-source": {
+      "verdict": "sub-bar",
+      "date": "2026-09-10",
+      "notes": "White-box source pass on magento2 2.4-develop @7a5b09b9 (magento/magento2ce). Fresh-code trust boundaries reviewed (all GraphQL mutations, anonymous webapi ACL, deserialization, SSRF, SQLi/XXE, upload validators). Customer-owned authorization is robust. One sub-floor seed handed to helios: estimateShippingMethods (QuoteGraphQl) omits the GetCartForUser object-level check that its sibling estimateTotals enforces (CWE-639), but it is gated by a secret 32-char CSPRNG masked cart id and returns only non-PII shipping rates. Runtime repro not possible in clean lane (no MySQL). See audits/magento-open-source-2.4-develop.md.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["magento-open-source", "magento/magento2", "magento2", "magento", "adobe commerce", "magento open source"]
     }
   }
 }
