@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-10T11:27:35.467Z",
+  "generatedAt": "2026-09-10T16:29:24.758Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -68,7 +68,7 @@
     },
     "program:1inch:6074b9eb8c69c1c498c1": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-10T16:29:24.758Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
@@ -84,7 +84,7 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 6920,
+      "textBytes": 6922,
       "useful": true
     },
     "program:assetmantle:85d171742f77e014c742": {
@@ -654,7 +654,7 @@
     },
     "program:pinterest:b4834546e3a7fbe49f9c": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-10T16:29:24.758Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1005,7 +1005,7 @@
     },
     "program:t-mobile:9052f631389a67cb045a": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-10T16:29:24.758Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -10869,6 +10869,27 @@
       "resolvedReports": null,
       "textBytes": 9,
       "useful": false
+    },
+    "program:kiteworks-public-bug-bounty-program:e6e69b6f98175599145e": {
+      "status": "ok",
+      "fetchedAt": "2026-09-10T16:29:24.758Z",
+      "source": "official-policy",
+      "programFloorSeverity": "LOW",
+      "floorSource": "scraped-reward-table",
+      "rewardsBySeverity": {
+        "LOW": 10000000,
+        "MEDIUM": 17500000000,
+        "HIGH": 50000000,
+        "CRITICAL": 17500000000
+      },
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 22913,
+      "useful": true
     }
   }
 }
