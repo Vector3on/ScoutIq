@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-11T01:10:00.733Z",
+  "generatedAt": "2026-09-11T06:04:48.087Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -3804,7 +3804,7 @@
     },
     "program:optimizely:b733e2b078ea01621f5c": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:50:55.535Z",
+      "fetchedAt": "2026-09-11T06:04:48.087Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -3854,7 +3854,7 @@
     },
     "program:soundcloud:9d9f8f6730052dfa0ae6": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:50:55.535Z",
+      "fetchedAt": "2026-09-11T06:04:48.087Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -4015,7 +4015,7 @@
     },
     "program:bitso-managed-bug-bounty-engagement:346dc81c66411d21d5f5": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:50:55.535Z",
+      "fetchedAt": "2026-09-11T06:04:48.087Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -6919,7 +6919,7 @@
     },
     "program:council-on-foreign-relations:f63d7f44f611c7d96e70": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:14:39.671Z",
+      "fetchedAt": "2026-09-11T06:04:48.087Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
