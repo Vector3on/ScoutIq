@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-11T06:04:48.087Z",
+  "generatedAt": "2026-09-11T11:29:30.109Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -1452,7 +1452,7 @@
     },
     "program:kiteworks:5666a64d02635d13eb22": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-11T11:29:30.109Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -4321,7 +4321,7 @@
     },
     "program:origin-energy:d59899b7c4f774eec4ab": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "fetchedAt": "2026-09-11T11:29:30.109Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -4474,7 +4474,7 @@
     },
     "program:watsons:53219a9e6bc153a096f4": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "fetchedAt": "2026-09-11T11:29:30.109Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -4487,7 +4487,7 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 20970,
+      "textBytes": 21046,
       "useful": true
     },
     "program:alasco-gmbh-bug-bounty-program:68870aa163ba1052a708": {
@@ -5322,7 +5322,7 @@
     },
     "program:linktree:fddd727b486a2d92471c": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "fetchedAt": "2026-09-11T11:29:30.109Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
