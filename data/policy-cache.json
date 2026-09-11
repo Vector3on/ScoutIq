@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-10T22:38:43.955Z",
+  "generatedAt": "2026-09-11T01:10:00.733Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -2358,7 +2358,7 @@
     },
     "program:cash-app:4ae01efe77d1119378ba": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-11T01:10:00.733Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -2504,7 +2504,7 @@
     },
     "program:moonpay:e423c4958e9e2df8b7ef": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-11T01:10:00.733Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -3299,7 +3299,7 @@
     },
     "program:brave-software:3fdb92abd084504f533f": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:50:55.535Z",
+      "fetchedAt": "2026-09-11T01:10:00.733Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -6478,7 +6478,7 @@
     },
     "program:codeclou-gmbh:f1eb6c244ded627b8b54": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:14:39.671Z",
+      "fetchedAt": "2026-09-11T01:10:00.733Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
