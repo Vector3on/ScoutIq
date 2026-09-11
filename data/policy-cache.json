@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-11T19:47:28.751Z",
+  "generatedAt": "2026-09-11T22:38:36.648Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -1604,7 +1604,7 @@
     },
     "program:circle-bbp:1a5cf3e4261f46505fbe": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-11T22:38:36.648Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -5658,13 +5658,13 @@
     },
     "program:swiss-post:27196243ccc0aff3b492": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "fetchedAt": "2026-09-11T22:38:36.648Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
       "rewardsBySeverity": {
         "LOW": 500,
-        "MEDIUM": 5000,
+        "MEDIUM": 10000,
         "HIGH": 5000,
         "CRITICAL": 10000
       },
@@ -5674,7 +5674,7 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": 80,
-      "textBytes": 18359,
+      "textBytes": 17941,
       "useful": true
     },
     "program:sykora-it-marketplace-managed-bug-bounty-engagement:3491c9c46dc0dab2abdf": {
@@ -11017,6 +11017,38 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 74,
+      "useful": false
+    },
+    "program:railsware:b6ffae63f48d49b92aff": {
+      "status": "ok",
+      "fetchedAt": "2026-09-11T22:38:36.648Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 74,
+      "useful": false
+    },
+    "program:vectors-bug-bounty:0fdfbcf609dbd643f9b4": {
+      "status": "ok",
+      "fetchedAt": "2026-09-11T22:38:36.648Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 83,
       "useful": false
     }
   }
