@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-11T11:29:30.109Z",
+  "generatedAt": "2026-09-11T16:34:01.299Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -5050,7 +5050,7 @@
     },
     "program:web-com-bug-bounty:72f2cd2dfaa18ddb923d": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:59:40.593Z",
+      "fetchedAt": "2026-09-11T16:34:01.299Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -7866,7 +7866,7 @@
     },
     "program:neon:e5c8c944bb1bb52254c8": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:26:09.361Z",
+      "fetchedAt": "2026-09-11T16:34:01.299Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -8723,7 +8723,7 @@
     },
     "program:files-com:c6cb359d6b73b90669fa": {
       "status": "ok",
-      "fetchedAt": "2026-09-04T16:26:37.750Z",
+      "fetchedAt": "2026-09-11T16:34:01.299Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -10953,6 +10953,22 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 102,
+      "useful": false
+    },
+    "program:superbet:2508ae1b5e96cf3e1711": {
+      "status": "ok",
+      "fetchedAt": "2026-09-11T16:34:01.299Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 9,
       "useful": false
     }
   }
