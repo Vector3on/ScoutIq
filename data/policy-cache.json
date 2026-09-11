@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-11T16:34:01.299Z",
+  "generatedAt": "2026-09-11T19:47:28.751Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -8481,7 +8481,7 @@
     },
     "program:amazon-vulnerability-research-program:0373299e645bdb72b876": {
       "status": "ok",
-      "fetchedAt": "2026-09-04T01:02:17.767Z",
+      "fetchedAt": "2026-09-11T19:47:28.751Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -10969,6 +10969,54 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 9,
+      "useful": false
+    },
+    "program:savignano-software-solutions-marketplace-bug-bounty-program:bed722d3874ee39a382e": {
+      "status": "ok",
+      "fetchedAt": "2026-09-11T19:47:28.751Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 124,
+      "useful": false
+    },
+    "program:catapult-labs-bug-bounty:b93ed611507ffd7807c9": {
+      "status": "ok",
+      "fetchedAt": "2026-09-11T19:47:28.751Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 89,
+      "useful": false
+    },
+    "program:creativas:e21330760c64af536893": {
+      "status": "ok",
+      "fetchedAt": "2026-09-11T19:47:28.751Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 74,
       "useful": false
     }
   }
