@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-11T22:38:36.648Z",
+  "generatedAt": "2026-09-12T01:11:18.269Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -89,7 +89,7 @@
     },
     "program:assetmantle:85d171742f77e014c742": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T01:11:18.269Z",
       "source": "official-policy",
       "programFloorSeverity": "CRITICAL",
       "floorSource": "scraped-reward-table",
@@ -1484,7 +1484,7 @@
     },
     "program:fivetran:04c136f0fed35c864d3d": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "fetchedAt": "2026-09-12T01:11:18.269Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -8252,7 +8252,7 @@
     },
     "program:nba-public-bug-bounty:cf81d600977a6a5e07f6": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:26:09.361Z",
+      "fetchedAt": "2026-09-12T01:11:18.269Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -8547,7 +8547,7 @@
     },
     "program:mercadolibre:0a964b6640f044fbb730": {
       "status": "ok",
-      "fetchedAt": "2026-09-04T05:58:54.320Z",
+      "fetchedAt": "2026-09-12T01:11:18.269Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
