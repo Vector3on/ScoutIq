@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T19:27:12.466Z",
+  "generatedAt": "2026-09-12T22:21:52.799Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -464,7 +464,7 @@
     },
     "program:shido:467f2830ebf246585d6a": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T22:21:52.799Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
@@ -485,7 +485,7 @@
     },
     "program:smardex:a3b048654e86704f3635": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T22:21:52.799Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
@@ -506,7 +506,7 @@
     },
     "program:smilee:d357a270155fadf0114e": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T22:21:52.799Z",
       "source": "official-policy",
       "programFloorSeverity": "CRITICAL",
       "floorSource": "scraped-reward-table",
@@ -527,7 +527,7 @@
     },
     "program:sui:e8af36424eb5ab5b034b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T22:21:52.799Z",
       "source": "official-policy",
       "programFloorSeverity": "LOW",
       "floorSource": "scraped-reward-table",
@@ -543,7 +543,7 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 36526,
+      "textBytes": 36527,
       "useful": true
     },
     "program:superfluid:da0575545e3c03d1efbb": {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T19:27:12.466Z",
+  "generatedAt": "2026-09-12T22:21:52.799Z",
   "sourceSnapshots": {
     "hackerone": [
       {
@@ -54918,57 +54918,6 @@
         "sourcePriority": 20
       },
       {
-        "mergeKey": "securedrop",
-        "name": "SecureDrop",
-        "platform": "Bugcrowd",
-        "url": "https://bugcrowd.com/engagements/freedomofpress",
-        "status": "open",
-        "paid": true,
-        "currency": null,
-        "maxReward": 2500,
-        "safeHarbor": "partial",
-        "disclosureAllowed": true,
-        "sourceIds": [
-          "bugcrowd"
-        ],
-        "sourceCode": true,
-        "repositoryCount": 3,
-        "targetCount": 3,
-        "tags": [
-          "other",
-          "source-code"
-        ],
-        "languages": [],
-        "targets": [
-          {
-            "key": "4339d21884e4bb91",
-            "type": "other",
-            "value": "https://github.com/freedomofpress/securedrop-client",
-            "eligible": true
-          },
-          {
-            "key": "a9b7c8e989a3dd78",
-            "type": "other",
-            "value": "https://github.com/freedomofpress/securedrop-workstation",
-            "eligible": true
-          },
-          {
-            "key": "e2348dc1783035a5",
-            "type": "other",
-            "value": "https://github.com/freedomofpress/securedrop",
-            "eligible": true
-          }
-        ],
-        "localTestingHint": false,
-        "policyText": "",
-        "launchedAt": null,
-        "resolvedReports": null,
-        "inviteOnly": false,
-        "kycRequired": false,
-        "excludedCountries": [],
-        "sourcePriority": 20
-      },
-      {
         "mergeKey": "secureflag-marketplace-bug-bounty",
         "name": "SecureFlag Marketplace Bug Bounty",
         "platform": "Bugcrowd",
@@ -55000,6 +54949,149 @@
             "key": "c913fef4a4e2fe07",
             "type": "web",
             "value": "https://marketplace.atlassian.com/apps/1226453/secureflag-knowledge-base?tab=overview&hosting=cloud",
+            "eligible": true
+          }
+        ],
+        "localTestingHint": false,
+        "policyText": "",
+        "launchedAt": null,
+        "resolvedReports": null,
+        "inviteOnly": false,
+        "kycRequired": false,
+        "excludedCountries": [],
+        "sourcePriority": 20
+      },
+      {
+        "mergeKey": "seek",
+        "name": "SEEK",
+        "platform": "Bugcrowd",
+        "url": "https://bugcrowd.com/engagements/seek",
+        "status": "open",
+        "paid": true,
+        "currency": null,
+        "maxReward": 10000,
+        "safeHarbor": "full",
+        "disclosureAllowed": true,
+        "sourceIds": [
+          "bugcrowd"
+        ],
+        "sourceCode": false,
+        "repositoryCount": 0,
+        "targetCount": 18,
+        "tags": [
+          "api",
+          "mobile",
+          "other",
+          "web"
+        ],
+        "languages": [],
+        "targets": [
+          {
+            "key": "0347194d7f5cc019",
+            "type": "mobile",
+            "value": "https://apps.apple.com/au/app/seek-jobs-job-search/id520400855",
+            "eligible": true
+          },
+          {
+            "key": "217fe16661a64e3e",
+            "type": "mobile",
+            "value": "https://play.google.com/store/apps/details?id=au.com.seek&hl=en_AU&gl=US",
+            "eligible": true
+          },
+          {
+            "key": "2aa036ab60ed74b8",
+            "type": "web",
+            "value": "*.skinfra.xyz",
+            "eligible": true
+          },
+          {
+            "key": "34f877633ce53ed1",
+            "type": "api",
+            "value": "*.jobapi.net",
+            "eligible": true
+          },
+          {
+            "key": "3b6c5ce40f4b52dc",
+            "type": "api",
+            "value": "https://graphql.seek.com",
+            "eligible": true
+          },
+          {
+            "key": "4e08833a1c3afa3c",
+            "type": "other",
+            "value": "https://seekcdn.com",
+            "eligible": true
+          },
+          {
+            "key": "55d8c4d7c0d0a6cc",
+            "type": "api",
+            "value": "*.sol-data.com",
+            "eligible": true
+          },
+          {
+            "key": "5e4996e4307052a3",
+            "type": "web",
+            "value": "https://*.jobsdb.com",
+            "eligible": true
+          },
+          {
+            "key": "5fe690f053ab08d1",
+            "type": "web",
+            "value": "https://*.employer.seek.com",
+            "eligible": true
+          },
+          {
+            "key": "6263643ff0901418",
+            "type": "mobile",
+            "value": "https://play.google.com/store/apps/details?id=com.certsy.app",
+            "eligible": true
+          },
+          {
+            "key": "9c323ef057dd94d1",
+            "type": "web",
+            "value": "https://*.myseek.xyz",
+            "eligible": true
+          },
+          {
+            "key": "9f3ee0a81562cf58",
+            "type": "mobile",
+            "value": "https://apps.apple.com/au/app/certsy/id1617796159",
+            "eligible": true
+          },
+          {
+            "key": "bbb2a302b55e36aa",
+            "type": "web",
+            "value": "https://*.jobstreet.com",
+            "eligible": true
+          },
+          {
+            "key": "be6d6509b5e827a6",
+            "type": "web",
+            "value": "*.aips-internal.com",
+            "eligible": true
+          },
+          {
+            "key": "c8ce79eeda121b87",
+            "type": "web",
+            "value": "*.outfra.xyz",
+            "eligible": true
+          },
+          {
+            "key": "ce9473c92b4f8d7a",
+            "type": "web",
+            "value": "*.seekpass.co",
+            "eligible": true
+          },
+          {
+            "key": "e416605a4023c57b",
+            "type": "web",
+            "value": "*.seek.com",
+            "eligible": true
+          },
+          {
+            "key": "ed4e3ac82d226a46",
+            "type": "api",
+            "value": "https://auth.seek.com",
             "eligible": true
           }
         ],
@@ -58894,6 +58986,113 @@
         "sourcePriority": 20
       },
       {
+        "mergeKey": "upwork",
+        "name": "Upwork",
+        "platform": "Bugcrowd",
+        "url": "https://bugcrowd.com/engagements/upwork",
+        "status": "open",
+        "paid": true,
+        "currency": null,
+        "maxReward": 5000,
+        "safeHarbor": null,
+        "disclosureAllowed": false,
+        "sourceIds": [
+          "bugcrowd"
+        ],
+        "sourceCode": false,
+        "repositoryCount": 0,
+        "targetCount": 12,
+        "tags": [
+          "api",
+          "hardware",
+          "mobile",
+          "web"
+        ],
+        "languages": [],
+        "targets": [
+          {
+            "key": "157901723c46e58c",
+            "type": "mobile",
+            "value": "Upwork - Mobile Application Android",
+            "eligible": true
+          },
+          {
+            "key": "1ec579b84e0b114e",
+            "type": "web",
+            "value": "Upwork - Messages",
+            "eligible": true
+          },
+          {
+            "key": "39377ae656622f8d",
+            "type": "web",
+            "value": "Upwork - Marketplace Portal",
+            "eligible": true
+          },
+          {
+            "key": "4b40b823a4feed12",
+            "type": "web",
+            "value": "Direct Contracts",
+            "eligible": true
+          },
+          {
+            "key": "51f2b867b1ce802d",
+            "type": "web",
+            "value": "https://www.upwork.com",
+            "eligible": true
+          },
+          {
+            "key": "63db8d21bff2fd94",
+            "type": "mobile",
+            "value": "Upwork - Android Application",
+            "eligible": true
+          },
+          {
+            "key": "8db21f4b08d0b7ad",
+            "type": "api",
+            "value": "api.upwork.com/graphql",
+            "eligible": true
+          },
+          {
+            "key": "8e09a90f76301715",
+            "type": "mobile",
+            "value": "Upwork - Mobile Application IOS",
+            "eligible": true
+          },
+          {
+            "key": "8e22bc69e7d83376",
+            "type": "api",
+            "value": "Upwork - api.upwork.com/graphql",
+            "eligible": true
+          },
+          {
+            "key": "9e3f50ae4f3ace51",
+            "type": "mobile",
+            "value": "Upwork - iOS Application",
+            "eligible": true
+          },
+          {
+            "key": "d68f445314d00481",
+            "type": "hardware",
+            "value": "Upwork Dash Messenger Desktop Version (www.upwork.com/downloads)",
+            "eligible": true
+          },
+          {
+            "key": "ddf7a43db61a9c89",
+            "type": "api",
+            "value": "www.upwork.com/api",
+            "eligible": true
+          }
+        ],
+        "localTestingHint": false,
+        "policyText": "",
+        "launchedAt": null,
+        "resolvedReports": null,
+        "inviteOnly": false,
+        "kycRequired": false,
+        "excludedCountries": [],
+        "sourcePriority": 20
+      },
+      {
         "mergeKey": "usaa",
         "name": "USAA",
         "platform": "Bugcrowd",
@@ -60098,44 +60297,6 @@
             "key": "e83f5635107f2a63",
             "type": "mobile",
             "value": "███████████████████████████████",
-            "eligible": true
-          }
-        ],
-        "localTestingHint": false,
-        "policyText": "",
-        "launchedAt": null,
-        "resolvedReports": null,
-        "inviteOnly": false,
-        "kycRequired": false,
-        "excludedCountries": [],
-        "sourcePriority": 20
-      },
-      {
-        "mergeKey": "xopero-software-s-a-marketplace-managed-bug-bounty-engagement",
-        "name": "Xopero Software S.A. Marketplace Managed Bug Bounty Engagement",
-        "platform": "Bugcrowd",
-        "url": "https://bugcrowd.com/engagements/xopero-software-marketplace",
-        "status": "open",
-        "paid": true,
-        "currency": null,
-        "maxReward": 1500,
-        "safeHarbor": "full",
-        "disclosureAllowed": false,
-        "sourceIds": [
-          "bugcrowd"
-        ],
-        "sourceCode": false,
-        "repositoryCount": 0,
-        "targetCount": 1,
-        "tags": [
-          "web"
-        ],
-        "languages": [],
-        "targets": [
-          {
-            "key": "35c67957d4104ce4",
-            "type": "web",
-            "value": "https://marketplace.atlassian.com/apps/1228719/gitprotect-io-for-jira-backup-restore-dr-data-management?hosting=cloud",
             "eligible": true
           }
         ],
@@ -107380,9 +107541,9 @@
         "at": "2026-09-03T20:14:39.671Z",
         "addedTargets": 1
       },
-      "score": 53,
+      "score": 50,
       "scoreBreakdown": {
-        "freshness": 8,
+        "freshness": 5,
         "reward": 22,
         "inspectability": 7,
         "authorization": 13,
@@ -113994,9 +114155,9 @@
         "addedTargets": 4,
         "removedTargets": 4
       },
-      "score": 56,
+      "score": 53,
       "scoreBreakdown": {
-        "freshness": 23,
+        "freshness": 20,
         "reward": 15,
         "inspectability": 0,
         "authorization": 14,
@@ -114367,9 +114528,9 @@
         "addedTargets": 7,
         "removedTargets": 7
       },
-      "score": 58,
+      "score": 55,
       "scoreBreakdown": {
-        "freshness": 23,
+        "freshness": 20,
         "reward": 15,
         "inspectability": 0,
         "authorization": 14,
@@ -160544,9 +160705,9 @@
         "label": "Program reactivated",
         "at": "2026-09-09T19:49:34.357Z"
       },
-      "score": 51,
+      "score": 48,
       "scoreBreakdown": {
-        "freshness": 16,
+        "freshness": 13,
         "reward": 12,
         "inspectability": 4,
         "authorization": 13,
@@ -160982,9 +161143,9 @@
         "addedTargets": 11,
         "removedTargets": 16
       },
-      "score": 57,
+      "score": 54,
       "scoreBreakdown": {
-        "freshness": 23,
+        "freshness": 20,
         "reward": 12,
         "inspectability": 4,
         "authorization": 14,
@@ -161322,9 +161483,9 @@
         "addedTargets": 8,
         "removedTargets": 10
       },
-      "score": 59,
+      "score": 56,
       "scoreBreakdown": {
-        "freshness": 23,
+        "freshness": 20,
         "reward": 12,
         "inspectability": 4,
         "authorization": 14,
@@ -201547,519 +201708,6 @@
       "excludeReason": null,
       "honestReason": "ai agent + exfil/SSRF ceiling HIGH",
       "bestTargetKey": "00e7360ee25e7c8f"
-    },
-    {
-      "id": "program:securedrop",
-      "name": "SecureDrop",
-      "platform": "Bugcrowd",
-      "url": "https://bugcrowd.com/engagements/freedomofpress",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": 2500,
-      "safeHarbor": "partial",
-      "disclosureAllowed": true,
-      "sourceIds": [
-        "bugcrowd"
-      ],
-      "sourceCode": true,
-      "repositoryCount": 3,
-      "targetCount": 3,
-      "tags": [
-        "other",
-        "source-code"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "4339d21884e4bb91",
-          "type": "other",
-          "value": "https://github.com/freedomofpress/securedrop-client",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": {
-            "status": "ok",
-            "provider": "github",
-            "fullName": "freedomofpress/securedrop-client",
-            "url": "https://github.com/freedomofpress/securedrop-client",
-            "fetchedAt": "2026-09-06T07:17:36.781Z",
-            "createdAt": "2018-07-19T00:31:37Z",
-            "pushedAt": "2026-09-05T21:07:25Z",
-            "ageY": 8.1,
-            "stars": 59,
-            "forks": 54,
-            "contributorsCount": 63,
-            "releases": 0,
-            "defaultBranch": "main",
-            "languages": {
-              "typescript": 1316088,
-              "python": 209509,
-              "rich text format": 72635,
-              "rust": 19124,
-              "javascript": 16739,
-              "shell": 8805,
-              "makefile": 7955,
-              "css": 6225,
-              "dockerfile": 815,
-              "liquid": 730,
-              "html": 214
-            },
-            "commits7d": 9,
-            "commits30d": 30,
-            "commits90d": 268,
-            "filesTouched90d": 300,
-            "filesAdded90d": 15,
-            "filesAdded90dList": [
-              ".github/scripts/guarddog_scan_matrix.py",
-              ".github/workflows/guarddog.yml",
-              "app/src/main/database/migrations/20260624000000_pending_events_retry_tracking.sql",
-              "app/src/main/database/migrations/20260710151500_immutable_item_source.sql",
-              "app/src/main/database/migrations/20260730000000_add_double_encrypted.sql",
-              "app/src/main/database/migrations/20260805000000_immutable_source_key.sql",
-              "app/src/renderer/a11y.test.tsx",
-              "app/src/renderer/components/KeyboardHelpModal.css",
-              "app/src/renderer/components/deleteSourceRequester.ts",
-              "app/src/renderer/hooks/useSubmissionKeyFingerprint.ts",
-              "app/src/renderer/test-a11y.d.ts",
-              "app/src/renderer/views/Inbox/MainContent/Conversation/Item/DoubleEncryptedBadge.tsx",
-              "app/src/renderer/views/Inbox/Sidebar/Account/KeyboardHelp.css",
-              "app/src/renderer/views/Inbox/SidebarResizer.test.tsx",
-              "app/src/renderer/views/Inbox/SidebarResizer.tsx"
-            ],
-            "files90dTruncated": true,
-            "mergedPrs90d": 100,
-            "maxMergedPrAdditions90d": 2239,
-            "secTooling": true,
-            "securityMd": true,
-            "fuzzPath": false,
-            "fuzzFunction": false,
-            "securityWorkflows": [
-              "codeql",
-              "semgrep"
-            ],
-            "advisories": {
-              "open": 0,
-              "resolved": 4,
-              "total": 4
-            },
-            "advisoryCoverage": "repository-advisories",
-            "trapHits": [
-              {
-                "type": "known-comment",
-                "path": "changelog.md",
-                "line": 867,
-                "match": "* Package updated to apt-test-qubes did not include secure"
-              }
-            ],
-            "trapTags": [
-              "DEV_KNOWN"
-            ],
-            "devKnown": true,
-            "securityFixGated": false,
-            "openRecentAdvisoryPathMatch": false,
-            "scanCoverage": {
-              "eligible": 334,
-              "selected": 334,
-              "filesRead": 334,
-              "selectedBytes": 2394989,
-              "complete": true,
-              "failures": 0
-            },
-            "trapScanStatus": "complete",
-            "scanErrors": []
-          },
-          "liveState": null,
-          "hardeningIndex": 45.2,
-          "freshCodeIndex": 80,
-          "knownIssueRisk": 40,
-          "payableSeverityCeiling": "MEDIUM",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "static-source",
-          "findableClass": "source-review",
-          "classificationLabel": "source flaw",
-          "pFindable": 0.712,
-          "pPayable": 0.6,
-          "pFirst": 0.292,
-          "effectiveReward": 2500,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 311.86,
-          "traps": [
-            "DEV_KNOWN"
-          ],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "fresh code + static source + source flaw ceiling MEDIUM + 15 files added/90d"
-        },
-        {
-          "key": "a9b7c8e989a3dd78",
-          "type": "other",
-          "value": "https://github.com/freedomofpress/securedrop-workstation",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": {
-            "status": "ok",
-            "provider": "github",
-            "fullName": "freedomofpress/securedrop-workstation",
-            "url": "https://github.com/freedomofpress/securedrop-workstation",
-            "fetchedAt": "2026-09-06T07:17:36.781Z",
-            "createdAt": "2017-07-18T16:46:06Z",
-            "pushedAt": "2026-09-04T19:07:12Z",
-            "ageY": 9.1,
-            "stars": 181,
-            "forks": 57,
-            "contributorsCount": 39,
-            "releases": 3,
-            "defaultBranch": "main",
-            "languages": {
-              "python": 282706,
-              "shell": 21112,
-              "makefile": 11793,
-              "jinja": 11728,
-              "dockerfile": 624,
-              "salt": 489
-            },
-            "commits7d": 11,
-            "commits30d": 35,
-            "commits90d": 143,
-            "filesTouched90d": 84,
-            "filesAdded90d": 4,
-            "filesAdded90dList": [
-              "architecture-decisions/002-updater-purpose.md",
-              "poetry.toml",
-              "scripts/local-rpm-server.sh",
-              "tests/test_sdw_admin.py"
-            ],
-            "files90dTruncated": false,
-            "mergedPrs90d": 56,
-            "maxMergedPrAdditions90d": 209,
-            "secTooling": true,
-            "securityMd": true,
-            "fuzzPath": false,
-            "fuzzFunction": false,
-            "securityWorkflows": [
-              "semgrep"
-            ],
-            "advisories": {
-              "open": 0,
-              "resolved": 0,
-              "total": 0
-            },
-            "advisoryCoverage": "repository-advisories",
-            "trapHits": [
-              {
-                "type": "disabled-security-flag",
-                "path": "tests/test_vm_sd_log.py",
-                "line": 118,
-                "match": "features[\"service.securedrop-logging-disabled"
-              },
-              {
-                "type": "disabled-security-flag",
-                "path": "tests/test_vm_sd_gpg.py",
-                "line": 140,
-                "match": "features[\"service.securedrop-logging-disabled"
-              },
-              {
-                "type": "disabled-security-flag",
-                "path": "files/sdw-admin.py",
-                "line": 204,
-                "match": "features[\"prohibit-start\"] = \"disabled"
-              }
-            ],
-            "trapTags": [
-              "DEV_KNOWN"
-            ],
-            "devKnown": true,
-            "securityFixGated": true,
-            "openRecentAdvisoryPathMatch": false,
-            "scanCoverage": {
-              "eligible": 102,
-              "selected": 102,
-              "filesRead": 102,
-              "selectedBytes": 420949,
-              "complete": true,
-              "failures": 0
-            },
-            "trapScanStatus": "complete",
-            "scanErrors": []
-          },
-          "liveState": null,
-          "hardeningIndex": 45.6,
-          "freshCodeIndex": 47,
-          "knownIssueRisk": 70,
-          "payableSeverityCeiling": "CRITICAL",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "static-source",
-          "findableClass": "mature-crypto-core",
-          "classificationLabel": "crypto break",
-          "pFindable": 0.075,
-          "pPayable": 0.3,
-          "pFirst": 0.292,
-          "effectiveReward": 2500,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [
-            "DEV_KNOWN"
-          ],
-          "excludeReason": "known-issue risk is 60 or higher",
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "static source + crypto break ceiling CRITICAL + 4 files added/90d"
-        },
-        {
-          "key": "e2348dc1783035a5",
-          "type": "other",
-          "value": "https://github.com/freedomofpress/securedrop",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": {
-            "status": "ok",
-            "provider": "github",
-            "fullName": "freedomofpress/securedrop",
-            "url": "https://github.com/freedomofpress/securedrop",
-            "fetchedAt": "2026-09-06T07:17:36.781Z",
-            "createdAt": "2012-01-11T19:57:55Z",
-            "pushedAt": "2026-09-05T14:52:25Z",
-            "ageY": 14.7,
-            "stars": 3880,
-            "forks": 719,
-            "contributorsCount": 269,
-            "releases": 70,
-            "defaultBranch": "develop",
-            "languages": {
-              "python": 1853188,
-              "shell": 140570,
-              "css": 123084,
-              "html": 80349,
-              "javascript": 66222,
-              "jinja": 42134,
-              "makefile": 29703,
-              "rust": 21502,
-              "dockerfile": 5964,
-              "mako": 510
-            },
-            "commits7d": 2,
-            "commits30d": 11,
-            "commits90d": 123,
-            "filesTouched90d": 140,
-            "filesAdded90d": 4,
-            "filesAdded90dList": [
-              ".github/zizmor.yml",
-              ".semgrep/session-interface-immutable.yml",
-              "securedrop/alembic/versions/b7f98cfd6a71_add_username_to_journalist_login_attempt.py",
-              "securedrop/tests/migrations/migration_b7f98cfd6a71.py"
-            ],
-            "files90dTruncated": false,
-            "mergedPrs90d": 35,
-            "maxMergedPrAdditions90d": 312,
-            "secTooling": true,
-            "securityMd": true,
-            "fuzzPath": false,
-            "fuzzFunction": false,
-            "securityWorkflows": [
-              "semgrep"
-            ],
-            "advisories": {
-              "open": 0,
-              "resolved": 2,
-              "total": 2
-            },
-            "advisoryCoverage": "repository-advisories",
-            "trapHits": [],
-            "trapTags": [],
-            "devKnown": false,
-            "securityFixGated": false,
-            "openRecentAdvisoryPathMatch": false,
-            "scanCoverage": {
-              "eligible": 598,
-              "selected": 400,
-              "filesRead": 400,
-              "selectedBytes": 1203791,
-              "complete": false,
-              "failures": 0
-            },
-            "trapScanStatus": "bounded",
-            "scanErrors": []
-          },
-          "liveState": null,
-          "hardeningIndex": 62.9,
-          "freshCodeIndex": 47,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "LOW",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "static-source",
-          "findableClass": "managed-parser-dos",
-          "classificationLabel": "DoS",
-          "pFindable": 0.394,
-          "pPayable": 0,
-          "pFirst": 0.292,
-          "effectiveReward": 2500,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 0,
-          "traps": [
-            "DOS_CEILING"
-          ],
-          "excludeReason": "LOW DoS ceiling is below the MEDIUM program floor",
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "static source + DoS ceiling LOW + mature review surface + 4 files added/90d"
-        }
-      ],
-      "launchedAt": null,
-      "resolvedReports": null,
-      "inviteOnly": false,
-      "kycRequired": false,
-      "excludedCountries": [],
-      "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastChangedAt": "2026-09-03T14:56:58.433Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-03T14:56:58.433Z"
-      },
-      "score": 52,
-      "scoreBreakdown": {
-        "freshness": 2,
-        "reward": 8,
-        "inspectability": 20,
-        "authorization": 14,
-        "friction": 8
-      },
-      "reasons": [
-        "fresh code + static source + source flaw ceiling MEDIUM + 15 files added/90d"
-      ],
-      "attentionPressure": "unknown",
-      "hardeningIndex": 45.2,
-      "freshCodeIndex": 80,
-      "knownIssueRisk": 40,
-      "payableSeverityCeiling": "MEDIUM",
-      "programFloorSeverity": "MEDIUM",
-      "programFloorSource": "conservative-default",
-      "workflow": "static-source",
-      "findableClass": "source-review",
-      "pFindable": 0.712,
-      "pPayable": 0.6,
-      "pFirst": 0.292,
-      "effectiveReward": 2500,
-      "rewardCap": 50000,
-      "rewardCapped": false,
-      "evScore": 311.86,
-      "traps": [
-        "DEV_KNOWN",
-        "DOS_CEILING"
-      ],
-      "repoSignals": {
-        "status": "ok",
-        "provider": "github",
-        "fullName": "freedomofpress/securedrop-client",
-        "url": "https://github.com/freedomofpress/securedrop-client",
-        "fetchedAt": "2026-09-06T07:17:36.781Z",
-        "createdAt": "2018-07-19T00:31:37Z",
-        "pushedAt": "2026-09-05T21:07:25Z",
-        "ageY": 8.1,
-        "stars": 59,
-        "forks": 54,
-        "contributorsCount": 63,
-        "releases": 0,
-        "defaultBranch": "main",
-        "languages": {
-          "typescript": 1316088,
-          "python": 209509,
-          "rich text format": 72635,
-          "rust": 19124,
-          "javascript": 16739,
-          "shell": 8805,
-          "makefile": 7955,
-          "css": 6225,
-          "dockerfile": 815,
-          "liquid": 730,
-          "html": 214
-        },
-        "commits7d": 9,
-        "commits30d": 30,
-        "commits90d": 268,
-        "filesTouched90d": 300,
-        "filesAdded90d": 15,
-        "filesAdded90dList": [
-          ".github/scripts/guarddog_scan_matrix.py",
-          ".github/workflows/guarddog.yml",
-          "app/src/main/database/migrations/20260624000000_pending_events_retry_tracking.sql",
-          "app/src/main/database/migrations/20260710151500_immutable_item_source.sql",
-          "app/src/main/database/migrations/20260730000000_add_double_encrypted.sql",
-          "app/src/main/database/migrations/20260805000000_immutable_source_key.sql",
-          "app/src/renderer/a11y.test.tsx",
-          "app/src/renderer/components/KeyboardHelpModal.css",
-          "app/src/renderer/components/deleteSourceRequester.ts",
-          "app/src/renderer/hooks/useSubmissionKeyFingerprint.ts",
-          "app/src/renderer/test-a11y.d.ts",
-          "app/src/renderer/views/Inbox/MainContent/Conversation/Item/DoubleEncryptedBadge.tsx",
-          "app/src/renderer/views/Inbox/Sidebar/Account/KeyboardHelp.css",
-          "app/src/renderer/views/Inbox/SidebarResizer.test.tsx",
-          "app/src/renderer/views/Inbox/SidebarResizer.tsx"
-        ],
-        "files90dTruncated": true,
-        "mergedPrs90d": 100,
-        "maxMergedPrAdditions90d": 2239,
-        "secTooling": true,
-        "securityMd": true,
-        "fuzzPath": false,
-        "fuzzFunction": false,
-        "securityWorkflows": [
-          "codeql",
-          "semgrep"
-        ],
-        "advisories": {
-          "open": 0,
-          "resolved": 4,
-          "total": 4
-        },
-        "advisoryCoverage": "repository-advisories",
-        "trapHits": [
-          {
-            "type": "known-comment",
-            "path": "changelog.md",
-            "line": 867,
-            "match": "* Package updated to apt-test-qubes did not include secure"
-          }
-        ],
-        "trapTags": [
-          "DEV_KNOWN"
-        ],
-        "devKnown": true,
-        "securityFixGated": false,
-        "openRecentAdvisoryPathMatch": false,
-        "scanCoverage": {
-          "eligible": 334,
-          "selected": 334,
-          "filesRead": 334,
-          "selectedBytes": 2394989,
-          "complete": true,
-          "failures": 0
-        },
-        "trapScanStatus": "complete",
-        "scanErrors": []
-      },
-      "liveState": null,
-      "excludeReason": null,
-      "honestReason": "fresh code + static source + source flaw ceiling MEDIUM + 15 files added/90d",
-      "bestTargetKey": "4339d21884e4bb91"
     },
     {
       "id": "program:aurory-managed-bug-bounty-engagement-public",
@@ -259340,9 +258988,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 51,
+      "score": 48,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -259675,9 +259323,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 49,
+      "score": 46,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -259911,9 +259559,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 49,
+      "score": 46,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -260081,9 +259729,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 51,
+      "score": 48,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -260251,9 +259899,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 51,
+      "score": 48,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -263034,9 +262682,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 51,
+      "score": 48,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -263305,9 +262953,9 @@
         "at": "2026-09-09T19:49:34.357Z",
         "addedTargets": 2
       },
-      "score": 57,
+      "score": 54,
       "scoreBreakdown": {
-        "freshness": 26,
+        "freshness": 23,
         "reward": 8,
         "inspectability": 4,
         "authorization": 13,
@@ -265330,9 +264978,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 49,
+      "score": 46,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -265666,9 +265314,9 @@
         "label": "New program",
         "at": "2026-09-10T19:45:39.890Z"
       },
-      "score": 49,
+      "score": 46,
       "scoreBreakdown": {
-        "freshness": 24,
+        "freshness": 21,
         "reward": 8,
         "inspectability": 0,
         "authorization": 13,
@@ -269675,110 +269323,6 @@
       "excludeReason": null,
       "honestReason": "live web + price/authz ceiling CRITICAL",
       "bestTargetKey": "2a195d1ae43a40ea"
-    },
-    {
-      "id": "program:xopero-software-s-a-marketplace-managed-bug-bounty-engagement",
-      "name": "Xopero Software S.A. Marketplace Managed Bug Bounty Engagement",
-      "platform": "Bugcrowd",
-      "url": "https://bugcrowd.com/engagements/xopero-software-marketplace",
-      "status": "open",
-      "paid": true,
-      "currency": null,
-      "minReward": null,
-      "maxReward": 1500,
-      "safeHarbor": "full",
-      "disclosureAllowed": false,
-      "sourceIds": [
-        "bugcrowd"
-      ],
-      "sourceCode": false,
-      "repositoryCount": 0,
-      "targetCount": 1,
-      "tags": [
-        "web"
-      ],
-      "languages": [],
-      "targets": [
-        {
-          "key": "35c67957d4104ce4",
-          "type": "web",
-          "value": "https://marketplace.atlassian.com/apps/1228719/gitprotect-io-for-jira-backup-restore-dr-data-management?hosting=cloud",
-          "eligible": true,
-          "firstSeenAt": "2026-09-03T16:03:00.527Z",
-          "repoSignals": null,
-          "liveState": null,
-          "hardeningIndex": null,
-          "freshCodeIndex": 0,
-          "knownIssueRisk": 0,
-          "payableSeverityCeiling": "CRITICAL",
-          "programFloorSeverity": "MEDIUM",
-          "programFloorSource": "conservative-default",
-          "workflow": "live-web",
-          "findableClass": "business-logic",
-          "classificationLabel": "price/authz",
-          "pFindable": 0.235,
-          "pPayable": 1,
-          "pFirst": 0.292,
-          "effectiveReward": 1500,
-          "rewardCap": 50000,
-          "rewardCapped": false,
-          "evScore": 102.93,
-          "traps": [],
-          "excludeReason": null,
-          "recentScope": false,
-          "programAgeDays": null,
-          "resolvedReports": 25,
-          "resolvedReportsEstimated": true,
-          "audit": null,
-          "reason": "live web + price/authz ceiling CRITICAL"
-        }
-      ],
-      "launchedAt": null,
-      "resolvedReports": null,
-      "inviteOnly": false,
-      "kycRequired": false,
-      "excludedCountries": [],
-      "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastChangedAt": "2026-09-03T14:56:58.433Z",
-      "change": {
-        "type": "baseline",
-        "label": "Baseline import",
-        "at": "2026-09-03T14:56:58.433Z"
-      },
-      "score": 29,
-      "scoreBreakdown": {
-        "freshness": 2,
-        "reward": 8,
-        "inspectability": 0,
-        "authorization": 13,
-        "friction": 6
-      },
-      "reasons": [
-        "live web + price/authz ceiling CRITICAL"
-      ],
-      "attentionPressure": "unknown",
-      "hardeningIndex": null,
-      "freshCodeIndex": 0,
-      "knownIssueRisk": 0,
-      "payableSeverityCeiling": "CRITICAL",
-      "programFloorSeverity": "MEDIUM",
-      "programFloorSource": "conservative-default",
-      "workflow": "live-web",
-      "findableClass": "business-logic",
-      "pFindable": 0.235,
-      "pPayable": 1,
-      "pFirst": 0.292,
-      "effectiveReward": 1500,
-      "rewardCap": 50000,
-      "rewardCapped": false,
-      "evScore": 102.93,
-      "traps": [],
-      "repoSignals": null,
-      "liveState": null,
-      "excludeReason": null,
-      "honestReason": "live web + price/authz ceiling CRITICAL",
-      "bestTargetKey": "35c67957d4104ce4"
     },
     {
       "id": "program:ost-consulting-srl-marketplace-managed-bug-bounty-engagement",
@@ -329733,9 +329277,9 @@
         "at": "2026-09-11T19:47:28.751Z",
         "removedTargets": 1
       },
-      "score": 37,
+      "score": 34,
       "scoreBreakdown": {
-        "freshness": 18,
+        "freshness": 15,
         "reward": 0,
         "inspectability": 7,
         "authorization": 10,
@@ -329744,7 +329288,7 @@
       "reasons": [
         "fresh scope + live web + ATO ceiling CRITICAL"
       ],
-      "attentionPressure": "medium",
+      "attentionPressure": "unknown",
       "hardeningIndex": null,
       "freshCodeIndex": 20,
       "knownIssueRisk": 0,
@@ -343556,9 +343100,9 @@
         "at": "2026-09-10T19:45:39.890Z",
         "addedTargets": 1
       },
-      "score": 42,
+      "score": 39,
       "scoreBreakdown": {
-        "freshness": 29,
+        "freshness": 26,
         "reward": 0,
         "inspectability": 0,
         "authorization": 10,
@@ -473176,12 +472720,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -474828,12 +474372,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -476206,12 +475750,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -480147,12 +479691,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -480764,12 +480308,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -481168,12 +480712,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -492263,12 +491807,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -492885,12 +492429,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -495778,12 +495322,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -499343,12 +498887,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -506408,12 +505952,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -508604,12 +508148,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -512856,12 +512400,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -514201,12 +513745,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -514648,12 +514192,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -516092,12 +515636,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -517818,12 +517362,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -518950,12 +518494,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -522616,12 +522160,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -536126,12 +535670,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -536903,12 +536447,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -537256,6 +536800,519 @@
       "excludeReason": null,
       "honestReason": "live web + crypto break ceiling CRITICAL",
       "bestTargetKey": "f9aeeb91a139847b"
+    },
+    {
+      "id": "program:securedrop",
+      "name": "SecureDrop",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/freedomofpress",
+      "status": "stale",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 2500,
+      "safeHarbor": "partial",
+      "disclosureAllowed": true,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": true,
+      "repositoryCount": 3,
+      "targetCount": 3,
+      "tags": [
+        "other",
+        "source-code"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "4339d21884e4bb91",
+          "type": "other",
+          "value": "https://github.com/freedomofpress/securedrop-client",
+          "eligible": true,
+          "firstSeenAt": "2026-09-03T16:03:00.527Z",
+          "repoSignals": {
+            "status": "ok",
+            "provider": "github",
+            "fullName": "freedomofpress/securedrop-client",
+            "url": "https://github.com/freedomofpress/securedrop-client",
+            "fetchedAt": "2026-09-06T07:17:36.781Z",
+            "createdAt": "2018-07-19T00:31:37Z",
+            "pushedAt": "2026-09-05T21:07:25Z",
+            "ageY": 8.1,
+            "stars": 59,
+            "forks": 54,
+            "contributorsCount": 63,
+            "releases": 0,
+            "defaultBranch": "main",
+            "languages": {
+              "typescript": 1316088,
+              "python": 209509,
+              "rich text format": 72635,
+              "rust": 19124,
+              "javascript": 16739,
+              "shell": 8805,
+              "makefile": 7955,
+              "css": 6225,
+              "dockerfile": 815,
+              "liquid": 730,
+              "html": 214
+            },
+            "commits7d": 9,
+            "commits30d": 30,
+            "commits90d": 268,
+            "filesTouched90d": 300,
+            "filesAdded90d": 15,
+            "filesAdded90dList": [
+              ".github/scripts/guarddog_scan_matrix.py",
+              ".github/workflows/guarddog.yml",
+              "app/src/main/database/migrations/20260624000000_pending_events_retry_tracking.sql",
+              "app/src/main/database/migrations/20260710151500_immutable_item_source.sql",
+              "app/src/main/database/migrations/20260730000000_add_double_encrypted.sql",
+              "app/src/main/database/migrations/20260805000000_immutable_source_key.sql",
+              "app/src/renderer/a11y.test.tsx",
+              "app/src/renderer/components/KeyboardHelpModal.css",
+              "app/src/renderer/components/deleteSourceRequester.ts",
+              "app/src/renderer/hooks/useSubmissionKeyFingerprint.ts",
+              "app/src/renderer/test-a11y.d.ts",
+              "app/src/renderer/views/Inbox/MainContent/Conversation/Item/DoubleEncryptedBadge.tsx",
+              "app/src/renderer/views/Inbox/Sidebar/Account/KeyboardHelp.css",
+              "app/src/renderer/views/Inbox/SidebarResizer.test.tsx",
+              "app/src/renderer/views/Inbox/SidebarResizer.tsx"
+            ],
+            "files90dTruncated": true,
+            "mergedPrs90d": 100,
+            "maxMergedPrAdditions90d": 2239,
+            "secTooling": true,
+            "securityMd": true,
+            "fuzzPath": false,
+            "fuzzFunction": false,
+            "securityWorkflows": [
+              "codeql",
+              "semgrep"
+            ],
+            "advisories": {
+              "open": 0,
+              "resolved": 4,
+              "total": 4
+            },
+            "advisoryCoverage": "repository-advisories",
+            "trapHits": [
+              {
+                "type": "known-comment",
+                "path": "changelog.md",
+                "line": 867,
+                "match": "* Package updated to apt-test-qubes did not include secure"
+              }
+            ],
+            "trapTags": [
+              "DEV_KNOWN"
+            ],
+            "devKnown": true,
+            "securityFixGated": false,
+            "openRecentAdvisoryPathMatch": false,
+            "scanCoverage": {
+              "eligible": 334,
+              "selected": 334,
+              "filesRead": 334,
+              "selectedBytes": 2394989,
+              "complete": true,
+              "failures": 0
+            },
+            "trapScanStatus": "complete",
+            "scanErrors": []
+          },
+          "liveState": null,
+          "hardeningIndex": 45.2,
+          "freshCodeIndex": 80,
+          "knownIssueRisk": 40,
+          "payableSeverityCeiling": "MEDIUM",
+          "programFloorSeverity": "MEDIUM",
+          "programFloorSource": "source",
+          "workflow": "static-source",
+          "findableClass": "source-review",
+          "classificationLabel": "source flaw",
+          "pFindable": 0.712,
+          "pPayable": 0,
+          "pFirst": 0.292,
+          "effectiveReward": 2500,
+          "rewardCap": 50000,
+          "rewardCapped": false,
+          "evScore": 0,
+          "traps": [
+            "DEV_KNOWN"
+          ],
+          "excludeReason": "program is not open",
+          "recentScope": false,
+          "programAgeDays": null,
+          "resolvedReports": 25,
+          "resolvedReportsEstimated": true,
+          "audit": null,
+          "reason": "fresh code + static source + source flaw ceiling MEDIUM + 15 files added/90d"
+        },
+        {
+          "key": "a9b7c8e989a3dd78",
+          "type": "other",
+          "value": "https://github.com/freedomofpress/securedrop-workstation",
+          "eligible": true,
+          "firstSeenAt": "2026-09-03T16:03:00.527Z",
+          "repoSignals": {
+            "status": "ok",
+            "provider": "github",
+            "fullName": "freedomofpress/securedrop-workstation",
+            "url": "https://github.com/freedomofpress/securedrop-workstation",
+            "fetchedAt": "2026-09-06T07:17:36.781Z",
+            "createdAt": "2017-07-18T16:46:06Z",
+            "pushedAt": "2026-09-04T19:07:12Z",
+            "ageY": 9.1,
+            "stars": 181,
+            "forks": 57,
+            "contributorsCount": 39,
+            "releases": 3,
+            "defaultBranch": "main",
+            "languages": {
+              "python": 282706,
+              "shell": 21112,
+              "makefile": 11793,
+              "jinja": 11728,
+              "dockerfile": 624,
+              "salt": 489
+            },
+            "commits7d": 11,
+            "commits30d": 35,
+            "commits90d": 143,
+            "filesTouched90d": 84,
+            "filesAdded90d": 4,
+            "filesAdded90dList": [
+              "architecture-decisions/002-updater-purpose.md",
+              "poetry.toml",
+              "scripts/local-rpm-server.sh",
+              "tests/test_sdw_admin.py"
+            ],
+            "files90dTruncated": false,
+            "mergedPrs90d": 56,
+            "maxMergedPrAdditions90d": 209,
+            "secTooling": true,
+            "securityMd": true,
+            "fuzzPath": false,
+            "fuzzFunction": false,
+            "securityWorkflows": [
+              "semgrep"
+            ],
+            "advisories": {
+              "open": 0,
+              "resolved": 0,
+              "total": 0
+            },
+            "advisoryCoverage": "repository-advisories",
+            "trapHits": [
+              {
+                "type": "disabled-security-flag",
+                "path": "tests/test_vm_sd_log.py",
+                "line": 118,
+                "match": "features[\"service.securedrop-logging-disabled"
+              },
+              {
+                "type": "disabled-security-flag",
+                "path": "tests/test_vm_sd_gpg.py",
+                "line": 140,
+                "match": "features[\"service.securedrop-logging-disabled"
+              },
+              {
+                "type": "disabled-security-flag",
+                "path": "files/sdw-admin.py",
+                "line": 204,
+                "match": "features[\"prohibit-start\"] = \"disabled"
+              }
+            ],
+            "trapTags": [
+              "DEV_KNOWN"
+            ],
+            "devKnown": true,
+            "securityFixGated": true,
+            "openRecentAdvisoryPathMatch": false,
+            "scanCoverage": {
+              "eligible": 102,
+              "selected": 102,
+              "filesRead": 102,
+              "selectedBytes": 420949,
+              "complete": true,
+              "failures": 0
+            },
+            "trapScanStatus": "complete",
+            "scanErrors": []
+          },
+          "liveState": null,
+          "hardeningIndex": 45.6,
+          "freshCodeIndex": 47,
+          "knownIssueRisk": 70,
+          "payableSeverityCeiling": "CRITICAL",
+          "programFloorSeverity": "MEDIUM",
+          "programFloorSource": "source",
+          "workflow": "static-source",
+          "findableClass": "mature-crypto-core",
+          "classificationLabel": "crypto break",
+          "pFindable": 0.075,
+          "pPayable": 0,
+          "pFirst": 0.292,
+          "effectiveReward": 2500,
+          "rewardCap": 50000,
+          "rewardCapped": false,
+          "evScore": 0,
+          "traps": [
+            "DEV_KNOWN"
+          ],
+          "excludeReason": "known-issue risk is 60 or higher; program is not open",
+          "recentScope": false,
+          "programAgeDays": null,
+          "resolvedReports": 25,
+          "resolvedReportsEstimated": true,
+          "audit": null,
+          "reason": "static source + crypto break ceiling CRITICAL + 4 files added/90d"
+        },
+        {
+          "key": "e2348dc1783035a5",
+          "type": "other",
+          "value": "https://github.com/freedomofpress/securedrop",
+          "eligible": true,
+          "firstSeenAt": "2026-09-03T16:03:00.527Z",
+          "repoSignals": {
+            "status": "ok",
+            "provider": "github",
+            "fullName": "freedomofpress/securedrop",
+            "url": "https://github.com/freedomofpress/securedrop",
+            "fetchedAt": "2026-09-06T07:17:36.781Z",
+            "createdAt": "2012-01-11T19:57:55Z",
+            "pushedAt": "2026-09-05T14:52:25Z",
+            "ageY": 14.7,
+            "stars": 3880,
+            "forks": 719,
+            "contributorsCount": 269,
+            "releases": 70,
+            "defaultBranch": "develop",
+            "languages": {
+              "python": 1853188,
+              "shell": 140570,
+              "css": 123084,
+              "html": 80349,
+              "javascript": 66222,
+              "jinja": 42134,
+              "makefile": 29703,
+              "rust": 21502,
+              "dockerfile": 5964,
+              "mako": 510
+            },
+            "commits7d": 2,
+            "commits30d": 11,
+            "commits90d": 123,
+            "filesTouched90d": 140,
+            "filesAdded90d": 4,
+            "filesAdded90dList": [
+              ".github/zizmor.yml",
+              ".semgrep/session-interface-immutable.yml",
+              "securedrop/alembic/versions/b7f98cfd6a71_add_username_to_journalist_login_attempt.py",
+              "securedrop/tests/migrations/migration_b7f98cfd6a71.py"
+            ],
+            "files90dTruncated": false,
+            "mergedPrs90d": 35,
+            "maxMergedPrAdditions90d": 312,
+            "secTooling": true,
+            "securityMd": true,
+            "fuzzPath": false,
+            "fuzzFunction": false,
+            "securityWorkflows": [
+              "semgrep"
+            ],
+            "advisories": {
+              "open": 0,
+              "resolved": 2,
+              "total": 2
+            },
+            "advisoryCoverage": "repository-advisories",
+            "trapHits": [],
+            "trapTags": [],
+            "devKnown": false,
+            "securityFixGated": false,
+            "openRecentAdvisoryPathMatch": false,
+            "scanCoverage": {
+              "eligible": 598,
+              "selected": 400,
+              "filesRead": 400,
+              "selectedBytes": 1203791,
+              "complete": false,
+              "failures": 0
+            },
+            "trapScanStatus": "bounded",
+            "scanErrors": []
+          },
+          "liveState": null,
+          "hardeningIndex": 62.9,
+          "freshCodeIndex": 47,
+          "knownIssueRisk": 0,
+          "payableSeverityCeiling": "LOW",
+          "programFloorSeverity": "MEDIUM",
+          "programFloorSource": "source",
+          "workflow": "static-source",
+          "findableClass": "managed-parser-dos",
+          "classificationLabel": "DoS",
+          "pFindable": 0.394,
+          "pPayable": 0,
+          "pFirst": 0.292,
+          "effectiveReward": 2500,
+          "rewardCap": 50000,
+          "rewardCapped": false,
+          "evScore": 0,
+          "traps": [
+            "DOS_CEILING"
+          ],
+          "excludeReason": "LOW DoS ceiling is below the MEDIUM program floor; program is not open",
+          "recentScope": false,
+          "programAgeDays": null,
+          "resolvedReports": 25,
+          "resolvedReportsEstimated": true,
+          "audit": null,
+          "reason": "static source + DoS ceiling LOW + mature review surface + 4 files added/90d"
+        }
+      ],
+      "launchedAt": null,
+      "resolvedReports": null,
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "firstSeenAt": "2026-09-03T14:56:58.433Z",
+      "lastSeenAt": "2026-09-03T14:56:58.433Z",
+      "lastChangedAt": "2026-09-03T14:56:58.433Z",
+      "change": {
+        "type": "baseline",
+        "label": "Baseline import",
+        "at": "2026-09-03T14:56:58.433Z"
+      },
+      "score": 48,
+      "scoreBreakdown": {
+        "freshness": 2,
+        "reward": 8,
+        "inspectability": 20,
+        "authorization": 10,
+        "friction": 8
+      },
+      "reasons": [
+        "fresh code + static source + source flaw ceiling MEDIUM + 15 files added/90d"
+      ],
+      "attentionPressure": "unknown",
+      "hardeningIndex": 45.2,
+      "freshCodeIndex": 80,
+      "knownIssueRisk": 40,
+      "payableSeverityCeiling": "MEDIUM",
+      "programFloorSeverity": "MEDIUM",
+      "programFloorSource": "source",
+      "workflow": "static-source",
+      "findableClass": "source-review",
+      "pFindable": 0.712,
+      "pPayable": 0,
+      "pFirst": 0.292,
+      "effectiveReward": 2500,
+      "rewardCap": 50000,
+      "rewardCapped": false,
+      "evScore": 0,
+      "traps": [
+        "DEV_KNOWN",
+        "DOS_CEILING"
+      ],
+      "repoSignals": {
+        "status": "ok",
+        "provider": "github",
+        "fullName": "freedomofpress/securedrop-client",
+        "url": "https://github.com/freedomofpress/securedrop-client",
+        "fetchedAt": "2026-09-06T07:17:36.781Z",
+        "createdAt": "2018-07-19T00:31:37Z",
+        "pushedAt": "2026-09-05T21:07:25Z",
+        "ageY": 8.1,
+        "stars": 59,
+        "forks": 54,
+        "contributorsCount": 63,
+        "releases": 0,
+        "defaultBranch": "main",
+        "languages": {
+          "typescript": 1316088,
+          "python": 209509,
+          "rich text format": 72635,
+          "rust": 19124,
+          "javascript": 16739,
+          "shell": 8805,
+          "makefile": 7955,
+          "css": 6225,
+          "dockerfile": 815,
+          "liquid": 730,
+          "html": 214
+        },
+        "commits7d": 9,
+        "commits30d": 30,
+        "commits90d": 268,
+        "filesTouched90d": 300,
+        "filesAdded90d": 15,
+        "filesAdded90dList": [
+          ".github/scripts/guarddog_scan_matrix.py",
+          ".github/workflows/guarddog.yml",
+          "app/src/main/database/migrations/20260624000000_pending_events_retry_tracking.sql",
+          "app/src/main/database/migrations/20260710151500_immutable_item_source.sql",
+          "app/src/main/database/migrations/20260730000000_add_double_encrypted.sql",
+          "app/src/main/database/migrations/20260805000000_immutable_source_key.sql",
+          "app/src/renderer/a11y.test.tsx",
+          "app/src/renderer/components/KeyboardHelpModal.css",
+          "app/src/renderer/components/deleteSourceRequester.ts",
+          "app/src/renderer/hooks/useSubmissionKeyFingerprint.ts",
+          "app/src/renderer/test-a11y.d.ts",
+          "app/src/renderer/views/Inbox/MainContent/Conversation/Item/DoubleEncryptedBadge.tsx",
+          "app/src/renderer/views/Inbox/Sidebar/Account/KeyboardHelp.css",
+          "app/src/renderer/views/Inbox/SidebarResizer.test.tsx",
+          "app/src/renderer/views/Inbox/SidebarResizer.tsx"
+        ],
+        "files90dTruncated": true,
+        "mergedPrs90d": 100,
+        "maxMergedPrAdditions90d": 2239,
+        "secTooling": true,
+        "securityMd": true,
+        "fuzzPath": false,
+        "fuzzFunction": false,
+        "securityWorkflows": [
+          "codeql",
+          "semgrep"
+        ],
+        "advisories": {
+          "open": 0,
+          "resolved": 4,
+          "total": 4
+        },
+        "advisoryCoverage": "repository-advisories",
+        "trapHits": [
+          {
+            "type": "known-comment",
+            "path": "changelog.md",
+            "line": 867,
+            "match": "* Package updated to apt-test-qubes did not include secure"
+          }
+        ],
+        "trapTags": [
+          "DEV_KNOWN"
+        ],
+        "devKnown": true,
+        "securityFixGated": false,
+        "openRecentAdvisoryPathMatch": false,
+        "scanCoverage": {
+          "eligible": 334,
+          "selected": 334,
+          "filesRead": 334,
+          "selectedBytes": 2394989,
+          "complete": true,
+          "failures": 0
+        },
+        "trapScanStatus": "complete",
+        "scanErrors": []
+      },
+      "liveState": null,
+      "excludeReason": "program is not open",
+      "honestReason": "fresh code + static source + source flaw ceiling MEDIUM + 15 files added/90d",
+      "bestTargetKey": "4339d21884e4bb91"
     },
     {
       "id": "program:node-js",
@@ -539701,12 +539758,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z"
+        "at": "2026-09-12T22:21:52.799Z"
       },
       "score": 47,
       "scoreBreakdown": {
@@ -546542,6 +546599,110 @@
       "bestTargetKey": "ef010d8626852a95"
     },
     {
+      "id": "program:xopero-software-s-a-marketplace-managed-bug-bounty-engagement",
+      "name": "Xopero Software S.A. Marketplace Managed Bug Bounty Engagement",
+      "platform": "Bugcrowd",
+      "url": "https://bugcrowd.com/engagements/xopero-software-marketplace",
+      "status": "stale",
+      "paid": true,
+      "currency": null,
+      "minReward": null,
+      "maxReward": 1500,
+      "safeHarbor": "full",
+      "disclosureAllowed": false,
+      "sourceIds": [
+        "bugcrowd"
+      ],
+      "sourceCode": false,
+      "repositoryCount": 0,
+      "targetCount": 1,
+      "tags": [
+        "web"
+      ],
+      "languages": [],
+      "targets": [
+        {
+          "key": "35c67957d4104ce4",
+          "type": "web",
+          "value": "https://marketplace.atlassian.com/apps/1228719/gitprotect-io-for-jira-backup-restore-dr-data-management?hosting=cloud",
+          "eligible": true,
+          "firstSeenAt": "2026-09-03T16:03:00.527Z",
+          "repoSignals": null,
+          "liveState": null,
+          "hardeningIndex": null,
+          "freshCodeIndex": 0,
+          "knownIssueRisk": 0,
+          "payableSeverityCeiling": "CRITICAL",
+          "programFloorSeverity": "MEDIUM",
+          "programFloorSource": "source",
+          "workflow": "live-web",
+          "findableClass": "business-logic",
+          "classificationLabel": "price/authz",
+          "pFindable": 0.235,
+          "pPayable": 0,
+          "pFirst": 0.292,
+          "effectiveReward": 1500,
+          "rewardCap": 50000,
+          "rewardCapped": false,
+          "evScore": 0,
+          "traps": [],
+          "excludeReason": "program is not open",
+          "recentScope": false,
+          "programAgeDays": null,
+          "resolvedReports": 25,
+          "resolvedReportsEstimated": true,
+          "audit": null,
+          "reason": "live web + price/authz ceiling CRITICAL"
+        }
+      ],
+      "launchedAt": null,
+      "resolvedReports": null,
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "firstSeenAt": "2026-09-03T14:56:58.433Z",
+      "lastSeenAt": "2026-09-03T14:56:58.433Z",
+      "lastChangedAt": "2026-09-03T14:56:58.433Z",
+      "change": {
+        "type": "baseline",
+        "label": "Baseline import",
+        "at": "2026-09-03T14:56:58.433Z"
+      },
+      "score": 25,
+      "scoreBreakdown": {
+        "freshness": 2,
+        "reward": 8,
+        "inspectability": 0,
+        "authorization": 9,
+        "friction": 6
+      },
+      "reasons": [
+        "live web + price/authz ceiling CRITICAL"
+      ],
+      "attentionPressure": "unknown",
+      "hardeningIndex": null,
+      "freshCodeIndex": 0,
+      "knownIssueRisk": 0,
+      "payableSeverityCeiling": "CRITICAL",
+      "programFloorSeverity": "MEDIUM",
+      "programFloorSource": "source",
+      "workflow": "live-web",
+      "findableClass": "business-logic",
+      "pFindable": 0.235,
+      "pPayable": 0,
+      "pFirst": 0.292,
+      "effectiveReward": 1500,
+      "rewardCap": 50000,
+      "rewardCapped": false,
+      "evScore": 0,
+      "traps": [],
+      "repoSignals": null,
+      "liveState": null,
+      "excludeReason": "program is not open",
+      "honestReason": "live web + price/authz ceiling CRITICAL",
+      "bestTargetKey": "35c67957d4104ce4"
+    },
+    {
       "id": "program:1inch",
       "name": "1inch",
       "platform": "Self-hosted",
@@ -546601,12 +546762,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -546807,12 +546968,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -548738,12 +548899,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -548840,12 +549001,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -548942,12 +549103,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -549044,12 +549205,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -550010,12 +550171,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -550251,12 +550412,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -550353,12 +550514,12 @@
       "kycRequired": false,
       "excludedCountries": [],
       "firstSeenAt": "2026-09-03T14:56:58.433Z",
-      "lastSeenAt": "2026-09-12T19:27:12.466Z",
-      "lastChangedAt": "2026-09-12T19:27:12.466Z",
+      "lastSeenAt": "2026-09-12T22:21:52.799Z",
+      "lastChangedAt": "2026-09-12T22:21:52.799Z",
       "change": {
         "type": "scope_updated",
         "label": "Scope or policy changed",
-        "at": "2026-09-12T19:27:12.466Z",
+        "at": "2026-09-12T22:21:52.799Z",
         "removedTargets": 1
       },
       "score": 33,
@@ -552304,6 +552465,532 @@
     }
   ],
   "events": [
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:swiss-post:scope_updated",
+      "programId": "program:swiss-post",
+      "programName": "Swiss Post",
+      "platform": "YesWeHack",
+      "url": "https://yeswehack.com/programs/swiss-post",
+      "score": 47,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z"
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "invite-only program"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:1inch:scope_updated",
+      "programId": "program:1inch",
+      "programName": "1inch",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/1inch/1inch-smart-contract",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:assetmantle:scope_updated",
+      "programId": "program:assetmantle",
+      "programName": "AssetMantle",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/assetmantle/assetmantle",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:blueberry-protocol-foundation:scope_updated",
+      "programId": "program:blueberry-protocol-foundation",
+      "programName": "Blueberry Protocol Foundation",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/blueberry-protocol-foundation/blueberry-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:civic:scope_updated",
+      "programId": "program:civic",
+      "programName": "Civic",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/civic/civic-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:coinmate-io:scope_updated",
+      "programId": "program:coinmate-io",
+      "programName": "CoinMate.io",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/coinmate",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:deltaprime:scope_updated",
+      "programId": "program:deltaprime",
+      "programName": "DeltaPrime",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/deltaprime/deltaprime-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:dexe-protocol:scope_updated",
+      "programId": "program:dexe-protocol",
+      "programName": "DeXe Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dexe-protocol/dexe-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:django:scope_updated",
+      "programId": "program:django",
+      "programName": "Django",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/django",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:dodoex:scope_updated",
+      "programId": "program:dodoex",
+      "programName": "DODOEX",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/dodoex",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:envelop:scope_updated",
+      "programId": "program:envelop",
+      "programName": "ENVELOP",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/envelop/envelop-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:fastex:scope_updated",
+      "programId": "program:fastex",
+      "programName": "Fastex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/fastex/fastex-web",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor; KYC required"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:grafana-labs:scope_updated",
+      "programId": "program:grafana-labs",
+      "programName": "Grafana Labs",
+      "platform": "Self-hosted",
+      "url": "https://github.com/grafana/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:horizon-protocol:scope_updated",
+      "programId": "program:horizon-protocol",
+      "programName": "Horizon Protocol",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/horizon-protocol/horizon-protocol-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:impermax-finance:scope_updated",
+      "programId": "program:impermax-finance",
+      "programName": "Impermax Finance",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/impermax-finance/impermax-finance-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:kinza:scope_updated",
+      "programId": "program:kinza",
+      "programName": "KINZA",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kinza/kinza-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:kolibrio:scope_updated",
+      "programId": "program:kolibrio",
+      "programName": "Kolibrio",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/kolibrio/alfred-telegram-trading-bot",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:metis:scope_updated",
+      "programId": "program:metis",
+      "programName": "Metis",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/metis/metis-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:mysten-labs:scope_updated",
+      "programId": "program:mysten-labs",
+      "programName": "Mysten Labs",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/mysten-labs/sui-wallet",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:owncloud:scope_updated",
+      "programId": "program:owncloud",
+      "programName": "OwnCloud",
+      "platform": "Self-hosted",
+      "url": "https://hackerone.com/owncloud",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:phabricator:scope_updated",
+      "programId": "program:phabricator",
+      "programName": "Phabricator",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/phabricator",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:ruby:scope_updated",
+      "programId": "program:ruby",
+      "programName": "Ruby",
+      "platform": "HackerOne",
+      "url": "https://hackerone.com/ruby",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:shido:scope_updated",
+      "programId": "program:shido",
+      "programName": "Shido",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/shido/shido-network-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:smardex:scope_updated",
+      "programId": "program:smardex",
+      "programName": "SmarDex",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smardex/smardex-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:smilee:scope_updated",
+      "programId": "program:smilee",
+      "programName": "Smilee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/smilee/smilee-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:sui:scope_updated",
+      "programId": "program:sui",
+      "programName": "Sui",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/sui/sui-protocol",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": "KYC required"
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:superfluid:scope_updated",
+      "programId": "program:superfluid",
+      "programName": "Superfluid",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/superfluid/superfluid-super-token-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:swisscom:scope_updated",
+      "programId": "program:swisscom",
+      "programName": "Swisscom",
+      "platform": "Self-hosted",
+      "url": "https://github.com/swisscom/bugbounty",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "static-source",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:tetu:scope_updated",
+      "programId": "program:tetu",
+      "programName": "TETU",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/tetu/tetu-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:trustee:scope_updated",
+      "programId": "program:trustee",
+      "programName": "Trustee",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/trustee/trustee-plus-mobile",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
+    {
+      "id": "2026-09-12T22:21:52.799Z:program:vaultka:scope_updated",
+      "programId": "program:vaultka",
+      "programName": "Vaultka",
+      "platform": "Self-hosted",
+      "url": "https://hackenproof.com/vaultka/vaultka-smart-contracts",
+      "score": 33,
+      "change": {
+        "type": "scope_updated",
+        "label": "Scope or policy changed",
+        "at": "2026-09-12T22:21:52.799Z",
+        "removedTargets": 1
+      },
+      "evScore": 0,
+      "workflow": "live-web",
+      "excludeReason": null
+    },
     {
       "id": "2026-09-12T19:27:12.466Z:program:swiss-post:scope_updated",
       "programId": "program:swiss-post",
@@ -555169,532 +555856,6 @@
       "evScore": 0,
       "workflow": "live-web",
       "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:fastex:scope_updated",
-      "programId": "program:fastex",
-      "programName": "Fastex",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/fastex/fastex-web",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor; KYC required"
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:grafana-labs:scope_updated",
-      "programId": "program:grafana-labs",
-      "programName": "Grafana Labs",
-      "platform": "Self-hosted",
-      "url": "https://github.com/grafana/bugbounty",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "static-source",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:horizon-protocol:scope_updated",
-      "programId": "program:horizon-protocol",
-      "programName": "Horizon Protocol",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/horizon-protocol/horizon-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:impermax-finance:scope_updated",
-      "programId": "program:impermax-finance",
-      "programName": "Impermax Finance",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/impermax-finance/impermax-finance-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:kinza:scope_updated",
-      "programId": "program:kinza",
-      "programName": "KINZA",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/kinza/kinza-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:kolibrio:scope_updated",
-      "programId": "program:kolibrio",
-      "programName": "Kolibrio",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/kolibrio/alfred-telegram-trading-bot",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:metis:scope_updated",
-      "programId": "program:metis",
-      "programName": "Metis",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/metis/metis-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:mysten-labs:scope_updated",
-      "programId": "program:mysten-labs",
-      "programName": "Mysten Labs",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/mysten-labs/sui-wallet",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:owncloud:scope_updated",
-      "programId": "program:owncloud",
-      "programName": "OwnCloud",
-      "platform": "Self-hosted",
-      "url": "https://hackerone.com/owncloud",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:phabricator:scope_updated",
-      "programId": "program:phabricator",
-      "programName": "Phabricator",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/phabricator",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:ruby:scope_updated",
-      "programId": "program:ruby",
-      "programName": "Ruby",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/ruby",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:shido:scope_updated",
-      "programId": "program:shido",
-      "programName": "Shido",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/shido/shido-network-protocol",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:smardex:scope_updated",
-      "programId": "program:smardex",
-      "programName": "SmarDex",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/smardex/smardex-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:smilee:scope_updated",
-      "programId": "program:smilee",
-      "programName": "Smilee",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/smilee/smilee-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:sui:scope_updated",
-      "programId": "program:sui",
-      "programName": "Sui",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/sui/sui-protocol",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:superfluid:scope_updated",
-      "programId": "program:superfluid",
-      "programName": "Superfluid",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/superfluid/superfluid-super-token-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:swisscom:scope_updated",
-      "programId": "program:swisscom",
-      "programName": "Swisscom",
-      "platform": "Self-hosted",
-      "url": "https://github.com/swisscom/bugbounty",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "static-source",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:tetu:scope_updated",
-      "programId": "program:tetu",
-      "programName": "TETU",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/tetu/tetu-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:trustee:scope_updated",
-      "programId": "program:trustee",
-      "programName": "Trustee",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/trustee/trustee-plus-mobile",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-12T01:11:18.269Z:program:vaultka:scope_updated",
-      "programId": "program:vaultka",
-      "programName": "Vaultka",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/vaultka/vaultka-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-12T01:11:18.269Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:circle-bbp:scope_updated",
-      "programId": "program:circle-bbp",
-      "programName": "Circle BBP",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/circle-bbp",
-      "score": 54,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 2
-      },
-      "evScore": 0,
-      "workflow": "static-source",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:swiss-post:scope_updated",
-      "programId": "program:swiss-post",
-      "programName": "Swiss Post",
-      "platform": "YesWeHack",
-      "url": "https://yeswehack.com/programs/swiss-post",
-      "score": 47,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z"
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "invite-only program"
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:mercadolibre:scope_updated",
-      "programId": "program:mercadolibre",
-      "programName": "MercadoLibre",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/mercadolibre",
-      "score": 36,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 2
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:1inch:scope_updated",
-      "programId": "program:1inch",
-      "programName": "1inch",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/1inch/1inch-smart-contract",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:assetmantle:scope_updated",
-      "programId": "program:assetmantle",
-      "programName": "AssetMantle",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/assetmantle/assetmantle",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "HIGH severity ceiling is below the CRITICAL program floor"
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:blueberry-protocol-foundation:scope_updated",
-      "programId": "program:blueberry-protocol-foundation",
-      "programName": "Blueberry Protocol Foundation",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/blueberry-protocol-foundation/blueberry-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:civic:scope_updated",
-      "programId": "program:civic",
-      "programName": "Civic",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/civic/civic-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:coinmate-io:scope_updated",
-      "programId": "program:coinmate-io",
-      "programName": "CoinMate.io",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/coinmate",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:deltaprime:scope_updated",
-      "programId": "program:deltaprime",
-      "programName": "DeltaPrime",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/deltaprime/deltaprime-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:dexe-protocol:scope_updated",
-      "programId": "program:dexe-protocol",
-      "programName": "DeXe Protocol",
-      "platform": "Self-hosted",
-      "url": "https://hackenproof.com/dexe-protocol/dexe-protocol-smart-contracts",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": "KYC required"
-    },
-    {
-      "id": "2026-09-11T22:38:36.648Z:program:django:scope_updated",
-      "programId": "program:django",
-      "programName": "Django",
-      "platform": "HackerOne",
-      "url": "https://hackerone.com/django",
-      "score": 33,
-      "change": {
-        "type": "scope_updated",
-        "label": "Scope or policy changed",
-        "at": "2026-09-11T22:38:36.648Z",
-        "removedTargets": 1
-      },
-      "evScore": 0,
-      "workflow": "live-web",
-      "excludeReason": null
     }
   ]
 }
