@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T01:11:18.269Z",
+  "generatedAt": "2026-09-12T05:53:20.719Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -110,7 +110,7 @@
     },
     "program:blueberry-protocol-foundation:0b2f27582e5575a7d5b5": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T05:53:20.719Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -126,7 +126,7 @@
     },
     "program:civic:3f3fa683422a5b89ec72": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T05:53:20.719Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
@@ -147,7 +147,7 @@
     },
     "program:coinmate-io:506fc9236b351984d8a0": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T05:53:20.719Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -163,7 +163,7 @@
     },
     "program:deltaprime:c796ad4881a772d27010": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T05:53:20.719Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
@@ -179,7 +179,7 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 6323,
+      "textBytes": 6030,
       "useful": true
     },
     "program:dexe-protocol:316df6d10e9c834dfbf1": {
