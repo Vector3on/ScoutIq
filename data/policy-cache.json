@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T14:12:12.938Z",
+  "generatedAt": "2026-09-12T17:14:33.565Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -316,7 +316,7 @@
     },
     "program:impermax-finance:0d05091fa4fe6b1f36e3": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T17:14:33.565Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
@@ -337,7 +337,7 @@
     },
     "program:kinza:493c6171cf158b9b57fc": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T17:14:33.565Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
@@ -358,7 +358,7 @@
     },
     "program:kolibrio:ca025947a19d9e7656a8": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T17:14:33.565Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
@@ -379,7 +379,7 @@
     },
     "program:metis:248842b1add052083695": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T17:14:33.565Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
