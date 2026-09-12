@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T05:53:20.719Z",
+  "generatedAt": "2026-09-12T10:53:57.467Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -184,7 +184,7 @@
     },
     "program:dexe-protocol:316df6d10e9c834dfbf1": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T10:53:57.467Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
@@ -205,7 +205,7 @@
     },
     "program:django:be10e8ab9c7750dafe3b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T10:53:57.467Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -221,7 +221,7 @@
     },
     "program:dodoex:f1693ed5b1eaf0dd1403": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T10:53:57.467Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1844,7 +1844,7 @@
     },
     "program:fis:69a99191f14ee3a5b4f8": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-12T10:53:57.467Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
