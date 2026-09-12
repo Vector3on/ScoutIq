@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T10:53:57.467Z",
+  "generatedAt": "2026-09-12T14:12:12.938Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -237,7 +237,7 @@
     },
     "program:envelop:46908c7074e7b46e3b7b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T14:12:12.938Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -258,7 +258,7 @@
     },
     "program:fastex:763d651102df3618bf48": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T14:12:12.938Z",
       "source": "official-policy",
       "programFloorSeverity": "CRITICAL",
       "floorSource": "scraped-reward-table",
@@ -279,7 +279,7 @@
     },
     "program:grafana-labs:164cba59fe9288d47be9": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T14:12:12.938Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -295,7 +295,7 @@
     },
     "program:horizon-protocol:c1c8077c55d8cb592aba": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T14:12:12.938Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
