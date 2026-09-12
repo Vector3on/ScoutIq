@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T17:14:33.565Z",
+  "generatedAt": "2026-09-12T19:27:12.466Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -395,7 +395,7 @@
     },
     "program:mysten-labs:aea2e0771a03e2cba8dd": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T19:27:12.466Z",
       "source": "official-policy",
       "programFloorSeverity": "LOW",
       "floorSource": "scraped-reward-table",
@@ -416,7 +416,7 @@
     },
     "program:owncloud:100d18af0e2c9576ef61": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T19:27:12.466Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -432,7 +432,7 @@
     },
     "program:phabricator:0402fac19fe5f16c0847": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T19:27:12.466Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -448,7 +448,7 @@
     },
     "program:ruby:a461a6e306e2ee1da37f": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-12T19:27:12.466Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
