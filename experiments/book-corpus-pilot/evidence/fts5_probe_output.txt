@@ -1,0 +1,47 @@
+python 3.11.15 sqlite 3.45.1 utc 2026-09-13T12:40:26.001119Z
+compileoption ENABLE_FTS5: 1
+fts5 create-table probe: OK
+tokenizer OK: unicode61
+tokenizer OK: unicode61 remove_diacritics 2
+tokenizer OK: porter unicode61
+tokenizer OK: trigram
+tokenizer OK: ascii
+
+SQL: select passages.passage_id, passages.book_id, passages.loc_ref, bm25(passages_fts) as score from passages_fts join passages on passages.passage_id = passages_fts.rowid where passages_fts match ? order by bm25(passages_fts) limit 5 ('utilitarian*',)
+   (2, 'bookA', '13', -0.34792429005564646)
+   (1, 'bookA', '12', -0.33179178819835214)
+
+SQL: select rowid, rank from passages_fts where passages_fts match ? order by rank ('"moral relativism"',)
+   (3, -1.1090421521681235)
+
+SQL: select rowid from passages_fts where passages_fts match ? ('NEAR(innocent utility, 10)',)
+   (2,)
+
+SQL: select rowid from passages_fts where passages_fts match ? ('text: naive',)
+   (3,)
+   (4,)
+
+SQL: select rowid from passages_fts where passages_fts match ? ('zurich',)
+   (4,)
+
+SQL: select rowid, snippet(passages_fts, 0, '[', ']', '…', 8) from passages_fts where passages_fts match ? ('happiness OR utility',)
+   (1, '…action maximises overall [happiness]. Bentham and Mill defended…')
+   (2, '…punishing an innocent person if that maximises [utility].')
+
+SQL: select rowid, highlight(passages_fts, 0, '<b>', '</b>') from passages_fts where passages_fts match ? ('"innocent person"',)
+   (2, 'Critics of utilitarianism argue that it can justify punishing an <b>innocent person</b> if that maximises utility.')
+
+sanitised query: "AND" "OR" "NOT" "(" """unbalanced"
+
+SQL: select count(*) from passages_fts where passages_fts match ? ('"AND" "OR" "NOT" "(" """unbalanced"',)
+   (0,)
+raw user input raises OperationalError as expected: fts5: syntax error near "AND"
+
+SQL: select count(*) from passages_fts where passages_fts match ? ('relativism',)
+   (0,)
+fts5 command OK: integrity-check
+fts5 command OK: optimize
+fts5 command OK: rebuild
+integrity-check after rebuild OK
+
+ALL FTS5 PROBES PASSED
