@@ -232,7 +232,30 @@ scripts/policy-enrichment.mjs   policy scraper and severity floor parser
 scripts/live-enrichment.mjs     configured explorer/RPC live-state checks
 scripts/ev-core.mjs             class map, indices, traps, hard filters, EV
 scripts/query.mjs               default, live, and fresh-source CLI lanes
+scripts/verify-loop.mjs         verify-loop CLI (hybrid LLM + tool verification lane)
+scripts/verify-loop/            verify-loop module (ingest, hypothesize, confirm, gate, emit)
+config/verify-loop.json         verify-loop configuration
+config/verify-templates.json    {scenario, property} template library (100-area methodology)
 data/audited.json               persistent completed-audit memory
+data/verify-loop.json           verify-loop audit memory (confirmed findings + tool evidence)
+```
+
+## verify-loop module
+
+`verify-loop` is an opt-in hybrid verification harness: an LLM (or an offline
+matcher) proposes source-evident vulnerability candidates, deterministic tools
+(Slither, Mythril, Semgrep, CodeQL, Foundry, Echidna, Halmos, a local runtime
+harness, fuzzers) confirm or kill each one, and only tool-confirmed survivors are
+emitted with a commit permalink, the confirming evidence, a local PoC, and a
+drafted attacker request for the human to review. It analyzes locally-cloned code
+and local instances only — it never contacts a live third-party target, and the
+human confirms live reachability and files each finding. See
+[`scripts/verify-loop/README.md`](scripts/verify-loop/README.md).
+
+```bash
+npm run verify:classes                      # list supported vuln classes
+npm run verify -- --target /path/to/target  # run the loop locally
+npm run test:verify                         # module tests
 ```
 
 ## Responsible use

@@ -41,3 +41,6 @@ next-env.d.ts
 /outputs/
 /work/
 .radar-run.json
+
+# verify-loop runtime workdir (local target clones, per-run artifacts/PoCs)
+/.verify-loop/

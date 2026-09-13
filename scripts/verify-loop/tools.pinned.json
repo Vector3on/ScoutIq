@@ -1,0 +1,19 @@
+{
+  "note": "Pinned confirmer versions for the verify-loop. install-tools.sh installs these exact versions; the availability probe records whatever is on PATH. Bump deliberately.",
+  "static": {
+    "slither": { "pip": "slither-analyzer==0.10.4", "bin": "slither" },
+    "semgrep": { "pip": "semgrep==1.86.0", "bin": "semgrep" },
+    "codeql": { "release": "codeql-bundle-v2.19.3", "url": "https://github.com/github/codeql-action/releases/download/codeql-bundle-v2.19.3/codeql-bundle-linux64.tar.gz", "bin": "codeql" }
+  },
+  "dynamic_contracts": {
+    "foundry": { "installer": "foundryup", "version": "nightly-2024-11-01", "bin": "forge" },
+    "echidna": { "release": "v2.2.4", "url": "https://github.com/crytic/echidna/releases/download/v2.2.4/echidna-2.2.4-x86_64-linux.tar.gz", "bin": "echidna" },
+    "halmos": { "pip": "halmos==0.2.4", "bin": "halmos" },
+    "mythril": { "pip": "mythril==0.24.8", "bin": "myth" }
+  },
+  "dynamic_web": {
+    "docker": { "bin": "docker", "note": "operator-provided; used to run the local instance/harness container" },
+    "atheris": { "pip": "atheris==2.3.0", "note": "python libFuzzer bindings for the payload step" },
+    "aflpp": { "apt": "afl++", "bin": "afl-fuzz" }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "target": {
+    "repoPath": "",
+    "gitUrl": "",
+    "ref": "",
+    "permalinkBase": ""
+  },
+  "stack": "auto",
+  "vulnClasses": [],
+  "hypothesizer": {
+    "provider": "deterministic",
+    "maxCandidates": 40,
+    "anthropic": {
+      "model": "claude-opus-5",
+      "apiKeyEnv": "ANTHROPIC_API_KEY",
+      "baseUrl": "https://api.anthropic.com",
+      "maxTokens": 16000,
+      "maxFilesPerBatch": 10
+    },
+    "command": {
+      "argv": []
+    }
+  },
+  "tools": {
+    "slither": "",
+    "semgrep": "",
+    "codeql": "",
+    "forge": "",
+    "echidna": "",
+    "halmos": "",
+    "mythril": "",
+    "docker": "",
+    "semgrepRules": "",
+    "codeqlDb": "",
+    "customDetectorDir": ""
+  },
+  "confirm": {
+    "timeoutMs": 240000,
+    "requireDynamicPoc": false,
+    "codeqlCreateDb": false,
+    "runtimeHarnessScript": "",
+    "foundryPocPath": "",
+    "echidnaPocPath": "",
+    "halmosTestPath": "",
+    "fuzzHarnessArgv": []
+  },
+  "localInstance": {
+    "baseUrl": "",
+    "containerName": "",
+    "allowNonLocalAck": false
+  },
+  "templatesPath": "config/verify-templates.json",
+  "auditStore": "data/verify-loop.json",
+  "scanGlobs": [],
+  "maxFileBytes": 1000000,
+  "maxFiles": 4000
+}

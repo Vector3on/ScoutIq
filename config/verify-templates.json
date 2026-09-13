@@ -1,0 +1,555 @@
+{
+  "version": 1,
+  "methodology": "100-area",
+  "note": "Each template pairs a semantic scenario (LLM step) with a checkable property (tool step). `signals` are greppable hints for the offline deterministic matcher; `confirmers` are the tools that can prove the property. Extend freely — ids must be unique.",
+  "templates": [
+    {
+      "id": "sol-reentrancy",
+      "vulnClass": "reentrancy",
+      "stacks": ["solidity"],
+      "severityHint": "HIGH",
+      "scenario": "A function performs an external call or native-value transfer and then mutates contract state that the call depended on, or calls an untrusted contract before settling balances.",
+      "property": "Every state variable that guards the external interaction is committed before the call (checks-effects-interactions), or the function is wrapped by a non-reentrant guard.",
+      "signals": {
+        "sink": ["\\.call\\{value", "\\.call\\(", "\\.delegatecall\\(", "\\.transfer\\(", "\\.send\\(", "safeTransfer", "safeTransferFrom"],
+        "source": ["msg\\.sender", "external", "public"],
+        "negate": ["nonReentrant", "ReentrancyGuard", "_status"],
+        "contextWindow": 30
+      },
+      "confirmers": ["slither", "foundry", "echidna"],
+      "poc": "foundry",
+      "q1": "Deploy an attacker contract whose receive()/fallback re-enters the target before the first external call returns; assert the tracked balance or accounting invariant is violated."
+    },
+    {
+      "id": "sol-access-control",
+      "vulnClass": "missing-access-control",
+      "stacks": ["solidity"],
+      "severityHint": "HIGH",
+      "scenario": "A state-changing or privileged function (mint, burn, withdraw, setOwner, upgrade, pause, setFee, rescue) is externally callable with no owner/role check.",
+      "property": "Every privileged entry point enforces caller authorization (onlyOwner/AccessControl role/explicit msg.sender check) before mutating protected state.",
+      "signals": {
+        "sink": ["function\\s+(mint|burn|withdraw|setOwner|transferOwnership|upgrade|pause|unpause|setFee|rescue|initialize|setAdmin|grantRole)\\b"],
+        "source": ["external", "public"],
+        "negate": ["onlyOwner", "onlyRole", "onlyAdmin", "require\\(msg\\.sender", "_checkOwner", "hasRole", "initializer", "onlyGovernance"],
+        "contextWindow": 6
+      },
+      "confirmers": ["slither", "foundry", "mythril"],
+      "poc": "foundry",
+      "q1": "From an unprivileged account, call the privileged function directly and assert the protected state changes (ownership moves, tokens mint, funds leave)."
+    },
+    {
+      "id": "sol-unchecked-call",
+      "vulnClass": "unchecked-low-level-call",
+      "stacks": ["solidity"],
+      "severityHint": "MEDIUM",
+      "scenario": "The boolean return of a low-level call/send/delegatecall is ignored, so a silent failure is treated as success.",
+      "property": "Every low-level call's success flag is checked (require/if-revert) before the function proceeds as if it succeeded.",
+      "signals": {
+        "sink": ["\\.call\\(", "\\.call\\{", "\\.delegatecall\\(", "\\.send\\("],
+        "negate": ["require\\(", "if\\s*\\(!", "bool\\s+success", "assert\\("],
+        "contextWindow": 3
+      },
+      "confirmers": ["slither", "foundry"],
+      "poc": "foundry",
+      "q1": "Force the external call to fail (revert in the callee) and assert the caller still treats the operation as successful, leaving inconsistent state."
+    },
+    {
+      "id": "sol-price-oracle-manipulation",
+      "vulnClass": "price-oracle-manipulation",
+      "stacks": ["solidity"],
+      "severityHint": "HIGH",
+      "scenario": "A price or exchange rate is derived from spot AMM reserves or a single balanceOf reading rather than a manipulation-resistant oracle (TWAP/Chainlink).",
+      "property": "Prices used for value-bearing decisions come from a manipulation-resistant source; a single-block reserve/balance read cannot move the quoted price.",
+      "signals": {
+        "sink": ["getReserves\\(", "getAmountOut", "getAmountsOut", "balanceOf\\(address\\(this\\)\\)", "token0\\(\\)", "\\.price0CumulativeLast"],
+        "source": ["swap", "liquidate", "borrow", "collateral", "redeem"],
+        "negate": ["consult\\(", "latestRoundData", "TWAP", "twap", "chainlink", "AggregatorV3"],
+        "contextWindow": 20
+      },
+      "confirmers": ["slither", "foundry", "halmos"],
+      "poc": "foundry",
+      "q1": "In a forked/local test, take a flash loan, skew the pool reserves, trigger the price-dependent path, and assert value is extracted at the manipulated price."
+    },
+    {
+      "id": "sol-delegatecall-untrusted",
+      "vulnClass": "dangerous-delegatecall",
+      "stacks": ["solidity"],
+      "severityHint": "CRITICAL",
+      "scenario": "delegatecall targets an address that is user-supplied or mutable without strict validation, letting an attacker execute code in the contract's storage context.",
+      "property": "delegatecall targets are fixed or governed by a trusted allowlist; no externally-influenced address can be delegatecalled.",
+      "signals": {
+        "sink": ["\\.delegatecall\\("],
+        "source": ["address\\s+\\w+", "calldata", "msg\\.data", "function\\s+\\w+\\([^)]*address"],
+        "negate": ["immutable", "constant", "require\\(.*allow", "isTrusted"],
+        "contextWindow": 12
+      },
+      "confirmers": ["slither", "foundry", "mythril"],
+      "poc": "foundry",
+      "q1": "Supply an attacker-controlled implementation address to the delegatecall path and assert arbitrary storage writes (e.g. overwrite the owner slot)."
+    },
+    {
+      "id": "sol-tx-origin-auth",
+      "vulnClass": "tx-origin-auth",
+      "stacks": ["solidity"],
+      "severityHint": "MEDIUM",
+      "scenario": "Authorization compares against tx.origin, which a malicious intermediary contract can satisfy via a phishing call.",
+      "property": "Authorization uses msg.sender (or a signature), never tx.origin.",
+      "signals": {
+        "sink": ["tx\\.origin"],
+        "negate": [],
+        "contextWindow": 2
+      },
+      "confirmers": ["slither", "foundry"],
+      "poc": "foundry",
+      "q1": "Route the call through an attacker contract so tx.origin is the victim while msg.sender is the attacker, and assert the tx.origin check passes."
+    },
+    {
+      "id": "sol-signature-replay",
+      "vulnClass": "signature-replay",
+      "stacks": ["solidity"],
+      "severityHint": "HIGH",
+      "scenario": "A signed message is verified with ecrecover but the signed payload lacks a nonce, deadline, or chain/domain separator, allowing replay.",
+      "property": "Every accepted signature is bound to a consumed nonce and a domain separator (EIP-712), so it cannot be replayed across calls or chains.",
+      "signals": {
+        "sink": ["ecrecover\\(", "recover\\(", "ECDSA\\.recover"],
+        "negate": ["nonce", "_nonces", "deadline", "DOMAIN_SEPARATOR", "usedSignatures", "_hashTypedData"],
+        "contextWindow": 25
+      },
+      "confirmers": ["slither", "foundry"],
+      "poc": "foundry",
+      "q1": "Submit a captured valid signature twice (or on a second chain id) and assert both submissions succeed."
+    },
+    {
+      "id": "sol-unprotected-selfdestruct",
+      "vulnClass": "unprotected-selfdestruct",
+      "stacks": ["solidity"],
+      "severityHint": "CRITICAL",
+      "scenario": "selfdestruct (or a delegatecalled library that can) is reachable from an unauthorized path.",
+      "property": "selfdestruct is unreachable by an unauthorized caller.",
+      "signals": {
+        "sink": ["selfdestruct\\(", "suicide\\("],
+        "negate": ["onlyOwner", "onlyRole", "require\\(msg\\.sender"],
+        "contextWindow": 8
+      },
+      "confirmers": ["slither", "foundry", "mythril"],
+      "poc": "foundry",
+      "q1": "From an unprivileged account reach the selfdestruct path and assert the contract code is removed (balance swept)."
+    },
+
+    {
+      "id": "js-sql-injection",
+      "vulnClass": "sql-injection",
+      "stacks": ["js-ts"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is concatenated or template-interpolated into a SQL string passed to a driver, instead of being bound as a parameter.",
+      "property": "No taint path exists from request input to the SQL string; all user values are bound parameters.",
+      "signals": {
+        "sink": ["\\.query\\(", "\\.execute\\(", "sequelize\\.query", "knex\\.raw", "\\.\\$queryRawUnsafe"],
+        "source": ["req\\.(params|query|body|headers|cookies)", "request\\.", "ctx\\.request"],
+        "any": ["`.*\\$\\{", "\" \\+", "' \\+", "\\+ req\\."],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, send a boolean-based payload (e.g. `' OR '1'='1`) and a negative variant to the endpoint and assert the responses diverge."
+    },
+    {
+      "id": "js-command-injection",
+      "vulnClass": "command-injection",
+      "stacks": ["js-ts"],
+      "severityHint": "CRITICAL",
+      "scenario": "Request-derived input flows into child_process exec/execSync (or spawn with shell:true) as part of the command string.",
+      "property": "User input never becomes part of a shell command string; commands use argument arrays with no shell, or input is strictly validated against an allowlist.",
+      "signals": {
+        "sink": ["exec\\(", "execSync\\(", "execFile\\(", "spawn\\(", "child_process"],
+        "source": ["req\\.(params|query|body|headers)", "process\\.argv", "request\\."],
+        "any": ["shell\\s*:\\s*true", "`.*\\$\\{", "\" \\+", "' \\+"],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness", "fuzzer"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, inject a sentinel command (e.g. `; echo VERIFY-$RANDOM`) and assert the sentinel marker appears in the response or local side effect."
+    },
+    {
+      "id": "js-path-traversal",
+      "vulnClass": "path-traversal",
+      "stacks": ["js-ts"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is joined into a filesystem path passed to fs read/write or res.sendFile without normalization/containment.",
+      "property": "Resolved paths are confined to an intended base directory; `../` sequences cannot escape it.",
+      "signals": {
+        "sink": ["readFile", "readFileSync", "createReadStream", "sendFile", "writeFile", "\\.pipe\\("],
+        "source": ["req\\.(params|query|body)", "request\\."],
+        "any": ["path\\.join\\(", "path\\.resolve\\(", "`.*\\$\\{"],
+        "negate": ["path\\.normalize", "startsWith\\(", "resolve\\(base"],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, request a traversal path (e.g. `..%2f..%2fetc%2fpasswd`) and assert out-of-root content is returned."
+    },
+    {
+      "id": "js-ssrf",
+      "vulnClass": "ssrf",
+      "stacks": ["js-ts"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is used as the URL/host for an outbound fetch/axios/http request with no allowlist.",
+      "property": "Outbound request targets are validated against an allowlist; user input cannot select an arbitrary internal host/metadata endpoint.",
+      "signals": {
+        "sink": ["fetch\\(", "axios\\.", "axios\\(", "http\\.get\\(", "https\\.get\\(", "got\\(", "\\.request\\("],
+        "source": ["req\\.(params|query|body)", "request\\."],
+        "negate": ["allowlist", "allowList", "isAllowedHost", "URL\\(.*\\).hostname ==="],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, point the target URL at a LOCAL canary server and assert the application fetches it (observed on the canary)."
+    },
+    {
+      "id": "js-prototype-pollution",
+      "vulnClass": "prototype-pollution",
+      "stacks": ["js-ts"],
+      "severityHint": "HIGH",
+      "scenario": "A recursive merge/extend/set assigns object keys from user input without blocking __proto__/constructor/prototype keys.",
+      "property": "Merge/assign operations reject or skip __proto__/constructor/prototype keys so attacker input cannot alter Object.prototype.",
+      "signals": {
+        "sink": ["merge\\(", "extend\\(", "deepAssign", "_\\.merge", "_\\.set", "setIn", "defaultsDeep"],
+        "source": ["req\\.(body|query|params)", "JSON\\.parse"],
+        "negate": ["__proto__", "hasOwnProperty", "Object\\.freeze", "prototype pollution"],
+        "contextWindow": 8
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, POST a payload with a `__proto__` key and assert a polluted default property is later observed on an unrelated object/response."
+    },
+    {
+      "id": "js-insecure-deserialization",
+      "vulnClass": "insecure-deserialization",
+      "stacks": ["js-ts"],
+      "severityHint": "CRITICAL",
+      "scenario": "Untrusted input is passed to node-serialize unserialize, eval, Function, or vm without a sandbox.",
+      "property": "No untrusted input reaches a code-evaluating sink; deserialization uses a safe, data-only parser.",
+      "signals": {
+        "sink": ["unserialize\\(", "eval\\(", "new Function\\(", "vm\\.runIn", "node-serialize"],
+        "source": ["req\\.(body|query|params|cookies)", "request\\."],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, submit a serialized payload with an immediately-invoked function carrying a sentinel side effect and assert the sentinel fires locally."
+    },
+    {
+      "id": "js-broken-access-control",
+      "vulnClass": "broken-access-control",
+      "stacks": ["js-ts"],
+      "severityHint": "HIGH",
+      "scenario": "A route handler loads or mutates a resource by an id taken from the request without verifying the caller owns or may access it (IDOR).",
+      "property": "Every resource access checks caller ownership/authorization against the requested id before returning or mutating data.",
+      "signals": {
+        "sink": ["findById", "findOne\\(", "\\.get\\(.*id", "deleteOne", "updateOne", "findByPk"],
+        "source": ["req\\.params\\.(id|userId|accountId|uuid)", "req\\.query\\.id"],
+        "negate": ["req\\.user", "ownerId ===", "authorize\\(", "can\\(", "ability\\."],
+        "contextWindow": 10
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, authenticate as user A and request user B's resource id; assert B's data is returned."
+    },
+    {
+      "id": "js-xss",
+      "vulnClass": "xss",
+      "stacks": ["js-ts"],
+      "severityHint": "MEDIUM",
+      "scenario": "Request-derived input is written into an HTML response or DOM sink (res.send, innerHTML, dangerouslySetInnerHTML) without encoding.",
+      "property": "User input rendered into HTML is contextually encoded or sanitized; it cannot introduce active markup.",
+      "signals": {
+        "sink": ["res\\.send\\(", "res\\.write\\(", "innerHTML", "dangerouslySetInnerHTML", "\\.html\\("],
+        "source": ["req\\.(params|query|body)", "location\\.", "document\\.URL"],
+        "negate": ["escape\\(", "sanitize", "DOMPurify", "encodeURI"],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, submit an input containing a unique marker tag and assert it is reflected unencoded in the HTML response."
+    },
+
+    {
+      "id": "py-sql-injection",
+      "vulnClass": "sql-injection",
+      "stacks": ["python"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is f-string/%/+ interpolated into a SQL string passed to cursor.execute, instead of using bound parameters.",
+      "property": "No taint path from request input to the SQL string; all user values are bound via execute parameters.",
+      "signals": {
+        "sink": ["\\.execute\\(", "\\.executemany\\(", "text\\(", "\\.raw\\("],
+        "source": ["request\\.", "flask\\.request", "self\\.request", "\\.args\\[", "\\.form\\[", "\\.GET", "\\.POST"],
+        "any": ["f\"", "f'", "%\\s*\\(", "\" %", "' %", "\\+ "],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, send a boolean-based payload and its negation to the endpoint and assert the responses diverge."
+    },
+    {
+      "id": "py-command-injection",
+      "vulnClass": "command-injection",
+      "stacks": ["python"],
+      "severityHint": "CRITICAL",
+      "scenario": "Request-derived input flows into os.system, subprocess with shell=True, os.popen, or commands.getoutput.",
+      "property": "User input never becomes part of a shell string; subprocess calls use argument lists with shell=False, or input is allowlisted.",
+      "signals": {
+        "sink": ["os\\.system\\(", "os\\.popen\\(", "subprocess\\.(run|call|Popen|check_output)", "commands\\.getoutput"],
+        "source": ["request\\.", "\\.args\\[", "\\.form\\[", "\\.GET", "\\.POST", "sys\\.argv"],
+        "any": ["shell\\s*=\\s*True", "f\"", "f'", "\\+ ", "% "],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness", "fuzzer"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, inject a sentinel command and assert the sentinel marker appears in the response or a local side effect."
+    },
+    {
+      "id": "py-path-traversal",
+      "vulnClass": "path-traversal",
+      "stacks": ["python"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is joined into a filesystem path passed to open/send_file without containment.",
+      "property": "Resolved paths are confined to an intended base directory; traversal sequences cannot escape it.",
+      "signals": {
+        "sink": ["open\\(", "send_file\\(", "send_from_directory\\(", "io\\.open\\(", "Path\\("],
+        "source": ["request\\.", "\\.args\\[", "\\.form\\[", "\\.GET", "\\.POST"],
+        "any": ["os\\.path\\.join", "\\+ ", "f\"", "f'"],
+        "negate": ["os\\.path\\.realpath", "\\.startswith\\(", "secure_filename", "abspath"],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, request a traversal path and assert out-of-root file content is returned."
+    },
+    {
+      "id": "py-ssrf",
+      "vulnClass": "ssrf",
+      "stacks": ["python"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is used as the URL for requests/urllib/httpx without an allowlist.",
+      "property": "Outbound request targets are validated against an allowlist; user input cannot select an internal host/metadata endpoint.",
+      "signals": {
+        "sink": ["requests\\.(get|post|put|request)", "urllib\\.request\\.urlopen", "httpx\\.", "aiohttp"],
+        "source": ["request\\.", "\\.args\\[", "\\.form\\[", "\\.GET", "\\.POST"],
+        "negate": ["allowlist", "allowed_hosts", "urlparse\\(.*\\)\\.hostname in"],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, point the target URL at a LOCAL canary server and assert the application fetches it."
+    },
+    {
+      "id": "py-insecure-deserialization",
+      "vulnClass": "insecure-deserialization",
+      "stacks": ["python"],
+      "severityHint": "CRITICAL",
+      "scenario": "Untrusted input is passed to pickle.loads, yaml.load (unsafe loader), jsonpickle, or marshal.",
+      "property": "No untrusted input reaches an object-constructing deserializer; data uses a safe loader (yaml.safe_load, json).",
+      "signals": {
+        "sink": ["pickle\\.loads\\(", "pickle\\.load\\(", "yaml\\.load\\(", "jsonpickle\\.decode", "marshal\\.loads", "dill\\.loads"],
+        "source": ["request\\.", "\\.data", "\\.body", "\\.args\\[", "\\.form\\["],
+        "negate": ["yaml\\.safe_load", "Loader=yaml\\.SafeLoader"],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, submit a crafted pickle/yaml payload whose __reduce__ writes a sentinel file locally and assert the sentinel appears."
+    },
+    {
+      "id": "py-template-injection",
+      "vulnClass": "template-injection",
+      "stacks": ["python"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is concatenated into a Jinja/template string passed to render_template_string or Template().render.",
+      "property": "User input is passed as template *data*, never compiled as template *source*.",
+      "signals": {
+        "sink": ["render_template_string\\(", "Template\\(", "\\.from_string\\(", "env\\.from_string"],
+        "source": ["request\\.", "\\.args\\[", "\\.form\\[", "\\.GET", "\\.POST"],
+        "any": ["f\"", "f'", "\\+ ", "% "],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, submit `{{7*7}}` (and a Jinja arithmetic marker) and assert the evaluated result appears in the response."
+    },
+    {
+      "id": "py-xxe",
+      "vulnClass": "xxe",
+      "stacks": ["python"],
+      "severityHint": "HIGH",
+      "scenario": "XML from request input is parsed with external entity / DTD resolution enabled (lxml with resolve_entities, xml.etree without defenses).",
+      "property": "XML parsing disables external entities, DTDs, and network access for untrusted documents.",
+      "signals": {
+        "sink": ["etree\\.parse\\(", "etree\\.fromstring\\(", "lxml", "parseString\\(", "minidom\\.parse"],
+        "source": ["request\\.", "\\.data", "\\.body", "\\.files"],
+        "negate": ["resolve_entities=False", "no_network=True", "forbid_dtd", "defusedxml"],
+        "contextWindow": 8
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, submit an XML doc with a DOCTYPE entity referencing a LOCAL file/canary and assert the entity is resolved."
+    },
+
+    {
+      "id": "php-sql-injection",
+      "vulnClass": "sql-injection",
+      "stacks": ["php"],
+      "severityHint": "HIGH",
+      "scenario": "Superglobal input is concatenated into a SQL string passed to mysqli_query/PDO::query instead of a prepared statement.",
+      "property": "No taint path from superglobal input to the SQL string; queries are prepared with bound parameters.",
+      "signals": {
+        "sink": ["mysqli_query\\(", "->query\\(", "mysql_query\\(", "->exec\\(", "pg_query\\("],
+        "source": ["\\$_(GET|POST|REQUEST|COOKIE)", "\\$_SERVER"],
+        "any": ["\\. \\$", "\\.\\$", "\"\\s*\\.\\s*\\$", "\\{\\$"],
+        "negate": ["->prepare\\(", "bindParam", "bindValue"],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, send a boolean-based payload and its negation and assert the responses diverge."
+    },
+    {
+      "id": "php-command-injection",
+      "vulnClass": "command-injection",
+      "stacks": ["php"],
+      "severityHint": "CRITICAL",
+      "scenario": "Superglobal input flows into system/exec/shell_exec/passthru/popen as part of the command string.",
+      "property": "User input never becomes part of a shell command; calls use escaped, allowlisted arguments or avoid the shell entirely.",
+      "signals": {
+        "sink": ["system\\(", "exec\\(", "shell_exec\\(", "passthru\\(", "popen\\(", "proc_open\\(", "`"],
+        "source": ["\\$_(GET|POST|REQUEST|COOKIE)"],
+        "negate": ["escapeshellarg", "escapeshellcmd"],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness", "fuzzer"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, inject a sentinel command and assert the sentinel marker appears in the response or a local side effect."
+    },
+    {
+      "id": "php-file-inclusion",
+      "vulnClass": "file-inclusion",
+      "stacks": ["php"],
+      "severityHint": "CRITICAL",
+      "scenario": "Superglobal input is used in include/require/include_once path, allowing local or remote file inclusion.",
+      "property": "Included paths come from a fixed allowlist; user input cannot select the included file.",
+      "signals": {
+        "sink": ["include\\(", "include_once\\(", "require\\(", "require_once\\(", "include ", "require "],
+        "source": ["\\$_(GET|POST|REQUEST|COOKIE)"],
+        "negate": ["basename\\(", "in_array\\(", "allowlist", "whitelist"],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, set the page parameter to a traversal path or php://filter wrapper and assert unintended file content is included."
+    },
+    {
+      "id": "php-insecure-deserialization",
+      "vulnClass": "insecure-deserialization",
+      "stacks": ["php"],
+      "severityHint": "CRITICAL",
+      "scenario": "Superglobal/untrusted input is passed to unserialize(), enabling PHP object injection via magic methods.",
+      "property": "Untrusted input is never unserialize()d; data uses json_decode or an allowlisted class set.",
+      "signals": {
+        "sink": ["unserialize\\("],
+        "source": ["\\$_(GET|POST|REQUEST|COOKIE)"],
+        "negate": ["allowed_classes", "json_decode"],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, submit a serialized object targeting a gadget whose magic method writes a sentinel locally and assert the sentinel appears."
+    },
+    {
+      "id": "php-xss",
+      "vulnClass": "xss",
+      "stacks": ["php"],
+      "severityHint": "MEDIUM",
+      "scenario": "Superglobal input is echoed/printed into HTML without htmlspecialchars encoding.",
+      "property": "User input rendered into HTML is encoded with htmlspecialchars/htmlentities in the correct context.",
+      "signals": {
+        "sink": ["echo ", "print ", "printf\\(", "print_r\\("],
+        "source": ["\\$_(GET|POST|REQUEST|COOKIE)"],
+        "negate": ["htmlspecialchars", "htmlentities", "strip_tags"],
+        "contextWindow": 2
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, submit a unique marker tag and assert it is reflected unencoded in the HTML response."
+    },
+
+    {
+      "id": "go-sql-injection",
+      "vulnClass": "sql-injection",
+      "stacks": ["go"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is fmt.Sprintf/concatenated into a SQL string passed to db.Query/Exec instead of using placeholders.",
+      "property": "No taint path from request input to the SQL string; queries use parameter placeholders.",
+      "signals": {
+        "sink": ["\\.Query\\(", "\\.QueryRow\\(", "\\.Exec\\(", "db\\.Query", "\\.Raw\\("],
+        "source": ["r\\.URL\\.Query", "mux\\.Vars", "c\\.Param", "c\\.Query", "r\\.FormValue", "ctx\\.Param"],
+        "any": ["fmt\\.Sprintf\\(", "\\+ "],
+        "negate": ["\\$1", "\\?,", "Prepare\\("],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, send a boolean-based payload and its negation and assert the responses diverge."
+    },
+    {
+      "id": "go-command-injection",
+      "vulnClass": "command-injection",
+      "stacks": ["go"],
+      "severityHint": "CRITICAL",
+      "scenario": "Request-derived input is passed to exec.Command via a shell (sh -c) or concatenated into the command string.",
+      "property": "User input is passed as a discrete argument to exec.Command without a shell, or allowlisted.",
+      "signals": {
+        "sink": ["exec\\.Command\\(", "exec\\.CommandContext\\("],
+        "source": ["r\\.URL\\.Query", "mux\\.Vars", "c\\.Param", "c\\.Query", "r\\.FormValue"],
+        "any": ["\"sh\"", "\"-c\"", "\"bash\"", "fmt\\.Sprintf\\(", "\\+ "],
+        "contextWindow": 4
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness", "fuzzer"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, inject a sentinel command and assert the sentinel marker appears in the response or a local side effect."
+    },
+    {
+      "id": "go-path-traversal",
+      "vulnClass": "path-traversal",
+      "stacks": ["go"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is joined into a filesystem path passed to os.Open/ioutil/http.ServeFile without containment.",
+      "property": "Resolved paths are confined to a base directory via filepath.Clean + prefix check; traversal cannot escape.",
+      "signals": {
+        "sink": ["os\\.Open\\(", "os\\.ReadFile\\(", "ioutil\\.ReadFile\\(", "http\\.ServeFile\\(", "os\\.Create\\("],
+        "source": ["r\\.URL\\.Query", "mux\\.Vars", "c\\.Param", "c\\.Query", "r\\.FormValue"],
+        "any": ["filepath\\.Join\\(", "path\\.Join\\(", "\\+ "],
+        "negate": ["filepath\\.Clean", "strings\\.HasPrefix", "filepath\\.Rel"],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, request a traversal path and assert out-of-root file content is returned."
+    },
+    {
+      "id": "go-ssrf",
+      "vulnClass": "ssrf",
+      "stacks": ["go"],
+      "severityHint": "HIGH",
+      "scenario": "Request-derived input is used as the URL for http.Get/http.NewRequest without an allowlist.",
+      "property": "Outbound request targets are validated against an allowlist; user input cannot select an internal host/metadata endpoint.",
+      "signals": {
+        "sink": ["http\\.Get\\(", "http\\.Post\\(", "http\\.NewRequest\\(", "client\\.Do\\(", "http\\.Head\\("],
+        "source": ["r\\.URL\\.Query", "mux\\.Vars", "c\\.Param", "c\\.Query", "r\\.FormValue"],
+        "negate": ["allowlist", "isAllowedHost", "net\\.ParseIP"],
+        "contextWindow": 5
+      },
+      "confirmers": ["semgrep", "codeql", "runtime-harness"],
+      "poc": "http-request",
+      "q1": "Against the LOCAL instance, point the target URL at a LOCAL canary server and assert the application fetches it."
+    }
+  ]
+}
