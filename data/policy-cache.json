@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-13T07:39:16.737Z",
+  "generatedAt": "2026-09-13T12:04:57.266Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -1945,7 +1945,7 @@
     },
     "program:luno-bug-bounty-program:5b3e28b10305cbb4320d": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T12:04:57.266Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1961,7 +1961,7 @@
     },
     "program:plaid:1d70fb59b821bbbf7539": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T12:04:57.266Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -3175,7 +3175,7 @@
       "resolvedReports": null,
       "textBytes": 8050,
       "useful": true,
-      "lastErrorAt": "2026-09-13T07:39:16.737Z",
+      "lastErrorAt": "2026-09-13T12:04:57.266Z",
       "lastError": "HTTP 404"
     },
     "program:rivian-bug-bounty:8fe7e8e85cf196d97525": {
@@ -3267,7 +3267,7 @@
     },
     "program:wyze-bug-bounty:ef99b236755f56217d4c": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:50:55.535Z",
+      "fetchedAt": "2026-09-13T12:04:57.266Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
