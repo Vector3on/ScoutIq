@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "note": "This file is the ONLY authorization the live lane trusts. The 'abode-intigriti' block is a template. The 'adobe-intigriti' block was PRE-FILLED from the public bounty-targets mirror (arkadiyt/bounty-targets-data) as a convenience — it is NOT verified and may be stale or wrong. Open the official Intigriti Adobe Public policy, confirm every entry, then set verifiedByUser=true. A discovery feed, this repo, and this file are NOT permission. Empty inScope or verifiedByUser=false means the scope guard denies everything (fail-closed).",
+  "activeEngagement": "adobe-intigriti",
+  "engagements": {
+    "adobe-intigriti": {
+      "program": "Adobe Public",
+      "platform": "Intigriti",
+      "policyUrl": "https://app.intigriti.com/programs/adobe/adobepublic/detail",
+      "researcherCountry": "IN",
+      "safeHarbor": null,
+      "programFloorSeverity": "MEDIUM",
+      "verifiedByUser": false,
+      "allowPrivateRanges": false,
+      "scopeSource": "arkadiyt/bounty-targets-data public mirror, fetched 2026-09-10 — UNVERIFIED, confirm against official policy",
+      "inScope": [
+        "*.acrobat.adobe.com",
+        "stock.adobe.com",
+        "firefly.adobe.com",
+        "*.lightroom.adobe.com",
+        "photoshop.adobe.com",
+        "new.express.adobe.com",
+        "fonts.adobe.com",
+        "account.adobe.com",
+        "auth.services.adobe.com",
+        "adobeid-na1.services.adobe.com",
+        "ims-na1.adobelogin.com",
+        "federatedid-na1.services.adobe.com",
+        "learningmanagerstage4.adobe.com",
+        "net.s2stagehance.com",
+        "portfolio.ccpsx.com",
+        "magento.com",
+        "account.magento.com",
+        "repo.magento.com",
+        "commercemarketplace.adobe.com"
+      ],
+      "outOfScope": [
+        "coldfusion.adobe.com"
+      ],
+      "nonHostAssets": {
+        "note": "In-scope assets that are products/apps, not hostnames — the SRC lane and mobile static analysis apply; confirm reporting eligibility in the policy.",
+        "sourceReview": ["Adobe Commerce", "Adobe Commerce B2B", "Magento Open Source (github.com/magento/magento2)"],
+        "server": ["ColdFusion Administrator (note: the mirror lists this both in and out of scope — resolve against the official policy)"],
+        "mobile": ["Frame.io iOS", "Adobe Fresco iOS", "Photoshop Express iOS", "Lightroom iOS/Android", "Adobe Scan iOS/Android", "Acrobat Reader iOS/Android"],
+        "aiFeatures": ["Acrobat AI Assistant", "Acrobat PDF Spaces", "Adobe Express AI Assistant", "Lightroom AI", "Firefly AI", "Photoshop AI Assistant", "Adobe Stock AI Studio"]
+      },
+      "notes": [
+        "Out-of-scope per policy summary: 'Adobe ColdFusion without ColdFusion Administrator', and RDS-dependent / sandbox-escape nuances — read the real policy.",
+        "Set verifiedByUser=true ONLY after confirming each entry on the official policy. Until then the guard denies all live actions.",
+        "The guard ALWAYS blocks loopback/RFC1918/link-local/metadata IPs regardless of this file."
+      ]
+    },
+    "abode-intigriti": {
+      "program": "Abode",
+      "platform": "Intigriti",
+      "policyUrl": "PASTE the exact Intigriti program URL here",
+      "researcherCountry": "IN",
+      "safeHarbor": null,
+      "programFloorSeverity": "MEDIUM",
+      "verifiedByUser": false,
+      "allowPrivateRanges": false,
+      "inScope": [],
+      "outOfScope": [],
+      "notes": [
+        "Template. Copy each in-scope host into 'inScope' exactly as the official policy lists it, then set verifiedByUser=true."
+      ]
+    }
+  }
+}
