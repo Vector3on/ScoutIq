@@ -1,0 +1,19 @@
+# The corpus itself is generated locally by scripts/update.sh and is NOT committed:
+# it is 8-12 GB and every source is publicly re-fetchable. Only the scaffolding
+# (.gitkeep), the scripts and the README are tracked.
+/vulnerability-data/*/*
+/frameworks/*/*
+/methodology/*
+/wordlists/*
+/writeups/*
+/exploits-reference/*
+!**/.gitkeep
+
+# run-time state
+/manifest.json
+/.last-update
+/.update.lock/
+/update.log
+*.part
+*.tmp
+/scripts/__pycache__/
