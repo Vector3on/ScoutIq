@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T22:21:52.799Z",
+  "generatedAt": "2026-09-13T01:05:27.182Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -548,7 +548,7 @@
     },
     "program:superfluid:da0575545e3c03d1efbb": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T01:05:27.182Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -564,7 +564,7 @@
     },
     "program:swisscom:c39b870e9e1e7210b3bf": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T01:05:27.182Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -580,7 +580,7 @@
     },
     "program:tetu:b1620510e04a74a9fac4": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T01:05:27.182Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
@@ -601,7 +601,7 @@
     },
     "program:trustee:ed2d908c73b221845cd8": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T01:05:27.182Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
