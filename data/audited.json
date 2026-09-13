@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-03T00:00:00.000Z",
+  "updatedAt": "2026-09-08T00:00:00.000Z",
   "entries": {
     "okx-go-wallet-sdk": {
       "verdict": "sub-bar",
@@ -78,6 +78,13 @@
       "notes": "Lightway core review yielded no payable issue and should not receive another blind audit.",
       "freshCodeIndexAtAudit": 0,
       "aliases": ["expressvpn/lightway", "expressvpn lightway", "lightway"]
+    },
+    "alchemix-v3": {
+      "verdict": "hardened",
+      "date": "2026-09-08",
+      "notes": "Immunefi, crit $20k-$150k, open/no-KYC, established program (launched 2026-02, not a new A/B launch). Source review of untrusted-reachable core at commit ea6f58b (AlchemistV3 position access-control, mintFrom allowance versioning + reset-on-transfer, liquidate/calculateLiquidation restoration math, health-check sync ordering) found no payable issue. calculateLiquidation arithmetic model (755 cases + controls) showed no over-seizure, debt underflow, or restore deviation in the reachable liquidatable band. 4+ pro audits (Spearbit/Cantina, Nethermind, yAudit, Aleph V). Not examined in depth (low prior): earmark/redemption Q128 accounting, MYT oracle pricing, transmuter coupling, convert rounding. Re-open only with a specific fresh angle.",
+      "freshCodeIndexAtAudit": 0,
+      "aliases": ["alchemix", "alchemix-v3", "alchemix finance", "alchemix-finance/v3"]
     }
   }
 }
