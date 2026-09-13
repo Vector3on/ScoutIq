@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-13T06:16:06.372Z",
+  "generatedAt": "2026-09-13T07:39:16.737Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -20,7 +20,7 @@
     },
     "program:aiven-managed-bug-bounty:3fdbea615f6309f59430": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -36,7 +36,7 @@
     },
     "program:fireblocks-mpc-managed-bug-bounty-engagement:bce5cf8477e65834f1c1": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -52,7 +52,7 @@
     },
     "program:opensea-managed-bug-bounty-program:8aad9224e529fec9e3e9": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T14:56:58.433Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -638,7 +638,7 @@
     },
     "program:electroneum-smart-chain-etn-sc-evm-compatible-blockchain:ff5dfe058d078681ee03": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -670,7 +670,7 @@
     },
     "program:immutable-bug-bounty:5d4636103fc2ec739689": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -686,7 +686,7 @@
     },
     "program:digitalocean:3e58fa78271465d8da95": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -700,12 +700,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 31529,
+      "textBytes": 31619,
       "useful": true
     },
     "program:binance:f682c3a3aa7ed8f25055": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -721,7 +721,7 @@
     },
     "program:electroneum-legacy-blockchain-eol:9a22346f0a1e442c732e": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -737,7 +737,7 @@
     },
     "program:swiss-post-e-voting:138340a87525d6f306e6": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "LOW",
       "floorSource": "scraped-reward-table",
@@ -753,12 +753,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 23740,
+      "textBytes": 23742,
       "useful": true
     },
     "program:trusted-firmware:87a2ba2c033e43b71545": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "CRITICAL",
       "floorSource": "scraped-reward-table",
@@ -771,12 +771,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 16927,
+      "textBytes": 17014,
       "useful": true
     },
     "program:securedrop:7440fb39ee67de1ada08": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -792,7 +792,7 @@
     },
     "program:octopus:872c27a03a5532590cad": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -808,7 +808,7 @@
     },
     "program:uphold:8de26663afa42359eb7a": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -821,12 +821,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 26560,
+      "textBytes": 26597,
       "useful": true
     },
     "program:nvidia-public-bug-bounty:beee57a2e8bec2ef7b5e": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -839,12 +839,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 16136,
+      "textBytes": 16185,
       "useful": true
     },
     "program:wise-ex-transferwise:a85ce135751be9ce64e0": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -860,7 +860,7 @@
     },
     "program:adobe-public:8af7a88f6d2c6fdadd08": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -873,12 +873,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 29256,
+      "textBytes": 29329,
       "useful": true
     },
     "program:launchdarkly-managed-bug-bounty-engagement:8c79e5965dcb8c85f4e9": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -894,7 +894,7 @@
     },
     "program:yahoo-bug-bounty:0570cd10f993f790c0f2": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -907,12 +907,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 33100,
+      "textBytes": 33152,
       "useful": true
     },
     "program:cm-com:c530ecea5de3aa06aaf5": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -925,12 +925,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 14208,
+      "textBytes": 14268,
       "useful": true
     },
     "program:infomaniak-bug-bounty-program:01cef952e4e7386930a9": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-reward-table",
@@ -946,12 +946,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 30695,
+      "textBytes": 31351,
       "useful": true
     },
     "program:intigriti:4ec52d2441ff573ee0c5": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -965,12 +965,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 14863,
+      "textBytes": 14889,
       "useful": true
     },
     "program:liferay-dxp:9d29d0af21bac21cb4de": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "MEDIUM",
       "floorSource": "scraped-low-exclusion",
@@ -984,12 +984,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 18658,
+      "textBytes": 18742,
       "useful": true
     },
     "program:mattermost-public-bug-bounty-engagement:8965552f30be5e0b7870": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1021,7 +1021,7 @@
     },
     "program:just-eat-takeaway-com:79371edbf7c4bd6d7528": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1037,7 +1037,7 @@
     },
     "program:bullish-exchange:c72c96db39ffb68225c2": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1053,7 +1053,7 @@
     },
     "program:clickhouse:e1059a33db2c9e9b5eba": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1069,7 +1069,7 @@
     },
     "program:expressvpn-bug-bounty-program:f99e5d9059ad97559cc5": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
@@ -1090,7 +1090,7 @@
     },
     "program:fireblocks-web-managed-bug-bounty-engagement:312ee9d47934737af932": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1106,7 +1106,7 @@
     },
     "program:infinite-athlete:86f5dd9cd88e551f5c67": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1122,7 +1122,7 @@
     },
     "program:ripe-ncc:72610578e7fd1ab8581c": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1136,12 +1136,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 15164,
+      "textBytes": 15187,
       "useful": true
     },
     "program:hypixel-studios-managed-bug-bounty-engagement:897ec1ffd74105819f7d": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1157,7 +1157,7 @@
     },
     "program:epam-systems-managed-bug-bounty-program:2ae173bd208b838f7a55": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1173,7 +1173,7 @@
     },
     "program:airtable:1ace0edc1ef505f4ecef": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1189,7 +1189,7 @@
     },
     "program:axis-os:bd3dbed8680001d1c7f5": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1205,7 +1205,7 @@
     },
     "program:bitpanda-ongoing-bug-bounty:dae6649841387d56444d": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1221,7 +1221,7 @@
     },
     "program:canva:85392a53b7284329bb65": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1237,7 +1237,7 @@
     },
     "program:chainlink:4fdb0e8d03bf76ebffa9": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1253,7 +1253,7 @@
     },
     "program:chia-network:8756d9f7bdf35d4e2c28": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1269,7 +1269,7 @@
     },
     "program:posti-bug-bounty:52f9c880be32389a63d1": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1282,12 +1282,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 16699,
+      "textBytes": 16741,
       "useful": true
     },
     "program:tesla:e9282a84c7c8bfb567af": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1303,7 +1303,7 @@
     },
     "program:blockchain-com-managed-bug-bounty-engagement:ec9788fb3eb3c84baf3a": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1319,7 +1319,7 @@
     },
     "program:bugcrowd:568efe7eca49361580ea": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1335,7 +1335,7 @@
     },
     "program:hotdoc:91c555e8b0eaab539be0": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1351,7 +1351,7 @@
     },
     "program:intel:f204beea4ba53b52e485": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
@@ -1367,12 +1367,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 30001,
+      "textBytes": 29838,
       "useful": true
     },
     "program:spacex-starlink:93db9847dd214c6d519f": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1388,7 +1388,7 @@
     },
     "program:zendesk-managed-bug-bounty-engagement:9cfc169408accd00ab32": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1404,7 +1404,7 @@
     },
     "program:coindesk-data-data-api:9e4969776b2e92ece28b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1420,7 +1420,7 @@
     },
     "program:etsy:54bca0206aadb7103f5b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1436,7 +1436,7 @@
     },
     "program:keeper-security-public-bounty-program:771bcebd44ede4d6f6ad": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1468,7 +1468,7 @@
     },
     "program:orderly-network-public-managed-bug-bounty-engagement:331f87409b14080b5183": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1500,7 +1500,7 @@
     },
     "program:orderly-network-bug-bounty-program:0f2855e69aa69153c6c1": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1516,7 +1516,7 @@
     },
     "program:ovhcloud:10b3ab12479db2311cd0": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "LOW",
       "floorSource": "scraped-reward-table",
@@ -1532,12 +1532,12 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 8402,
+      "textBytes": 8403,
       "useful": true
     },
     "program:sophos:eb62f872e2df22016797": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:30:24.733Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1572,7 +1572,7 @@
     },
     "program:tools-for-humanity:ee8b3018e41b83417279": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1588,7 +1588,7 @@
     },
     "program:wordpress:283069b8a0f4c0150c82": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1620,7 +1620,7 @@
     },
     "program:cloudflare-public-bug-bounty:f851f0727c99b3af7d0e": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1636,7 +1636,7 @@
     },
     "program:github:78c75c2f15e70de8ee5a": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1652,7 +1652,7 @@
     },
     "program:indeed:c4b7b45ec25b67518f18": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1668,7 +1668,7 @@
     },
     "program:kubernetes:ad585ed38d23dd3c5d83": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1684,7 +1684,7 @@
     },
     "program:matomo:6b56fd7a835400a55c44": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1700,7 +1700,7 @@
     },
     "program:okta:758420a1e8b4373442fa": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1716,7 +1716,7 @@
     },
     "program:rapyd:9977a9c172a632feec2c": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1748,7 +1748,7 @@
     },
     "program:spotify:0bad3e7ce61c64abb964": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1780,7 +1780,7 @@
     },
     "program:20-minuten:fea340e13c6aada40a23": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1796,7 +1796,7 @@
     },
     "program:atlassian:58c3412e03830b70ce4d": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1812,7 +1812,7 @@
     },
     "program:deriv-com:6e7e739d37e61a8e7311": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1828,7 +1828,7 @@
     },
     "program:doppler:0b26afeb0f903c234ca9": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1860,7 +1860,7 @@
     },
     "program:gearset-managed-bug-bounty:b9892d7a0b4c36ca1441": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1876,7 +1876,7 @@
     },
     "program:glean-technologies-public-engagement:5de9dedca7278187f106": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1892,7 +1892,7 @@
     },
     "program:latitude-financial-services-bug-bounty:f264c5f391e0a2568652": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1908,7 +1908,7 @@
     },
     "program:lightspeed-retail:5988a137d047f023e85e": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1924,7 +1924,7 @@
     },
     "program:louis-vuitton-malletier-public-bug-bounty-program:04787bdcfef2d29b0980": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": "HIGH",
       "floorSource": "scraped-reward-table",
@@ -2536,7 +2536,7 @@
     },
     "program:openai:00daeb0512f7127ad7b0": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -3174,7 +3174,9 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 8050,
-      "useful": true
+      "useful": true,
+      "lastErrorAt": "2026-09-13T07:39:16.737Z",
+      "lastError": "HTTP 404"
     },
     "program:rivian-bug-bounty:8fe7e8e85cf196d97525": {
       "status": "ok",
@@ -5791,7 +5793,7 @@
     },
     "program:xopero-software-s-a-marketplace-managed-bug-bounty-engagement:dd8f6d08a25c77a02784": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:14:39.671Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -7395,7 +7397,7 @@
     },
     "program:boja-consulting-bug-bounty:663c428857ba5298f6bf": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:26:09.361Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -7448,7 +7450,7 @@
     },
     "program:datacamp:5cf7ec7c77ee00f0598b": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:26:09.361Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -7461,7 +7463,7 @@
       "noSafeHarbor": false,
       "safeHarborRequired": false,
       "resolvedReports": null,
-      "textBytes": 18300,
+      "textBytes": 18353,
       "useful": true
     },
     "program:de-morgen:bb00bd6f72e680dcbd4a": {
@@ -8675,7 +8677,7 @@
     },
     "program:metamask:00b4fbc2448f61ca4e80": {
       "status": "ok",
-      "fetchedAt": "2026-09-04T16:26:37.750Z",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -11049,6 +11051,22 @@
       "safeHarborRequired": false,
       "resolvedReports": null,
       "textBytes": 83,
+      "useful": false
+    },
+    "program:upwork:b5373efed80fe3638d13": {
+      "status": "ok",
+      "fetchedAt": "2026-09-13T07:39:16.737Z",
+      "source": "official-policy",
+      "programFloorSeverity": null,
+      "floorSource": null,
+      "rewardsBySeverity": {},
+      "inviteOnly": false,
+      "kycRequired": false,
+      "excludedCountries": [],
+      "noSafeHarbor": false,
+      "safeHarborRequired": false,
+      "resolvedReports": null,
+      "textBytes": 71,
       "useful": false
     }
   }
