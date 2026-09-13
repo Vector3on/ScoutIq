@@ -1,0 +1,491 @@
+{
+  "title": "Active program induction in a tiny list-transformation world",
+  "protocol": {
+    "primitives": {
+      "add_one": "add one to every element",
+      "double": "double every element",
+      "keep_positive": "keep strictly positive elements",
+      "keep_even": "keep even elements",
+      "reverse": "reverse the list",
+      "sort": "sort ascending",
+      "unique": "remove duplicates, preserving first-seen order",
+      "take_two": "take the first two elements"
+    },
+    "candidate_programs": 73,
+    "max_program_length": 2,
+    "targets": "all candidate programs, including behaviorally equivalent ones",
+    "initial_example": "[] -> oracle([]) (uninformative for in-language targets)",
+    "query_budget": 3,
+    "probe_pool": {
+      "values": [
+        -3,
+        -1,
+        0,
+        2,
+        4
+      ],
+      "lengths": "0..3",
+      "size": 156
+    },
+    "evaluation": {
+      "values": [
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        3
+      ],
+      "length": 4,
+      "size": 1296,
+      "disjoint_from_probe_pool": true
+    },
+    "success_criterion": "learned program matches target on every evaluation input",
+    "random_seeds": 20
+  },
+  "stage_1": {
+    "first_consistent_baseline_not_equal_budget": {
+      "successes": 2,
+      "attempts": 73,
+      "success_rate_pct": 2.74
+    },
+    "random": {
+      "successes": 1076,
+      "attempts": 1460,
+      "success_rate_pct": 73.7,
+      "seeds": 20,
+      "per_seed": [
+        {
+          "seed": 0,
+          "successes": 54,
+          "attempts": 73,
+          "success_rate_pct": 73.97
+        },
+        {
+          "seed": 1,
+          "successes": 56,
+          "attempts": 73,
+          "success_rate_pct": 76.71
+        },
+        {
+          "seed": 2,
+          "successes": 51,
+          "attempts": 73,
+          "success_rate_pct": 69.86
+        },
+        {
+          "seed": 3,
+          "successes": 52,
+          "attempts": 73,
+          "success_rate_pct": 71.23
+        },
+        {
+          "seed": 4,
+          "successes": 52,
+          "attempts": 73,
+          "success_rate_pct": 71.23
+        },
+        {
+          "seed": 5,
+          "successes": 60,
+          "attempts": 73,
+          "success_rate_pct": 82.19
+        },
+        {
+          "seed": 6,
+          "successes": 56,
+          "attempts": 73,
+          "success_rate_pct": 76.71
+        },
+        {
+          "seed": 7,
+          "successes": 49,
+          "attempts": 73,
+          "success_rate_pct": 67.12
+        },
+        {
+          "seed": 8,
+          "successes": 54,
+          "attempts": 73,
+          "success_rate_pct": 73.97
+        },
+        {
+          "seed": 9,
+          "successes": 58,
+          "attempts": 73,
+          "success_rate_pct": 79.45
+        },
+        {
+          "seed": 10,
+          "successes": 58,
+          "attempts": 73,
+          "success_rate_pct": 79.45
+        },
+        {
+          "seed": 11,
+          "successes": 53,
+          "attempts": 73,
+          "success_rate_pct": 72.6
+        },
+        {
+          "seed": 12,
+          "successes": 57,
+          "attempts": 73,
+          "success_rate_pct": 78.08
+        },
+        {
+          "seed": 13,
+          "successes": 55,
+          "attempts": 73,
+          "success_rate_pct": 75.34
+        },
+        {
+          "seed": 14,
+          "successes": 51,
+          "attempts": 73,
+          "success_rate_pct": 69.86
+        },
+        {
+          "seed": 15,
+          "successes": 50,
+          "attempts": 73,
+          "success_rate_pct": 68.49
+        },
+        {
+          "seed": 16,
+          "successes": 49,
+          "attempts": 73,
+          "success_rate_pct": 67.12
+        },
+        {
+          "seed": 17,
+          "successes": 52,
+          "attempts": 73,
+          "success_rate_pct": 71.23
+        },
+        {
+          "seed": 18,
+          "successes": 53,
+          "attempts": 73,
+          "success_rate_pct": 72.6
+        },
+        {
+          "seed": 19,
+          "successes": 56,
+          "attempts": 73,
+          "success_rate_pct": 76.71
+        }
+      ]
+    },
+    "active": {
+      "successes": 70,
+      "attempts": 73,
+      "success_rate_pct": 95.89,
+      "failures": [
+        {
+          "target": [
+            "keep_positive",
+            "keep_even"
+          ],
+          "target_label": "keep_positive |> keep_even",
+          "learned": [
+            "keep_positive"
+          ],
+          "learned_label": "keep_positive",
+          "survivors_final": 4,
+          "queries_used": 3,
+          "success": false
+        },
+        {
+          "target": [
+            "keep_even",
+            "add_one"
+          ],
+          "target_label": "keep_even |> add_one",
+          "learned": [
+            "add_one",
+            "keep_positive"
+          ],
+          "learned_label": "add_one |> keep_positive",
+          "survivors_final": 2,
+          "queries_used": 3,
+          "success": false
+        },
+        {
+          "target": [
+            "keep_even",
+            "keep_positive"
+          ],
+          "target_label": "keep_even |> keep_positive",
+          "learned": [
+            "keep_positive"
+          ],
+          "learned_label": "keep_positive",
+          "survivors_final": 4,
+          "queries_used": 3,
+          "success": false
+        }
+      ]
+    },
+    "failure_witnesses": [
+      {
+        "target_label": "keep_positive |> keep_even",
+        "learned_label": "keep_positive",
+        "distinguishing_probes_in_pool": 0,
+        "distinguishing_eval_inputs": 1040,
+        "observationally_indistinguishable_in_pool": true,
+        "example_separating_input": [
+          -2,
+          -2,
+          -2,
+          1
+        ],
+        "target_output_on_example": [],
+        "learned_output_on_example": [
+          1
+        ]
+      },
+      {
+        "target_label": "keep_even |> add_one",
+        "learned_label": "add_one |> keep_positive",
+        "distinguishing_probes_in_pool": 0,
+        "distinguishing_eval_inputs": 1215,
+        "observationally_indistinguishable_in_pool": true,
+        "example_separating_input": [
+          -2,
+          -2,
+          -2,
+          -2
+        ],
+        "target_output_on_example": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "learned_output_on_example": []
+      },
+      {
+        "target_label": "keep_even |> keep_positive",
+        "learned_label": "keep_positive",
+        "distinguishing_probes_in_pool": 0,
+        "distinguishing_eval_inputs": 1040,
+        "observationally_indistinguishable_in_pool": true,
+        "example_separating_input": [
+          -2,
+          -2,
+          -2,
+          1
+        ],
+        "target_output_on_example": [],
+        "learned_output_on_example": [
+          1
+        ]
+      }
+    ]
+  },
+  "example_trace_and_persistence": {
+    "target": "unique |> reverse",
+    "trace": {
+      "strategy": "active",
+      "initial_example": {
+        "inputs": [],
+        "output": []
+      },
+      "steps": [
+        {
+          "probe": [
+            0,
+            -3,
+            2
+          ],
+          "output": [
+            2,
+            -3,
+            0
+          ],
+          "entropy_bits": 4.4696,
+          "survivors_before": 73,
+          "survivors_after": 3
+        },
+        {
+          "probe": [
+            -3,
+            -1,
+            -3
+          ],
+          "output": [
+            -1,
+            -3
+          ],
+          "entropy_bits": 1.585,
+          "survivors_before": 3,
+          "survivors_after": 1
+        },
+        {
+          "probe": [],
+          "output": [],
+          "entropy_bits": 0.0,
+          "survivors_before": 1,
+          "survivors_after": 1
+        }
+      ],
+      "learned_program": [
+        "unique",
+        "reverse"
+      ],
+      "learned_program_label": "unique |> reverse",
+      "survivors_final": 1,
+      "queries_used": 3,
+      "no_candidate": false,
+      "stuck": false
+    },
+    "narrowing": [
+      73,
+      3,
+      1,
+      1
+    ],
+    "skill_record": {
+      "name": "unique |> reverse",
+      "program": [
+        "unique",
+        "reverse"
+      ],
+      "input_type": "bounded_integer_list",
+      "output_type": "bounded_integer_list",
+      "applicability": "finite integer lists over the evaluated domain",
+      "provenance": "induced by active selection in 3 oracle queries from probe pool of 156",
+      "tests": [
+        {
+          "inputs": [
+            0,
+            -3,
+            2
+          ],
+          "output": [
+            2,
+            -3,
+            0
+          ]
+        },
+        {
+          "inputs": [
+            -3,
+            -1,
+            -3
+          ],
+          "output": [
+            -1,
+            -3
+          ]
+        },
+        {
+          "inputs": [],
+          "output": []
+        }
+      ],
+      "counterexamples": [],
+      "cost_queries": 3,
+      "version": 1,
+      "created_at": "2026-09-06T22:55:26.969267+00:00"
+    },
+    "reloaded_program": [
+      "unique",
+      "reverse"
+    ],
+    "reloaded_matches_all_eval_inputs": true,
+    "eval_inputs_checked": 1296
+  },
+  "stage_2_exploratory_repair": {
+    "probe_values": [
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      4
+    ],
+    "probe_pool_size": 400,
+    "eval_length": 5,
+    "eval_size": 7776,
+    "active": {
+      "successes": 73,
+      "attempts": 73,
+      "success_rate_pct": 100.0,
+      "failures": []
+    },
+    "note": "Informed by the stage-1 failures; an exploratory follow-up, not an independent replication or an autonomous vocabulary change."
+  },
+  "sanity_checks": {
+    "invalid_program_rejection": [
+      {
+        "ok": false,
+        "program": [
+          "reverse",
+          "spin"
+        ],
+        "inputs": [
+          1,
+          2,
+          3
+        ],
+        "output": null,
+        "error": "unknown primitive 'spin'"
+      },
+      {
+        "ok": false,
+        "program": [
+          "add_one",
+          5
+        ],
+        "inputs": [
+          1,
+          2,
+          3
+        ],
+        "output": null,
+        "error": "operation must be a string, got 5"
+      },
+      {
+        "ok": false,
+        "program": [
+          "sort",
+          "reverse",
+          "unique"
+        ],
+        "inputs": [
+          1,
+          2,
+          3
+        ],
+        "output": null,
+        "error": "program length 3 exceeds budget 2"
+      }
+    ],
+    "outside_language_oracle": {
+      "oracle": "sum_reduction ([sum(xs)])",
+      "initial_example": {
+        "inputs": [],
+        "output": [
+          0
+        ]
+      },
+      "survivors_after_initial_example": 0,
+      "no_candidate": true,
+      "queries_used": 0,
+      "note": "The empty-list output [0] conflicts with every candidate, which returns []. This is a deliberately easy outside-language case."
+    }
+  },
+  "limitations": [
+    "Finite-domain agreement on the evaluation set, not a universal proof.",
+    "Equal oracle budgets, but active selection spends more local simulation compute.",
+    "Descriptive results for this constructed task family; not a benchmark claim about LLMs.",
+    "The proposer is a deterministic enumerator, not a model.",
+    "No vision, weight updates, autonomous curriculum, or self-rewriting.",
+    "Restricting an interpreter vocabulary is not a general sandbox for arbitrary code.",
+    "The stage-2 vocabulary change was chosen by a human after inspecting failures."
+  ],
+  "elapsed_seconds": 4.26
+}
