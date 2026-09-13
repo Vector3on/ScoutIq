@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-13T01:05:27.182Z",
+  "generatedAt": "2026-09-13T06:16:06.372Z",
   "policies": {
     "program:auth0-by-okta:42a03b5a0dcc855e127a": {
       "status": "ok",
@@ -622,7 +622,7 @@
     },
     "program:vaultka:471c780fe4cddf31be63": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T16:03:00.527Z",
+      "fetchedAt": "2026-09-13T06:16:06.372Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -1732,7 +1732,7 @@
     },
     "program:seek:fa190530d12ab00d6942": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:47:05.578Z",
+      "fetchedAt": "2026-09-13T06:16:06.372Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -3949,7 +3949,7 @@
     },
     "program:upwork:05e98d3d885c454ce1d7": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T19:50:55.535Z",
+      "fetchedAt": "2026-09-13T06:16:06.372Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
@@ -8385,7 +8385,7 @@
     },
     "program:visa:948ca6c9ff8f5ff6481a": {
       "status": "ok",
-      "fetchedAt": "2026-09-03T20:26:09.361Z",
+      "fetchedAt": "2026-09-13T06:16:06.372Z",
       "source": "official-policy",
       "programFloorSeverity": null,
       "floorSource": null,
