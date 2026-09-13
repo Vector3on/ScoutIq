@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local security reference corpus (see security-corpus/README.md); its
+    // cloned upstream repositories contain JavaScript that is not ours to lint.
+    "security-corpus/**",
   ]),
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],
